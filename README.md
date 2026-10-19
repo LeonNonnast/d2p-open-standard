@@ -69,3 +69,5 @@ Pass `--json` to any tool for machine-readable output, e.g. `node tools/validate
 ## License
 
 Licensed under the [Apache License, Version 2.0](LICENSE). See [NOTICE](NOTICE).
+
+> Pre-release note: the license choice is provisional and will be confirmed before the first public release.

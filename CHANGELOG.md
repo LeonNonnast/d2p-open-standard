@@ -5,6 +5,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+> Pre-release: the license (Apache-2.0) is provisional until it is confirmed before the first public release.
+
 ### Added
 
 - Repository foundation: license (Apache-2.0), governance, contribution and security policies.
