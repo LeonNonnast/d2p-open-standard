@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/measurement/garment-measurement-spec.schema.json",
+  "title": "D2P Garment Measurement Spec",
+  "description": "Artifact content (artifactType 'd2p:garment-measurement-spec'): target measurements of the finished garment, each bound to a garment measurement definition, with optional tolerance and optional size and configuration scope. Garment targets are never implicitly equated with body measurements.",
+  "$comment": "Schema catalog section 3.3 (design decision ADR-011 sections 2 and 3). Not schema-enforced: target definitions are of kind 'garment'; a target sizeKey requires the document-level sizeSystemRef (D2P-REF-009); unique target ids (D2P-REF-005); units match definition dimensions (D2P-SEM-070); patternRef equal to an evaluation request's patternRef (D2P-REF-007).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "artifactId",
+    "revisionId",
+    "name",
+    "definitionRegistries",
+    "targets"
+  ],
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "type": "string",
+      "const": "d2p:garment-measurement-spec"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "artifactId": {
+      "description": "ID of the artifact this content belongs to.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/artifactId"
+    },
+    "revisionId": {
+      "description": "ID of the immutable artifact revision this content is.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/revisionId"
+    },
+    "name": {
+      "description": "Human-readable name of the spec.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "definitionRegistries": {
+      "description": "Pinned measurement-definition registries (id and version) against which the definitionIds of this document resolve.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+      }
+    },
+    "targets": {
+      "description": "The garment measurement targets.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/measurementTarget"
+      }
+    },
+    "patternRef": {
+      "description": "Pinned pattern revision the spec applies to. Absent when the spec is not bound to one pattern revision.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+    },
+    "sizeSystemRef": {
+      "description": "Pinned size-system revision against which target sizeKeys resolve. Required (referentially, D2P-REF-009) when any target has a sizeKey.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+    },
+    "contentDigest": {
+      "description": "Optional digest of this document per digest profile d2p-digest-v1 (excluding contentDigest itself).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional namespaced extension blocks.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "$defs": {
+    "measurementTarget": {
+      "title": "Measurement target",
+      "description": "One target value of a garment measurement (element type 'd2p:measurement-target').",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "definitionId",
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "id": {
+          "description": "Stable element ID of the target, unique within the document.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "definitionId": {
+          "description": "Garment measurement definition the target value refers to (kind 'garment', D2P-SEM-075).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+        },
+        "value": {
+          "description": "Target value in the given unit.",
+          "type": "number"
+        },
+        "unit": {
+          "description": "Unit of value and tolerance: 'mm' for length definitions, 'rad' for angle definitions (D2P-SEM-070).",
+          "type": "string",
+          "enum": [
+            "mm",
+            "rad"
+          ]
+        },
+        "tolerance": {
+          "description": "Permitted deviation from value, in unit. Absent means no tolerance is specified.",
+          "$ref": "#/$defs/targetTolerance"
+        },
+        "sizeKey": {
+          "description": "Size the target applies to, resolved against the document's sizeSystemRef. Absent means the target applies to all sizes.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "configurationKey": {
+          "description": "Material/fit configuration the target applies to. Absent means the target applies to all configurations.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "extensions": {
+          "description": "Optional namespaced extension blocks.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+        }
+      }
+    },
+    "targetTolerance": {
+      "title": "Target tolerance",
+      "description": "Asymmetric tolerance around a target value: the accepted range is [value − minus, value + plus], in the target's unit.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minus",
+        "plus"
+      ],
+      "properties": {
+        "minus": {
+          "description": "Permitted deviation below the target value (non-negative).",
+          "type": "number",
+          "minimum": 0
+        },
+        "plus": {
+          "description": "Permitted deviation above the target value (non-negative).",
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

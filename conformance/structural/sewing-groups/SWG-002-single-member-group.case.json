@@ -1,0 +1,26 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "SWG-002-single-member-group",
+  "level": "structural",
+  "title": "A sewing group with one member is rejected",
+  "documents": [
+    {
+      "path": "conformance/structural/sewing-groups/SWG-002-single-member-group/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-001",
+        "documentPath": "conformance/structural/sewing-groups/SWG-002-single-member-group/pattern.json",
+        "instancePath": "/sewingGroups/0/members"
+      }
+    ]
+  },
+  "testIds": [
+    "SWG-002"
+  ]
+}

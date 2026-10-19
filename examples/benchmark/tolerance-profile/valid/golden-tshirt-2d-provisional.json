@@ -1,0 +1,29 @@
+{
+  "documentType": "d2p:tolerance-profile",
+  "schemaVersion": "1.0.0",
+  "profileId": "d2p:golden-tshirt-2d",
+  "version": "1.0.0",
+  "status": "provisional",
+  "scope": "2D comparison of implementation results with the expected results of the Golden T-Shirt v1 fixture (fixtures/golden-tshirt/v1): evaluated contours and control points, seam lengths, and the control square of 1:1 print output in file coordinates.",
+  "tolerances": [
+    {
+      "metric": "d2p:contour-deviation",
+      "limit": 0.1,
+      "unit": "mm",
+      "comparison": "absolute-lte"
+    },
+    {
+      "metric": "d2p:control-square-deviation",
+      "limit": 0.1,
+      "unit": "mm",
+      "comparison": "absolute-lte"
+    },
+    {
+      "metric": "d2p:seam-length-deviation-relative",
+      "limit": 0.005,
+      "unit": "1",
+      "comparison": "relative-lte"
+    }
+  ],
+  "notes": "PROVISIONAL. These limits are the proposals from the design decisions (design decisions ADR-017.1 §5 and ADR-025 §6), not adopted product norms and not measured values: contour deviation 0.10 mm (Hausdorff distance), relative seam-length deviation 0.5 %, control square 100 mm +/- 0.1 mm in file coordinates (not a physical print). d2p:seam-length-deviation-absolute and d2p:angle-deviation have no proposed value and are omitted. The maintainers MUST set this profile to frozen (as a new version if any value changes) before any implementation or benchmark run is compared against it; once frozen it is immutable and is never adjusted to fit an implementation."
+}

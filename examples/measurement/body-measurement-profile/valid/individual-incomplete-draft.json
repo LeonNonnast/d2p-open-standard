@@ -1,0 +1,17 @@
+{
+  "documentType": "d2p:body-measurement-profile",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_example-private-profile",
+  "revisionId": "rev_example-private-profile-r1",
+  "subject": {
+    "kind": "individual"
+  },
+  "dataClassification": "sensitive-personal",
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.0.0"
+    }
+  ],
+  "measurements": []
+}

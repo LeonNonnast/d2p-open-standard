@@ -1,0 +1,19 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:no-personal-data-in-export",
+  "version": "1.0.0",
+  "title": "No personal data in exports",
+  "description": "Export scenes and print jobs neither reference nor contain measurement values of artifacts classified personal or sensitive-personal.",
+  "layer": "contextual",
+  "targetDocumentTypes": [
+    "d2p:export-scene-2d",
+    "d2p:print-job-spec"
+  ],
+  "defaultSeverity": "critical",
+  "diagnosticCodes": [
+    "D2P-SEM-050"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

@@ -1,0 +1,36 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.scene-contour-path-distorted-on-grain-layer",
+  "level": "semantic",
+  "title": "A distorted copy of a contour drawn on a grainline layer is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/scene-contour-path-distorted-on-grain-layer/export-scene-2d.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/scene-contour-path-distorted-on-grain-layer/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/scene-contour-path-distorted-on-grain-layer/pattern-evaluation.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/scene-contour-path-distorted-on-grain-layer/geometry-snapshot.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-096",
+        "documentPath": "conformance/semantic/scene-contour-path-distorted-on-grain-layer/export-scene-2d.json",
+        "instancePath": "/pieceInstances/1/paths/1"
+      }
+    ]
+  },
+  "description": "A path that names a contour is that snapshot contour under the instance transform on every layer, not only on cut and seam lines."
+}

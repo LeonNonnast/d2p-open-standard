@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.element-type-mismatch",
+  "level": "referential",
+  "title": "A line whose end point references a curve is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/element-type-mismatch/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-004",
+        "documentPath": "conformance/referential/element-type-mismatch/pattern.json",
+        "instancePath": "/features/4/params/endFeatureId"
+      }
+    ]
+  }
+}

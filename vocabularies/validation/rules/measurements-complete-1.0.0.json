@@ -1,0 +1,26 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:measurements-complete",
+  "version": "1.0.0",
+  "title": "Measurements are defined and complete",
+  "description": "Every measurement definition resolves in the declared registries with one meaning per resolution context, every value, target, fit target and ease amount uses a unit matching its definition's dimension, and every required measurement input of the pattern resolves to a value or a fallback.",
+  "layer": "domain",
+  "targetDocumentTypes": [
+    "d2p:body-measurement-profile",
+    "d2p:evaluation-request",
+    "d2p:fit-profile",
+    "d2p:garment-measurement-spec",
+    "d2p:pattern",
+    "d2p:size-system"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-REF-008",
+    "D2P-REF-015",
+    "D2P-SEM-070",
+    "D2P-SEM-072"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

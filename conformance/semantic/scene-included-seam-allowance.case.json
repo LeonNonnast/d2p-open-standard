@@ -1,0 +1,29 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.scene-included-seam-allowance",
+  "level": "semantic",
+  "title": "A scene whose cut lines enclose the contours of pieces with a declared seam allowance is accepted",
+  "documents": [
+    {
+      "path": "conformance/semantic/scene-included-seam-allowance/export-scene-2d.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/scene-included-seam-allowance/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/scene-included-seam-allowance/pattern-evaluation.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/scene-included-seam-allowance/geometry-snapshot.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

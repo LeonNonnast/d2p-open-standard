@@ -1,0 +1,13 @@
+{
+  "documentType": "d2p:artifact",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_golden-tshirt-pattern",
+  "artifactType": "d2p:pattern",
+  "name": "Golden T-Shirt pattern",
+  "dataClassification": "public",
+  "createdAt": "2026-10-01T00:00:00Z",
+  "createdBy": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:command",
+  "schemaVersion": "1.0.0",
+  "commandId": "cmd_example-atelier-rename",
+  "idempotencyKey": "example-atelier-rename-1",
+  "type": "com.example.atelier:piece.rename",
+  "target": {
+    "artifactId": "art_example-pattern",
+    "branch": "main"
+  },
+  "payload": {
+    "pieceId": "front",
+    "name": "Front bodice"
+  },
+  "actorContext": {
+    "actorPrincipalId": "prn_example-user",
+    "credentialId": "cred-example-7f3a"
+  },
+  "evaluatorProfile": {
+    "id": "com.example.atelier:default-evaluator",
+    "version": "2.1.0"
+  }
+}

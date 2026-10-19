@@ -1,0 +1,28 @@
+{
+  "documentType": "d2p:body-measurement-profile",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_conformance-private-profile",
+  "revisionId": "rev_conformance-private-profile-r1",
+  "subject": {
+    "kind": "individual",
+    "pseudonym": "subject-1"
+  },
+  "dataClassification": "sensitive-personal",
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.0.0"
+    }
+  ],
+  "measurements": [
+    {
+      "definitionId": "d2p:body.chest-girth",
+      "value": 950,
+      "unit": "rad",
+      "method": "manual",
+      "source": {
+        "kind": "self-measured"
+      }
+    }
+  ]
+}

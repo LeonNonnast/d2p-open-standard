@@ -1,0 +1,36 @@
+{
+  "documentType": "d2p:gate-evaluation",
+  "schemaVersion": "1.0.0",
+  "gateEvaluationId": "gte_conformance-square",
+  "evaluatedAt": "2026-01-02T00:00:00Z",
+  "action": "cut-sample",
+  "targetRefs": [
+    {
+      "artifactId": "art_conformance-square",
+      "revisionId": "rev_conformance-square-r1"
+    }
+  ],
+  "profile": {
+    "id": "org.example.conformance:sample-cut",
+    "version": "1.0.0"
+  },
+  "reportRefs": [
+    {
+      "id": "vrp_conformance-square",
+      "digest": "sha256:c4891ba8b0eaf349b7dcb479ccb114f6650026be4a9bff73065c5870339f7ba6"
+    }
+  ],
+  "evidenceRefs": [
+    {
+      "id": "qeb_conformance-gate",
+      "digest": "sha256:4c6928fbed182fdb530ca985ed915b3452be01345561ad4c1299152e0f062bac"
+    }
+  ],
+  "waiverIds": [],
+  "decision": "deny",
+  "reasonCodes": [
+    "d2p:evidence-missing"
+  ],
+  "addressedFindings": [],
+  "resultDigest": "sha256:67c6df844e595e32138f3eaa0b4ccd9824d41a63e5c0a2a556184d94315fc93d"
+}

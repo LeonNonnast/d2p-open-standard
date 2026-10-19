@@ -1,0 +1,28 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "structural.forbidden-expression-node",
+  "level": "structural",
+  "title": "A script node inside an expression is rejected",
+  "documents": [
+    {
+      "path": "conformance/structural/forbidden-expression-node/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-010",
+        "documentPath": "conformance/structural/forbidden-expression-node/pattern.json",
+        "instancePath": "/parameters/0/expr"
+      },
+      {
+        "code": "D2P-STR-001",
+        "documentPath": "conformance/structural/forbidden-expression-node/pattern.json"
+      }
+    ]
+  },
+  "description": "The expression language has a closed node list; any script or code node is a structural error."
+}

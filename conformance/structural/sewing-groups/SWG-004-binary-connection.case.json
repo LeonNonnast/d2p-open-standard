@@ -1,0 +1,20 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "SWG-004-binary-connection",
+  "level": "structural",
+  "title": "A seam connection with exactly two interfaces is structurally valid",
+  "documents": [
+    {
+      "path": "conformance/structural/sewing-groups/SWG-004-binary-connection/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "SWG-004"
+  ]
+}

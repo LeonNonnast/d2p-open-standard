@@ -1,0 +1,6 @@
+{
+  "code": "teapot",
+  "message": "Code outside the registry and not an extension name.",
+  "correlationId": "cor_example-request-5",
+  "retryable": false
+}

@@ -154,6 +154,47 @@ describe("validateRepository", () => {
     assert.ok(messages(result).some((m) => m.startsWith("examples/stray.json")));
   });
 
+  it("validates catalog data files by documentType and rejects unknown document types", async () => {
+    const files = healthyFiles();
+    files["schemas/core/note.schema.json"] = {
+      $schema: DRAFT_2020_12,
+      $id: `${SCHEMA_BASE_URI}core/note.schema.json`,
+      type: "object",
+      properties: { documentType: { const: "d2p:note" }, text: { type: "string" } },
+      required: ["documentType", "text"],
+      additionalProperties: false,
+    };
+    files["examples/core/note/valid/ok.json"] = { documentType: "d2p:note", text: "x" };
+    files["examples/core/note/invalid/no-text.json"] = { documentType: "d2p:note" };
+    files["vocabularies/notes/good.json"] = { documentType: "d2p:note", text: "x" };
+    files["vocabularies/notes/bad.json"] = { documentType: "d2p:note" };
+    files["tolerance-profiles/unknown.json"] = { documentType: "d2p:unknown" };
+    files["fixtures/demo/v1/manifest.json"] = { documentType: "d2p:note", text: "x" };
+    files["fixtures/demo/v1/inputs/broken.json"] = { documentType: "d2p:note", text: 1 };
+    files["fixtures/demo/v1/negative/defect/broken.json"] = { documentType: "d2p:note", text: 1 };
+    files["conformance/structural/demo.case.json"] = { documentType: "d2p:note" };
+    files["conformance/structural/demo/data.json"] = { documentType: "d2p:unknown" };
+    const result = await validateRepository(await fixtureRepo(files));
+    const m = messages(result);
+    assert.ok(m.some((x) => x.startsWith("vocabularies/notes/bad.json") && x.includes("documentType d2p:note")));
+    assert.ok(m.some((x) => x.startsWith("tolerance-profiles/unknown.json") && x.includes("unknown documentType")));
+    assert.ok(m.some((x) => x.startsWith("fixtures/demo/v1/inputs/broken.json")));
+    assert.ok(m.some((x) => x.startsWith("conformance/structural/demo.case.json")));
+    assert.ok(!m.some((x) => x.startsWith("vocabularies/notes/good.json") || x.startsWith("fixtures/demo/v1/manifest.json")));
+    assert.ok(!m.some((x) => x.includes("/negative/") || x.startsWith("conformance/structural/demo/")));
+    assert.equal(result.summary.dataFilesChecked, 6);
+  });
+
+  it("requires the standard-gap analysis next to the schema catalog (OSS-002)", async () => {
+    const files = healthyFiles();
+    files["specifications/schema-catalog.md"] = "# catalog\n";
+    let result = await validateRepository(await fixtureRepo(files));
+    assert.ok(messages(result).some((x) => x.startsWith("specifications/gap-analysis.md")));
+    files["specifications/gap-analysis.md"] = "# gap analysis\n";
+    result = await validateRepository(await fixtureRepo(files));
+    assert.deepEqual(messages(result), []);
+  });
+
   it("requires a valid example and warns about a missing negative example", async () => {
     const files = healthyFiles();
     delete files["examples/core/color/valid/red.json"];

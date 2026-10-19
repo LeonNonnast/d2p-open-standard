@@ -1,0 +1,24 @@
+{
+  "documentType": "d2p:evaluation-request",
+  "schemaVersion": "1.0.0",
+  "requestId": "erq_conformance-unpinned",
+  "patternRef": {
+    "artifactId": "art_conformance-square",
+    "revisionId": "rev_conformance-square-r1"
+  },
+  "evaluatorProfile": {
+    "id": "org.example.conformance:analytic",
+    "version": "1.0.0"
+  },
+  "fitProfileRef": {
+    "artifactId": "art_conformance-fit-profile"
+  },
+  "garmentMeasurementSpecRef": {
+    "artifactId": "art_conformance-garment-spec",
+    "revisionId": "rev_conformance-garment-spec-r1"
+  },
+  "requestedOutputs": [
+    "fit-evaluation-report",
+    "geometry-snapshot"
+  ]
+}

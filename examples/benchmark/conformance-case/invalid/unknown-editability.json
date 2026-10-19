@@ -1,0 +1,29 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "golden-tshirt.open-contour",
+  "level": "semantic",
+  "title": "Open front outer contour is rejected",
+  "documents": [
+    {
+      "path": "fixtures/golden-tshirt/v1/negative/open-contour/pattern.json",
+      "role": "subject"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-010",
+        "documentPath": "fixtures/golden-tshirt/v1/negative/open-contour/pattern.json",
+        "instancePath": "/pieces/0/contours/0"
+      }
+    ],
+    "editability": "locked"
+  },
+  "description": "The last edge of front-outer ends at a point other than the start of the first edge."
+}

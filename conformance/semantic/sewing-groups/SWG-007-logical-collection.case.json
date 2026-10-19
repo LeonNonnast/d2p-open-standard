@@ -1,0 +1,20 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "SWG-007-logical-collection",
+  "level": "semantic",
+  "title": "Disconnected members are valid in a logical collection",
+  "documents": [
+    {
+      "path": "conformance/semantic/sewing-groups/SWG-007-logical-collection/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "SWG-007"
+  ]
+}

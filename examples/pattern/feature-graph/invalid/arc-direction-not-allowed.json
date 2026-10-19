@@ -1,0 +1,12 @@
+[
+  {
+    "id": "c-1",
+    "type": "d2p:arc",
+    "params": {
+      "startFeatureId": "a",
+      "endFeatureId": "b",
+      "centerFeatureId": "c",
+      "direction": "clockwise"
+    }
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "documentType": "d2p:fit-profile",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_conformance-fit-profile",
+  "revisionId": "rev_conformance-fit-profile-r2",
+  "name": "Conformance kit fit profile (synthetic)",
+  "intent": "d2p:relaxed",
+  "definitionRegistries": [],
+  "easeRules": []
+}

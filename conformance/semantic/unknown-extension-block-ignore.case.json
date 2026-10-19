@@ -1,0 +1,18 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.unknown-extension-block-ignore",
+  "level": "semantic",
+  "title": "An unknown extension block with onUnknown: ignore is processed normally",
+  "documents": [
+    {
+      "path": "conformance/semantic/unknown-extension-block-ignore/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": [],
+    "editability": "editable"
+  }
+}

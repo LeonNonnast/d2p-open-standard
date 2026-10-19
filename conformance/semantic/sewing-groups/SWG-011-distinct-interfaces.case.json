@@ -1,0 +1,20 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "SWG-011-distinct-interfaces",
+  "level": "semantic",
+  "title": "Connections of a group that use distinct interfaces are valid",
+  "documents": [
+    {
+      "path": "conformance/semantic/sewing-groups/SWG-011-distinct-interfaces/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "SWG-011"
+  ]
+}

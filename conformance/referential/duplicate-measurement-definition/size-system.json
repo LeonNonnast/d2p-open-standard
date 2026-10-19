@@ -1,0 +1,60 @@
+{
+  "documentType": "d2p:size-system",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_conformance-size-system",
+  "revisionId": "rev_conformance-size-system-r1",
+  "name": "Conformance kit size system (synthetic)",
+  "issuer": {
+    "kind": "synthetic",
+    "name": "D2P conformance kit"
+  },
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.0.0"
+    }
+  ],
+  "sizes": [
+    {
+      "sizeKey": "size-a",
+      "label": "A",
+      "ordinal": 1,
+      "measurements": [
+        {
+          "definitionId": "d2p:body.chest-girth",
+          "value": 920,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic"
+          }
+        },
+        {
+          "definitionId": "d2p:body.chest-girth",
+          "value": 940,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic"
+          }
+        }
+      ]
+    },
+    {
+      "sizeKey": "size-b",
+      "label": "B",
+      "ordinal": 2,
+      "measurements": [
+        {
+          "definitionId": "d2p:body.chest-girth",
+          "value": 1000,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "group-sides",
+  "type": "d2p:layered-seam",
+  "members": [
+    {
+      "connectionId": "seam-side-left"
+    },
+    {
+      "connectionId": "seam-side-right"
+    }
+  ],
+  "requirements": {
+    "groupTopology": "connected",
+    "validateMemberSeams": true
+  }
+}

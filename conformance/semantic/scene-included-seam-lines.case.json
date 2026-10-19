@@ -1,0 +1,29 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.scene-included-seam-lines",
+  "level": "semantic",
+  "title": "A scene with seam allowance included, seam lines for every contour and cut lines equal to the contours of pieces without seam allowance is accepted",
+  "documents": [
+    {
+      "path": "conformance/semantic/scene-included-seam-lines/export-scene-2d.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/scene-included-seam-lines/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/scene-included-seam-lines/pattern-evaluation.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/scene-included-seam-lines/geometry-snapshot.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

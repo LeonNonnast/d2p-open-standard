@@ -1,0 +1,740 @@
+{
+  "documentType": "d2p:export-scene-2d",
+  "schemaVersion": "1.0.0",
+  "sceneId": "xsc_golden-tshirt-r1-size-a-regular-woven",
+  "source": {
+    "patternRef": {
+      "artifactId": "art_golden-tshirt-pattern",
+      "revisionId": "rev_golden-tshirt-pattern-r1"
+    },
+    "evaluations": [
+      {
+        "sizeKey": "size-a",
+        "configurationKey": "regular-woven",
+        "evaluationId": "pev_golden-tshirt-r1-size-a-regular-woven",
+        "geometryDigest": "sha256:ac0f22fabde5d2155632e430ba4e019d15b06766fc3231838100c376f49dbd72"
+      }
+    ],
+    "inputRefs": [
+      {
+        "artifactId": "art_golden-tshirt-private-body-profile",
+        "revisionId": "rev_golden-tshirt-private-body-profile-r1"
+      }
+    ]
+  },
+  "units": {
+    "length": "mm",
+    "angle": "rad"
+  },
+  "coordinateSystem": {
+    "origin": "bottom-left",
+    "xAxis": "right",
+    "yAxis": "up"
+  },
+  "layers": [
+    {
+      "id": "layer-cut",
+      "role": "d2p:cut-line",
+      "name": "Cut line (net pattern, no seam allowance)"
+    },
+    {
+      "id": "layer-grainline",
+      "role": "d2p:grainline",
+      "name": "Grainline"
+    },
+    {
+      "id": "layer-label",
+      "role": "d2p:label",
+      "name": "Labels"
+    },
+    {
+      "id": "layer-notch",
+      "role": "d2p:notch",
+      "name": "Notches"
+    }
+  ],
+  "seamAllowancePolicy": "none",
+  "pieceInstances": [
+    {
+      "id": "inst-back",
+      "pieceId": "back",
+      "cutInstanceKey": "back",
+      "sizeKey": "size-a",
+      "transform": {
+        "translate": [
+          785,
+          0
+        ],
+        "rotateRad": 0,
+        "mirror": false
+      },
+      "paths": [
+        {
+          "id": "inst-back-back-outer",
+          "layerId": "layer-cut",
+          "elementId": "back-outer",
+          "closed": true,
+          "start": [
+            530,
+            0
+          ],
+          "segments": [
+            {
+              "kind": "line",
+              "end": [
+                1040,
+                0
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                1040,
+                435
+              ]
+            },
+            {
+              "kind": "cubic",
+              "control1": [
+                1009.4,
+                435
+              ],
+              "control2": [
+                999,
+                525
+              ],
+              "end": [
+                1005,
+                635
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                856.666666667,
+                680
+              ]
+            },
+            {
+              "kind": "cubic",
+              "control1": [
+                856.666666667,
+                653.333333333
+              ],
+              "control2": [
+                713.333333333,
+                653.333333333
+              ],
+              "end": [
+                713.333333333,
+                680
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                565,
+                635
+              ]
+            },
+            {
+              "kind": "cubic",
+              "control1": [
+                571,
+                525
+              ],
+              "control2": [
+                560.6,
+                435
+              ],
+              "end": [
+                530,
+                435
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                530,
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "markers": [
+        {
+          "id": "inst-back-back-armhole-left-notch",
+          "layerId": "layer-notch",
+          "kind": "notch",
+          "elementId": "back-armhole-left-notch",
+          "points": [
+            [
+              564.188995016,
+              518.211218798
+            ],
+            [
+              570.164363908,
+              517.668110519
+            ]
+          ]
+        },
+        {
+          "id": "inst-back-back-armhole-right-notch",
+          "layerId": "layer-notch",
+          "kind": "notch",
+          "elementId": "back-armhole-right-notch",
+          "points": [
+            [
+              1005.811004984,
+              518.211218798
+            ],
+            [
+              999.835636092,
+              517.668110519
+            ]
+          ]
+        },
+        {
+          "id": "inst-back-back-grainline",
+          "layerId": "layer-grainline",
+          "kind": "grainline",
+          "elementId": "back-grainline",
+          "points": [
+            [
+              785,
+              80
+            ],
+            [
+              785,
+              600
+            ]
+          ]
+        }
+      ],
+      "labels": [
+        {
+          "id": "inst-back-label",
+          "layerId": "layer-label",
+          "anchor": [
+            785,
+            340
+          ],
+          "text": "Back, size A, cut 1",
+          "fontSizeMm": 8
+        }
+      ],
+      "boundingBox": {
+        "min": [
+          530,
+          0
+        ],
+        "max": [
+          1040,
+          680
+        ]
+      }
+    },
+    {
+      "id": "inst-front",
+      "pieceId": "front",
+      "cutInstanceKey": "front",
+      "sizeKey": "size-a",
+      "transform": {
+        "translate": [
+          255,
+          0
+        ],
+        "rotateRad": 0,
+        "mirror": false
+      },
+      "paths": [
+        {
+          "id": "inst-front-front-outer",
+          "layerId": "layer-cut",
+          "elementId": "front-outer",
+          "closed": true,
+          "start": [
+            0,
+            0
+          ],
+          "segments": [
+            {
+              "kind": "line",
+              "end": [
+                510,
+                0
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                510,
+                435
+              ]
+            },
+            {
+              "kind": "cubic",
+              "control1": [
+                464.1,
+                435
+              ],
+              "control2": [
+                463,
+                535
+              ],
+              "end": [
+                475,
+                635
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                326.666666667,
+                680
+              ]
+            },
+            {
+              "kind": "cubic",
+              "control1": [
+                326.666666667,
+                556.666666667
+              ],
+              "control2": [
+                183.333333333,
+                556.666666667
+              ],
+              "end": [
+                183.333333333,
+                680
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                35,
+                635
+              ]
+            },
+            {
+              "kind": "cubic",
+              "control1": [
+                47,
+                535
+              ],
+              "control2": [
+                45.9,
+                435
+              ],
+              "end": [
+                0,
+                435
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                0,
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "markers": [
+        {
+          "id": "inst-front-front-armhole-left-notch",
+          "layerId": "layer-notch",
+          "kind": "notch",
+          "elementId": "front-armhole-left-notch",
+          "points": [
+            [
+              470.065443989,
+              504.245450687
+            ],
+            [
+              464.09199953,
+              503.681570115
+            ]
+          ]
+        },
+        {
+          "id": "inst-front-front-armhole-right-notch",
+          "layerId": "layer-notch",
+          "kind": "notch",
+          "elementId": "front-armhole-right-notch",
+          "points": [
+            [
+              39.934556011,
+              504.245450687
+            ],
+            [
+              45.90800047,
+              503.681570115
+            ]
+          ]
+        },
+        {
+          "id": "inst-front-front-grainline",
+          "layerId": "layer-grainline",
+          "kind": "grainline",
+          "elementId": "front-grainline",
+          "points": [
+            [
+              255,
+              80
+            ],
+            [
+              255,
+              527.5
+            ]
+          ]
+        }
+      ],
+      "labels": [
+        {
+          "id": "inst-front-label",
+          "layerId": "layer-label",
+          "anchor": [
+            255,
+            340
+          ],
+          "text": "Front, size A, cut 1",
+          "fontSizeMm": 8
+        }
+      ],
+      "boundingBox": {
+        "min": [
+          0,
+          0
+        ],
+        "max": [
+          510,
+          680
+        ]
+      }
+    },
+    {
+      "id": "inst-sleeve-left",
+      "pieceId": "sleeve",
+      "cutInstanceKey": "sleeve-left",
+      "sizeKey": "size-a",
+      "transform": {
+        "translate": [
+          1257.219792474,
+          0.932635402
+        ],
+        "rotateRad": 0,
+        "mirror": false
+      },
+      "paths": [
+        {
+          "id": "inst-sleeve-left-sleeve-outer",
+          "layerId": "layer-cut",
+          "elementId": "sleeve-outer",
+          "closed": true,
+          "start": [
+            1065.899429192,
+            0
+          ],
+          "segments": [
+            {
+              "kind": "line",
+              "end": [
+                1444.888017474,
+                1.865270804
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                1450.787446666,
+                100.071073763
+              ]
+            },
+            {
+              "kind": "cubic",
+              "control1": [
+                1396.588503492,
+                107.979998694
+              ],
+              "control2": [
+                1330.775501067,
+                198.932635402
+              ],
+              "end": [
+                1257.219792474,
+                198.932635402
+              ]
+            },
+            {
+              "kind": "cubic",
+              "control1": [
+                1186.220667183,
+                198.932635402
+              ],
+              "control2": [
+                1119.165937742,
+                108.278486204
+              ],
+              "end": [
+                1060,
+                98.20580296
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                1065.899429192,
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "markers": [
+        {
+          "id": "inst-sleeve-left-sleeve-cap-back-notch",
+          "layerId": "layer-notch",
+          "kind": "notch",
+          "elementId": "sleeve-cap-back-notch",
+          "points": [
+            [
+              1365.62571398,
+              149.259823327
+            ],
+            [
+              1362.062382352,
+              144.432539649
+            ]
+          ]
+        },
+        {
+          "id": "inst-sleeve-left-sleeve-cap-front-notch",
+          "layerId": "layer-notch",
+          "kind": "notch",
+          "elementId": "sleeve-cap-front-notch",
+          "points": [
+            [
+              1138.23723962,
+              140.71261922
+            ],
+            [
+              1141.77618013,
+              135.867425718
+            ]
+          ]
+        },
+        {
+          "id": "inst-sleeve-left-sleeve-grainline",
+          "layerId": "layer-grainline",
+          "kind": "grainline",
+          "elementId": "sleeve-grainline",
+          "points": [
+            [
+              1257.219792474,
+              30.932635402
+            ],
+            [
+              1257.219792474,
+              168.932635402
+            ]
+          ]
+        }
+      ],
+      "labels": [
+        {
+          "id": "inst-sleeve-left-label",
+          "layerId": "layer-label",
+          "anchor": [
+            1255.393723333,
+            99.466317701
+          ],
+          "text": "Sleeve left, size A",
+          "fontSizeMm": 8
+        }
+      ],
+      "boundingBox": {
+        "min": [
+          1060,
+          0
+        ],
+        "max": [
+          1450.787446666,
+          198.932635402
+        ]
+      }
+    },
+    {
+      "id": "inst-sleeve-right",
+      "pieceId": "sleeve",
+      "cutInstanceKey": "sleeve-right",
+      "sizeKey": "size-a",
+      "transform": {
+        "translate": [
+          1664.355100858,
+          0.932635402
+        ],
+        "rotateRad": 0,
+        "mirror": true
+      },
+      "paths": [
+        {
+          "id": "inst-sleeve-right-sleeve-outer",
+          "layerId": "layer-cut",
+          "elementId": "sleeve-outer",
+          "closed": true,
+          "start": [
+            1855.67546414,
+            0
+          ],
+          "segments": [
+            {
+              "kind": "line",
+              "end": [
+                1476.686875858,
+                1.865270804
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                1470.787446666,
+                100.071073763
+              ]
+            },
+            {
+              "kind": "cubic",
+              "control1": [
+                1524.98638984,
+                107.979998694
+              ],
+              "control2": [
+                1590.799392265,
+                198.932635402
+              ],
+              "end": [
+                1664.355100858,
+                198.932635402
+              ]
+            },
+            {
+              "kind": "cubic",
+              "control1": [
+                1735.354226149,
+                198.932635402
+              ],
+              "control2": [
+                1802.40895559,
+                108.278486204
+              ],
+              "end": [
+                1861.574893333,
+                98.20580296
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                1855.67546414,
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "markers": [
+        {
+          "id": "inst-sleeve-right-sleeve-cap-back-notch",
+          "layerId": "layer-notch",
+          "kind": "notch",
+          "elementId": "sleeve-cap-back-notch",
+          "points": [
+            [
+              1555.949179352,
+              149.259823327
+            ],
+            [
+              1559.512510981,
+              144.432539649
+            ]
+          ]
+        },
+        {
+          "id": "inst-sleeve-right-sleeve-cap-front-notch",
+          "layerId": "layer-notch",
+          "kind": "notch",
+          "elementId": "sleeve-cap-front-notch",
+          "points": [
+            [
+              1783.337653713,
+              140.71261922
+            ],
+            [
+              1779.798713202,
+              135.867425718
+            ]
+          ]
+        },
+        {
+          "id": "inst-sleeve-right-sleeve-grainline",
+          "layerId": "layer-grainline",
+          "kind": "grainline",
+          "elementId": "sleeve-grainline",
+          "points": [
+            [
+              1664.355100858,
+              30.932635402
+            ],
+            [
+              1664.355100858,
+              168.932635402
+            ]
+          ]
+        }
+      ],
+      "labels": [
+        {
+          "id": "inst-sleeve-right-label",
+          "layerId": "layer-label",
+          "anchor": [
+            1666.181169999,
+            99.466317701
+          ],
+          "text": "Sleeve right (mirrored), size A",
+          "fontSizeMm": 8
+        }
+      ],
+      "boundingBox": {
+        "min": [
+          1470.787446666,
+          0
+        ],
+        "max": [
+          1861.574893333,
+          198.932635402
+        ]
+      }
+    }
+  ],
+  "lineStyles": [
+    {
+      "layerId": "layer-cut",
+      "widthMm": 0.5
+    },
+    {
+      "layerId": "layer-grainline",
+      "widthMm": 0.35,
+      "dashMm": [
+        5,
+        3
+      ]
+    },
+    {
+      "layerId": "layer-notch",
+      "widthMm": 0.5
+    }
+  ],
+  "resultDigest": "sha256:f1a79083c2c56aea013e0728d85566a5fff3040cec349b3e91aa2033a62e6155"
+}

@@ -1,0 +1,123 @@
+{
+  "documentType": "d2p:validation-profile",
+  "schemaVersion": "1.0.0",
+  "profileId": "d2p:sample-cut",
+  "version": "1.0.0",
+  "purpose": "sample-cut",
+  "rules": [
+    {
+      "ruleId": "d2p:constraints-consistent",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:constraints-solved",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:contour-closed",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:contour-orientation",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:contour-simple",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:data-classification-consistent",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:ease-material-compatible",
+      "ruleVersion": "1.0.0",
+      "severity": "warning"
+    },
+    {
+      "ruleId": "d2p:evaluation-succeeded",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:expression-dimensions",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:extensions-supported",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:feature-graph-acyclic",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:grading-consistent",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:measurement-equivalence",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:measurement-fallback",
+      "ruleVersion": "1.0.0",
+      "severity": "warning"
+    },
+    {
+      "ruleId": "d2p:measurements-complete",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:references-resolve",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:schema-valid",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:seam-interface-continuous",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:seam-interface-single-connection",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:seam-length-match",
+      "ruleVersion": "1.0.0",
+      "severity": "warning"
+    },
+    {
+      "ruleId": "d2p:sewing-group-integrity",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:snapshot-consistent",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    }
+  ],
+  "waiverPolicy": {
+    "allowed": true,
+    "maxSeverity": "error"
+  }
+}

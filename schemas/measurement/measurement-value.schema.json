@@ -1,0 +1,171 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/measurement/measurement-value.schema.json",
+  "title": "D2P Measurement Value",
+  "description": "Fragment: one measured, estimated or tabulated value of a measurement definition, with unit, method, origin and optional uncertainty. Used by body measurement profiles and size systems. A value is comparable only through its definitionId. A measured value is never replaced silently by a size-table value.",
+  "$comment": "Schema catalog section 3.3 (design decision ADR-011 section 4). The unit must match the dimension of the referenced definition; that is checked at semantic level (D2P-SEM-070), not by this schema. The uncertainty members by type are schema-enforced (catalog section 1.12).",
+  "$ref": "#/$defs/measurementValue",
+  "$defs": {
+    "measurementValue": {
+      "title": "Measurement value",
+      "description": "A single value of one measurement definition.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "definitionId",
+        "value",
+        "unit",
+        "method",
+        "source"
+      ],
+      "properties": {
+        "definitionId": {
+          "description": "Qualified name of the measurement definition this value belongs to. It resolves against the registries declared by the containing document's definitionRegistries (D2P-REF-008).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+        },
+        "value": {
+          "description": "The numeric value in the given unit.",
+          "type": "number"
+        },
+        "unit": {
+          "description": "Unit of value: 'mm' for length definitions, 'rad' for angle definitions. It must match the definition's dimension (D2P-SEM-070).",
+          "type": "string",
+          "enum": [
+            "mm",
+            "rad"
+          ]
+        },
+        "method": {
+          "description": "How the value was obtained: 'manual' (tape or tool by a person), 'scan' (body scanner or device), 'inferred' (estimated or computed from other values), 'size-table' (taken from a size table).",
+          "type": "string",
+          "enum": [
+            "manual",
+            "scan",
+            "inferred",
+            "size-table"
+          ]
+        },
+        "source": {
+          "description": "Origin of the value.",
+          "$ref": "#/$defs/measurementSource"
+        },
+        "measuredAt": {
+          "description": "UTC time the value was measured. Absent when unknown or not meaningful (e.g. size-table or synthetic values).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp"
+        },
+        "uncertainty": {
+          "description": "Explicit uncertainty of the value, in the value's unit. Absent means no uncertainty is stated (not that the value is exact).",
+          "$ref": "#/$defs/uncertainty"
+        }
+      }
+    },
+    "measurementSource": {
+      "title": "Measurement source",
+      "description": "Who or what produced a measurement value.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "description": "Kind of origin: 'self-measured' (by the measured person), 'professional' (by a trained measurer), 'device' (scanner or measuring device), 'size-table' (a size table), 'synthetic' (test or reference data not taken from a real body), 'derived' (computed from other values).",
+          "type": "string",
+          "enum": [
+            "self-measured",
+            "professional",
+            "device",
+            "size-table",
+            "synthetic",
+            "derived"
+          ]
+        },
+        "description": {
+          "description": "Free-text note on the origin, for example the device or table used. It MUST NOT contain names or other personal data.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        }
+      }
+    },
+    "uncertainty": {
+      "title": "Uncertainty",
+      "description": "Uncertainty of a measurement value, discriminated by type. 'symmetric' carries plusMinus (value ± plusMinus); 'interval' carries lower and upper, the absolute bounds of the plausible range in the value's unit (lower ≤ upper). Members of the other type are forbidden (schema-enforced).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "description": "Discriminator: 'symmetric' or 'interval'.",
+          "type": "string",
+          "enum": [
+            "symmetric",
+            "interval"
+          ]
+        },
+        "plusMinus": {
+          "description": "Half-width of a symmetric uncertainty, in the value's unit. Only for type 'symmetric'.",
+          "type": "number",
+          "minimum": 0
+        },
+        "lower": {
+          "description": "Lower bound of the plausible range, in the value's unit. Only for type 'interval'.",
+          "type": "number"
+        },
+        "upper": {
+          "description": "Upper bound of the plausible range, in the value's unit. Only for type 'interval'.",
+          "type": "number"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "symmetric"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "plusMinus": true,
+              "lower": false,
+              "upper": false
+            },
+            "required": [
+              "plusMinus"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "interval"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "plusMinus": false,
+              "lower": true,
+              "upper": true
+            },
+            "required": [
+              "lower",
+              "upper"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

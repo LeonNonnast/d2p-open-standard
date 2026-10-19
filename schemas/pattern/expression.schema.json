@@ -1,0 +1,336 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json",
+  "title": "D2P Expression Node",
+  "description": "Typed expression AST of the pattern module (design decision ADR-006.1). The node list is closed: there are no scripts, strings, user-defined functions, loops or recursion. Every node is an object with a required 'op' and only the members listed for its kind. Dimensions are tracked as integer exponent pairs (length, angle); the dimension check, the depth limit (64) and the node limit (1024 per expr) are semantic checks (D2P-SEM-002, D2P-SEM-003). Evaluation uses IEEE-754 binary64 in node order.",
+  "$ref": "#/$defs/exprNode",
+  "$defs": {
+    "exprNode": {
+      "title": "Expression node",
+      "description": "Any expression node. Exactly one of the six closed node kinds, selected by 'op'. An object whose 'op' is missing or outside the closed list is rejected (refined to D2P-STR-010).",
+      "type": "object",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/literalNode"
+        },
+        {
+          "$ref": "#/$defs/constantNode"
+        },
+        {
+          "$ref": "#/$defs/paramNode"
+        },
+        {
+          "$ref": "#/$defs/measurementNode"
+        },
+        {
+          "$ref": "#/$defs/featureOutputNode"
+        },
+        {
+          "$ref": "#/$defs/operatorNode"
+        }
+      ]
+    },
+    "literalNode": {
+      "title": "Literal node",
+      "description": "A numeric literal with its unit. Dimension (1,0) for mm, (0,1) for rad, (0,0) for the dimensionless unit \"1\".",
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "literal",
+          "description": "Node kind; always \"literal\"."
+        },
+        "value": {
+          "type": "number",
+          "description": "The literal value, in the canonical unit given by 'unit'."
+        },
+        "unit": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/quantityUnit",
+          "description": "Unit of the literal: \"mm\" (length), \"rad\" (angle) or \"1\" (dimensionless)."
+        }
+      },
+      "required": [
+        "op",
+        "value",
+        "unit"
+      ],
+      "additionalProperties": false
+    },
+    "constantNode": {
+      "title": "Constant node",
+      "description": "A named mathematical constant. Dimension (0,0).",
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "constant",
+          "description": "Node kind; always \"constant\"."
+        },
+        "name": {
+          "type": "string",
+          "enum": [
+            "pi"
+          ],
+          "description": "Name of the constant. Only \"pi\" exists in feature set 1.0.0."
+        }
+      },
+      "required": [
+        "op",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "paramNode": {
+      "title": "Parameter node",
+      "description": "Reference to a pattern parameter. Its dimension is the parameter's declared dimension. Creates a dependency edge in the feature graph.",
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "param",
+          "description": "Node kind; always \"param\"."
+        },
+        "parameterId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of a parameter of the same pattern."
+        }
+      },
+      "required": [
+        "op",
+        "parameterId"
+      ],
+      "additionalProperties": false
+    },
+    "measurementNode": {
+      "title": "Measurement node",
+      "description": "Reference to a measurement input of the pattern. Its dimension is the dimension of the input's measurement definition.",
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "measurement",
+          "description": "Node kind; always \"measurement\"."
+        },
+        "key": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Key of an entry in the pattern's 'measurementInputs'."
+        }
+      },
+      "required": [
+        "op",
+        "key"
+      ],
+      "additionalProperties": false
+    },
+    "featureOutputNode": {
+      "title": "Feature output node",
+      "description": "Reference to a named output of a feature of the same pattern (for example 'x', 'y', 'length', 'angle', 'radius', 'sweep'). Its dimension is the declared dimension of that output. An unknown output is D2P-REF-004.",
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "const": "featureOutput",
+          "description": "Node kind; always \"featureOutput\"."
+        },
+        "featureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the feature whose output is read."
+        },
+        "output": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Name of the output, as defined for the feature type (feature set 1.0.0) or declared by its feature capability."
+        }
+      },
+      "required": [
+        "op",
+        "featureId",
+        "output"
+      ],
+      "additionalProperties": false
+    },
+    "operatorNode": {
+      "title": "Operator node",
+      "description": "An operator applied to argument nodes. Arity per operator: add, mul, min, max, and, or take at least 2 arguments; sub, div, atan2, lt, le, gt, ge exactly 2; neg, abs, sqrt, sin, cos, tan, asin, acos, not exactly 1; clamp (value, lower, upper) and if (condition, a, b) exactly 3. Typing rules are stated in §3.2.4 of the schema catalog.",
+      "type": "object",
+      "properties": {
+        "op": {
+          "type": "string",
+          "enum": [
+            "add",
+            "sub",
+            "mul",
+            "div",
+            "neg",
+            "abs",
+            "min",
+            "max",
+            "clamp",
+            "sqrt",
+            "sin",
+            "cos",
+            "tan",
+            "asin",
+            "acos",
+            "atan2",
+            "lt",
+            "le",
+            "gt",
+            "ge",
+            "and",
+            "or",
+            "not",
+            "if"
+          ],
+          "description": "Operator name from the closed list of 24 operators."
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/exprNode"
+          },
+          "description": "Argument nodes, in operator order. The exact count depends on 'op'.",
+          "minItems": 1
+        }
+      },
+      "required": [
+        "op",
+        "args"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "type": "string",
+                "enum": [
+                  "add",
+                  "mul",
+                  "min",
+                  "max",
+                  "and",
+                  "or"
+                ]
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "type": "array",
+                "minItems": 2
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "type": "string",
+                "enum": [
+                  "sub",
+                  "div",
+                  "atan2",
+                  "lt",
+                  "le",
+                  "gt",
+                  "ge"
+                ]
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "type": "string",
+                "enum": [
+                  "neg",
+                  "abs",
+                  "sqrt",
+                  "sin",
+                  "cos",
+                  "tan",
+                  "asin",
+                  "acos",
+                  "not"
+                ]
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "type": "string",
+                "enum": [
+                  "clamp",
+                  "if"
+                ]
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "properties": {
+              "args": {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3
+              }
+            }
+          }
+        }
+      ]
+    },
+    "exprValue": {
+      "title": "Expression value",
+      "description": "The {expr} wrapper used for every expression-valued slot (feature parameters, seam allowances, constraint values, seam ease amounts). The expected dimension comes from the slot.",
+      "type": "object",
+      "properties": {
+        "expr": {
+          "$ref": "#/$defs/exprNode",
+          "description": "The expression. It MUST NOT evaluate to a boolean."
+        }
+      },
+      "required": [
+        "expr"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

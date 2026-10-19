@@ -1,0 +1,15 @@
+{
+  "documentType": "d2p:relationship",
+  "schemaVersion": "1.0.0",
+  "relationshipId": "rel_golden-tshirt-contains-size-system",
+  "relationshipType": "d2p:contains",
+  "source": {
+    "kind": "project",
+    "id": "prj_golden-tshirt"
+  },
+  "targetRef": {
+    "artifactId": "art_golden-tshirt-size-system",
+    "revisionId": "rev_golden-tshirt-size-system-r1"
+  },
+  "createdAt": "2026-01-01T00:00:00Z"
+}

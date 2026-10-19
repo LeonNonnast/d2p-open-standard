@@ -1,0 +1,14 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_example-pattern-r0",
+  "artifactId": "art_example-pattern",
+  "sequence": 0,
+  "parentRevisionIds": [],
+  "contentDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "createdAt": "2026-10-02T09:00:00Z",
+  "author": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  }
+}

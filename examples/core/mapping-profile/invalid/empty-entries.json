@@ -1,0 +1,13 @@
+{
+  "documentType": "d2p:mapping-profile",
+  "schemaVersion": "1.0.0",
+  "mappingId": "org.example.atelier:house-measurement-terms",
+  "version": "1.0.0",
+  "title": "A mapping profile without entries",
+  "system": "Example Atelier size charts",
+  "systemVersion": "2026",
+  "provenance": {
+    "publisher": "Example Atelier (fictitious)"
+  },
+  "entries": []
+}

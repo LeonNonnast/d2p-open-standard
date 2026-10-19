@@ -1,0 +1,50 @@
+{
+  "op": "mul",
+  "args": [
+    {
+      "op": "featureOutput",
+      "featureId": "sleeve-cap",
+      "output": "length"
+    },
+    {
+      "op": "cos",
+      "args": [
+        {
+          "op": "atan2",
+          "args": [
+            {
+              "op": "literal",
+              "value": 3,
+              "unit": "mm"
+            },
+            {
+              "op": "literal",
+              "value": 4,
+              "unit": "mm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "op": "sqrt",
+      "args": [
+        {
+          "op": "max",
+          "args": [
+            {
+              "op": "literal",
+              "value": 1,
+              "unit": "1"
+            },
+            {
+              "op": "literal",
+              "value": 4,
+              "unit": "1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

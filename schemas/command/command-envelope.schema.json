@@ -1,0 +1,411 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/command/command-envelope.schema.json",
+  "title": "D2P Command",
+  "description": "Protocol-independent command envelope (documentType 'd2p:command', design decision ADR-019). A command addresses the head of a branch of one artifact ('target') and, except for artifact creation, names the revision it expects to be the current head ('expectedRevisionId', optimistic concurrency). Schema-enforced: 'd2p:artifact.create' forbids 'expectedRevisionId', every other 'd2p:' type requires it; the payload shape depends on 'type'; the content schema of a create command depends on 'payload.artifactType'. Payloads of extension command types are open objects, and their payload specification decides about 'expectedRevisionId'.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "commandId",
+    "idempotencyKey",
+    "type",
+    "target",
+    "payload",
+    "actorContext"
+  ],
+  "properties": {
+    "documentType": {
+      "const": "d2p:command",
+      "description": "Document type discriminator; always 'd2p:command'."
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against. An embedded create 'content' document MUST state the same version (D2P-STR-003)."
+    },
+    "commandId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/commandId",
+      "description": "Unique ID of this command, chosen by the client. A revision produced by the command records it as 'commandId'."
+    },
+    "idempotencyKey": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/idempotencyKey",
+      "description": "Client-chosen key that makes retries of the same command safe. Reusing a key for a different command is answered with error code 'idempotency_key_reused'."
+    },
+    "type": {
+      "$ref": "#/$defs/commandType",
+      "description": "Command type (extensible vocabulary). Selects the payload shape."
+    },
+    "target": {
+      "$ref": "#/$defs/commandTarget",
+      "description": "Artifact and branch the command writes to. This is a branch address, not a pinned reference."
+    },
+    "expectedRevisionId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/revisionId",
+      "description": "Revision the client expects to be the current head of 'target'. Forbidden for 'd2p:artifact.create', required for every other 'd2p:' command type. If the head differs, the command is rejected with 'stale_revision'; it is never silently applied to another revision."
+    },
+    "payload": {
+      "type": "object",
+      "description": "Command data. 'd2p:artifact.create' uses 'createArtifactPayload', 'd2p:pattern.parameters.update' uses 'updateParametersPayload'; payloads of extension command types are open objects."
+    },
+    "actorContext": {
+      "$ref": "#/$defs/actorContext",
+      "description": "Who issues the command, as opaque principal and client IDs."
+    },
+    "correlationId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/correlationId",
+      "description": "Correlation ID propagated to the receipt, resulting events and errors."
+    },
+    "issuedAt": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp",
+      "description": "UTC time at which the client issued the command. Informative."
+    },
+    "evaluatorProfile": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+      "description": "Evaluator profile the client expects to be used for derived results of this command. Informative."
+    },
+    "contentDigest": {
+      "description": "Optional digest of this document (d2p-c14n-v1 over the whole document, excluding 'contentDigest' itself).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks keyed by extension namespace."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "d2p:artifact.create"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "expectedRevisionId": false,
+          "payload": {
+            "$ref": "#/$defs/createArtifactPayload"
+          }
+        }
+      },
+      "else": {
+        "if": {
+          "properties": {
+            "type": {
+              "type": "string",
+              "pattern": "^d2p:"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        },
+        "then": {
+          "properties": {
+            "expectedRevisionId": true
+          },
+          "required": [
+            "expectedRevisionId"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "d2p:pattern.parameters.update"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/updateParametersPayload"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "commandType": {
+      "title": "Command type",
+      "description": "Extensible command-type vocabulary: the listed 'd2p:' terms or an extension name. An unknown 'd2p:' term is a structural error.",
+      "anyOf": [
+        {
+          "type": "string",
+          "description": "Command types defined by this standard.",
+          "enum": [
+            "d2p:artifact.create",
+            "d2p:pattern.parameters.update"
+          ]
+        },
+        {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName",
+          "description": "Extension-defined command type."
+        }
+      ]
+    },
+    "commandTarget": {
+      "title": "Command target",
+      "description": "Branch address of the artifact a command writes to. It is not a reference: it names a branch head and is paired with 'expectedRevisionId'.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifactId",
+        "branch"
+      ],
+      "properties": {
+        "artifactId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/artifactId",
+          "description": "Artifact written to. For 'd2p:artifact.create' it is the client-chosen ID of the new artifact."
+        },
+        "branch": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Branch name. In standard 1.0 the branch is 'main'."
+        }
+      }
+    },
+    "actorContext": {
+      "title": "Actor context",
+      "description": "Identity context of a command. All members are opaque IDs, never secrets, tokens, passwords, names or e-mail addresses.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actorPrincipalId"
+      ],
+      "properties": {
+        "actorPrincipalId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/principalId",
+          "description": "Principal (person, agent or system) that issues the command."
+        },
+        "onBehalfOfPrincipalId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/principalId",
+          "description": "Principal on whose behalf the actor acts (for example the user an agent works for). Absent when the actor acts on its own behalf."
+        },
+        "clientId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "pattern": "^[\\x21-\\x7E]+$",
+          "description": "Opaque ID of the client application. Never a secret."
+        },
+        "credentialId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "pattern": "^[\\x21-\\x7E]+$",
+          "description": "Opaque ID of the credential used (for audit). Never the credential itself or any other secret."
+        }
+      }
+    },
+    "createArtifactPayload": {
+      "title": "Create artifact payload",
+      "description": "Payload of 'd2p:artifact.create'. The embedded 'content' is the complete artifact content document of the first revision; its header carries 'artifactId' = 'target.artifactId' and 'revisionId' = 'initialRevisionId' (D2P-REF-007). An implementation either commits the first revision under exactly these client-proposed IDs or rejects the command with error code 'conflict'; it never substitutes other IDs silently.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifactType",
+        "name",
+        "dataClassification",
+        "initialRevisionId",
+        "content"
+      ],
+      "properties": {
+        "artifactType": {
+          "type": "string",
+          "description": "Type of the new artifact. Closed for this command: one of the six 'd2p:' artifact types. Selects the schema of 'content'.",
+          "enum": [
+            "d2p:pattern",
+            "d2p:grading-rule-set",
+            "d2p:body-measurement-profile",
+            "d2p:size-system",
+            "d2p:garment-measurement-spec",
+            "d2p:fit-profile"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "Name of the new artifact (artifact metadata)."
+        },
+        "dataClassification": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/artifact.schema.json#/$defs/dataClassification",
+          "description": "Data classification of the new artifact (artifact metadata). It MUST agree with a classification stated in the content (D2P-SEM-051)."
+        },
+        "initialRevisionId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/revisionId",
+          "description": "Client-proposed ID of the first revision; equals the 'revisionId' in the content header."
+        },
+        "content": {
+          "type": "object",
+          "description": "Complete artifact content document of the first revision, with its own header. Its schema is selected by 'artifactType'."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "artifactType": {
+                "const": "d2p:pattern"
+              }
+            },
+            "required": [
+              "artifactType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "https://d2p.nonnast.dev/schemas/pattern/pattern.schema.json"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "artifactType": {
+                "const": "d2p:grading-rule-set"
+              }
+            },
+            "required": [
+              "artifactType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "https://d2p.nonnast.dev/schemas/pattern/grading-rule-set.schema.json"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "artifactType": {
+                "const": "d2p:body-measurement-profile"
+              }
+            },
+            "required": [
+              "artifactType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "https://d2p.nonnast.dev/schemas/measurement/body-measurement-profile.schema.json"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "artifactType": {
+                "const": "d2p:size-system"
+              }
+            },
+            "required": [
+              "artifactType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "https://d2p.nonnast.dev/schemas/measurement/size-system.schema.json"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "artifactType": {
+                "const": "d2p:garment-measurement-spec"
+              }
+            },
+            "required": [
+              "artifactType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "https://d2p.nonnast.dev/schemas/measurement/garment-measurement-spec.schema.json"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "artifactType": {
+                "const": "d2p:fit-profile"
+              }
+            },
+            "required": [
+              "artifactType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "content": {
+                "$ref": "https://d2p.nonnast.dev/schemas/measurement/fit-profile.schema.json"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "updateParametersPayload": {
+      "title": "Update parameters payload",
+      "description": "Payload of 'd2p:pattern.parameters.update': new expressions for existing parameters of the target pattern.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "updates"
+      ],
+      "properties": {
+        "updates": {
+          "type": "array",
+          "description": "Parameter updates (at least one).",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/parameterUpdate"
+          }
+        }
+      }
+    },
+    "parameterUpdate": {
+      "title": "Parameter update",
+      "description": "Replaces the expression of one pattern parameter. The new expression MUST evaluate to the parameter's declared dimension (D2P-SEM-002).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parameterId",
+        "expr"
+      ],
+      "properties": {
+        "parameterId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the parameter in the target pattern."
+        },
+        "expr": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprNode",
+          "description": "New expression of the parameter (typed AST, closed node list)."
+        }
+      }
+    }
+  }
+}

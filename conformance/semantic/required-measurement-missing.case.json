@@ -1,0 +1,39 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.required-measurement-missing",
+  "level": "semantic",
+  "title": "A required measurement input that resolves to no value and has no fallback is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/required-measurement-missing/evaluation-request.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/required-measurement-missing/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/required-measurement-missing/size-system.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/required-measurement-missing/fit-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-072",
+        "documentPath": "conformance/semantic/required-measurement-missing/evaluation-request.json"
+      }
+    ]
+  },
+  "description": "The size entry of size-a holds only the chest girth; the pattern requires the waist girth without a fallback."
+}

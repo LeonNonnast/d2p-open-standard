@@ -1,0 +1,28 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.duplicate-measurement-definition",
+  "level": "referential",
+  "title": "A size entry holding two values for the same measurement definition is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/duplicate-measurement-definition/size-system.json",
+      "role": "subject"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-005",
+        "documentPath": "conformance/referential/duplicate-measurement-definition/size-system.json",
+        "instancePath": "/sizes/0/measurements/1/definitionId"
+      }
+    ]
+  },
+  "description": "Measurement input resolution takes the value of the size entry with the input's definitionId (catalog §3.4); two values would make the evaluation ambiguous. definitionId is unique within one size entry and within one body measurement profile (catalog §1.4)."
+}

@@ -1,0 +1,16 @@
+{
+  "documentType": "d2p:tolerance-profile",
+  "schemaVersion": "1.0.0",
+  "profileId": "org.example.conformance:mini-fixture",
+  "version": "1.0.0",
+  "status": "provisional",
+  "scope": "Conformance kit miniature fixture (no product tolerance; test data only).",
+  "tolerances": [
+    {
+      "metric": "d2p:contour-deviation",
+      "limit": 0.1,
+      "unit": "mm",
+      "comparison": "absolute-lte"
+    }
+  ]
+}

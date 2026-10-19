@@ -1,0 +1,18 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:contour-orientation",
+  "version": "1.0.0",
+  "title": "Contours are correctly oriented",
+  "description": "Outer snapshot contours run counter-clockwise and holes clockwise. The conformance runners check line-only contours; evaluators extend the check to curves.",
+  "layer": "derived",
+  "targetDocumentTypes": [
+    "d2p:geometry-snapshot"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-SEM-012"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

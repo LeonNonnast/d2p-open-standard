@@ -1,0 +1,27 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.revision-digest-mismatch",
+  "level": "referential",
+  "title": "A revision record whose contentDigest does not match its content document is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/revision-digest-mismatch/revision-pattern-r1.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/revision-digest-mismatch/pattern.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-011",
+        "documentPath": "conformance/referential/revision-digest-mismatch/revision-pattern-r1.json",
+        "instancePath": "/contentDigest"
+      }
+    ]
+  }
+}

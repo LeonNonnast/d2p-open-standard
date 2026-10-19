@@ -1,0 +1,38 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.report-pass-with-blocking-finding",
+  "level": "semantic",
+  "title": "A report that passes despite a finding of severity error is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/report-pass-with-blocking-finding/validation-report.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/report-pass-with-blocking-finding/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/report-pass-with-blocking-finding/validation-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/report-pass-with-blocking-finding/validation-rule.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-103",
+        "documentPath": "conformance/semantic/report-pass-with-blocking-finding/validation-report.json",
+        "instancePath": "/result"
+      }
+    ]
+  },
+  "testIds": [
+    "VAL-007"
+  ]
+}

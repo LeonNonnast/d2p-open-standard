@@ -1,0 +1,507 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/print/export-scene-2d.schema.json",
+  "title": "D2P Export Scene 2D",
+  "description": "Derived document holding fully materialized 2D pattern geometry laid out for export and printing (design decisions ADR-022, ADR-022.1). It contains no feature graph: every path is final geometry in mm in the scene (layout) plane. Domain element IDs (pieceId, cutInstanceKey, elementId) are carried through. Labels MUST NOT contain personal measurement values. Drawing order is deterministic: renderers draw piece instances in array order and, within an instance, paths, then markers, then labels, each in array order (no random z-order). Semantic rules: D2P-SEM-090 (cut and seam lines closed), D2P-SEM-093 (layers resolve), D2P-SEM-094 (multi-size scenes need distinguishable sizeStyles), D2P-SEM-050 (no personal data), D2P-SEM-011 (line-only closed paths are simple).",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator of this schema.",
+      "type": "string",
+      "const": "d2p:export-scene-2d"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against. When the scene is embedded in a print job it MUST equal the print job's schemaVersion (D2P-STR-003).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "sceneId": {
+      "description": "Own ID of this scene (prefix xsc_). Excluded from resultDigest.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/sceneId"
+    },
+    "source": {
+      "description": "The pinned pattern revision and the evaluations (one per size and configuration) the scene geometry was materialized from.",
+      "$ref": "#/$defs/sceneSource"
+    },
+    "units": {
+      "description": "Units declaration; always millimetre and radian.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/unitsDeclaration"
+    },
+    "coordinateSystem": {
+      "description": "Fixed scene coordinate system: origin bottom-left, X to the right, Y up (mm).",
+      "type": "object",
+      "const": {
+        "origin": "bottom-left",
+        "xAxis": "right",
+        "yAxis": "up"
+      }
+    },
+    "layers": {
+      "description": "Layers that paths, markers, labels and line styles are assigned to. Array order per digest profile: by id.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/layer"
+      }
+    },
+    "seamAllowancePolicy": {
+      "description": "'none': net pattern, the cut line equals the seam line. 'included': cut lines including seam allowance are materialized as paths. Adapters never invent seam allowance.",
+      "type": "string",
+      "enum": [
+        "none",
+        "included"
+      ]
+    },
+    "pieceInstances": {
+      "description": "Placed piece instances with their materialized geometry. Drawn in array order; array order per digest profile: by id.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/pieceInstance"
+      }
+    },
+    "lineStyles": {
+      "description": "Line style per layer. Array order per digest profile: by layerId.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/lineStyle"
+      }
+    },
+    "sizeStyles": {
+      "description": "How sizes are told apart in a multi-size scene. Required (semantic rule D2P-SEM-094, not schema-enforced) when the piece instances use more than one sizeKey; omitted otherwise. Array order per digest profile: by sizeKey.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/sizeStyle"
+      }
+    },
+    "resultDigest": {
+      "description": "Digest of this document per digest profile d2p-digest-v1, excluding contentDigest, resultDigest, sceneId and every top-level member ending in 'At'.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "contentDigest": {
+      "description": "Optional digest of the whole document excluding contentDigest itself (d2p-digest-v1).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks keyed by extension namespace.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "sceneId",
+    "source",
+    "units",
+    "coordinateSystem",
+    "layers",
+    "seamAllowancePolicy",
+    "pieceInstances",
+    "lineStyles",
+    "resultDigest"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "sceneSource": {
+      "title": "Scene source",
+      "description": "Pins the pattern revision and, per size (and configuration), the evaluation and its snapshot geometry digest. Every source.evaluations entry's patternRef MUST equal patternRef and its geometryDigest MUST equal that of the evaluation's snapshot (D2P-REF-007).",
+      "type": "object",
+      "properties": {
+        "patternRef": {
+          "description": "Pinned pattern revision the scene was derived from.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+        },
+        "evaluations": {
+          "description": "One entry per evaluated size (and configuration); entries are unique by (sizeKey, configurationKey). Array order per digest profile: by sizeKey, then configurationKey.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/sceneEvaluation"
+          }
+        },
+        "inputRefs": {
+          "description": "Further pinned input artifact revisions. MUST NOT name artifacts classified 'personal' or 'sensitive-personal' (D2P-SEM-050). Omitted when empty. Array order: by artifactId, then revisionId.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+          }
+        }
+      },
+      "required": [
+        "patternRef",
+        "evaluations"
+      ],
+      "additionalProperties": false
+    },
+    "sceneEvaluation": {
+      "title": "Scene evaluation",
+      "description": "Pins the evaluation and snapshot geometry digest used for one size (and configuration).",
+      "type": "object",
+      "properties": {
+        "sizeKey": {
+          "description": "Size key of the evaluated size.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "configurationKey": {
+          "description": "Configuration key of the evaluated material/fit configuration, if any. Absence means no configuration.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "evaluationId": {
+          "description": "ID of the pattern evaluation (prefix pev_) that produced the geometry.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/evaluationId"
+        },
+        "geometryDigest": {
+          "description": "geometryDigest of the evaluation's geometry snapshot (D2P-REF-007 when it differs).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+        }
+      },
+      "required": [
+        "sizeKey",
+        "evaluationId",
+        "geometryDigest"
+      ],
+      "additionalProperties": false
+    },
+    "layer": {
+      "title": "Layer",
+      "description": "A named drawing layer with a role.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Element ID of the layer, unique within the document.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "role": {
+          "description": "Role of the layer (extensible vocabulary).",
+          "$ref": "#/$defs/layerRole"
+        },
+        "name": {
+          "description": "Human-readable layer name.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "extensions": {
+          "description": "Optional extension blocks keyed by extension namespace.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+        }
+      },
+      "required": [
+        "id",
+        "role",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "layerRole": {
+      "title": "Layer role",
+      "description": "Extensible layer role vocabulary: d2p:cut-line, d2p:seam-line, d2p:grainline, d2p:notch, d2p:fold, d2p:label, d2p:marker, d2p:construction, or an extension name.",
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "d2p:cut-line",
+            "d2p:seam-line",
+            "d2p:grainline",
+            "d2p:notch",
+            "d2p:fold",
+            "d2p:label",
+            "d2p:marker",
+            "d2p:construction"
+          ]
+        },
+        {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+        }
+      ]
+    },
+    "lineStyle": {
+      "title": "Line style",
+      "description": "Stroke style of the paths on one layer.",
+      "type": "object",
+      "properties": {
+        "layerId": {
+          "description": "Layer the style applies to (D2P-SEM-093 when unresolved).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "widthMm": {
+          "description": "Stroke width in mm, greater than 0.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/positiveLengthMm"
+        },
+        "dashMm": {
+          "description": "Dash pattern as alternating dash and gap lengths in mm (semantic order). Absent means a solid line.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/positiveLengthMm"
+          }
+        }
+      },
+      "required": [
+        "layerId",
+        "widthMm"
+      ],
+      "additionalProperties": false
+    },
+    "sizeStyle": {
+      "title": "Size style",
+      "description": "Distinguishes one size in a multi-size scene. Overrides the lineStyles color and dash for the paths of the piece instances of that size.",
+      "type": "object",
+      "properties": {
+        "sizeKey": {
+          "description": "Size key the style applies to.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "label": {
+          "description": "Size label shown in the size legend.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "color": {
+          "description": "sRGB color as lowercase hex '#rrggbb'. Absent means the line style's color.",
+          "type": "string",
+          "pattern": "^#[0-9a-f]{6}$"
+        },
+        "dashMm": {
+          "description": "Dash pattern in mm overriding the line style dash (semantic order). Absent means no override.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/positiveLengthMm"
+          }
+        }
+      },
+      "required": [
+        "sizeKey",
+        "label"
+      ],
+      "additionalProperties": false
+    },
+    "pieceInstance": {
+      "title": "Piece instance",
+      "description": "One placed cut instance of a pattern piece for one size. Coordinates of paths, markers, labels and boundingBox are in the scene plane after the transform. Every sizeKey MUST appear in source.evaluations (D2P-REF-007).",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Element ID of the instance, unique within the document.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "pieceId": {
+          "description": "Piece ID in the pattern at source.patternRef.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "cutInstanceKey": {
+          "description": "Cut instance key declared by the piece's cut instructions (D2P-REF-010 when undeclared).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "sizeKey": {
+          "description": "Size key of this instance's geometry.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "transform": {
+          "description": "Placement transform from piece coordinates to the scene plane.",
+          "$ref": "#/$defs/instanceTransform"
+        },
+        "paths": {
+          "description": "Materialized paths, drawn first, in array order (ordered by id).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/scenePath"
+          }
+        },
+        "markers": {
+          "description": "Notch, grainline and fold markers, drawn after the paths, in array order (ordered by id).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sceneMarker"
+          }
+        },
+        "labels": {
+          "description": "Text labels, drawn last, in array order (ordered by id).",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sceneLabel"
+          }
+        },
+        "boundingBox": {
+          "description": "Axis-aligned bounding box of the instance in the scene plane.",
+          "$ref": "https://d2p.nonnast.dev/schemas/eval/geometry-snapshot.schema.json#/$defs/boundingBox"
+        },
+        "extensions": {
+          "description": "Optional extension blocks keyed by extension namespace.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+        }
+      },
+      "required": [
+        "id",
+        "pieceId",
+        "cutInstanceKey",
+        "sizeKey",
+        "transform",
+        "paths",
+        "markers",
+        "labels",
+        "boundingBox"
+      ],
+      "additionalProperties": false
+    },
+    "instanceTransform": {
+      "title": "Instance transform",
+      "description": "Applied in this order: if mirror is true, flip the X axis in piece coordinates (x -> -x); then rotate counter-clockwise by rotateRad about the piece origin; then translate.",
+      "type": "object",
+      "properties": {
+        "translate": {
+          "description": "Translation in mm in the scene plane, applied last.",
+          "$ref": "https://d2p.nonnast.dev/schemas/eval/geometry-snapshot.schema.json#/$defs/point2"
+        },
+        "rotateRad": {
+          "description": "Counter-clockwise rotation in rad, applied after the mirror and before the translation.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/angleRad"
+        },
+        "mirror": {
+          "description": "True flips the X axis in piece coordinates before rotation.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "translate",
+        "rotateRad",
+        "mirror"
+      ],
+      "additionalProperties": false
+    },
+    "scenePath": {
+      "title": "Scene path",
+      "description": "A materialized path on one layer. Paths on d2p:cut-line and d2p:seam-line layers MUST be closed (D2P-SEM-090).",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Element ID of the path, unique within the document.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "layerId": {
+          "description": "Layer the path is drawn on (D2P-SEM-093 when unresolved).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "elementId": {
+          "description": "Domain element (for example the contour or edge) in the pattern at source.patternRef that this path materializes. Absent for paths without a domain element.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "closed": {
+          "description": "True if the path is closed; then the last segment's end equals start after quantization.",
+          "type": "boolean"
+        },
+        "start": {
+          "description": "Start point of the path in mm (scene plane).",
+          "$ref": "https://d2p.nonnast.dev/schemas/eval/geometry-snapshot.schema.json#/$defs/point2"
+        },
+        "segments": {
+          "description": "Path segments in drawing order (semantic order, never re-sorted).",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/eval/geometry-snapshot.schema.json#/$defs/pathSegment"
+          }
+        },
+        "extensions": {
+          "description": "Optional extension blocks keyed by extension namespace.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+        }
+      },
+      "required": [
+        "id",
+        "layerId",
+        "closed",
+        "start",
+        "segments"
+      ],
+      "additionalProperties": false
+    },
+    "sceneMarker": {
+      "title": "Scene marker",
+      "description": "A notch, grainline or fold marker materialized from a pattern element.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Element ID of the marker, unique within the document.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "layerId": {
+          "description": "Layer the marker is drawn on (D2P-SEM-093 when unresolved).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "kind": {
+          "description": "Marker kind.",
+          "type": "string",
+          "enum": [
+            "notch",
+            "grainline",
+            "fold"
+          ]
+        },
+        "elementId": {
+          "description": "The notch, grainline or fold element in the pattern at source.patternRef.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "points": {
+          "description": "Marker points in mm (scene plane), in semantic order (never re-sorted).",
+          "type": "array",
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/eval/geometry-snapshot.schema.json#/$defs/point2"
+          }
+        },
+        "extensions": {
+          "description": "Optional extension blocks keyed by extension namespace.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+        }
+      },
+      "required": [
+        "id",
+        "layerId",
+        "kind",
+        "elementId",
+        "points"
+      ],
+      "additionalProperties": false
+    },
+    "sceneLabel": {
+      "title": "Scene label",
+      "description": "A text label. It MUST NOT contain personal measurement values. Keeping labels clear of cut and seam lines is the producer's responsibility.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Element ID of the label, unique within the document.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "layerId": {
+          "description": "Layer the label is drawn on (D2P-SEM-093 when unresolved).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "anchor": {
+          "description": "Anchor point of the text in mm (scene plane).",
+          "$ref": "https://d2p.nonnast.dev/schemas/eval/geometry-snapshot.schema.json#/$defs/point2"
+        },
+        "text": {
+          "description": "Label text (NFC-normalized).",
+          "type": "string",
+          "minLength": 1
+        },
+        "fontSizeMm": {
+          "description": "Font size in mm. Absent means the renderer's choice.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/positiveLengthMm"
+        },
+        "extensions": {
+          "description": "Optional extension blocks keyed by extension namespace.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+        }
+      },
+      "required": [
+        "id",
+        "layerId",
+        "anchor",
+        "text"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

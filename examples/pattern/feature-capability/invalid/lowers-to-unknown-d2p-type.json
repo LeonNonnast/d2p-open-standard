@@ -1,0 +1,29 @@
+{
+  "featureType": "com.example.atelier:smocking",
+  "version": "1.2.0",
+  "lowering": "declarative",
+  "kind": "other",
+  "outputs": [
+    {
+      "name": "rowCount",
+      "dimension": "dimensionless"
+    }
+  ],
+  "onUnknown": "read-only",
+  "provenance": {
+    "publisher": "Example Atelier",
+    "uri": "https://example.com/d2p-ext"
+  },
+  "paramsSchema": {
+    "type": "object",
+    "properties": {
+      "rows": {
+        "type": "integer"
+      }
+    }
+  },
+  "lowersTo": [
+    "d2p:point.absolute",
+    "d2p:dart"
+  ]
+}

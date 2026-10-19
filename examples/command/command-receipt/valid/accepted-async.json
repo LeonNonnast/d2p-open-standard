@@ -1,0 +1,7 @@
+{
+  "documentType": "d2p:command-receipt",
+  "schemaVersion": "1.0.0",
+  "commandId": "cmd_example-change-3",
+  "status": "accepted-async",
+  "jobId": "job_example-change-3"
+}

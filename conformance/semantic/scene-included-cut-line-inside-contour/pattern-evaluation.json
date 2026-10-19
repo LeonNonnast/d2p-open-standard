@@ -1,0 +1,51 @@
+{
+  "documentType": "d2p:pattern-evaluation",
+  "schemaVersion": "1.0.0",
+  "evaluationId": "pev_conformance-square-export",
+  "createdAt": "2026-01-02T00:00:00Z",
+  "request": {
+    "documentType": "d2p:evaluation-request",
+    "schemaVersion": "1.0.0",
+    "requestId": "erq_conformance-square-export",
+    "patternRef": {
+      "artifactId": "art_conformance-square",
+      "revisionId": "rev_conformance-square-r1-seam-allowance"
+    },
+    "evaluatorProfile": {
+      "id": "org.example.conformance:analytic",
+      "version": "1.0.0"
+    },
+    "requestedOutputs": [
+      "geometry-snapshot"
+    ]
+  },
+  "evaluator": {
+    "engineId": "conformance-kit",
+    "engineVersion": "1.0.0",
+    "algorithmProfileVersion": "1.0.0",
+    "evaluatorProfile": {
+      "id": "org.example.conformance:analytic",
+      "version": "1.0.0"
+    }
+  },
+  "featureSetVersion": "1.0.0",
+  "inputDigests": [
+    {
+      "role": "pattern",
+      "artifactRef": {
+        "artifactId": "art_conformance-square",
+        "revisionId": "rev_conformance-square-r1-seam-allowance"
+      },
+      "digest": "sha256:c71f29551faa5b5000d6a1496ef407f844878b652c6f3a4710895aa68757f9a6"
+    }
+  ],
+  "status": "succeeded",
+  "constraintStatus": "solved",
+  "snapshotRef": {
+    "id": "snp_conformance-square",
+    "digest": "sha256:c645d15b5dc340ad6ee2660062486986c2120bfba102fdc9bc91bf6565d9a658"
+  },
+  "measurements": [],
+  "diagnostics": [],
+  "resultDigest": "sha256:34e41a31165fac4ac2589962f19259a859c2a073148509332c34ce1504b9afcc"
+}

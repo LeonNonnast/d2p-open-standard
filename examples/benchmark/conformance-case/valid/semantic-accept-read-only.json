@@ -1,0 +1,26 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "golden-tshirt.unknown-extension-feature",
+  "level": "semantic",
+  "title": "Unknown extension feature makes the pattern read-only",
+  "documents": [
+    {
+      "path": "fixtures/golden-tshirt/v1/negative/open-contour/pattern.json",
+      "role": "subject"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-004"
+      }
+    ],
+    "editability": "read-only"
+  }
+}

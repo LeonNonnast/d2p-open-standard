@@ -1,0 +1,44 @@
+{
+  "documentType": "d2p:body-measurement-profile",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_example-reference-figure",
+  "revisionId": "rev_example-reference-figure-r1",
+  "subject": {
+    "kind": "reference-figure",
+    "pseudonym": "Form 38",
+    "name": "Jane Doe"
+  },
+  "dataClassification": "internal",
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.0.0"
+    }
+  ],
+  "measurements": [
+    {
+      "definitionId": "d2p:body.chest-girth",
+      "value": 900,
+      "unit": "mm",
+      "method": "manual",
+      "source": {
+        "kind": "professional"
+      },
+      "measuredAt": "2026-02-01T09:00:00Z",
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 3
+      }
+    },
+    {
+      "definitionId": "d2p:body.waist-girth",
+      "value": 720,
+      "unit": "mm",
+      "method": "manual",
+      "source": {
+        "kind": "professional"
+      },
+      "measuredAt": "2026-02-01T09:00:00Z"
+    }
+  ]
+}

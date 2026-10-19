@@ -1,0 +1,18 @@
+{
+  "documentType": "d2p:project",
+  "schemaVersion": "1.0.0",
+  "projectId": "prj_atelier-spring",
+  "name": "Spring collection",
+  "extensions": {
+    "com.example.atelier": {
+      "version": "1.0.0",
+      "provenance": {
+        "publisher": "Example Atelier"
+      },
+      "onUnknown": "ignore",
+      "data": {
+        "season": "spring"
+      }
+    }
+  }
+}

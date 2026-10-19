@@ -1,0 +1,365 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/print/print-job-spec.schema.json",
+  "title": "D2P Print Job Spec",
+  "description": "Derived document and the only renderer input (design decisions ADR-022, ADR-022.1). It embeds the complete export scene, fixes scale 1 (no fit-to-page, ever) and states media, margins, tiling, calibration and the print notice. Media dimensions are always the portrait dimensions; orientation rotates the sheet. The tile grid covers the union of piece-instance bounding boxes, its origin is the top-left corner of the layout box; the horizontal step is the sheet width minus left and right margins minus overlapMm (vertical likewise), columns = max(1, ceil((layoutWidth - overlapMm) / step)) (rows likewise); sheets are labelled <row letter><column number> (A1, A2, ..., B1, ...), rows top to bottom, columns left to right. Printer margins are device facts and MUST be stated; the standard provides no default. Semantic rules: D2P-SEM-091 (calibration for home-print and plotter profiles), D2P-SEM-092 (named media dimensions), D2P-SEM-095 (binding page properties of the home-print output profiles), D2P-SEM-050 (no personal data); conformance profile d2p:print-v1.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator of this schema.",
+      "type": "string",
+      "const": "d2p:print-job-spec"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "printJobId": {
+      "description": "Own ID of this print job (prefix pjs_). Excluded from resultDigest.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/printJobId"
+    },
+    "scene": {
+      "description": "The complete export scene, embedded with its own header and copied verbatim. Its schemaVersion MUST equal this document's schemaVersion (D2P-STR-003).",
+      "$ref": "https://d2p.nonnast.dev/schemas/print/export-scene-2d.schema.json"
+    },
+    "outputProfile": {
+      "description": "Output profile the job targets.",
+      "$ref": "#/$defs/outputProfile"
+    },
+    "pageLayout": {
+      "description": "Media, orientation, margins and tiling.",
+      "$ref": "#/$defs/pageLayout"
+    },
+    "scale": {
+      "description": "Print scale; always exactly 1 (no fit-to-page, ever).",
+      "type": "number",
+      "const": 1
+    },
+    "calibration": {
+      "description": "Calibration control square. Required for d2p:home-print-a4, d2p:home-print-a3 and d2p:plotter-1to1 (semantic rule D2P-SEM-091, not schema-enforced). Absent means no control square.",
+      "$ref": "#/$defs/calibration"
+    },
+    "printNotice": {
+      "description": "Notice printed on every sheet instructing printing at 100 % / actual size.",
+      "$ref": "#/$defs/printNotice"
+    },
+    "conformance": {
+      "description": "The d2p:print-v1 conformance level the producer claims for this job.",
+      "$ref": "#/$defs/printConformance"
+    },
+    "provenance": {
+      "description": "Generator and the digest of the embedded scene.",
+      "$ref": "#/$defs/printProvenance"
+    },
+    "requiredExtensions": {
+      "description": "Extension namespaces a renderer MUST understand (equivalent to onUnknown: reject; D2P-SEM-006 when unsupported). Omitted when empty. Ordered by string value.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionNamespace"
+      }
+    },
+    "resultDigest": {
+      "description": "Digest of this document per digest profile d2p-digest-v1, excluding contentDigest, resultDigest, printJobId and every top-level member ending in 'At'.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "contentDigest": {
+      "description": "Optional digest of the whole document excluding contentDigest itself (d2p-digest-v1).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks keyed by extension namespace.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "printJobId",
+    "scene",
+    "outputProfile",
+    "pageLayout",
+    "scale",
+    "printNotice",
+    "conformance",
+    "provenance",
+    "resultDigest"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "outputProfile": {
+      "title": "Output profile",
+      "description": "Identifies the output profile and its version. The d2p: profiles are defined by the schema catalog (version 1.0.0): d2p:home-print-a4 and d2p:home-print-a3 require media iso-a4 respectively iso-a3, tiling mode tiled with overlapMm > 0, registrationMarks and sheetLabels true and a label on a d2p:label layer per piece instance (D2P-SEM-095), and a calibration square (D2P-SEM-091); d2p:plotter-1to1 requires a calibration square.",
+      "type": "object",
+      "properties": {
+        "profileId": {
+          "description": "Output profile (extensible vocabulary): d2p:home-print-a4, d2p:home-print-a3, d2p:plotter-1to1, d2p:vector-svg, or an extension name.",
+          "type": "string",
+          "anyOf": [
+            {
+              "enum": [
+                "d2p:home-print-a4",
+                "d2p:home-print-a3",
+                "d2p:plotter-1to1",
+                "d2p:vector-svg"
+              ]
+            },
+            {
+              "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+            }
+          ]
+        },
+        "version": {
+          "description": "SemVer of the output profile.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+        }
+      },
+      "required": [
+        "profileId",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "pageLayout": {
+      "title": "Page layout",
+      "description": "Sheet media, orientation, printer margins and tiling.",
+      "type": "object",
+      "properties": {
+        "media": {
+          "description": "Sheet media in portrait dimensions.",
+          "$ref": "#/$defs/media"
+        },
+        "orientation": {
+          "description": "Sheet orientation; 'landscape' rotates the portrait media.",
+          "type": "string",
+          "enum": [
+            "portrait",
+            "landscape"
+          ]
+        },
+        "marginsMm": {
+          "description": "Non-printable printer margins in mm (device facts, no default).",
+          "$ref": "#/$defs/margins"
+        },
+        "tiling": {
+          "description": "Tiling of the layout over several sheets.",
+          "$ref": "#/$defs/tiling"
+        }
+      },
+      "required": [
+        "media",
+        "orientation",
+        "marginsMm",
+        "tiling"
+      ],
+      "additionalProperties": false
+    },
+    "media": {
+      "title": "Media",
+      "description": "Sheet size, always stated in portrait dimensions. Named media MUST match ISO 216 (A4 = 210 x 297 mm, A3 = 297 x 420 mm; D2P-SEM-092, not schema-enforced).",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "Media name: 'iso-a4', 'iso-a3' or 'custom'.",
+          "type": "string",
+          "enum": [
+            "iso-a4",
+            "iso-a3",
+            "custom"
+          ]
+        },
+        "widthMm": {
+          "description": "Portrait sheet width in mm.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/positiveLengthMm"
+        },
+        "heightMm": {
+          "description": "Portrait sheet height in mm.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/positiveLengthMm"
+        }
+      },
+      "required": [
+        "name",
+        "widthMm",
+        "heightMm"
+      ],
+      "additionalProperties": false
+    },
+    "margins": {
+      "title": "Margins",
+      "description": "Printer margins in mm, relative to the oriented sheet.",
+      "type": "object",
+      "properties": {
+        "top": {
+          "description": "Top margin in mm.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/nonNegativeLengthMm"
+        },
+        "right": {
+          "description": "Right margin in mm.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/nonNegativeLengthMm"
+        },
+        "bottom": {
+          "description": "Bottom margin in mm.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/nonNegativeLengthMm"
+        },
+        "left": {
+          "description": "Left margin in mm.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/nonNegativeLengthMm"
+        }
+      },
+      "required": [
+        "top",
+        "right",
+        "bottom",
+        "left"
+      ],
+      "additionalProperties": false
+    },
+    "tiling": {
+      "title": "Tiling",
+      "description": "Tiling mode. overlapMm is required when mode = 'tiled' and forbidden when mode = 'none' (schema-enforced, D2P-STR-001).",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "description": "'none': a single sheet; 'tiled': the layout is split over a grid of sheets.",
+          "type": "string",
+          "enum": [
+            "none",
+            "tiled"
+          ]
+        },
+        "overlapMm": {
+          "description": "Overlap between adjacent tiles in mm.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/nonNegativeLengthMm"
+        },
+        "registrationMarks": {
+          "description": "True if registration marks are printed for assembling the tiles.",
+          "type": "boolean"
+        },
+        "sheetLabels": {
+          "description": "True if sheet labels (A1, A2, ..., B1, ...) are printed.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "mode",
+        "registrationMarks",
+        "sheetLabels"
+      ],
+      "additionalProperties": false,
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "tiled"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "overlapMm": true
+        },
+        "required": [
+          "overlapMm"
+        ]
+      },
+      "else": {
+        "properties": {
+          "overlapMm": false
+        }
+      }
+    },
+    "calibration": {
+      "title": "Calibration",
+      "description": "Control square used to verify the printed scale.",
+      "type": "object",
+      "properties": {
+        "controlSquareMm": {
+          "description": "Edge length of the control square in mm; always 100.",
+          "type": "number",
+          "const": 100
+        },
+        "placement": {
+          "description": "Whether the control square is printed on every sheet or on the first sheet only.",
+          "type": "string",
+          "enum": [
+            "every-sheet",
+            "first-sheet"
+          ]
+        }
+      },
+      "required": [
+        "controlSquareMm",
+        "placement"
+      ],
+      "additionalProperties": false
+    },
+    "printNotice": {
+      "title": "Print notice",
+      "description": "Text printed on every sheet. It MUST instruct printing at 100 % / actual size.",
+      "type": "object",
+      "properties": {
+        "text": {
+          "description": "Notice text (NFC-normalized).",
+          "type": "string",
+          "minLength": 1
+        },
+        "locale": {
+          "description": "BCP 47 language tag of the notice text.",
+          "type": "string",
+          "pattern": "^[A-Za-z]{2,8}(-[A-Za-z0-9]{1,8})*$"
+        }
+      },
+      "required": [
+        "text",
+        "locale"
+      ],
+      "additionalProperties": false
+    },
+    "printConformance": {
+      "title": "Print conformance claim",
+      "description": "The conformance profile and the cumulative level (parse < geometry < print) the producer claims.",
+      "type": "object",
+      "properties": {
+        "profileId": {
+          "description": "Conformance profile; always d2p:print-v1.",
+          "type": "string",
+          "const": "d2p:print-v1"
+        },
+        "level": {
+          "description": "Claimed level of d2p:print-v1.",
+          "type": "string",
+          "enum": [
+            "parse",
+            "geometry",
+            "print"
+          ]
+        }
+      },
+      "required": [
+        "profileId",
+        "level"
+      ],
+      "additionalProperties": false
+    },
+    "printProvenance": {
+      "title": "Print provenance",
+      "description": "Software that generated the job and the digest of the embedded scene.",
+      "type": "object",
+      "properties": {
+        "generator": {
+          "description": "Name and version of the generating software.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/softwareInfo"
+        },
+        "sceneDigest": {
+          "description": "MUST equal the embedded scene's resultDigest (D2P-REF-011 when it differs).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+        }
+      },
+      "required": [
+        "generator",
+        "sceneDigest"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

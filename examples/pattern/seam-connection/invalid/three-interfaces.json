@@ -1,0 +1,13 @@
+{
+  "id": "seam-side-left",
+  "interfaceIds": [
+    "si-a",
+    "si-b",
+    "si-c"
+  ],
+  "type": "d2p:stitched",
+  "active": true,
+  "ease": {
+    "mode": "none"
+  }
+}

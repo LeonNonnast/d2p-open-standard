@@ -1,0 +1,24 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.registry-duplicate-definition",
+  "level": "referential",
+  "title": "A registry that defines the same definitionId twice with different meanings is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/registry-duplicate-definition/measurement-definition-registry.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-005",
+        "documentPath": "conformance/referential/registry-duplicate-definition/measurement-definition-registry.json",
+        "instancePath": "/definitions/1/definitionId"
+      }
+    ]
+  },
+  "description": "The second entry redefines the body chest girth as a flat width. A definition is the unique kind of a measurement (design decision ADR-011 §2), so a definitionId occurs once per registry; which duplicate a consumer picked would decide D2P-SEM-071."
+}

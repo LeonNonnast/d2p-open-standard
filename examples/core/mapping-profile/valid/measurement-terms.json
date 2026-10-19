@@ -1,0 +1,27 @@
+{
+  "documentType": "d2p:mapping-profile",
+  "schemaVersion": "1.0.0",
+  "mappingId": "org.example.atelier:house-measurement-terms",
+  "version": "1.0.0",
+  "title": "Example Atelier house measurement terms (fictitious)",
+  "description": "Maps the standard measurement definitions to the names a fictitious atelier uses in its own size charts. Illustrative only.",
+  "system": "Example Atelier size charts",
+  "systemVersion": "2026",
+  "provenance": {
+    "publisher": "Example Atelier (fictitious)",
+    "uri": "https://example.org/atelier/size-charts"
+  },
+  "entries": [
+    {
+      "d2pTerm": "d2p:body.chest-girth",
+      "relation": "exact",
+      "externalTerm": "Chest"
+    },
+    {
+      "d2pTerm": "d2p:garment.chest-width-flat",
+      "relation": "close",
+      "externalTerm": "Pit to pit",
+      "note": "Measured 25 mm below the armhole in the atelier's charts."
+    }
+  ]
+}

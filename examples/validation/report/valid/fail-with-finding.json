@@ -1,0 +1,58 @@
+{
+  "documentType": "d2p:validation-report",
+  "schemaVersion": "1.0.0",
+  "reportId": "vrp_example-fail",
+  "createdAt": "2026-01-02T00:00:00Z",
+  "targetRefs": [
+    {
+      "artifactId": "art_golden-tshirt-pattern",
+      "revisionId": "rev_golden-tshirt-pattern-r1"
+    }
+  ],
+  "purpose": "sample-cut",
+  "profile": {
+    "id": "d2p:sample-cut",
+    "version": "1.0.0"
+  },
+  "inputDigests": [
+    {
+      "role": "pattern",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-pattern",
+        "revisionId": "rev_golden-tshirt-pattern-r1"
+      },
+      "digest": "sha256:4a2e893957f71af95e18d20d4a1e429606d3b3830b6e1ce6926d524a0c841bfa"
+    },
+    {
+      "role": "validation-profile",
+      "id": {
+        "id": "d2p:sample-cut",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:15e8745fcd982a6d1b1ea6c16ba800aa33647b476972e732435977eb841a39d1"
+    }
+  ],
+  "status": "completed",
+  "result": "fail",
+  "findings": [
+    {
+      "findingId": "f-1",
+      "ruleId": "d2p:contour-closed",
+      "ruleVersion": "1.0.0",
+      "code": "D2P-SEM-010",
+      "severity": "error",
+      "message": "Contour 'front-outer' is not closed: the last edge does not end at the start of the first edge.",
+      "elementRefs": [
+        {
+          "artifactId": "art_golden-tshirt-pattern",
+          "revisionId": "rev_golden-tshirt-pattern-r1",
+          "elementId": "front-outer",
+          "elementType": "d2p:contour"
+        }
+      ],
+      "visibility": "general",
+      "recommendation": "Connect the end point of edge 'front-side-right' to the start point of edge 'front-hem'."
+    }
+  ],
+  "resultDigest": "sha256:382a6cdcb21af8c1b4d731f8eb01a4404b510150aa9cd180641249f4d68a090a"
+}

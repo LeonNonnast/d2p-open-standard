@@ -1,0 +1,5 @@
+{
+  "code": "D2P-STR-001",
+  "severity": "fatal",
+  "message": "Severity outside the closed enum."
+}

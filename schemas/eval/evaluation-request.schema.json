@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/eval/evaluation-request.schema.json",
+  "title": "Evaluation request",
+  "description": "Request to evaluate one pinned pattern revision for an optional size, measurement profile and material/fit configuration (design decisions ADR-006, ADR-011 §3, ADR-017). Every input is a pinned artifact reference; individual measurement values are never inlined but referenced, and each reference is authorized individually by the implementation. Conditions enforced by this schema: 'sizeKey' requires 'sizeSystemRef'; 'requestedOutputs' containing 'validation-report' requires 'validationProfile'; containing 'fit-evaluation-report' requires 'fitProfileRef' and 'garmentMeasurementSpecRef'.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator of an evaluation request.",
+      "const": "d2p:evaluation-request"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "requestId": {
+      "description": "Own ID of this request (prefix 'erq').",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/evaluationRequestId"
+    },
+    "patternRef": {
+      "description": "Pinned pattern revision to evaluate.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+    },
+    "evaluatorProfile": {
+      "description": "Evaluator profile to use. Informative: evaluator profiles are identified by ID and version only and are not digested in 1.0.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+    },
+    "gradingRuleSetRef": {
+      "description": "Pinned grading rule set. When present, its measurement-source rules decide where each measurement input of the pattern takes its value from.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+    },
+    "sizeSystemRef": {
+      "description": "Pinned size system that resolves 'sizeKey'.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+    },
+    "bodyMeasurementProfileRef": {
+      "description": "Pinned body measurement profile used when no size entry provides a value for a measurement input.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+    },
+    "fitProfileRef": {
+      "description": "Pinned fit profile. Required when 'requestedOutputs' contains 'fit-evaluation-report'.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+    },
+    "garmentMeasurementSpecRef": {
+      "description": "Pinned garment measurement specification whose targets define the 'measurement-report' entries. Required when 'requestedOutputs' contains 'fit-evaluation-report'.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+    },
+    "sizeKey": {
+      "description": "Size to evaluate, resolved only together with 'sizeSystemRef' (a size label alone is never a reference).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+    },
+    "configurationKey": {
+      "description": "Key naming the material/fit configuration of this request. Inside fixtures it is declared by the fixture manifest's 'configurations'.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+    },
+    "materialAssumptions": {
+      "description": "Inline material assumptions for this evaluation (declared, not tested).",
+      "$ref": "https://d2p.nonnast.dev/schemas/measurement/fit-profile.schema.json#/$defs/materialAssumptions"
+    },
+    "toleranceProfile": {
+      "description": "Tolerance profile (ID and version) used to judge the results.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+    },
+    "validationProfile": {
+      "description": "Validation profile (ID and version) for the requested validation report. Required when 'requestedOutputs' contains 'validation-report'.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+    },
+    "requestedOutputs": {
+      "description": "Outputs the evaluation is asked to produce, as a set.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/requestedOutput"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "contentDigest": {
+      "description": "Optional digest of this whole document in canonical form, excluding 'contentDigest' itself (digest profile d2p-digest-v1).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks keyed by extension namespace.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "requestId",
+    "patternRef",
+    "evaluatorProfile",
+    "requestedOutputs"
+  ],
+  "additionalProperties": false,
+  "dependentRequired": {
+    "sizeKey": [
+      "sizeSystemRef"
+    ]
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "requestedOutputs": {
+            "type": "array",
+            "contains": {
+              "const": "validation-report"
+            }
+          }
+        },
+        "required": [
+          "requestedOutputs"
+        ]
+      },
+      "then": {
+        "properties": {
+          "validationProfile": true
+        },
+        "required": [
+          "validationProfile"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "requestedOutputs": {
+            "type": "array",
+            "contains": {
+              "const": "fit-evaluation-report"
+            }
+          }
+        },
+        "required": [
+          "requestedOutputs"
+        ]
+      },
+      "then": {
+        "properties": {
+          "fitProfileRef": true,
+          "garmentMeasurementSpecRef": true
+        },
+        "required": [
+          "fitProfileRef",
+          "garmentMeasurementSpecRef"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "requestedOutput": {
+      "title": "Requested output",
+      "description": "One output kind an evaluation request can ask for: 'geometry-snapshot' (a geometry snapshot, always produced on success), 'measurement-report' (the evaluation's 'measurements' entries for the applicable garment measurement targets), 'fit-evaluation-report' (a fit evaluation report referencing the evaluation) or 'validation-report' (a validation report against 'validationProfile').",
+      "type": "string",
+      "enum": [
+        "geometry-snapshot",
+        "measurement-report",
+        "fit-evaluation-report",
+        "validation-report"
+      ]
+    }
+  }
+}

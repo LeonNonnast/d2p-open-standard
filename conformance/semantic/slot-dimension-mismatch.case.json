@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.slot-dimension-mismatch",
+  "level": "semantic",
+  "title": "The sine of a length is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/slot-dimension-mismatch/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-002",
+        "documentPath": "conformance/semantic/slot-dimension-mismatch/pattern.json",
+        "instancePath": "/parameters/5/expr"
+      }
+    ]
+  }
+}

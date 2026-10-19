@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "structural.unknown-document-type",
+  "level": "structural",
+  "title": "An unregistered documentType is rejected",
+  "documents": [
+    {
+      "path": "conformance/structural/unknown-document-type/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-002",
+        "documentPath": "conformance/structural/unknown-document-type/pattern.json",
+        "instancePath": "/documentType"
+      }
+    ]
+  }
+}

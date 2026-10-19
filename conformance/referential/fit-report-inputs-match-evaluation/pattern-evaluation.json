@@ -1,0 +1,88 @@
+{
+  "documentType": "d2p:pattern-evaluation",
+  "schemaVersion": "1.0.0",
+  "evaluationId": "pev_conformance-square-fit",
+  "createdAt": "2026-01-02T00:00:00Z",
+  "request": {
+    "documentType": "d2p:evaluation-request",
+    "schemaVersion": "1.0.0",
+    "requestId": "erq_conformance-square-size-a",
+    "patternRef": {
+      "artifactId": "art_conformance-square",
+      "revisionId": "rev_conformance-square-r1"
+    },
+    "evaluatorProfile": {
+      "id": "org.example.conformance:analytic",
+      "version": "1.0.0"
+    },
+    "sizeSystemRef": {
+      "artifactId": "art_conformance-size-system",
+      "revisionId": "rev_conformance-size-system-r1"
+    },
+    "fitProfileRef": {
+      "artifactId": "art_conformance-fit-profile",
+      "revisionId": "rev_conformance-fit-profile-r1"
+    },
+    "sizeKey": "size-a",
+    "requestedOutputs": [
+      "geometry-snapshot"
+    ],
+    "garmentMeasurementSpecRef": {
+      "artifactId": "art_conformance-garment-spec",
+      "revisionId": "rev_conformance-garment-spec-r1"
+    }
+  },
+  "evaluator": {
+    "engineId": "conformance-kit",
+    "engineVersion": "1.0.0",
+    "algorithmProfileVersion": "1.0.0",
+    "evaluatorProfile": {
+      "id": "org.example.conformance:analytic",
+      "version": "1.0.0"
+    }
+  },
+  "featureSetVersion": "1.0.0",
+  "inputDigests": [
+    {
+      "role": "fit-profile",
+      "artifactRef": {
+        "artifactId": "art_conformance-fit-profile",
+        "revisionId": "rev_conformance-fit-profile-r1"
+      },
+      "digest": "sha256:36c4cc12a427358ffde1daf608ea40aee48245c43b33eb7c8b600b1d140d7086"
+    },
+    {
+      "role": "garment-measurement-spec",
+      "artifactRef": {
+        "artifactId": "art_conformance-garment-spec",
+        "revisionId": "rev_conformance-garment-spec-r1"
+      },
+      "digest": "sha256:4e51d4ba020b62d7ca865fa40fb6c5ae2a4dc6a48f9ef95e1a7f017fec1e8654"
+    },
+    {
+      "role": "pattern",
+      "artifactRef": {
+        "artifactId": "art_conformance-square",
+        "revisionId": "rev_conformance-square-r1"
+      },
+      "digest": "sha256:cd6d59cfc0fe10306bf06108ff7ec67f9f78c41def45565ec8b5b567e755576f"
+    },
+    {
+      "role": "size-system",
+      "artifactRef": {
+        "artifactId": "art_conformance-size-system",
+        "revisionId": "rev_conformance-size-system-r1"
+      },
+      "digest": "sha256:bcab074ca2e95c9c7a5e2843c0c93b94a738209a6cccc66b8b3a097925fe5434"
+    }
+  ],
+  "status": "succeeded",
+  "constraintStatus": "solved",
+  "snapshotRef": {
+    "id": "snp_conformance-square",
+    "digest": "sha256:c645d15b5dc340ad6ee2660062486986c2120bfba102fdc9bc91bf6565d9a658"
+  },
+  "measurements": [],
+  "diagnostics": [],
+  "resultDigest": "sha256:4e2dcfcb3070dac66e64014f4d6595392d9ee681e38c766e5277613786d84ebd"
+}

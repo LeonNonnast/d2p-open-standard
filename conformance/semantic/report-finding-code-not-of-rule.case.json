@@ -1,0 +1,38 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.report-finding-code-not-of-rule",
+  "level": "semantic",
+  "title": "A report whose finding carries a code its rule does not list is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/report-finding-code-not-of-rule/validation-report.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/report-finding-code-not-of-rule/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/report-finding-code-not-of-rule/validation-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/report-finding-code-not-of-rule/validation-rule.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-103",
+        "documentPath": "conformance/semantic/report-finding-code-not-of-rule/validation-report.json",
+        "instancePath": "/findings/0/code"
+      }
+    ]
+  },
+  "testIds": [
+    "VAL-007"
+  ]
+}

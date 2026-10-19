@@ -1,0 +1,56 @@
+{
+  "documentType": "d2p:command",
+  "schemaVersion": "1.0.0",
+  "commandId": "cmd_example-create-size-system",
+  "idempotencyKey": "example-create-size-system",
+  "type": "d2p:artifact.create",
+  "target": {
+    "artifactId": "art_example-size-system",
+    "branch": "main"
+  },
+  "payload": {
+    "artifactType": "com.example.atelier:mood-board",
+    "name": "Example synthetic size system",
+    "dataClassification": "public",
+    "initialRevisionId": "rev_example-size-system-r1",
+    "content": {
+      "documentType": "d2p:size-system",
+      "schemaVersion": "1.0.0",
+      "artifactId": "art_example-size-system",
+      "revisionId": "rev_example-size-system-r1",
+      "name": "Example synthetic size system",
+      "issuer": {
+        "kind": "synthetic",
+        "name": "Example"
+      },
+      "definitionRegistries": [
+        {
+          "id": "d2p:measurement-definitions",
+          "version": "1.0.0"
+        }
+      ],
+      "sizes": [
+        {
+          "sizeKey": "m",
+          "label": "M",
+          "ordinal": 3,
+          "measurements": [
+            {
+              "definitionId": "d2p:body.chest-girth",
+              "value": 960,
+              "unit": "mm",
+              "method": "size-table",
+              "source": {
+                "kind": "synthetic"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "actorContext": {
+    "actorPrincipalId": "prn_example-user"
+  },
+  "issuedAt": "2026-01-01T00:00:00Z"
+}

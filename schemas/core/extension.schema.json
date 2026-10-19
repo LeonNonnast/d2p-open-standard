@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/core/extension.schema.json",
+  "title": "D2P Extensions",
+  "description": "Extension mechanism: an 'extensions' object maps reverse-DNS extension namespaces to extension blocks. Every top-level document and every entity with an 'id' MAY carry an optional 'extensions' member; value objects do not. An extension MUST NOT change the meaning of standard members, and consumers MUST NOT silently drop or reinterpret extension content. The root accepts an extensions object.",
+  "$ref": "#/$defs/extensions",
+  "$defs": {
+    "extensions": {
+      "title": "Extensions",
+      "description": "Map from extension namespace to extension block. The reserved namespace 'd2p' cannot appear as a key.",
+      "type": "object",
+      "propertyNames": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionNamespace"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/extensionBlock"
+      }
+    },
+    "extensionBlock": {
+      "title": "Extension block",
+      "description": "Data of one extension namespace on the carrying object.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "provenance",
+        "onUnknown",
+        "data"
+      ],
+      "properties": {
+        "version": {
+          "description": "SemVer version of the extension.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+        },
+        "provenance": {
+          "description": "Who publishes the extension and where it is specified.",
+          "$ref": "#/$defs/provenance"
+        },
+        "onUnknown": {
+          "description": "Required behaviour of consumers that do not understand this namespace.",
+          "$ref": "#/$defs/onUnknown"
+        },
+        "data": {
+          "description": "Extension-defined content (open object, preserved verbatim by consumers that do not understand it).",
+          "type": "object"
+        }
+      }
+    },
+    "provenance": {
+      "title": "Provenance",
+      "description": "Publisher and references of an extension, feature capability or measurement mapping.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "publisher"
+      ],
+      "properties": {
+        "publisher": {
+          "description": "Name of the publishing organisation or project (never a private individual's personal data).",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "uri": {
+          "description": "Home page or registry entry of the extension.",
+          "type": "string",
+          "format": "uri"
+        },
+        "specification": {
+          "description": "URI of the extension's specification.",
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "onUnknown": {
+      "title": "Unknown-extension behaviour",
+      "description": "'ignore': process normally and preserve the block verbatim when writing back. 'read-only': display and validate, but MUST NOT modify the carrying object or its descendants (D2P-SEM-007, warning). 'reject': refuse the document (D2P-SEM-006, error).",
+      "type": "string",
+      "enum": [
+        "ignore",
+        "read-only",
+        "reject"
+      ]
+    }
+  }
+}

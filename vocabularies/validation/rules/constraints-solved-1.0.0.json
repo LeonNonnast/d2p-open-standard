@@ -1,0 +1,20 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:constraints-solved",
+  "version": "1.0.0",
+  "title": "Constraints are solved",
+  "description": "The evaluator solved the constraint system: it is neither under-constrained nor over-constrained, and the solver converged.",
+  "layer": "derived",
+  "targetDocumentTypes": [
+    "d2p:pattern-evaluation"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-EVL-001",
+    "D2P-EVL-002",
+    "D2P-EVL-003"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": true
+}

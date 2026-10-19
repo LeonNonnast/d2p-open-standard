@@ -1,0 +1,51 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.print-output-profile-violated",
+  "level": "semantic",
+  "title": "A home-print-a4 job on A3 media without tiling, registration marks and sheet labels is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/print-output-profile-violated/print-job-spec.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/print-output-profile-violated/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/print-output-profile-violated/pattern-evaluation.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/print-output-profile-violated/geometry-snapshot.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-095",
+        "documentPath": "conformance/semantic/print-output-profile-violated/print-job-spec.json",
+        "instancePath": "/pageLayout/media/name"
+      },
+      {
+        "code": "D2P-SEM-095",
+        "documentPath": "conformance/semantic/print-output-profile-violated/print-job-spec.json",
+        "instancePath": "/pageLayout/tiling/mode"
+      },
+      {
+        "code": "D2P-SEM-095",
+        "documentPath": "conformance/semantic/print-output-profile-violated/print-job-spec.json",
+        "instancePath": "/pageLayout/tiling/registrationMarks"
+      },
+      {
+        "code": "D2P-SEM-095",
+        "documentPath": "conformance/semantic/print-output-profile-violated/print-job-spec.json",
+        "instancePath": "/pageLayout/tiling/sheetLabels"
+      }
+    ]
+  },
+  "description": "The output profile d2p:home-print-a4 binds A4 media, tiled output with overlap, registration marks, sheet labels and piece labels (catalog §3.7)."
+}

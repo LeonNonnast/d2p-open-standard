@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.unresolved-cut-instance",
+  "level": "referential",
+  "title": "A seam interface naming an undeclared cut instance is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/unresolved-cut-instance/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-010",
+        "documentPath": "conformance/referential/unresolved-cut-instance/pattern.json",
+        "instancePath": "/seamInterfaces/4/cutInstanceKey"
+      }
+    ]
+  }
+}

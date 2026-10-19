@@ -20,7 +20,17 @@ const EXAMPLE_PATTERN = /^examples\/(.+)\/([^/]+)\/(valid|invalid)\/[^/]+\.json$
  * 4. every example under `examples/` maps to a schema; `valid/` examples
  *    must pass and `invalid/` examples must fail;
  * 5. every schema under `schemas/` has at least one valid example
- *    (a missing negative example is reported as a warning).
+ *    (a missing negative example is reported as a warning);
+ * 6. every data file the catalog names (§3.0 tooling requirement) is valid
+ *    against the schema selected by its `documentType`: every JSON file under
+ *    `vocabularies/`, `tolerance-profiles/` and `mappings/`, every fixture `manifest.json`,
+ *    `inputs/**` and `expected/**` file under `fixtures/`, and every
+ *    `conformance/**\/*.case.json`; an unknown `documentType` is an error.
+ *    Vocabulary files must be named `<local-name>-<version>.json` after their
+ *    ID. Fixture `negative/` directories and conformance case data are
+ *    deliberately invalid in places and are left to the conformance cases;
+ * 7. a repository with the schema catalog also has the standard-gap analysis
+ *    `specifications/gap-analysis.md` (catalog §3.0, test OSS-002).
  *
  * All problems are collected; nothing stops at the first error.
  *
@@ -141,6 +151,44 @@ export async function validateRepository(root) {
     }
   }
 
+  // Rule 6: data files by documentType (catalog §3.0 tooling requirement).
+  const validatorByType = new Map();
+  for (const [file, fn] of validators) {
+    const schema = fn?.schema;
+    const documentType = schema?.properties?.documentType?.const;
+    if (file.startsWith("schemas/") && typeof documentType === "string") validatorByType.set(documentType, { file, fn });
+  }
+  let dataFilesChecked = 0;
+  for (const file of relFiles) {
+    if (!isCatalogDataFile(file)) continue;
+    const parsed = await readJson(path.join(root, file));
+    if (!parsed.ok) {
+      error(file, parsed.error);
+      continue;
+    }
+    dataFilesChecked += 1;
+    const doc = parsed.value;
+    const documentType = doc !== null && typeof doc === "object" && !Array.isArray(doc) ? doc.documentType : undefined;
+    const entry = validatorByType.get(documentType);
+    if (!entry) {
+      error(file, `unknown documentType ${JSON.stringify(documentType)}: no schema of schemas/ declares it`);
+      continue;
+    }
+    if (!entry.fn(doc)) {
+      for (const msg of formatAjvErrors(entry.fn.errors)) error(file, `not valid against ${entry.file} (documentType ${documentType}): ${msg}`);
+      continue;
+    }
+    const expectedName = vocabularyFileName(doc);
+    if (expectedName && path.posix.basename(file) !== expectedName) {
+      error(file, `vocabulary file must be named "${expectedName}" after its ID and version (catalog §3.0)`);
+    }
+  }
+
+  // Rule 7: the standard-gap analysis accompanies the catalog.
+  if (relFileSet.has(CATALOG_FILE) && !relFileSet.has(GAP_ANALYSIS_FILE)) {
+    error(GAP_ANALYSIS_FILE, "the standard-gap analysis is missing (catalog §3.0, test OSS-002)");
+  }
+
   // Rule 5: example coverage for normative schemas.
   // Broken schemas are already reported above; only check compiled ones.
   for (const file of validators.keys()) {
@@ -157,10 +205,42 @@ export async function validateRepository(root) {
       schemaFiles: relFiles.filter((f) => f.endsWith(SCHEMA_SUFFIX)).length,
       schemasCompiled: validators.size,
       examplesChecked,
+      dataFilesChecked,
       errors: errors.length,
       warnings: warnings.length,
     },
   };
+}
+
+const CATALOG_FILE = "specifications/schema-catalog.md";
+const GAP_ANALYSIS_FILE = "specifications/gap-analysis.md";
+const VOCABULARY_ID_MEMBERS = {
+  "d2p:measurement-definition-registry": "registryId",
+  "d2p:validation-rule-definition": "ruleId",
+  "d2p:validation-profile": "profileId",
+  "d2p:tolerance-profile": "profileId",
+  "d2p:mapping-profile": "mappingId",
+};
+
+/** Files covered by the §3.0 tooling requirement (repository-relative POSIX paths). */
+export function isCatalogDataFile(file) {
+  if (!file.endsWith(".json")) return false;
+  if (file.startsWith("vocabularies/") || file.startsWith("tolerance-profiles/") || file.startsWith("mappings/")) return true;
+  if (file.startsWith("conformance/")) return file.endsWith(".case.json");
+  if (file.startsWith("fixtures/")) {
+    const parts = file.split("/");
+    if (parts.includes("negative")) return false;
+    return path.posix.basename(file) === "manifest.json" || parts.includes("inputs") || parts.includes("expected");
+  }
+  return false;
+}
+
+/** `<local-name>-<version>.json` for a vocabulary document with a qualified-name ID, else null. */
+function vocabularyFileName(doc) {
+  const member = VOCABULARY_ID_MEMBERS[doc.documentType];
+  if (!member || typeof doc[member] !== "string" || typeof doc.version !== "string") return null;
+  const local = doc[member].slice(doc[member].indexOf(":") + 1);
+  return `${local}-${doc.version}.json`;
 }
 
 function isAbsoluteUri(value) {

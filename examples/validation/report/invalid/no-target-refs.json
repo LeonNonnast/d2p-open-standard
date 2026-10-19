@@ -1,0 +1,49 @@
+{
+  "documentType": "d2p:validation-report",
+  "schemaVersion": "1.0.0",
+  "reportId": "vrp_golden-tshirt-r1-size-a-regular-woven-sample-cut",
+  "createdAt": "2026-01-02T00:00:00Z",
+  "targetRefs": [],
+  "derivedSubjectRefs": [
+    {
+      "id": "pev_golden-tshirt-r1-size-a-regular-woven",
+      "digest": "sha256:ea061a8a6c87f6e087bbcf3c99bf751f64f169c4d15217d7eee3947bfe348734"
+    }
+  ],
+  "purpose": "sample-cut",
+  "profile": {
+    "id": "d2p:sample-cut",
+    "version": "1.0.0"
+  },
+  "inputDigests": [
+    {
+      "role": "pattern",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-pattern",
+        "revisionId": "rev_golden-tshirt-pattern-r1"
+      },
+      "digest": "sha256:4a2e893957f71af95e18d20d4a1e429606d3b3830b6e1ce6926d524a0c841bfa"
+    },
+    {
+      "role": "validation-profile",
+      "id": {
+        "id": "d2p:sample-cut",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:15e8745fcd982a6d1b1ea6c16ba800aa33647b476972e732435977eb841a39d1"
+    }
+  ],
+  "status": "completed",
+  "result": "pass",
+  "findings": [],
+  "resultDigest": "sha256:b0b5bef20e7257bf51502f5bdfd12871b459ef551fc65f38b0eb1c4ac697b3a3",
+  "evaluator": {
+    "engineId": "golden-fixture",
+    "engineVersion": "1.0.0",
+    "algorithmProfileVersion": "1.0.0",
+    "evaluatorProfile": {
+      "id": "d2p:golden-fixture-analytic",
+      "version": "1.0.0"
+    }
+  }
+}

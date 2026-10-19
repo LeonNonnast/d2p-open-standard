@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.mapping-profile-unsorted",
+  "level": "referential",
+  "title": "A mapping profile whose entries are not sorted by d2pTerm is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/mapping-profile-unsorted/mapping-profile.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-014",
+        "documentPath": "conformance/referential/mapping-profile-unsorted/mapping-profile.json",
+        "instancePath": "/entries/1"
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "structural.unit-not-permitted",
+  "level": "structural",
+  "title": "A unit outside the canonical units is rejected",
+  "documents": [
+    {
+      "path": "conformance/structural/unit-not-permitted/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-012",
+        "documentPath": "conformance/structural/unit-not-permitted/pattern.json",
+        "instancePath": "/parameters/0/expr/unit"
+      },
+      {
+        "code": "D2P-STR-001",
+        "documentPath": "conformance/structural/unit-not-permitted/pattern.json"
+      }
+    ]
+  },
+  "description": "Standard 1.0 documents use millimetres and radians only."
+}

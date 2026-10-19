@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/validation/profile.schema.json",
+  "title": "Validation profile",
+  "description": "Vocabulary document selecting the rules, severities and waiver policy that apply for one purpose (design decision ADR-016). Identified by 'profileId' + 'version'. A finding's severity is the severity of its rule in the applied profile. Profile contents are initial vocabulary, not numeric norms.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator of a validation profile.",
+      "const": "d2p:validation-profile"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "profileId": {
+      "description": "Qualified name of the profile.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+    },
+    "version": {
+      "description": "Version of this profile, independent of the standard version.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+    },
+    "purpose": {
+      "description": "Purpose the profile is made for.",
+      "$ref": "#/$defs/validationPurpose"
+    },
+    "rules": {
+      "description": "Rules applied by the profile, sorted by 'ruleId'.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/profileRule"
+      }
+    },
+    "waiverPolicy": {
+      "description": "Whether and up to which severity findings may be waived under this profile.",
+      "$ref": "#/$defs/waiverPolicy"
+    },
+    "contentDigest": {
+      "description": "Optional digest of this whole document in canonical form, excluding 'contentDigest' itself.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks keyed by extension namespace.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "profileId",
+    "version",
+    "purpose",
+    "rules",
+    "waiverPolicy"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "validationPurpose": {
+      "title": "Validation purpose",
+      "description": "Purpose of a validation. 'draft-edit', '1to1-print' and 'sample-cut' correspond to the gate actions 'edit-draft', 'export-1to1' and 'cut-sample'; the other purposes have no 1.0 profile.",
+      "type": "string",
+      "enum": [
+        "draft-edit",
+        "1to1-print",
+        "sample-cut",
+        "product-release",
+        "manufacturing-release",
+        "package-publish",
+        "import-promote"
+      ]
+    },
+    "profileRule": {
+      "title": "Profile rule",
+      "description": "One rule applied by a profile, pinned by rule ID and version, with the severity its findings get under this profile.",
+      "type": "object",
+      "properties": {
+        "ruleId": {
+          "description": "Qualified name of the applied rule.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+        },
+        "ruleVersion": {
+          "description": "Version of the applied rule definition.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+        },
+        "severity": {
+          "description": "Severity of the rule's findings under this profile; overrides the registry default.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/diagnostic.schema.json#/$defs/severity"
+        },
+        "parameters": {
+          "description": "Open rule parameters, checked against the rule's 'parametersSchema' at the semantic level.",
+          "type": "object"
+        }
+      },
+      "required": [
+        "ruleId",
+        "ruleVersion",
+        "severity"
+      ],
+      "additionalProperties": false
+    },
+    "waiverPolicy": {
+      "title": "Waiver policy",
+      "description": "Waiver rules of a profile. Findings of severity 'critical' are never waivable.",
+      "type": "object",
+      "properties": {
+        "allowed": {
+          "description": "True if waivers may be applied under this profile.",
+          "type": "boolean"
+        },
+        "maxSeverity": {
+          "description": "Highest finding severity a waiver may cover.",
+          "type": "string",
+          "enum": [
+            "warning",
+            "error"
+          ]
+        }
+      },
+      "required": [
+        "allowed",
+        "maxSeverity"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

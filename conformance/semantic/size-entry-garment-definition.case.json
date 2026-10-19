@@ -1,0 +1,28 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.size-entry-garment-definition",
+  "level": "semantic",
+  "title": "A size entry that holds a garment measurement is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/size-entry-garment-definition/size-system.json",
+      "role": "subject"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-075",
+        "documentPath": "conformance/semantic/size-entry-garment-definition/size-system.json",
+        "instancePath": "/sizes/1/measurements/0/definitionId"
+      }
+    ]
+  },
+  "description": "A size system maps labels to body measurements; a finished garment measurement in a size entry is rejected."
+}

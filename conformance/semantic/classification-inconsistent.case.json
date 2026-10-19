@@ -1,0 +1,27 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.classification-inconsistent",
+  "level": "semantic",
+  "title": "A measurement profile of an individual that is not classified as personal data is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/classification-inconsistent/body-measurement-profile.json",
+      "role": "subject"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-051",
+        "documentPath": "conformance/semantic/classification-inconsistent/body-measurement-profile.json",
+        "instancePath": "/dataClassification"
+      }
+    ]
+  }
+}

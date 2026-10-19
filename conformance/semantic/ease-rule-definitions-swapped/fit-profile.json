@@ -1,0 +1,27 @@
+{
+  "documentType": "d2p:fit-profile",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_conformance-fit-profile",
+  "revisionId": "rev_conformance-fit-profile-r1",
+  "name": "Conformance kit fit profile (synthetic)",
+  "intent": "d2p:regular",
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.0.0"
+    }
+  ],
+  "easeRules": [
+    {
+      "id": "ease-chest",
+      "bodyDefinitionId": "d2p:garment.chest-girth",
+      "garmentDefinitionId": "d2p:body.chest-girth",
+      "easeType": "wearing",
+      "amount": {
+        "value": 80,
+        "unit": "mm"
+      },
+      "priority": 0
+    }
+  ]
+}

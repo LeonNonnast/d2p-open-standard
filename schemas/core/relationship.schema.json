@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/core/relationship.schema.json",
+  "title": "D2P Relationship",
+  "description": "Relationship record (document type 'd2p:relationship') from a project, product or artifact revision to a pinned artifact revision (design decision ADR-001).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "relationshipId",
+    "relationshipType",
+    "source",
+    "targetRef"
+  ],
+  "properties": {
+    "documentType": {
+      "description": "Document type; always 'd2p:relationship'.",
+      "type": "string",
+      "const": "d2p:relationship"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "relationshipId": {
+      "description": "Own ID of the relationship ('rel_').",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/relationshipId"
+    },
+    "relationshipType": {
+      "description": "Kind of relationship.",
+      "$ref": "#/$defs/relationshipType"
+    },
+    "source": {
+      "description": "Origin of the relationship.",
+      "$ref": "#/$defs/relationshipSource"
+    },
+    "targetRef": {
+      "description": "Pinned target artifact revision.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+    },
+    "role": {
+      "description": "Optional role of the target in the relationship. Standard 1.0 defines no d2p: relationship roles, so a role is an extension name (for example 'com.example.atelier:base-pattern'); a d2p: role is a schema error until a minor release registers one.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+    },
+    "createdAt": {
+      "description": "When the relationship was created (UTC).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp"
+    },
+    "contentDigest": {
+      "description": "Optional digest of this whole document, excluding this member (digest profile d2p-digest-v1).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "$defs": {
+    "relationshipSource": {
+      "title": "Relationship source",
+      "description": "Origin of a relationship: a project, a product or a pinned artifact revision. 'revisionId' is required when kind = artifact and forbidden otherwise (schema-enforced).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "id"
+      ],
+      "properties": {
+        "kind": {
+          "description": "Kind of the source.",
+          "type": "string",
+          "enum": [
+            "project",
+            "product",
+            "artifact"
+          ]
+        },
+        "id": {
+          "description": "Global ID of the source (projectId, productId or artifactId).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/globalId"
+        },
+        "revisionId": {
+          "description": "Pinned revision of the source artifact; only for kind = artifact.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/revisionId"
+        }
+      },
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "artifact"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "revisionId"
+        ],
+        "properties": {
+          "revisionId": true
+        }
+      },
+      "else": {
+        "properties": {
+          "revisionId": false
+        }
+      }
+    },
+    "relationshipType": {
+      "title": "Relationship type",
+      "description": "Kind of relationship (extensible vocabulary): 'd2p:contains' (project/product to artifact), 'd2p:depends-on', 'd2p:derived-from', 'd2p:variant-of', or an extension name.",
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "d2p:contains",
+            "d2p:depends-on",
+            "d2p:derived-from",
+            "d2p:variant-of"
+          ]
+        },
+        {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+        }
+      ]
+    }
+  }
+}

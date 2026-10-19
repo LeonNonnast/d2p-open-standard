@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/core/artifact.schema.json",
+  "title": "D2P Artifact",
+  "description": "Artifact metadata (document type 'd2p:artifact'). An artifact is a unit of versioned content; its content lives in immutable revisions (design decisions ADR-001, ADR-002, ADR-003).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "artifactId",
+    "artifactType",
+    "name",
+    "dataClassification"
+  ],
+  "properties": {
+    "documentType": {
+      "description": "Document type; always 'd2p:artifact'.",
+      "type": "string",
+      "const": "d2p:artifact"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "artifactId": {
+      "description": "Own ID of the artifact ('art_').",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/artifactId"
+    },
+    "artifactType": {
+      "description": "Type of the artifact's content documents.",
+      "$ref": "#/$defs/artifactType"
+    },
+    "name": {
+      "description": "Name of the artifact.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "dataClassification": {
+      "description": "Policy classification of the artifact's data. Artifact metadata and content MUST agree (D2P-SEM-051).",
+      "$ref": "#/$defs/dataClassification"
+    },
+    "description": {
+      "description": "Free-text description of the artifact.",
+      "type": "string",
+      "maxLength": 4000
+    },
+    "createdAt": {
+      "description": "When the artifact was created (UTC).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp"
+    },
+    "createdBy": {
+      "description": "Actor that created the artifact.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/actor"
+    },
+    "contentDigest": {
+      "description": "Optional digest of this whole document, excluding this member (digest profile d2p-digest-v1).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "$defs": {
+    "artifactType": {
+      "title": "Artifact type",
+      "description": "Type of an artifact (extensible vocabulary): one of the 'd2p:' artifact content types of this release or an extension name.",
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "d2p:pattern",
+            "d2p:grading-rule-set",
+            "d2p:body-measurement-profile",
+            "d2p:size-system",
+            "d2p:garment-measurement-spec",
+            "d2p:fit-profile"
+          ]
+        },
+        {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+        }
+      ]
+    },
+    "dataClassification": {
+      "title": "Data classification",
+      "description": "Policy tag for data handling (design decision ADR-013). Content classified 'personal' or 'sensitive-personal' never enters export documents (D2P-SEM-050).",
+      "type": "string",
+      "enum": [
+        "public",
+        "internal",
+        "confidential",
+        "personal",
+        "sensitive-personal"
+      ]
+    }
+  }
+}

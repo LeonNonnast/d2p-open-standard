@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/core/mapping-profile.schema.json",
+  "title": "Mapping profile",
+  "description": "Vocabulary document: a versioned mapping between D2P identifiers or vocabulary terms and the terms of one edition of an external ontology, standard or industry convention (design decision ADR-005). A mapping translates to and from the canonical model; it never replaces or redefines a D2P term, and it is informative: a consumer never resolves a reference through it. It declares its provenance and carries no copied normative text or tables of the external system. Identified by 'mappingId' + 'version'; files live at mappings/<local-name>-<version>.json.",
+  "$comment": "Schema catalog section 3.1. Not schema-enforced: entries sorted by d2pTerm, then externalTerm (UTF-16 code-unit order); entry members are informative and not resolved by the referential level.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator of a mapping profile.",
+      "const": "d2p:mapping-profile"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "mappingId": {
+      "description": "Qualified name of the mapping profile ('d2p:' for mappings published with the standard, an extension name for other publishers).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+    },
+    "version": {
+      "description": "Version of this mapping profile, independent of the standard version and of the external system's edition.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+    },
+    "title": {
+      "description": "Human-readable title of the mapping.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "description": "Scope of the mapping and known limits.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "system": {
+      "description": "Name of the external ontology, standard or convention.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "systemVersion": {
+      "description": "Edition or version of the external system the mapping refers to.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "provenance": {
+      "description": "Who published the mapping and where it is specified.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/provenance"
+    },
+    "entries": {
+      "description": "Mapping entries, sorted by 'd2pTerm', then 'externalTerm'.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/mappingEntry"
+      }
+    },
+    "contentDigest": {
+      "description": "Optional digest of this whole document in canonical form, excluding 'contentDigest' itself.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks keyed by extension namespace.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "mappingId",
+    "version",
+    "title",
+    "system",
+    "systemVersion",
+    "provenance",
+    "entries"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "mappingEntry": {
+      "title": "Mapping entry",
+      "description": "One correspondence between a D2P term and a term of the external system.",
+      "type": "object",
+      "properties": {
+        "d2pTerm": {
+          "description": "The D2P side: an identifier (for example a measurement definitionId) or a vocabulary term (for example a feature type or layer role), as a qualified name.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+        },
+        "relation": {
+          "description": "How the external term relates to the D2P term, after the SKOS mapping properties: 'exact' (interchangeable), 'close' (interchangeable in some contexts), 'broader' (the external term is broader), 'narrower' (the external term is narrower), 'related' (associated, not interchangeable).",
+          "$ref": "#/$defs/mappingRelation"
+        },
+        "externalTerm": {
+          "description": "Identifier or name of the term in the external system (never copied normative text).",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "note": {
+          "description": "Free-text remark, for example on differences between the definitions.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        }
+      },
+      "required": [
+        "d2pTerm",
+        "relation",
+        "externalTerm"
+      ],
+      "additionalProperties": false
+    },
+    "mappingRelation": {
+      "title": "Mapping relation",
+      "description": "Relation of a mapping entry (SKOS exactMatch, closeMatch, broadMatch, narrowMatch, relatedMatch).",
+      "type": "string",
+      "enum": [
+        "exact",
+        "close",
+        "broader",
+        "narrower",
+        "related"
+      ]
+    }
+  }
+}

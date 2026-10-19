@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/validation/finding.schema.json",
+  "title": "Validation finding",
+  "description": "Fragment: one finding of a validation report (design decision ADR-016).",
+  "$ref": "#/$defs/finding",
+  "$defs": {
+    "finding": {
+      "title": "Finding",
+      "description": "One rule violation or observation reported by a validation report. Findings are sorted by 'ruleId', 'code', the first 'elementRefs' entry, the whole 'elementRefs' list, 'subjectRef.id', 'instancePath', 'message' and finally the canonical form of the finding without 'findingId'; 'findingId' is 'f-<1-based index>' in that order. Findings with visibility 'restricted' MUST NOT include raw personal measurements in 'message'; protected detail goes only into 'evidence'.",
+      "type": "object",
+      "properties": {
+        "findingId": {
+          "description": "ID of the finding within its report: 'f-<1-based index>' in finding order.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "ruleId": {
+          "description": "Rule that produced the finding.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+        },
+        "ruleVersion": {
+          "description": "Version of the rule that produced the finding.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+        },
+        "code": {
+          "description": "Diagnostic code of the condition found.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/diagnosticCode"
+        },
+        "severity": {
+          "description": "Severity of the finding: the severity of its rule in the applied profile.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/diagnostic.schema.json#/$defs/severity"
+        },
+        "message": {
+          "description": "Human-readable description of the finding. It MUST NOT contain raw personal measurement values.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "elementRefs": {
+          "description": "Elements the finding is about; each points into a revision listed in the report's 'targetRefs'. May be empty, and is sorted by artifactId, revisionId, elementId.",
+          "type": "array",
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/elementRef"
+          }
+        },
+        "subjectRef": {
+          "description": "Derived document the finding is about; one of the report's 'derivedSubjectRefs'.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef"
+        },
+        "instancePath": {
+          "description": "JSON Pointer (RFC 6901) into the subject document.",
+          "type": "string",
+          "format": "json-pointer"
+        },
+        "visibility": {
+          "description": "Who may see the finding's detail.",
+          "$ref": "#/$defs/findingVisibility"
+        },
+        "evidence": {
+          "description": "Open supporting data. A finding whose evidence contains protected data has visibility 'restricted'.",
+          "type": "object"
+        },
+        "recommendation": {
+          "description": "Suggested remedy.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        }
+      },
+      "required": [
+        "findingId",
+        "ruleId",
+        "ruleVersion",
+        "code",
+        "severity",
+        "message",
+        "elementRefs",
+        "visibility"
+      ],
+      "additionalProperties": false
+    },
+    "findingVisibility": {
+      "title": "Finding visibility",
+      "description": "'general': visible to everyone who may read the report; 'restricted': contains or relates to protected data and is shown only to authorized readers.",
+      "type": "string",
+      "enum": [
+        "general",
+        "restricted"
+      ]
+    }
+  }
+}

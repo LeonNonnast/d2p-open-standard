@@ -1,0 +1,8 @@
+{
+  "documentType": "d2p:artifact",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_fabric",
+  "artifactType": "d2p:material",
+  "name": "Fabric",
+  "dataClassification": "public"
+}

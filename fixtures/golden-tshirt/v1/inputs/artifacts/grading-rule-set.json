@@ -1,0 +1,13 @@
+{
+  "documentType": "d2p:artifact",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_golden-tshirt-grading-rule-set",
+  "artifactType": "d2p:grading-rule-set",
+  "name": "Golden T-Shirt grading rules",
+  "dataClassification": "public",
+  "createdAt": "2026-01-01T00:00:00Z",
+  "createdBy": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  }
+}

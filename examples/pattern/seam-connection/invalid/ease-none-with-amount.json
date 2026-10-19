@@ -1,0 +1,19 @@
+{
+  "id": "seam-side-left",
+  "interfaceIds": [
+    "si-front-side-left",
+    "si-back-side-left"
+  ],
+  "type": "d2p:stitched",
+  "active": true,
+  "ease": {
+    "mode": "none",
+    "amount": {
+      "expr": {
+        "op": "literal",
+        "value": 0,
+        "unit": "mm"
+      }
+    }
+  }
+}

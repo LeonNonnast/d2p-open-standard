@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "structural.newer-minor-version",
+  "level": "structural",
+  "title": "A document written against a newer minor release is rejected by a 1.0.0 consumer",
+  "documents": [
+    {
+      "path": "conformance/structural/newer-minor-version/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-003",
+        "documentPath": "conformance/structural/newer-minor-version/pattern.json",
+        "instancePath": "/schemaVersion"
+      }
+    ]
+  }
+}

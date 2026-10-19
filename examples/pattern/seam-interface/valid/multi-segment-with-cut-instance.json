@@ -1,0 +1,19 @@
+{
+  "id": "si-sleeve-left-cap",
+  "name": "Sleeve cap (left sleeve)",
+  "cutInstanceKey": "sleeve-left",
+  "segments": [
+    {
+      "edgeId": "sleeve-cap-back",
+      "from": 0,
+      "to": 1,
+      "direction": "forward"
+    },
+    {
+      "edgeId": "sleeve-cap-front",
+      "from": 0,
+      "to": 0.75,
+      "direction": "forward"
+    }
+  ]
+}

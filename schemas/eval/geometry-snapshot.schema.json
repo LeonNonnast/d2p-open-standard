@@ -1,0 +1,642 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/eval/geometry-snapshot.schema.json",
+  "title": "Geometry snapshot",
+  "description": "Immutable derived geometry of one evaluated pattern revision in canonical units (mm, rad), usable as a read-only portable fallback (design decision ADR-006.2). Geometry is held in piece coordinates once per piece; mirrored cut instances are a layout concern. Consumers without a required extension evaluator MUST display a conforming snapshot read-only and MUST NOT offer editing of the affected pattern. Generation rules: one contour path per contour, starting at the start point of the contour's first edge in edge direction; one segment per edge in contour order with the segment kind equal to the curve type (a reversed edge runs from curve end to curve start: a cubic swaps its control points, an arc keeps its center and flips its direction); an extension curve type is approximated by line, arc or cubic segments with the same 'edgeId' within 'curveApproximationToleranceMm'; bounding boxes use the exact curve extrema; areas are exact (outer contour minus holes); interface lengths are summed interval arc lengths. Arrays are ordered as defined by digest profile d2p-digest-v1.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator of a geometry snapshot.",
+      "const": "d2p:geometry-snapshot"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "snapshotId": {
+      "description": "Own ID of this snapshot (prefix 'snp').",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/snapshotId"
+    },
+    "createdAt": {
+      "description": "UTC time the snapshot was produced.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp"
+    },
+    "patternRef": {
+      "description": "Pinned pattern revision the geometry was derived from.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+    },
+    "evaluationId": {
+      "description": "ID of the pattern evaluation that produced this snapshot (informative, not resolved).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/evaluationId"
+    },
+    "sizeKey": {
+      "description": "Size the geometry was evaluated for. It resolves in the size system named by the inputDigests entry with role 'size-system' (D2P-REF-009).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+    },
+    "configurationKey": {
+      "description": "Material/fit configuration the geometry was evaluated for.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+    },
+    "evaluator": {
+      "description": "Engine, version, algorithm profile and evaluator profile that produced the geometry.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/evaluatorDescriptor"
+    },
+    "featureSetVersion": {
+      "description": "Version of the 'd2p:' feature types and expression nodes in use.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+    },
+    "inputDigests": {
+      "description": "Digests of the pinned inputs the geometry depends on. At least one entry with role 'pattern' is mandatory; its artifactRef equals patternRef (D2P-REF-007). When sizeKey is present, an entry with role 'size-system' names the size system that defines it (D2P-REF-009).",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/inputDigest"
+      },
+      "minItems": 1,
+      "contains": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "const": "pattern"
+          }
+        },
+        "required": [
+          "role"
+        ]
+      }
+    },
+    "units": {
+      "description": "Units declaration; always mm for length and rad for angle.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/unitsDeclaration"
+    },
+    "pieces": {
+      "description": "Evaluated pieces, sorted by 'pieceId'.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/snapshotPiece"
+      }
+    },
+    "interfaces": {
+      "description": "Evaluated seam interface lengths, sorted by 'seamInterfaceId'.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/snapshotInterface"
+      }
+    },
+    "seams": {
+      "description": "Evaluated seam connection lengths, sorted by 'seamConnectionId'.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/snapshotSeam"
+      }
+    },
+    "extensionEvaluators": {
+      "description": "Extension evaluators used to produce the snapshot, sorted by 'featureType'. Omitted when none was used.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/extensionEvaluatorUse"
+      },
+      "minItems": 1
+    },
+    "diagnostics": {
+      "description": "Diagnostics reported while producing the geometry (may be empty).",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/diagnostic.schema.json#/$defs/diagnostic"
+      }
+    },
+    "geometryDigest": {
+      "description": "Digest of the object {\"units\", \"pieces\", \"interfaces\", \"seams\"} taken from this snapshot (digest profile d2p-digest-v1).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "contentDigest": {
+      "description": "Optional digest of this whole document in canonical form, excluding 'contentDigest' itself.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks keyed by extension namespace.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "snapshotId",
+    "patternRef",
+    "evaluator",
+    "featureSetVersion",
+    "inputDigests",
+    "units",
+    "pieces",
+    "interfaces",
+    "seams",
+    "diagnostics",
+    "geometryDigest"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "point2": {
+      "title": "2D point",
+      "description": "Point [x, y] in mm in a 2D Cartesian system with X to the right and Y up.",
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "number",
+          "description": "X coordinate in mm."
+        },
+        {
+          "type": "number",
+          "description": "Y coordinate in mm."
+        }
+      ],
+      "minItems": 2,
+      "items": false
+    },
+    "segment": {
+      "title": "Contour segment",
+      "description": "One segment of a snapshot contour, discriminated by 'kind'. Each segment starts where the previous one ends (the first at the contour's 'start').",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/lineSegment"
+        },
+        {
+          "$ref": "#/$defs/arcSegment"
+        },
+        {
+          "$ref": "#/$defs/cubicSegment"
+        }
+      ]
+    },
+    "lineSegment": {
+      "title": "Line segment",
+      "description": "Straight segment of a snapshot contour.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "Segment kind discriminator.",
+          "const": "line"
+        },
+        "edgeId": {
+          "description": "Pattern edge this segment represents.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "end": {
+          "description": "End point of the segment.",
+          "$ref": "#/$defs/point2"
+        }
+      },
+      "required": [
+        "kind",
+        "edgeId",
+        "end"
+      ],
+      "additionalProperties": false
+    },
+    "arcSegment": {
+      "title": "Arc segment",
+      "description": "Circular arc segment of a snapshot contour.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "Segment kind discriminator.",
+          "const": "arc"
+        },
+        "edgeId": {
+          "description": "Pattern edge this segment represents.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "end": {
+          "description": "End point of the arc.",
+          "$ref": "#/$defs/point2"
+        },
+        "center": {
+          "description": "Center point of the arc.",
+          "$ref": "#/$defs/point2"
+        },
+        "direction": {
+          "description": "Sweep direction: 'ccw' counter-clockwise, 'cw' clockwise.",
+          "type": "string",
+          "enum": [
+            "ccw",
+            "cw"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "edgeId",
+        "end",
+        "center",
+        "direction"
+      ],
+      "additionalProperties": false
+    },
+    "cubicSegment": {
+      "title": "Cubic segment",
+      "description": "Cubic Bézier segment of a snapshot contour.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "Segment kind discriminator.",
+          "const": "cubic"
+        },
+        "edgeId": {
+          "description": "Pattern edge this segment represents.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "control1": {
+          "description": "First control point.",
+          "$ref": "#/$defs/point2"
+        },
+        "control2": {
+          "description": "Second control point.",
+          "$ref": "#/$defs/point2"
+        },
+        "end": {
+          "description": "End point of the curve.",
+          "$ref": "#/$defs/point2"
+        }
+      },
+      "required": [
+        "kind",
+        "edgeId",
+        "control1",
+        "control2",
+        "end"
+      ],
+      "additionalProperties": false
+    },
+    "pathSegment": {
+      "title": "Path segment",
+      "description": "One segment of a print path, discriminated by 'kind'. Same shapes as contour segments, without 'edgeId'.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/linePathSegment"
+        },
+        {
+          "$ref": "#/$defs/arcPathSegment"
+        },
+        {
+          "$ref": "#/$defs/cubicPathSegment"
+        }
+      ]
+    },
+    "linePathSegment": {
+      "title": "Line path segment",
+      "description": "Straight segment of a print path.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "Segment kind discriminator.",
+          "const": "line"
+        },
+        "end": {
+          "description": "End point of the segment.",
+          "$ref": "#/$defs/point2"
+        }
+      },
+      "required": [
+        "kind",
+        "end"
+      ],
+      "additionalProperties": false
+    },
+    "arcPathSegment": {
+      "title": "Arc path segment",
+      "description": "Circular arc segment of a print path.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "Segment kind discriminator.",
+          "const": "arc"
+        },
+        "end": {
+          "description": "End point of the arc.",
+          "$ref": "#/$defs/point2"
+        },
+        "center": {
+          "description": "Center point of the arc.",
+          "$ref": "#/$defs/point2"
+        },
+        "direction": {
+          "description": "Sweep direction: 'ccw' counter-clockwise, 'cw' clockwise.",
+          "type": "string",
+          "enum": [
+            "ccw",
+            "cw"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "end",
+        "center",
+        "direction"
+      ],
+      "additionalProperties": false
+    },
+    "cubicPathSegment": {
+      "title": "Cubic path segment",
+      "description": "Cubic Bézier segment of a print path.",
+      "type": "object",
+      "properties": {
+        "kind": {
+          "description": "Segment kind discriminator.",
+          "const": "cubic"
+        },
+        "control1": {
+          "description": "First control point.",
+          "$ref": "#/$defs/point2"
+        },
+        "control2": {
+          "description": "Second control point.",
+          "$ref": "#/$defs/point2"
+        },
+        "end": {
+          "description": "End point of the curve.",
+          "$ref": "#/$defs/point2"
+        }
+      },
+      "required": [
+        "kind",
+        "control1",
+        "control2",
+        "end"
+      ],
+      "additionalProperties": false
+    },
+    "contourPath": {
+      "title": "Contour path",
+      "description": "Evaluated contour of a piece. Closure: the last segment's 'end' equals 'start' exactly after quantization (D2P-SEM-010).",
+      "type": "object",
+      "properties": {
+        "contourId": {
+          "description": "Pattern contour this path represents.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "role": {
+          "description": "Contour role: 'outer' boundary (counter-clockwise) or 'hole' (clockwise).",
+          "type": "string",
+          "enum": [
+            "outer",
+            "hole"
+          ]
+        },
+        "start": {
+          "description": "Start point: the start of the contour's first edge in edge direction.",
+          "$ref": "#/$defs/point2"
+        },
+        "segments": {
+          "description": "One or more segments per edge, in contour order.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/segment"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "contourId",
+        "role",
+        "start",
+        "segments"
+      ],
+      "additionalProperties": false
+    },
+    "boundingBox": {
+      "title": "Bounding box",
+      "description": "Axis-aligned box of the exact extrema of all contour curves (not of the control polygon), in mm.",
+      "type": "object",
+      "properties": {
+        "min": {
+          "description": "Minimum corner (smallest x and y).",
+          "$ref": "#/$defs/point2"
+        },
+        "max": {
+          "description": "Maximum corner (largest x and y).",
+          "$ref": "#/$defs/point2"
+        }
+      },
+      "required": [
+        "min",
+        "max"
+      ],
+      "additionalProperties": false
+    },
+    "snapshotPiece": {
+      "title": "Snapshot piece",
+      "description": "Evaluated geometry of one pattern piece in piece coordinates. All members are required; empty arrays are written as [].",
+      "type": "object",
+      "properties": {
+        "pieceId": {
+          "description": "Pattern piece this geometry represents.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "contours": {
+          "description": "Contour paths: the outer contour first, then holes sorted by 'contourId'.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/contourPath"
+          },
+          "minItems": 1
+        },
+        "notches": {
+          "description": "Evaluated notches, sorted by 'notchId'.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/snapshotNotch"
+          }
+        },
+        "grainlines": {
+          "description": "Evaluated grainlines, sorted by 'grainlineId'.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/snapshotGrainline"
+          }
+        },
+        "folds": {
+          "description": "Fold edges, sorted by 'foldId'.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/snapshotFold"
+          }
+        },
+        "boundingBox": {
+          "description": "Bounding box of the piece.",
+          "$ref": "#/$defs/boundingBox"
+        },
+        "areaMm2": {
+          "description": "Exact area in mm² enclosed by the outer contour minus the areas of the holes.",
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "pieceId",
+        "contours",
+        "notches",
+        "grainlines",
+        "folds",
+        "boundingBox",
+        "areaMm2"
+      ],
+      "additionalProperties": false
+    },
+    "snapshotNotch": {
+      "title": "Snapshot notch",
+      "description": "Evaluated notch position and direction.",
+      "type": "object",
+      "properties": {
+        "notchId": {
+          "description": "Pattern notch this entry represents.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "edgeId": {
+          "description": "Edge the notch lies on.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "point": {
+          "description": "Point at the notch's normalized arc-length position along the edge direction.",
+          "$ref": "#/$defs/point2"
+        },
+        "angleRad": {
+          "description": "Direction of the edge tangent at 'point', in edge direction, counter-clockwise from +X, in rad, normalized to (−π, π].",
+          "type": "number",
+          "exclusiveMinimum": -3.141592653589793,
+          "maximum": 3.141592653589793
+        }
+      },
+      "required": [
+        "notchId",
+        "edgeId",
+        "point",
+        "angleRad"
+      ],
+      "additionalProperties": false
+    },
+    "snapshotGrainline": {
+      "title": "Snapshot grainline",
+      "description": "Evaluated grainline as a directed line from 'start' to 'end'.",
+      "type": "object",
+      "properties": {
+        "grainlineId": {
+          "description": "Pattern grainline this entry represents.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "start": {
+          "description": "Start point of the grainline.",
+          "$ref": "#/$defs/point2"
+        },
+        "end": {
+          "description": "End point of the grainline.",
+          "$ref": "#/$defs/point2"
+        }
+      },
+      "required": [
+        "grainlineId",
+        "start",
+        "end"
+      ],
+      "additionalProperties": false
+    },
+    "snapshotFold": {
+      "title": "Snapshot fold",
+      "description": "A fold line of a piece, identified by the edge it lies on.",
+      "type": "object",
+      "properties": {
+        "foldId": {
+          "description": "Pattern fold this entry represents.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "edgeId": {
+          "description": "Edge that is the fold line.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        }
+      },
+      "required": [
+        "foldId",
+        "edgeId"
+      ],
+      "additionalProperties": false
+    },
+    "snapshotInterface": {
+      "title": "Snapshot interface",
+      "description": "Evaluated length of one seam interface.",
+      "type": "object",
+      "properties": {
+        "seamInterfaceId": {
+          "description": "Pattern seam interface this entry represents.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "cutInstanceKey": {
+          "description": "Cut instance the interface belongs to, when the interface declares one.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "lengthMm": {
+          "description": "Summed arc length of the interface's edge intervals, in mm.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/nonNegativeLengthMm"
+        }
+      },
+      "required": [
+        "seamInterfaceId",
+        "lengthMm"
+      ],
+      "additionalProperties": false
+    },
+    "snapshotSeam": {
+      "title": "Snapshot seam",
+      "description": "Evaluated lengths of one seam connection. 'deviationMm' = 'lengthAMm' − 'lengthBMm' − 'declaredEaseMm'.",
+      "type": "object",
+      "properties": {
+        "seamConnectionId": {
+          "description": "Pattern seam connection this entry represents.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "lengthAMm": {
+          "description": "Length of the side A interface, in mm.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/nonNegativeLengthMm"
+        },
+        "lengthBMm": {
+          "description": "Length of the side B interface, in mm.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/nonNegativeLengthMm"
+        },
+        "declaredEaseMm": {
+          "description": "Ease declared by the connection, in mm; 0 when the ease mode is 'none'.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/lengthMm"
+        },
+        "deviationMm": {
+          "description": "Length deviation in mm: lengthAMm − lengthBMm − declaredEaseMm.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/lengthMm"
+        }
+      },
+      "required": [
+        "seamConnectionId",
+        "lengthAMm",
+        "lengthBMm",
+        "declaredEaseMm",
+        "deviationMm"
+      ],
+      "additionalProperties": false
+    },
+    "extensionEvaluatorUse": {
+      "title": "Extension evaluator use",
+      "description": "Records which extension evaluator produced the geometry of an extension feature type.",
+      "type": "object",
+      "properties": {
+        "featureType": {
+          "description": "Extension feature type that was evaluated.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+        },
+        "evaluator": {
+          "description": "Extension evaluator (ID and version) that was used.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+        }
+      },
+      "required": [
+        "featureType",
+        "evaluator"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "org.example.conformance:contour-closed",
+  "version": "1.0.0",
+  "title": "Contours are closed (conformance kit rule)",
+  "description": "Test rule of the conformance kit; it checks D2P-SEM-010.",
+  "layer": "domain",
+  "targetDocumentTypes": [
+    "d2p:pattern"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-SEM-010"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

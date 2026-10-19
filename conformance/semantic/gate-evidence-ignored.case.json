@@ -1,0 +1,46 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.gate-evidence-ignored",
+  "level": "semantic",
+  "title": "A gate that allows an action although its evidence lacks a required suite is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/gate-evidence-ignored/gate-evaluation.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/gate-evidence-ignored/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-evidence-ignored/validation-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-evidence-ignored/validation-rule.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-evidence-ignored/validation-report.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-evidence-ignored/quality-evidence-bundle.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-102",
+        "documentPath": "conformance/semantic/gate-evidence-ignored/gate-evaluation.json",
+        "instancePath": "/decision"
+      }
+    ]
+  },
+  "testIds": [
+    "QEV-012"
+  ]
+}

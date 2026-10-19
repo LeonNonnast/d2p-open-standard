@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/benchmark/benchmark-run.schema.json",
+  "title": "D2P Benchmark Run",
+  "description": "Record of one benchmark execution of an evaluator backend against a pinned fixture and tolerance profile (design decisions ADR-017.1, ADR-025). It has every member of a test run report (listed explicitly, not composed), with backend and evaluatorProfile always required, plus performance members. Performance figures (p50, p95, peak RSS, allocations at 1, 10 and 100 pieces) are comparison metrics only and are comparable only on the same stated hardware; they carry no hard limit in 1.0. Every member of this document is informative for the referential level.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:benchmark-run"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "reportId": {
+      "description": "Global ID of this benchmark run (prefix bmr_).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/benchmarkRunId"
+    },
+    "suiteId": {
+      "description": "Qualified name of the test suite that was executed.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+    },
+    "suiteVersion": {
+      "description": "Version of the executed test suite.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+    },
+    "subjectKind": {
+      "description": "Kind of implementation under test.",
+      "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/subjectKind"
+    },
+    "fixture": {
+      "description": "The exact fixture version and digest this run was compared against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/fixturePin"
+    },
+    "implementation": {
+      "description": "Name and version of the implementation under test.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/softwareInfo"
+    },
+    "executionEnvironment": {
+      "description": "Operating system, architecture and runtime the run was executed on.",
+      "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/executionEnvironment"
+    },
+    "toleranceProfile": {
+      "description": "ID and version of the tolerance profile results were compared with. The profile is pinned before the run and never adjusted afterwards.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+    },
+    "testRunnerVersion": {
+      "description": "Version string of the test runner (harness) that executed the suite.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "startedAt": {
+      "description": "UTC time at which the run started.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp"
+    },
+    "durationMs": {
+      "description": "Wall-clock duration of the run in milliseconds.",
+      "type": "number",
+      "minimum": 0
+    },
+    "resultState": {
+      "description": "Overall result of the run. An incomplete or empty result is never passed.",
+      "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/resultState"
+    },
+    "measurements": {
+      "description": "Machine-readable measured values of the run. Required; written as [] when nothing was measured.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/runMeasurement"
+      }
+    },
+    "findings": {
+      "description": "Diagnostics reported by the run. Required; written as [] when there are none.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/diagnostic.schema.json#/$defs/diagnostic"
+      }
+    },
+    "skipReason": {
+      "description": "Why the run was skipped. Required when resultState is skipped (schema-enforced).",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "backend": {
+      "description": "Pinned backend and adapter versions. Always required for a benchmark run.",
+      "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/backendPin"
+    },
+    "evaluatorProfile": {
+      "description": "ID and version of the evaluator profile used. Always required for a benchmark run. Evaluator profiles are identified only, not digested, in 1.0.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+    },
+    "targetRefs": {
+      "description": "Pinned artifact revisions the run was executed on, if any. Informative; not resolved by the referential runner.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+      },
+      "minItems": 1
+    },
+    "randomSeed": {
+      "description": "Random seed used by the run, where randomness is relevant. Absent means the run used no randomness.",
+      "type": "integer"
+    },
+    "provenance": {
+      "description": "Who produced the report and from which source revision of the implementation.",
+      "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/runProvenance"
+    },
+    "attachments": {
+      "description": "Additional files produced by the run (logs, rendered outputs), each pinned by digest.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/attachment"
+      },
+      "minItems": 1
+    },
+    "warmupIterations": {
+      "description": "Number of unmeasured warm-up iterations executed before the measured repetitions.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "repetitions": {
+      "description": "Number of measured repetitions of the whole operation set.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "operations": {
+      "description": "Per-operation performance results. Required; written as [] when no operation was measured.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/benchmarkOperation"
+      }
+    },
+    "contentDigest": {
+      "description": "Optional digest of this document (d2p-digest-v1, excluding contentDigest).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "reportId",
+    "suiteId",
+    "suiteVersion",
+    "subjectKind",
+    "fixture",
+    "implementation",
+    "executionEnvironment",
+    "toleranceProfile",
+    "testRunnerVersion",
+    "startedAt",
+    "durationMs",
+    "resultState",
+    "measurements",
+    "findings",
+    "backend",
+    "evaluatorProfile",
+    "warmupIterations",
+    "repetitions",
+    "operations"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "resultState": {
+            "const": "skipped"
+          }
+        },
+        "required": [
+          "resultState"
+        ]
+      },
+      "then": {
+        "properties": {
+          "skipReason": true
+        },
+        "required": [
+          "skipReason"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "benchmarkOperation": {
+      "title": "Benchmark operation",
+      "description": "Performance result of one operation (for example evaluating a pattern of a given piece count) over all measured samples.",
+      "type": "object",
+      "properties": {
+        "operationId": {
+          "description": "Element ID of the operation, unique within the document.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "pieceCount": {
+          "description": "Number of pattern pieces processed by the operation.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "samples": {
+          "description": "Number of measured samples the statistics are computed from.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "p50Ms": {
+          "description": "Median (50th percentile) duration in milliseconds.",
+          "type": "number",
+          "minimum": 0
+        },
+        "p95Ms": {
+          "description": "95th percentile duration in milliseconds.",
+          "type": "number",
+          "minimum": 0
+        },
+        "peakRssBytes": {
+          "description": "Peak resident set size in bytes.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "allocations": {
+          "description": "Number of heap allocations per operation, where the runtime reports it. Absent means not measured.",
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "operationId",
+        "pieceCount",
+        "samples",
+        "p50Ms",
+        "p95Ms",
+        "peakRssBytes"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.match-points-on-interfaces",
+  "level": "semantic",
+  "title": "A seam connection whose match-point notches lie on the interfaces of their sides is accepted",
+  "documents": [
+    {
+      "path": "conformance/semantic/match-points-on-interfaces/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

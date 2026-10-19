@@ -1,0 +1,488 @@
+{
+  "documentType": "d2p:print-job-spec",
+  "schemaVersion": "1.0.0",
+  "printJobId": "pjs_conformance-square-a4",
+  "scene": {
+    "documentType": "d2p:export-scene-2d",
+    "schemaVersion": "1.0.0",
+    "sceneId": "xsc_conformance-square",
+    "source": {
+      "patternRef": {
+        "artifactId": "art_conformance-square",
+        "revisionId": "rev_conformance-square-r1"
+      },
+      "evaluations": [
+        {
+          "sizeKey": "size-a",
+          "evaluationId": "pev_conformance-square-export",
+          "geometryDigest": "sha256:c645d15b5dc340ad6ee2660062486986c2120bfba102fdc9bc91bf6565d9a658"
+        }
+      ]
+    },
+    "units": {
+      "length": "mm",
+      "angle": "rad"
+    },
+    "coordinateSystem": {
+      "origin": "bottom-left",
+      "xAxis": "right",
+      "yAxis": "up"
+    },
+    "layers": [
+      {
+        "id": "cut",
+        "role": "d2p:cut-line",
+        "name": "Cut line"
+      },
+      {
+        "id": "grain",
+        "role": "d2p:grainline",
+        "name": "Grainline"
+      },
+      {
+        "id": "label",
+        "role": "d2p:label",
+        "name": "Label"
+      }
+    ],
+    "seamAllowancePolicy": "none",
+    "pieceInstances": [
+      {
+        "id": "back-size-a",
+        "pieceId": "back",
+        "cutInstanceKey": "back",
+        "sizeKey": "size-a",
+        "transform": {
+          "translate": [
+            -170,
+            10
+          ],
+          "rotateRad": 0,
+          "mirror": false
+        },
+        "paths": [
+          {
+            "id": "back-cut",
+            "layerId": "cut",
+            "elementId": "back-outer",
+            "closed": true,
+            "start": [
+              230,
+              10
+            ],
+            "segments": [
+              {
+                "kind": "line",
+                "end": [
+                  430,
+                  10
+                ]
+              },
+              {
+                "kind": "line",
+                "end": [
+                  430,
+                  310
+                ]
+              },
+              {
+                "kind": "line",
+                "end": [
+                  230,
+                  310
+                ]
+              },
+              {
+                "kind": "line",
+                "end": [
+                  230,
+                  10
+                ]
+              }
+            ]
+          }
+        ],
+        "markers": [
+          {
+            "id": "back-grain",
+            "layerId": "grain",
+            "kind": "grainline",
+            "elementId": "back-grainline",
+            "points": [
+              [
+                230,
+                10
+              ],
+              [
+                230,
+                310
+              ]
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "id": "back-label",
+            "layerId": "label",
+            "anchor": [
+              330,
+              160
+            ],
+            "text": "Back (synthetic), size A"
+          }
+        ],
+        "boundingBox": {
+          "min": [
+            230,
+            10
+          ],
+          "max": [
+            430,
+            310
+          ]
+        }
+      },
+      {
+        "id": "front-size-a",
+        "pieceId": "front",
+        "cutInstanceKey": "front",
+        "sizeKey": "size-a",
+        "transform": {
+          "translate": [
+            10,
+            10
+          ],
+          "rotateRad": 0,
+          "mirror": false
+        },
+        "paths": [
+          {
+            "id": "front-cut",
+            "layerId": "cut",
+            "elementId": "front-outer",
+            "closed": true,
+            "start": [
+              10,
+              10
+            ],
+            "segments": [
+              {
+                "kind": "line",
+                "end": [
+                  210,
+                  10
+                ]
+              },
+              {
+                "kind": "line",
+                "end": [
+                  210,
+                  310
+                ]
+              },
+              {
+                "kind": "line",
+                "end": [
+                  10,
+                  310
+                ]
+              },
+              {
+                "kind": "line",
+                "end": [
+                  10,
+                  10
+                ]
+              }
+            ]
+          }
+        ],
+        "markers": [
+          {
+            "id": "front-grain",
+            "layerId": "grain",
+            "kind": "grainline",
+            "elementId": "front-grainline",
+            "points": [
+              [
+                10,
+                10
+              ],
+              [
+                10,
+                310
+              ]
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "id": "front-label",
+            "layerId": "label",
+            "anchor": [
+              110,
+              160
+            ],
+            "text": "Front (synthetic), size A"
+          }
+        ],
+        "boundingBox": {
+          "min": [
+            10,
+            10
+          ],
+          "max": [
+            210,
+            310
+          ]
+        }
+      },
+      {
+        "id": "sleeve-left-size-a",
+        "pieceId": "sleeve",
+        "cutInstanceKey": "sleeve-left",
+        "sizeKey": "size-a",
+        "transform": {
+          "translate": [
+            -350,
+            10
+          ],
+          "rotateRad": 0,
+          "mirror": false
+        },
+        "paths": [
+          {
+            "id": "sleeve-left-cut",
+            "layerId": "cut",
+            "elementId": "sleeve-outer",
+            "closed": true,
+            "start": [
+              450,
+              10
+            ],
+            "segments": [
+              {
+                "kind": "line",
+                "end": [
+                  600,
+                  10
+                ]
+              },
+              {
+                "kind": "line",
+                "end": [
+                  600,
+                  260
+                ]
+              },
+              {
+                "kind": "line",
+                "end": [
+                  450,
+                  260
+                ]
+              },
+              {
+                "kind": "line",
+                "end": [
+                  450,
+                  10
+                ]
+              }
+            ]
+          }
+        ],
+        "markers": [
+          {
+            "id": "sleeve-left-grain",
+            "layerId": "grain",
+            "kind": "grainline",
+            "elementId": "sleeve-grainline",
+            "points": [
+              [
+                450,
+                10
+              ],
+              [
+                450,
+                260
+              ]
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "id": "sleeve-left-label",
+            "layerId": "label",
+            "anchor": [
+              525,
+              135
+            ],
+            "text": "Sleeve left (synthetic), size A"
+          }
+        ],
+        "boundingBox": {
+          "min": [
+            450,
+            10
+          ],
+          "max": [
+            600,
+            260
+          ]
+        }
+      },
+      {
+        "id": "sleeve-right-size-a",
+        "pieceId": "sleeve",
+        "cutInstanceKey": "sleeve-right",
+        "sizeKey": "size-a",
+        "transform": {
+          "translate": [
+            1570,
+            10
+          ],
+          "rotateRad": 0,
+          "mirror": true
+        },
+        "paths": [
+          {
+            "id": "sleeve-right-cut",
+            "layerId": "cut",
+            "elementId": "sleeve-outer",
+            "closed": true,
+            "start": [
+              770,
+              10
+            ],
+            "segments": [
+              {
+                "kind": "line",
+                "end": [
+                  620,
+                  10
+                ]
+              },
+              {
+                "kind": "line",
+                "end": [
+                  620,
+                  260
+                ]
+              },
+              {
+                "kind": "line",
+                "end": [
+                  770,
+                  260
+                ]
+              },
+              {
+                "kind": "line",
+                "end": [
+                  770,
+                  10
+                ]
+              }
+            ]
+          }
+        ],
+        "markers": [
+          {
+            "id": "sleeve-right-grain",
+            "layerId": "grain",
+            "kind": "grainline",
+            "elementId": "sleeve-grainline",
+            "points": [
+              [
+                770,
+                10
+              ],
+              [
+                770,
+                260
+              ]
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "id": "sleeve-right-label",
+            "layerId": "label",
+            "anchor": [
+              695,
+              135
+            ],
+            "text": "Sleeve right (synthetic, mirrored), size A"
+          }
+        ],
+        "boundingBox": {
+          "min": [
+            620,
+            10
+          ],
+          "max": [
+            770,
+            260
+          ]
+        }
+      }
+    ],
+    "lineStyles": [
+      {
+        "layerId": "cut",
+        "widthMm": 0.5
+      },
+      {
+        "layerId": "grain",
+        "widthMm": 0.3
+      }
+    ],
+    "resultDigest": "sha256:891b5fd9d2ca7d749d1d342612ec4d8abc6d5ae926067ce70f382e5a84671eaa"
+  },
+  "outputProfile": {
+    "profileId": "d2p:home-print-a4",
+    "version": "1.0.0"
+  },
+  "pageLayout": {
+    "media": {
+      "name": "iso-a4",
+      "widthMm": 210,
+      "heightMm": 297
+    },
+    "orientation": "portrait",
+    "marginsMm": {
+      "top": 10,
+      "right": 10,
+      "bottom": 10,
+      "left": 10
+    },
+    "tiling": {
+      "mode": "tiled",
+      "overlapMm": 10,
+      "registrationMarks": true,
+      "sheetLabels": true
+    }
+  },
+  "scale": 1,
+  "calibration": {
+    "controlSquareMm": 100,
+    "placement": "every-sheet"
+  },
+  "printNotice": {
+    "text": "Print at 100 % (actual size). Check the 100 mm control square.",
+    "locale": "en"
+  },
+  "conformance": {
+    "profileId": "d2p:print-v1",
+    "level": "geometry"
+  },
+  "provenance": {
+    "generator": {
+      "name": "conformance-kit",
+      "version": "1.0.0"
+    },
+    "sceneDigest": "sha256:891b5fd9d2ca7d749d1d342612ec4d8abc6d5ae926067ce70f382e5a84671eaa"
+  },
+  "resultDigest": "sha256:ed89262c9691ed7d3fa1e5a3b1c973473acf56b05ea2c65325f9f0851ca3e8b9"
+}

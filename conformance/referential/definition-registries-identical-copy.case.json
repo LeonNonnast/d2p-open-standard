@@ -1,0 +1,25 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.definition-registries-identical-copy",
+  "level": "referential",
+  "title": "Two declared registries that carry the identical definition are accepted",
+  "documents": [
+    {
+      "path": "conformance/referential/definition-registries-identical-copy/size-system.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/definition-registries-identical-copy/other-registry.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

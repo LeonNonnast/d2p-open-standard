@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.open-contour",
+  "level": "semantic",
+  "title": "An outer contour whose last edge does not end at the first edge's start is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/open-contour/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-010",
+        "documentPath": "conformance/semantic/open-contour/pattern.json",
+        "instancePath": "/pieces/0/contours/0"
+      }
+    ]
+  }
+}

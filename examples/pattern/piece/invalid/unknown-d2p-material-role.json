@@ -1,0 +1,75 @@
+{
+  "id": "back",
+  "name": "Back panel",
+  "contours": [
+    {
+      "id": "back-outer",
+      "role": "outer",
+      "edges": [
+        {
+          "id": "back-hem",
+          "curveFeatureId": "back-hem-curve",
+          "reversed": false
+        },
+        {
+          "id": "back-side-right",
+          "curveFeatureId": "back-side-right-curve",
+          "reversed": false
+        },
+        {
+          "id": "back-top",
+          "curveFeatureId": "back-top-curve",
+          "reversed": false
+        },
+        {
+          "id": "back-side-left",
+          "curveFeatureId": "back-side-left-curve",
+          "reversed": false
+        }
+      ]
+    }
+  ],
+  "notches": [
+    {
+      "id": "back-side-left-notch",
+      "edgeId": "back-side-left",
+      "position": 0.5,
+      "marks": 1
+    }
+  ],
+  "grainlines": [
+    {
+      "id": "back-grainline",
+      "startFeatureId": "back-bl",
+      "endFeatureId": "back-tl"
+    }
+  ],
+  "seamAllowance": {
+    "default": {
+      "expr": {
+        "op": "literal",
+        "value": 10,
+        "unit": "mm"
+      }
+    },
+    "edges": [
+      {
+        "edgeId": "back-top",
+        "expr": {
+          "op": "literal",
+          "value": 30,
+          "unit": "mm"
+        }
+      }
+    ]
+  },
+  "cutInstruction": {
+    "instances": [
+      {
+        "cutInstanceKey": "back",
+        "mirrored": false
+      }
+    ],
+    "materialRole": "d2p:leather"
+  }
+}

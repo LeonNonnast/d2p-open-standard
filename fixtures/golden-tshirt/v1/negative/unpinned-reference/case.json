@@ -1,0 +1,27 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "golden-tshirt.unpinned-reference",
+  "level": "structural",
+  "title": "Golden T-Shirt: fit profile reference without revision",
+  "documents": [
+    {
+      "path": "fixtures/golden-tshirt/v1/negative/unpinned-reference/evaluation-request.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-001",
+        "documentPath": "fixtures/golden-tshirt/v1/negative/unpinned-reference/evaluation-request.json"
+      },
+      {
+        "code": "D2P-STR-011",
+        "documentPath": "fixtures/golden-tshirt/v1/negative/unpinned-reference/evaluation-request.json"
+      }
+    ]
+  },
+  "description": "fitProfileRef names the artifact but no revisionId."
+}

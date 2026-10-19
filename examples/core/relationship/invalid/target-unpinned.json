@@ -1,0 +1,13 @@
+{
+  "documentType": "d2p:relationship",
+  "schemaVersion": "1.0.0",
+  "relationshipId": "rel_golden-tshirt-contains-pattern",
+  "relationshipType": "d2p:contains",
+  "source": {
+    "kind": "project",
+    "id": "prj_golden-tshirt"
+  },
+  "targetRef": {
+    "artifactId": "art_golden-tshirt-pattern"
+  }
+}

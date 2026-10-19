@@ -1,0 +1,29 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.definition-kinds-consistent",
+  "level": "semantic",
+  "title": "Body definitions on the body side and garment definitions on the garment side are accepted",
+  "documents": [
+    {
+      "path": "conformance/semantic/definition-kinds-consistent/garment-measurement-spec.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/definition-kinds-consistent/fit-profile.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/definition-kinds-consistent/size-system.json",
+      "role": "subject"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

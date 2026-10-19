@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/measurement/size-system.schema.json",
+  "title": "D2P Size System",
+  "description": "Artifact content (artifactType 'd2p:size-system'): a controlled mapping from size labels to a specific set of body measurement values, issued by a market, norm, brand or as synthetic data. A size is resolvable only as sizeSystemRef (pinned revision) plus sizeKey; a label alone is never a reference. Different issuers may interpret the same label differently.",
+  "$comment": "Schema catalog section 3.3 (design decision ADR-011 sections 2, 3 and 5). Not schema-enforced: unique sizeKey values (D2P-REF-005); definitionIds resolve via definitionRegistries (D2P-REF-008); units match definition dimensions (D2P-SEM-070).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "artifactId",
+    "revisionId",
+    "name",
+    "issuer",
+    "definitionRegistries",
+    "sizes"
+  ],
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "type": "string",
+      "const": "d2p:size-system"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "artifactId": {
+      "description": "ID of the artifact this content belongs to.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/artifactId"
+    },
+    "revisionId": {
+      "description": "ID of the immutable artifact revision this content is.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/revisionId"
+    },
+    "name": {
+      "description": "Human-readable name of the size system.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "issuer": {
+      "description": "Who issues the size system.",
+      "$ref": "#/$defs/sizeIssuer"
+    },
+    "definitionRegistries": {
+      "description": "Pinned measurement-definition registries (id and version) against which the definitionIds of this document resolve.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+      }
+    },
+    "sizes": {
+      "description": "The sizes of the system.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/sizeEntry"
+      }
+    },
+    "contentDigest": {
+      "description": "Optional digest of this document per digest profile d2p-digest-v1 (excluding contentDigest itself).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional namespaced extension blocks.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "$defs": {
+    "sizeEntry": {
+      "title": "Size entry",
+      "description": "One size of the system (element type 'd2p:size-entry').",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sizeKey",
+        "label",
+        "ordinal",
+        "measurements"
+      ],
+      "properties": {
+        "sizeKey": {
+          "description": "Stable key of the size, unique within the size system. Together with the pinned size-system revision it is the only way to reference the size.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "label": {
+          "description": "Display label of the size (e.g. 'M', '40', '122'). Informative only; never used as a reference.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "ordinal": {
+          "description": "Position of the size in the system's size order (smaller ordinal = earlier in the order).",
+          "type": "integer"
+        },
+        "measurements": {
+          "description": "Body measurement values assigned to this size. May be empty when the issuer assigns none. Values use body definitions (kind 'body', D2P-SEM-075); a definitionId appears at most once per size entry (D2P-REF-005).",
+          "type": "array",
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/measurement/measurement-value.schema.json#/$defs/measurementValue"
+          }
+        }
+      }
+    },
+    "sizeIssuer": {
+      "title": "Size issuer",
+      "description": "The issuer of a size system.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "name"
+      ],
+      "properties": {
+        "kind": {
+          "description": "'market' (a market convention), 'norm' (a published sizing standard), 'brand' (a manufacturer's own system), 'synthetic' (test data, not a real size table).",
+          "type": "string",
+          "enum": [
+            "market",
+            "norm",
+            "brand",
+            "synthetic"
+          ]
+        },
+        "name": {
+          "description": "Name of the issuer or convention.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      }
+    }
+  }
+}

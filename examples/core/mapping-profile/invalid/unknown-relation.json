@@ -1,0 +1,19 @@
+{
+  "documentType": "d2p:mapping-profile",
+  "schemaVersion": "1.0.0",
+  "mappingId": "org.example.atelier:house-measurement-terms",
+  "version": "1.0.0",
+  "title": "A mapping entry with a relation outside the closed list",
+  "system": "Example Atelier size charts",
+  "systemVersion": "2026",
+  "provenance": {
+    "publisher": "Example Atelier (fictitious)"
+  },
+  "entries": [
+    {
+      "d2pTerm": "d2p:body.chest-girth",
+      "relation": "same-as",
+      "externalTerm": "Chest"
+    }
+  ]
+}

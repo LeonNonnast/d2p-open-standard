@@ -1,0 +1,38 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.report-finding-rule-not-in-profile",
+  "level": "semantic",
+  "title": "A report whose finding names a rule that is not part of its profile is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/report-finding-rule-not-in-profile/validation-report.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/report-finding-rule-not-in-profile/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/report-finding-rule-not-in-profile/validation-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/report-finding-rule-not-in-profile/validation-rule.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-103",
+        "documentPath": "conformance/semantic/report-finding-rule-not-in-profile/validation-report.json",
+        "instancePath": "/findings/0/ruleId"
+      }
+    ]
+  },
+  "testIds": [
+    "VAL-007"
+  ]
+}

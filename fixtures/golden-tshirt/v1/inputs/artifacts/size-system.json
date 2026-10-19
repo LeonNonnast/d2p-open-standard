@@ -1,0 +1,13 @@
+{
+  "documentType": "d2p:artifact",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_golden-tshirt-size-system",
+  "artifactType": "d2p:size-system",
+  "name": "Golden T-Shirt size system",
+  "dataClassification": "public",
+  "createdAt": "2026-01-01T00:00:00Z",
+  "createdBy": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  }
+}

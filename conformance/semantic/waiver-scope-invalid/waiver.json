@@ -1,0 +1,24 @@
+{
+  "documentType": "d2p:waiver",
+  "schemaVersion": "1.0.0",
+  "waiverId": "wvr_conformance-1",
+  "createdAt": "2026-01-02T00:00:00Z",
+  "expiresAt": "2026-01-01T00:00:00Z",
+  "targetRefs": [
+    {
+      "artifactId": "art_conformance-square",
+      "revisionId": "rev_conformance-square-r1"
+    }
+  ],
+  "action": "cut-sample",
+  "reportId": "vrp_conformance-square",
+  "findingIds": [
+    "f-1"
+  ],
+  "justification": "Synthetic waiver of the conformance kit.",
+  "approvedBy": {
+    "kind": "person",
+    "principalId": "prn_conformance-reviewer"
+  },
+  "grantId": "grant-conformance-1"
+}

@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/eval/pattern-evaluation.schema.json",
+  "title": "Pattern evaluation",
+  "description": "Immutable derived result of evaluating one evaluation request (design decisions ADR-006, ADR-017). It is never an artifact revision. The full request is embedded verbatim. Conditions enforced by this schema: 'status' = 'succeeded' requires 'constraintStatus' = 'solved' and 'snapshotRef'; 'status' = 'failed' forbids 'snapshotRef'. Producers emit 'inputDigests' and 'diagnostics' in the canonical array order of digest profile d2p-digest-v1.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator of a pattern evaluation.",
+      "const": "d2p:pattern-evaluation"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "evaluationId": {
+      "description": "Own ID of this evaluation (prefix 'pev').",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/evaluationId"
+    },
+    "createdAt": {
+      "description": "UTC time the evaluation was produced. Excluded from 'resultDigest'.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp"
+    },
+    "request": {
+      "description": "The complete evaluation request document, embedded verbatim with its own header. Its 'schemaVersion' must equal the 'schemaVersion' of this document (D2P-STR-003).",
+      "$ref": "https://d2p.nonnast.dev/schemas/eval/evaluation-request.schema.json"
+    },
+    "evaluator": {
+      "description": "Engine, version, algorithm profile and evaluator profile that produced this result.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/evaluatorDescriptor"
+    },
+    "featureSetVersion": {
+      "description": "Version of the 'd2p:' feature types and expression nodes in use: the release version that introduced the feature set.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+    },
+    "inputDigests": {
+      "description": "Digests of all pinned inputs. At least one entry with role 'pattern' is mandatory.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/inputDigest"
+      },
+      "minItems": 1,
+      "contains": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "const": "pattern"
+          }
+        },
+        "required": [
+          "role"
+        ]
+      }
+    },
+    "status": {
+      "description": "Overall outcome of the evaluation.",
+      "type": "string",
+      "enum": [
+        "succeeded",
+        "failed"
+      ]
+    },
+    "constraintStatus": {
+      "description": "Status of the constraint system. A pattern without constraints is 'solved'.",
+      "$ref": "#/$defs/constraintStatus"
+    },
+    "snapshotRef": {
+      "description": "Reference to the geometry snapshot produced by this evaluation. Present if and only if 'status' = 'succeeded'. 'digest' is required and equals the snapshot's 'geometryDigest'.",
+      "type": "object",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef",
+      "properties": {
+        "digest": true
+      },
+      "required": [
+        "digest"
+      ]
+    },
+    "measurements": {
+      "description": "Measured garment values. With requested output 'measurement-report' and a garment measurement specification: one entry per applicable target, keyed by the target 'id'; otherwise empty ([]). Sorted by 'key'.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evaluationMeasurement"
+      }
+    },
+    "diagnostics": {
+      "description": "Diagnostics reported during the evaluation (may be empty).",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/diagnostic.schema.json#/$defs/diagnostic"
+      }
+    },
+    "resultDigest": {
+      "description": "Digest of this document excluding 'contentDigest', 'resultDigest', 'evaluationId' and every top-level member ending in 'At' (digest profile d2p-digest-v1).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "contentDigest": {
+      "description": "Optional digest of this whole document in canonical form, excluding 'contentDigest' itself.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks keyed by extension namespace.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "evaluationId",
+    "request",
+    "evaluator",
+    "featureSetVersion",
+    "inputDigests",
+    "status",
+    "constraintStatus",
+    "measurements",
+    "diagnostics",
+    "resultDigest"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "succeeded"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "constraintStatus": {
+            "const": "solved"
+          },
+          "snapshotRef": true
+        },
+        "required": [
+          "snapshotRef"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "failed"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "snapshotRef": false
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "constraintStatus": {
+      "title": "Constraint status",
+      "description": "Status of a constraint system. Mapping of common solver vocabularies: unique solution → 'solved', timeout → 'nonconvergent'; a generic failure is reported as evaluation status 'failed' plus the closest status and a diagnostic, never as 'solved'.",
+      "type": "string",
+      "enum": [
+        "solved",
+        "underconstrained",
+        "overconstrained",
+        "inconsistent",
+        "nonconvergent"
+      ]
+    },
+    "evaluationMeasurement": {
+      "title": "Evaluation measurement",
+      "description": "One measured garment value of an evaluation, in canonical units.",
+      "type": "object",
+      "properties": {
+        "key": {
+          "description": "Key of the measurement: the 'id' of the garment measurement target it answers.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "definitionId": {
+          "description": "Measurement definition the value is measured by.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+        },
+        "value": {
+          "description": "Measured value in 'unit'.",
+          "type": "number"
+        },
+        "unit": {
+          "description": "Canonical unit of 'value': 'mm' for lengths, 'rad' for angles.",
+          "type": "string",
+          "enum": [
+            "mm",
+            "rad"
+          ]
+        }
+      },
+      "required": [
+        "key",
+        "value",
+        "unit"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

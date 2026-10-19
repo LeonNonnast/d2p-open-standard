@@ -19,7 +19,8 @@ if (json) {
   const s = result.summary;
   console.log(
     `validate: ${s.schemaFiles} schema file(s), ${s.schemasCompiled} compiled, ` +
-      `${s.examplesChecked} example(s) checked, ${s.errors} error(s), ${s.warnings} warning(s)`,
+      `${s.examplesChecked} example(s) checked, ${s.dataFilesChecked} data file(s) checked by documentType, ` +
+      `${s.errors} error(s), ${s.warnings} warning(s)`,
   );
 }
 process.exitCode = result.errors.length === 0 ? 0 : 1;

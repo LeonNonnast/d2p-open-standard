@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "structural.feature-capability-reject",
+  "level": "structural",
+  "title": "A feature capability that declares onUnknown: reject is a schema error",
+  "documents": [
+    {
+      "path": "conformance/structural/feature-capability-reject/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-001",
+        "documentPath": "conformance/structural/feature-capability-reject/pattern.json"
+      }
+    ]
+  },
+  "description": "A missing extension evaluator may restrict editing but never prevents read-only display of a conforming snapshot, so 'read-only' is the only onUnknown value of a feature capability (catalog §1.7). 'reject' exists for extension blocks only."
+}

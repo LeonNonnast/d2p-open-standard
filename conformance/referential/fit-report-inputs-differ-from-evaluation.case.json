@@ -1,0 +1,59 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.fit-report-inputs-differ-from-evaluation",
+  "level": "referential",
+  "title": "A fit evaluation report that claims another fit profile revision than its evaluation used is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/fit-report-inputs-differ-from-evaluation/fit-evaluation-report.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/fit-report-inputs-differ-from-evaluation/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/fit-report-inputs-differ-from-evaluation/size-system.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/fit-report-inputs-differ-from-evaluation/fit-profile-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/fit-report-inputs-differ-from-evaluation/fit-profile-r2.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/fit-report-inputs-differ-from-evaluation/garment-measurement-spec.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/fit-report-inputs-differ-from-evaluation/pattern-evaluation.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/fit-report-inputs-differ-from-evaluation/geometry-snapshot.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-007",
+        "documentPath": "conformance/referential/fit-report-inputs-differ-from-evaluation/fit-evaluation-report.json",
+        "instancePath": "/inputDigests/0/artifactRef"
+      }
+    ]
+  },
+  "testIds": [
+    "FIT-003"
+  ],
+  "description": "The evaluation pins fit profile r1; the report names fit profile r2 as its fit-profile input. A fit evaluation refers to one concrete pattern evaluation configuration and never pulls in other revisions implicitly (design decision ADR-011 §3)."
+}

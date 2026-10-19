@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/pattern/feature-capability.schema.json",
+  "title": "D2P Feature Capability",
+  "description": "Declaration of a feature type's capability and lowering (design decision ADR-006.2): how a consumer can evaluate the feature and what it does without an evaluator. A pattern lists exactly one capability per extension feature type it uses (D2P-SEM-005).",
+  "$ref": "#/$defs/featureCapability",
+  "$defs": {
+    "featureCapability": {
+      "title": "Feature capability",
+      "description": "Capability of one feature type. 'evaluator' is required when lowering is 'extension', 'specification' when 'normative', 'lowersTo' when 'declarative', each forbidden otherwise; 'provenance' is required when 'featureType' is an extension name (all schema-enforced).",
+      "type": "object",
+      "properties": {
+        "featureType": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName",
+          "description": "The feature type this capability describes."
+        },
+        "version": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver",
+          "description": "Version of the feature type definition."
+        },
+        "lowering": {
+          "type": "string",
+          "enum": [
+            "declarative",
+            "normative",
+            "extension"
+          ],
+          "description": "'declarative': lowers to d2p: feature types; 'normative': evaluation is defined by a specification; 'extension': needs a specific evaluator."
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "point",
+            "curve",
+            "constraint",
+            "other"
+          ],
+          "description": "Kind of feature."
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/featureOutputDeclaration"
+          },
+          "description": "Named outputs the feature provides to expressions (may be empty)."
+        },
+        "onUnknown": {
+          "type": "string",
+          "enum": [
+            "read-only"
+          ],
+          "description": "Consumer behaviour without an evaluator. 'read-only' (the only value in 1.0): the pattern MUST NOT be edited or re-evaluated, but a conforming geometry snapshot stays displayable read-only (D2P-SEM-004). A missing evaluator never makes a consumer refuse a conforming snapshot (design decision ADR-006.2), so a feature capability has no 'reject' value; 'reject' remains available for extension blocks (core/extension) only."
+        },
+        "evaluator": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+          "description": "Evaluator required for lowering 'extension'."
+        },
+        "specification": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the normative specification, for lowering 'normative'."
+        },
+        "lowersTo": {
+          "type": "array",
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/pattern/feature-graph.schema.json#/$defs/featureType",
+            "type": "string",
+            "pattern": "^d2p:"
+          },
+          "description": "d2p: feature types of the feature set the feature lowers to, for lowering 'declarative'. Only the d2p: values of the closed feature set (featureType) are valid; an unknown d2p: name or an extension name is a structural error. In standard 1.0 the list is informative: the standard defines no declarative decomposition template, so a consumer without an evaluator for the feature type treats it like an extension feature (read-only, D2P-SEM-004).",
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "provenance": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/provenance",
+          "description": "Publisher of the feature type; required for extension feature types."
+        },
+        "paramsSchema": {
+          "type": "object",
+          "description": "Optional JSON Schema describing the feature's params. It is data and is not compiled by the conformance kit."
+        }
+      },
+      "required": [
+        "featureType",
+        "version",
+        "lowering",
+        "kind",
+        "outputs",
+        "onUnknown"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "lowering": {
+                "type": "string",
+                "const": "extension"
+              }
+            },
+            "required": [
+              "lowering"
+            ]
+          },
+          "then": {
+            "properties": {
+              "evaluator": true
+            },
+            "required": [
+              "evaluator"
+            ]
+          },
+          "else": {
+            "properties": {
+              "evaluator": false
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "lowering": {
+                "type": "string",
+                "const": "normative"
+              }
+            },
+            "required": [
+              "lowering"
+            ]
+          },
+          "then": {
+            "properties": {
+              "specification": true
+            },
+            "required": [
+              "specification"
+            ]
+          },
+          "else": {
+            "properties": {
+              "specification": false
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "lowering": {
+                "type": "string",
+                "const": "declarative"
+              }
+            },
+            "required": [
+              "lowering"
+            ]
+          },
+          "then": {
+            "properties": {
+              "lowersTo": true
+            },
+            "required": [
+              "lowersTo"
+            ]
+          },
+          "else": {
+            "properties": {
+              "lowersTo": false
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "featureType": {
+                "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+              }
+            },
+            "required": [
+              "featureType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "provenance": true
+            },
+            "required": [
+              "provenance"
+            ]
+          }
+        }
+      ]
+    },
+    "featureOutputDeclaration": {
+      "title": "Feature output declaration",
+      "description": "A named output of a feature and its dimension.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "Output name, used as featureOutput.output in expressions."
+        },
+        "dimension": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/dimension",
+          "description": "Dimension of the output."
+        }
+      },
+      "required": [
+        "name",
+        "dimension"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

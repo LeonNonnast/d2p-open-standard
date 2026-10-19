@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/validation/waiver.schema.json",
+  "title": "Waiver",
+  "description": "Record that explicitly accepts specific findings of one validation report for one action on pinned artifact revisions, for a limited time (design decision ADR-016 §6). A waiver applies to a finding in a gate only if it is listed by the gate, names the finding's report and finding, has the gate's action and target set, is valid at the gate's evaluation time ('createdAt' ≤ evaluatedAt < 'expiresAt'), and the profile's waiver policy allows the finding's severity. Findings of severity 'critical' are never waivable.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator of a waiver.",
+      "const": "d2p:waiver"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "waiverId": {
+      "description": "Own ID of this waiver (prefix 'wvr').",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/waiverId"
+    },
+    "createdAt": {
+      "description": "UTC time from which the waiver is valid.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp"
+    },
+    "expiresAt": {
+      "description": "UTC time at which the waiver stops applying; must be after 'createdAt' (D2P-SEM-101).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp"
+    },
+    "targetRefs": {
+      "description": "Pinned artifact revisions the waiver applies to, sorted by artifactId, revisionId.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+      },
+      "minItems": 1
+    },
+    "action": {
+      "description": "Gate action the waiver applies to.",
+      "$ref": "https://d2p.nonnast.dev/schemas/validation/gate-evaluation.schema.json#/$defs/gateAction"
+    },
+    "reportId": {
+      "description": "Validation report containing the waived findings.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/validationReportId"
+    },
+    "findingIds": {
+      "description": "Waived findings of that report, as a sorted set.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "justification": {
+      "description": "Reason why the findings are accepted.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "approvedBy": {
+      "description": "Actor who approved the waiver (no personal data).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/actor"
+    },
+    "grantId": {
+      "description": "Opaque identifier of the resource grant authorizing the waiver.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "contentDigest": {
+      "description": "Optional digest of this whole document in canonical form, excluding 'contentDigest' itself.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks keyed by extension namespace.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "waiverId",
+    "createdAt",
+    "expiresAt",
+    "targetRefs",
+    "action",
+    "reportId",
+    "findingIds",
+    "justification",
+    "approvedBy",
+    "grantId"
+  ],
+  "additionalProperties": false
+}

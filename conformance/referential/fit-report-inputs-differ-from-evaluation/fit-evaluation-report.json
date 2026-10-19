@@ -1,0 +1,60 @@
+{
+  "documentType": "d2p:fit-evaluation-report",
+  "schemaVersion": "1.0.0",
+  "reportId": "fer_conformance-square-fit",
+  "createdAt": "2026-01-02T00:00:00Z",
+  "evaluationRef": {
+    "id": "pev_conformance-square-fit",
+    "digest": "sha256:4e2dcfcb3070dac66e64014f4d6595392d9ee681e38c766e5277613786d84ebd"
+  },
+  "evaluator": {
+    "engineId": "conformance-kit",
+    "engineVersion": "1.0.0",
+    "algorithmProfileVersion": "1.0.0",
+    "evaluatorProfile": {
+      "id": "org.example.conformance:analytic",
+      "version": "1.0.0"
+    }
+  },
+  "inputDigests": [
+    {
+      "role": "fit-profile",
+      "artifactRef": {
+        "artifactId": "art_conformance-fit-profile",
+        "revisionId": "rev_conformance-fit-profile-r2"
+      },
+      "digest": "sha256:e0b258692a2624e162780270b8d3e6773590f9e78332d12412a1946cfe9c9d48"
+    },
+    {
+      "role": "garment-measurement-spec",
+      "artifactRef": {
+        "artifactId": "art_conformance-garment-spec",
+        "revisionId": "rev_conformance-garment-spec-r1"
+      },
+      "digest": "sha256:4e51d4ba020b62d7ca865fa40fb6c5ae2a4dc6a48f9ef95e1a7f017fec1e8654"
+    },
+    {
+      "role": "pattern",
+      "artifactRef": {
+        "artifactId": "art_conformance-square",
+        "revisionId": "rev_conformance-square-r1"
+      },
+      "digest": "sha256:cd6d59cfc0fe10306bf06108ff7ec67f9f78c41def45565ec8b5b567e755576f"
+    }
+  ],
+  "evidenceKind": "analytical",
+  "results": [
+    {
+      "id": "result-chest",
+      "garmentDefinitionId": "d2p:garment.chest-girth",
+      "predicted": {
+        "value": 1000,
+        "unit": "mm"
+      },
+      "status": "not-evaluated"
+    }
+  ],
+  "containsPersonalData": false,
+  "diagnostics": [],
+  "resultDigest": "sha256:7685dbdb8eb9c8eff670c7300b97b422b889d3bc0e819cc641aaf2ff96dea44c"
+}

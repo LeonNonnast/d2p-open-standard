@@ -1,0 +1,410 @@
+{
+  "documentType": "d2p:pattern",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_example-two-panel-bag-pattern",
+  "revisionId": "rev_example-two-panel-bag-pattern-r1",
+  "name": "Two-panel bag (example)",
+  "featureSetVersion": "1.0.0",
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.0.0"
+    }
+  ],
+  "parameters": [
+    {
+      "id": "ease",
+      "dimension": "length",
+      "expr": {
+        "op": "literal",
+        "value": 20,
+        "unit": "mm"
+      },
+      "label": "Ease",
+      "description": "Example value only, not a norm."
+    },
+    {
+      "id": "panel-width",
+      "dimension": "length",
+      "expr": {
+        "op": "add",
+        "args": [
+          {
+            "op": "div",
+            "args": [
+              {
+                "op": "measurement",
+                "key": "chest-girth"
+              },
+              {
+                "op": "literal",
+                "value": 4,
+                "unit": "1"
+              }
+            ]
+          },
+          {
+            "op": "div",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "ease"
+              },
+              {
+                "op": "literal",
+                "value": 2,
+                "unit": "1"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "panel-height",
+      "dimension": "length",
+      "expr": {
+        "op": "literal",
+        "value": 400,
+        "unit": "mm"
+      }
+    }
+  ],
+  "measurementInputs": [
+    {
+      "key": "chest-girth",
+      "definitionId": "d2p:body.chest-girth",
+      "required": true,
+      "fallback": {
+        "value": 960,
+        "unit": "mm"
+      }
+    }
+  ],
+  "features": [
+    {
+      "id": "front-bl",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "front-br",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "front-bl",
+        "dx": {
+          "expr": {
+            "op": "param",
+            "parameterId": "panel-width"
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "front-tr",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "front-br",
+        "dx": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "param",
+            "parameterId": "panel-height"
+          }
+        }
+      }
+    },
+    {
+      "id": "front-tl",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "front-bl",
+        "dx": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "param",
+            "parameterId": "panel-height"
+          }
+        }
+      }
+    },
+    {
+      "id": "front-hem-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "front-bl",
+        "endFeatureId": "front-br"
+      }
+    },
+    {
+      "id": "front-side-right-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "front-br",
+        "endFeatureId": "front-tr"
+      }
+    },
+    {
+      "id": "front-top-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "front-tr",
+        "endFeatureId": "front-tl"
+      }
+    },
+    {
+      "id": "front-side-left-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "front-tl",
+        "endFeatureId": "front-bl"
+      }
+    },
+    {
+      "id": "back-bl",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "literal",
+            "value": 600,
+            "unit": "mm"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "back-br",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "back-bl",
+        "dx": {
+          "expr": {
+            "op": "param",
+            "parameterId": "panel-width"
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "back-tr",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "back-br",
+        "dx": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "param",
+            "parameterId": "panel-height"
+          }
+        }
+      }
+    },
+    {
+      "id": "back-tl",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "back-bl",
+        "dx": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "param",
+            "parameterId": "panel-height"
+          }
+        }
+      }
+    },
+    {
+      "id": "back-hem-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "back-bl",
+        "endFeatureId": "back-br"
+      }
+    },
+    {
+      "id": "back-side-right-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "back-br",
+        "endFeatureId": "back-tr"
+      }
+    },
+    {
+      "id": "back-top-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "back-tr",
+        "endFeatureId": "back-tl"
+      }
+    },
+    {
+      "id": "back-side-left-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "back-tl",
+        "endFeatureId": "back-bl"
+      }
+    }
+  ],
+  "pieces": [],
+  "seamInterfaces": [
+    {
+      "id": "si-front-side-left",
+      "segments": [
+        {
+          "edgeId": "front-side-left",
+          "from": 0,
+          "to": 1,
+          "direction": "forward"
+        }
+      ]
+    },
+    {
+      "id": "si-back-side-left",
+      "segments": [
+        {
+          "edgeId": "back-side-right",
+          "from": 0,
+          "to": 1,
+          "direction": "reverse"
+        }
+      ]
+    },
+    {
+      "id": "si-front-side-right",
+      "segments": [
+        {
+          "edgeId": "front-side-right",
+          "from": 0,
+          "to": 1,
+          "direction": "forward"
+        }
+      ]
+    },
+    {
+      "id": "si-back-side-right",
+      "name": "Back right side",
+      "segments": [
+        {
+          "edgeId": "back-side-left",
+          "from": 0,
+          "to": 1,
+          "direction": "reverse"
+        }
+      ]
+    }
+  ],
+  "seamConnections": [
+    {
+      "id": "seam-side-left",
+      "interfaceIds": [
+        "si-front-side-left",
+        "si-back-side-left"
+      ],
+      "type": "d2p:stitched",
+      "active": true,
+      "ease": {
+        "mode": "none"
+      }
+    },
+    {
+      "id": "seam-side-right",
+      "interfaceIds": [
+        "si-front-side-right",
+        "si-back-side-right"
+      ],
+      "type": "d2p:stitched",
+      "active": true,
+      "ease": {
+        "mode": "eased",
+        "amount": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    }
+  ],
+  "sewingGroups": [
+    {
+      "id": "group-sides",
+      "type": "d2p:composite-assembly",
+      "members": [
+        {
+          "connectionId": "seam-side-left"
+        },
+        {
+          "connectionId": "seam-side-right"
+        }
+      ],
+      "requirements": {
+        "groupTopology": "connected",
+        "validateMemberSeams": true
+      }
+    }
+  ],
+  "featureCapabilities": []
+}

@@ -1,0 +1,20 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "SWG-001-two-connection-group",
+  "level": "semantic",
+  "title": "A group of exactly two distinct connections is valid",
+  "documents": [
+    {
+      "path": "conformance/semantic/sewing-groups/SWG-001-two-connection-group/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "SWG-001"
+  ]
+}

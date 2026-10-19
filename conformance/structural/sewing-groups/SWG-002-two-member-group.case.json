@@ -1,0 +1,20 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "SWG-002-two-member-group",
+  "level": "structural",
+  "title": "A sewing group with two members is structurally valid",
+  "documents": [
+    {
+      "path": "conformance/structural/sewing-groups/SWG-002-two-member-group/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "SWG-002"
+  ]
+}

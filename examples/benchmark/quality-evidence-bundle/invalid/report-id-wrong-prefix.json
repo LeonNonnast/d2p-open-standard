@@ -1,0 +1,55 @@
+{
+  "documentType": "d2p:quality-evidence-bundle",
+  "schemaVersion": "1.0.0",
+  "bundleId": "qeb_golden-tshirt-example-1",
+  "createdAt": "2026-02-02T09:00:00Z",
+  "gate": {
+    "id": "com.example.cad:kernel-candidate-gate",
+    "version": "1.0.0"
+  },
+  "subjectRefs": [
+    {
+      "artifactId": "art_golden-tshirt-pattern",
+      "revisionId": "rev_golden-tshirt-pattern-r1"
+    }
+  ],
+  "requiredSuites": [
+    {
+      "suiteId": "com.example.cad:batch-evaluation",
+      "suiteVersion": "1.0.0"
+    },
+    {
+      "suiteId": "com.example.cad:golden-geometry",
+      "suiteVersion": "1.0.0"
+    }
+  ],
+  "reports": [
+    {
+      "reportId": "vrp_golden-tshirt-r1-size-a-regular-woven-sample-cut",
+      "documentType": "d2p:benchmark-run",
+      "suiteId": "com.example.cad:batch-evaluation",
+      "suiteVersion": "1.0.0",
+      "resultState": "passed",
+      "contentDigest": "sha256:1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d",
+      "backend": {
+        "backendId": "com.example.geometry",
+        "backendVersion": "2.1.0",
+        "adapterVersion": "0.3.0"
+      }
+    },
+    {
+      "reportId": "trr_golden-tshirt-geometry-example-1",
+      "documentType": "d2p:test-run-report",
+      "suiteId": "com.example.cad:golden-geometry",
+      "suiteVersion": "1.0.0",
+      "resultState": "failed",
+      "contentDigest": "sha256:2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e",
+      "backend": {
+        "backendId": "com.example.geometry",
+        "backendVersion": "2.1.0",
+        "adapterVersion": "0.3.0"
+      }
+    }
+  ],
+  "overallState": "failed"
+}

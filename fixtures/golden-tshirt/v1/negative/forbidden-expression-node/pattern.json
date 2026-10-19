@@ -1,0 +1,3124 @@
+{
+  "documentType": "d2p:pattern",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_golden-tshirt-pattern",
+  "revisionId": "rev_golden-tshirt-pattern-r1",
+  "name": "Golden T-Shirt (synthetic test pattern)",
+  "featureSetVersion": "1.0.0",
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.0.0"
+    }
+  ],
+  "parameters": [
+    {
+      "id": "bust-ease",
+      "dimension": "length",
+      "expr": {
+        "op": "literal",
+        "value": 100,
+        "unit": "mm"
+      },
+      "label": "Chest ease added to the body chest girth (synthetic design value)"
+    },
+    {
+      "id": "sleeve-length",
+      "dimension": "length",
+      "expr": {
+        "op": "mul",
+        "args": [
+          {
+            "op": "measurement",
+            "key": "arm-length"
+          },
+          {
+            "op": "literal",
+            "value": 0.33,
+            "unit": "1"
+          }
+        ]
+      },
+      "label": "Sleeve length from cap top to hem"
+    },
+    {
+      "id": "body-length",
+      "dimension": "length",
+      "expr": {
+        "op": "add",
+        "args": [
+          {
+            "op": "measurement",
+            "key": "back-length"
+          },
+          {
+            "op": "literal",
+            "value": 260,
+            "unit": "mm"
+          }
+        ]
+      },
+      "label": "Body length from the high shoulder point to the hem"
+    },
+    {
+      "id": "quarter-chest",
+      "dimension": "length",
+      "expr": {
+        "op": "div",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "op": "measurement",
+                "key": "chest-girth"
+              },
+              {
+                "op": "param",
+                "parameterId": "bust-ease"
+              }
+            ]
+          },
+          {
+            "op": "literal",
+            "value": 4,
+            "unit": "1"
+          }
+        ]
+      },
+      "label": "Quarter of the garment chest girth"
+    },
+    {
+      "id": "quarter-hem",
+      "dimension": "length",
+      "expr": {
+        "op": "div",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "op": "max",
+                "args": [
+                  {
+                    "op": "measurement",
+                    "key": "chest-girth"
+                  },
+                  {
+                    "op": "measurement",
+                    "key": "waist-girth"
+                  }
+                ]
+              },
+              {
+                "op": "param",
+                "parameterId": "bust-ease"
+              }
+            ]
+          },
+          {
+            "op": "literal",
+            "value": 4,
+            "unit": "1"
+          }
+        ]
+      },
+      "label": "Quarter of the garment hem width"
+    },
+    {
+      "id": "neck-half-width",
+      "dimension": "length",
+      "expr": {
+        "op": "add",
+        "args": [
+          {
+            "op": "div",
+            "args": [
+              {
+                "op": "measurement",
+                "key": "neck-girth"
+              },
+              {
+                "op": "literal",
+                "value": 6,
+                "unit": "1"
+              }
+            ]
+          },
+          {
+            "op": "literal",
+            "value": 10,
+            "unit": "mm"
+          }
+        ]
+      },
+      "label": "Half neck width at the high shoulder points"
+    },
+    {
+      "id": "front-neck-depth",
+      "dimension": "length",
+      "expr": {
+        "op": "div",
+        "args": [
+          {
+            "op": "measurement",
+            "key": "neck-girth"
+          },
+          {
+            "op": "literal",
+            "value": 4,
+            "unit": "1"
+          }
+        ]
+      },
+      "label": "Front neck depth below the high shoulder points"
+    },
+    {
+      "id": "back-neck-depth",
+      "dimension": "length",
+      "expr": {
+        "op": "script",
+        "source": "return 20;"
+      },
+      "label": "Back neck depth below the high shoulder points"
+    },
+    {
+      "id": "half-shoulder",
+      "dimension": "length",
+      "expr": {
+        "op": "add",
+        "args": [
+          {
+            "op": "div",
+            "args": [
+              {
+                "op": "measurement",
+                "key": "shoulder-width"
+              },
+              {
+                "op": "literal",
+                "value": 2,
+                "unit": "1"
+              }
+            ]
+          },
+          {
+            "op": "literal",
+            "value": 10,
+            "unit": "mm"
+          }
+        ]
+      },
+      "label": "Horizontal distance from centre to shoulder point"
+    },
+    {
+      "id": "shoulder-drop",
+      "dimension": "length",
+      "expr": {
+        "op": "literal",
+        "value": 45,
+        "unit": "mm"
+      },
+      "label": "Vertical drop from high shoulder point to shoulder point"
+    },
+    {
+      "id": "armhole-depth",
+      "dimension": "length",
+      "expr": {
+        "op": "add",
+        "args": [
+          {
+            "op": "div",
+            "args": [
+              {
+                "op": "measurement",
+                "key": "chest-girth"
+              },
+              {
+                "op": "literal",
+                "value": 8,
+                "unit": "1"
+              }
+            ]
+          },
+          {
+            "op": "literal",
+            "value": 130,
+            "unit": "mm"
+          }
+        ]
+      },
+      "label": "Vertical distance from high shoulder point to underarm level"
+    },
+    {
+      "id": "armhole-height",
+      "dimension": "length",
+      "expr": {
+        "op": "sub",
+        "args": [
+          {
+            "op": "param",
+            "parameterId": "armhole-depth"
+          },
+          {
+            "op": "param",
+            "parameterId": "shoulder-drop"
+          }
+        ]
+      },
+      "label": "Vertical distance from shoulder point to underarm level"
+    },
+    {
+      "id": "front-armhole-scoop",
+      "dimension": "length",
+      "expr": {
+        "op": "mul",
+        "args": [
+          {
+            "op": "literal",
+            "value": 0.18,
+            "unit": "1"
+          },
+          {
+            "op": "param",
+            "parameterId": "quarter-chest"
+          }
+        ]
+      },
+      "label": "Horizontal handle of the front armhole curve at the underarm"
+    },
+    {
+      "id": "back-armhole-scoop",
+      "dimension": "length",
+      "expr": {
+        "op": "mul",
+        "args": [
+          {
+            "op": "literal",
+            "value": 0.12,
+            "unit": "1"
+          },
+          {
+            "op": "param",
+            "parameterId": "quarter-chest"
+          }
+        ]
+      },
+      "label": "Horizontal handle of the back armhole curve at the underarm"
+    },
+    {
+      "id": "front-armhole-hollow",
+      "dimension": "length",
+      "expr": {
+        "op": "literal",
+        "value": 12,
+        "unit": "mm"
+      },
+      "label": "Inward offset of the front armhole handle at the shoulder point"
+    },
+    {
+      "id": "back-armhole-hollow",
+      "dimension": "length",
+      "expr": {
+        "op": "literal",
+        "value": 6,
+        "unit": "mm"
+      },
+      "label": "Inward offset of the back armhole handle at the shoulder point"
+    },
+    {
+      "id": "cap-ease-front",
+      "dimension": "length",
+      "expr": {
+        "op": "literal",
+        "value": 6,
+        "unit": "mm"
+      },
+      "label": "Sleeve cap ease against the front armhole (cap longer by this amount)"
+    },
+    {
+      "id": "cap-ease-back",
+      "dimension": "length",
+      "expr": {
+        "op": "literal",
+        "value": 8,
+        "unit": "mm"
+      },
+      "label": "Sleeve cap ease against the back armhole (cap longer by this amount)"
+    },
+    {
+      "id": "front-armhole-length",
+      "dimension": "length",
+      "expr": {
+        "op": "featureOutput",
+        "featureId": "front-armhole-left-curve",
+        "output": "length"
+      },
+      "label": "Arc length of one front armhole"
+    },
+    {
+      "id": "back-armhole-length",
+      "dimension": "length",
+      "expr": {
+        "op": "featureOutput",
+        "featureId": "back-armhole-left-curve",
+        "output": "length"
+      },
+      "label": "Arc length of one back armhole"
+    },
+    {
+      "id": "armhole-length-mean",
+      "dimension": "length",
+      "expr": {
+        "op": "div",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "front-armhole-length"
+              },
+              {
+                "op": "param",
+                "parameterId": "back-armhole-length"
+              }
+            ]
+          },
+          {
+            "op": "literal",
+            "value": 2,
+            "unit": "1"
+          }
+        ]
+      },
+      "label": "Mean of front and back armhole arc length"
+    },
+    {
+      "id": "cap-height",
+      "dimension": "length",
+      "expr": {
+        "op": "mul",
+        "args": [
+          {
+            "op": "literal",
+            "value": 0.45,
+            "unit": "1"
+          },
+          {
+            "op": "param",
+            "parameterId": "armhole-height"
+          }
+        ]
+      },
+      "label": "Nominal sleeve cap height (before cap scaling)"
+    },
+    {
+      "id": "cap-half-width",
+      "dimension": "length",
+      "expr": {
+        "op": "mul",
+        "args": [
+          {
+            "op": "literal",
+            "value": 0.9,
+            "unit": "1"
+          },
+          {
+            "op": "sqrt",
+            "args": [
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "param",
+                        "parameterId": "armhole-length-mean"
+                      },
+                      {
+                        "op": "param",
+                        "parameterId": "armhole-length-mean"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "param",
+                        "parameterId": "cap-height"
+                      },
+                      {
+                        "op": "param",
+                        "parameterId": "cap-height"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "label": "Nominal sleeve half width at the cap base (before cap scaling)"
+    },
+    {
+      "id": "cap-scale-front",
+      "dimension": "dimensionless",
+      "expr": {
+        "op": "div",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "front-armhole-length"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-ease-front"
+              }
+            ]
+          },
+          {
+            "op": "featureOutput",
+            "featureId": "sleeve-cap-front-proto-curve",
+            "output": "length"
+          }
+        ]
+      },
+      "label": "Similarity scale of the front cap prototype so that cap length = front armhole length + front cap ease"
+    },
+    {
+      "id": "cap-scale-back",
+      "dimension": "dimensionless",
+      "expr": {
+        "op": "div",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "back-armhole-length"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-ease-back"
+              }
+            ]
+          },
+          {
+            "op": "featureOutput",
+            "featureId": "sleeve-cap-back-proto-curve",
+            "output": "length"
+          }
+        ]
+      },
+      "label": "Similarity scale of the back cap prototype so that cap length = back armhole length + back cap ease"
+    },
+    {
+      "id": "cap-scale-mean",
+      "dimension": "dimensionless",
+      "expr": {
+        "op": "div",
+        "args": [
+          {
+            "op": "add",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "cap-scale-front"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-scale-back"
+              }
+            ]
+          },
+          {
+            "op": "literal",
+            "value": 2,
+            "unit": "1"
+          }
+        ]
+      },
+      "label": "Mean cap scale"
+    },
+    {
+      "id": "sleeve-taper-angle",
+      "dimension": "angle",
+      "expr": {
+        "op": "literal",
+        "value": 0.06,
+        "unit": "rad"
+      },
+      "label": "Inward taper of both underarm seams from the vertical"
+    },
+    {
+      "id": "underarm-length",
+      "dimension": "length",
+      "expr": {
+        "op": "div",
+        "args": [
+          {
+            "op": "sub",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "sleeve-length"
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "op": "param",
+                    "parameterId": "cap-height"
+                  },
+                  {
+                    "op": "param",
+                    "parameterId": "cap-scale-mean"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "cos",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "sleeve-taper-angle"
+              }
+            ]
+          }
+        ]
+      },
+      "label": "Length of both sleeve underarm seams (equal by construction)"
+    },
+    {
+      "id": "seam-allowance",
+      "dimension": "length",
+      "expr": {
+        "op": "literal",
+        "value": 10,
+        "unit": "mm"
+      },
+      "label": "Seam allowance (declared; not part of the v1 expected results)"
+    }
+  ],
+  "measurementInputs": [
+    {
+      "key": "chest-girth",
+      "definitionId": "d2p:body.chest-girth",
+      "required": true
+    },
+    {
+      "key": "waist-girth",
+      "definitionId": "d2p:body.waist-girth",
+      "required": true
+    },
+    {
+      "key": "shoulder-width",
+      "definitionId": "d2p:body.shoulder-width",
+      "required": true
+    },
+    {
+      "key": "arm-length",
+      "definitionId": "d2p:body.arm-length",
+      "required": true
+    },
+    {
+      "key": "neck-girth",
+      "definitionId": "d2p:body.neck-girth",
+      "required": true
+    },
+    {
+      "key": "back-length",
+      "definitionId": "d2p:body.back-length",
+      "required": true
+    }
+  ],
+  "features": [
+    {
+      "id": "front-hem-left-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "param",
+            "parameterId": "quarter-hem"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "front-underarm-left-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "param",
+            "parameterId": "quarter-chest"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "sub",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "body-length"
+              },
+              {
+                "op": "param",
+                "parameterId": "armhole-depth"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "front-shoulder-left-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "param",
+            "parameterId": "half-shoulder"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "sub",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "body-length"
+              },
+              {
+                "op": "param",
+                "parameterId": "shoulder-drop"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "front-neck-left-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "param",
+            "parameterId": "neck-half-width"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "param",
+            "parameterId": "body-length"
+          }
+        }
+      }
+    },
+    {
+      "id": "front-armhole-left-ctrl1-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "front-underarm-left-pt",
+        "dx": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "front-armhole-scoop"
+              }
+            ]
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "front-armhole-left-ctrl2-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "front-shoulder-left-pt",
+        "dx": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "front-armhole-hollow"
+              }
+            ]
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "op": "literal",
+                    "value": 0.5,
+                    "unit": "1"
+                  },
+                  {
+                    "op": "param",
+                    "parameterId": "armhole-height"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "front-hem-right-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "quarter-hem"
+              }
+            ]
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "front-underarm-right-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "quarter-chest"
+              }
+            ]
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "sub",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "body-length"
+              },
+              {
+                "op": "param",
+                "parameterId": "armhole-depth"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "front-shoulder-right-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "half-shoulder"
+              }
+            ]
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "sub",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "body-length"
+              },
+              {
+                "op": "param",
+                "parameterId": "shoulder-drop"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "front-neck-right-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "neck-half-width"
+              }
+            ]
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "param",
+            "parameterId": "body-length"
+          }
+        }
+      }
+    },
+    {
+      "id": "front-armhole-right-ctrl1-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "front-underarm-right-pt",
+        "dx": {
+          "expr": {
+            "op": "param",
+            "parameterId": "front-armhole-scoop"
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "front-armhole-right-ctrl2-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "front-shoulder-right-pt",
+        "dx": {
+          "expr": {
+            "op": "param",
+            "parameterId": "front-armhole-hollow"
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "op": "literal",
+                    "value": 0.5,
+                    "unit": "1"
+                  },
+                  {
+                    "op": "param",
+                    "parameterId": "armhole-height"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "front-neckline-ctrl1-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "front-neck-left-pt",
+        "dx": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "div",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "param",
+                        "parameterId": "front-neck-depth"
+                      },
+                      {
+                        "op": "literal",
+                        "value": 4,
+                        "unit": "1"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "literal",
+                    "value": 3,
+                    "unit": "1"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "front-neckline-ctrl2-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "front-neck-right-pt",
+        "dx": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "div",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "param",
+                        "parameterId": "front-neck-depth"
+                      },
+                      {
+                        "op": "literal",
+                        "value": 4,
+                        "unit": "1"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "literal",
+                    "value": 3,
+                    "unit": "1"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "front-grain-start-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "literal",
+            "value": 80,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "front-grain-end-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "sub",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "body-length"
+              },
+              {
+                "op": "add",
+                "args": [
+                  {
+                    "op": "param",
+                    "parameterId": "front-neck-depth"
+                  },
+                  {
+                    "op": "literal",
+                    "value": 60,
+                    "unit": "mm"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "front-hem-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "front-hem-right-pt",
+        "endFeatureId": "front-hem-left-pt"
+      }
+    },
+    {
+      "id": "front-side-left-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "front-hem-left-pt",
+        "endFeatureId": "front-underarm-left-pt"
+      }
+    },
+    {
+      "id": "front-armhole-left-curve",
+      "type": "d2p:bezier.cubic",
+      "params": {
+        "startFeatureId": "front-underarm-left-pt",
+        "control1FeatureId": "front-armhole-left-ctrl1-pt",
+        "control2FeatureId": "front-armhole-left-ctrl2-pt",
+        "endFeatureId": "front-shoulder-left-pt"
+      }
+    },
+    {
+      "id": "front-shoulder-left-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "front-shoulder-left-pt",
+        "endFeatureId": "front-neck-left-pt"
+      }
+    },
+    {
+      "id": "front-side-right-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "front-hem-right-pt",
+        "endFeatureId": "front-underarm-right-pt"
+      }
+    },
+    {
+      "id": "front-armhole-right-curve",
+      "type": "d2p:bezier.cubic",
+      "params": {
+        "startFeatureId": "front-underarm-right-pt",
+        "control1FeatureId": "front-armhole-right-ctrl1-pt",
+        "control2FeatureId": "front-armhole-right-ctrl2-pt",
+        "endFeatureId": "front-shoulder-right-pt"
+      }
+    },
+    {
+      "id": "front-shoulder-right-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "front-shoulder-right-pt",
+        "endFeatureId": "front-neck-right-pt"
+      }
+    },
+    {
+      "id": "front-neckline-curve",
+      "type": "d2p:bezier.cubic",
+      "params": {
+        "startFeatureId": "front-neck-left-pt",
+        "control1FeatureId": "front-neckline-ctrl1-pt",
+        "control2FeatureId": "front-neckline-ctrl2-pt",
+        "endFeatureId": "front-neck-right-pt"
+      }
+    },
+    {
+      "id": "back-hem-left-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "quarter-hem"
+              }
+            ]
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "back-underarm-left-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "quarter-chest"
+              }
+            ]
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "sub",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "body-length"
+              },
+              {
+                "op": "param",
+                "parameterId": "armhole-depth"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "back-shoulder-left-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "half-shoulder"
+              }
+            ]
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "sub",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "body-length"
+              },
+              {
+                "op": "param",
+                "parameterId": "shoulder-drop"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "back-neck-left-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "neck-half-width"
+              }
+            ]
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "param",
+            "parameterId": "body-length"
+          }
+        }
+      }
+    },
+    {
+      "id": "back-armhole-left-ctrl1-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "back-underarm-left-pt",
+        "dx": {
+          "expr": {
+            "op": "param",
+            "parameterId": "back-armhole-scoop"
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "back-armhole-left-ctrl2-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "back-shoulder-left-pt",
+        "dx": {
+          "expr": {
+            "op": "param",
+            "parameterId": "back-armhole-hollow"
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "op": "literal",
+                    "value": 0.55,
+                    "unit": "1"
+                  },
+                  {
+                    "op": "param",
+                    "parameterId": "armhole-height"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "back-hem-right-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "param",
+            "parameterId": "quarter-hem"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "back-underarm-right-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "param",
+            "parameterId": "quarter-chest"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "sub",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "body-length"
+              },
+              {
+                "op": "param",
+                "parameterId": "armhole-depth"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "back-shoulder-right-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "param",
+            "parameterId": "half-shoulder"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "sub",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "body-length"
+              },
+              {
+                "op": "param",
+                "parameterId": "shoulder-drop"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "back-neck-right-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "param",
+            "parameterId": "neck-half-width"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "param",
+            "parameterId": "body-length"
+          }
+        }
+      }
+    },
+    {
+      "id": "back-armhole-right-ctrl1-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "back-underarm-right-pt",
+        "dx": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "back-armhole-scoop"
+              }
+            ]
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "back-armhole-right-ctrl2-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "back-shoulder-right-pt",
+        "dx": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "back-armhole-hollow"
+              }
+            ]
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "op": "literal",
+                    "value": 0.55,
+                    "unit": "1"
+                  },
+                  {
+                    "op": "param",
+                    "parameterId": "armhole-height"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "back-neckline-ctrl1-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "back-neck-right-pt",
+        "dx": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "div",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "param",
+                        "parameterId": "back-neck-depth"
+                      },
+                      {
+                        "op": "literal",
+                        "value": 4,
+                        "unit": "1"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "literal",
+                    "value": 3,
+                    "unit": "1"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "back-neckline-ctrl2-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "back-neck-left-pt",
+        "dx": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "div",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "param",
+                        "parameterId": "back-neck-depth"
+                      },
+                      {
+                        "op": "literal",
+                        "value": 4,
+                        "unit": "1"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "literal",
+                    "value": 3,
+                    "unit": "1"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "back-grain-start-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "literal",
+            "value": 80,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "back-grain-end-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "sub",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "body-length"
+              },
+              {
+                "op": "add",
+                "args": [
+                  {
+                    "op": "param",
+                    "parameterId": "back-neck-depth"
+                  },
+                  {
+                    "op": "literal",
+                    "value": 60,
+                    "unit": "mm"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "back-hem-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "back-hem-left-pt",
+        "endFeatureId": "back-hem-right-pt"
+      }
+    },
+    {
+      "id": "back-side-left-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "back-hem-left-pt",
+        "endFeatureId": "back-underarm-left-pt"
+      }
+    },
+    {
+      "id": "back-armhole-left-curve",
+      "type": "d2p:bezier.cubic",
+      "params": {
+        "startFeatureId": "back-underarm-left-pt",
+        "control1FeatureId": "back-armhole-left-ctrl1-pt",
+        "control2FeatureId": "back-armhole-left-ctrl2-pt",
+        "endFeatureId": "back-shoulder-left-pt"
+      }
+    },
+    {
+      "id": "back-shoulder-left-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "back-shoulder-left-pt",
+        "endFeatureId": "back-neck-left-pt"
+      }
+    },
+    {
+      "id": "back-side-right-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "back-hem-right-pt",
+        "endFeatureId": "back-underarm-right-pt"
+      }
+    },
+    {
+      "id": "back-armhole-right-curve",
+      "type": "d2p:bezier.cubic",
+      "params": {
+        "startFeatureId": "back-underarm-right-pt",
+        "control1FeatureId": "back-armhole-right-ctrl1-pt",
+        "control2FeatureId": "back-armhole-right-ctrl2-pt",
+        "endFeatureId": "back-shoulder-right-pt"
+      }
+    },
+    {
+      "id": "back-shoulder-right-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "back-shoulder-right-pt",
+        "endFeatureId": "back-neck-right-pt"
+      }
+    },
+    {
+      "id": "back-neckline-curve",
+      "type": "d2p:bezier.cubic",
+      "params": {
+        "startFeatureId": "back-neck-right-pt",
+        "control1FeatureId": "back-neckline-ctrl1-pt",
+        "control2FeatureId": "back-neckline-ctrl2-pt",
+        "endFeatureId": "back-neck-left-pt"
+      }
+    },
+    {
+      "id": "sleeve-apex-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "param",
+            "parameterId": "sleeve-length"
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-cap-back-proto-corner-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "sleeve-apex-pt",
+        "dx": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": 1,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-half-width"
+              }
+            ]
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": -1,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-height"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-cap-back-proto-ctrl1-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "sleeve-apex-pt",
+        "dx": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": 0.72,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-half-width"
+              }
+            ]
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": -0.92,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-height"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-cap-back-proto-ctrl2-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "sleeve-apex-pt",
+        "dx": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": 0.38,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-half-width"
+              }
+            ]
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-cap-back-proto-curve",
+      "type": "d2p:bezier.cubic",
+      "params": {
+        "startFeatureId": "sleeve-cap-back-proto-corner-pt",
+        "control1FeatureId": "sleeve-cap-back-proto-ctrl1-pt",
+        "control2FeatureId": "sleeve-cap-back-proto-ctrl2-pt",
+        "endFeatureId": "sleeve-apex-pt"
+      }
+    },
+    {
+      "id": "sleeve-cap-front-proto-ctrl1-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "sleeve-apex-pt",
+        "dx": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": -0.36,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-half-width"
+              }
+            ]
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-cap-front-proto-ctrl2-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "sleeve-apex-pt",
+        "dx": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": -0.7,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-half-width"
+              }
+            ]
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": -0.9,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-height"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-cap-front-proto-corner-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "sleeve-apex-pt",
+        "dx": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": -1,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-half-width"
+              }
+            ]
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": -1,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-height"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-cap-front-proto-curve",
+      "type": "d2p:bezier.cubic",
+      "params": {
+        "startFeatureId": "sleeve-apex-pt",
+        "control1FeatureId": "sleeve-cap-front-proto-ctrl1-pt",
+        "control2FeatureId": "sleeve-cap-front-proto-ctrl2-pt",
+        "endFeatureId": "sleeve-cap-front-proto-corner-pt"
+      }
+    },
+    {
+      "id": "sleeve-back-corner-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "sleeve-apex-pt",
+        "dx": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": 1,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-scale-back"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-half-width"
+              }
+            ]
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": -1,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-scale-back"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-height"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-cap-back-ctrl1-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "sleeve-apex-pt",
+        "dx": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": 0.72,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-scale-back"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-half-width"
+              }
+            ]
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": -0.92,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-scale-back"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-height"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-cap-back-ctrl2-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "sleeve-apex-pt",
+        "dx": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": 0.38,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-scale-back"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-half-width"
+              }
+            ]
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-cap-front-ctrl1-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "sleeve-apex-pt",
+        "dx": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": -0.36,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-scale-front"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-half-width"
+              }
+            ]
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-cap-front-ctrl2-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "sleeve-apex-pt",
+        "dx": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": -0.7,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-scale-front"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-half-width"
+              }
+            ]
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": -0.9,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-scale-front"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-height"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-front-corner-pt",
+      "type": "d2p:point.offset",
+      "params": {
+        "baseFeatureId": "sleeve-apex-pt",
+        "dx": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": -1,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-scale-front"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-half-width"
+              }
+            ]
+          }
+        },
+        "dy": {
+          "expr": {
+            "op": "mul",
+            "args": [
+              {
+                "op": "literal",
+                "value": -1,
+                "unit": "1"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-scale-front"
+              },
+              {
+                "op": "param",
+                "parameterId": "cap-height"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-hem-back-pt",
+      "type": "d2p:point.polar",
+      "params": {
+        "baseFeatureId": "sleeve-back-corner-pt",
+        "distance": {
+          "expr": {
+            "op": "param",
+            "parameterId": "underarm-length"
+          }
+        },
+        "angle": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "add",
+                "args": [
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "op": "literal",
+                        "value": 0.5,
+                        "unit": "rad"
+                      },
+                      {
+                        "op": "constant",
+                        "name": "pi"
+                      }
+                    ]
+                  },
+                  {
+                    "op": "param",
+                    "parameterId": "sleeve-taper-angle"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-hem-front-pt",
+      "type": "d2p:point.polar",
+      "params": {
+        "baseFeatureId": "sleeve-front-corner-pt",
+        "distance": {
+          "expr": {
+            "op": "param",
+            "parameterId": "underarm-length"
+          }
+        },
+        "angle": {
+          "expr": {
+            "op": "sub",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "sleeve-taper-angle"
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "op": "literal",
+                    "value": 0.5,
+                    "unit": "rad"
+                  },
+                  {
+                    "op": "constant",
+                    "name": "pi"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-grain-start-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "literal",
+            "value": 30,
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-grain-end-pt",
+      "type": "d2p:point.absolute",
+      "params": {
+        "x": {
+          "expr": {
+            "op": "literal",
+            "value": 0,
+            "unit": "mm"
+          }
+        },
+        "y": {
+          "expr": {
+            "op": "sub",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "sleeve-length"
+              },
+              {
+                "op": "literal",
+                "value": 30,
+                "unit": "mm"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve-hem-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "sleeve-hem-front-pt",
+        "endFeatureId": "sleeve-hem-back-pt"
+      }
+    },
+    {
+      "id": "sleeve-underarm-back-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "sleeve-hem-back-pt",
+        "endFeatureId": "sleeve-back-corner-pt"
+      }
+    },
+    {
+      "id": "sleeve-cap-back-curve",
+      "type": "d2p:bezier.cubic",
+      "params": {
+        "startFeatureId": "sleeve-back-corner-pt",
+        "control1FeatureId": "sleeve-cap-back-ctrl1-pt",
+        "control2FeatureId": "sleeve-cap-back-ctrl2-pt",
+        "endFeatureId": "sleeve-apex-pt"
+      }
+    },
+    {
+      "id": "sleeve-cap-front-curve",
+      "type": "d2p:bezier.cubic",
+      "params": {
+        "startFeatureId": "sleeve-apex-pt",
+        "control1FeatureId": "sleeve-cap-front-ctrl1-pt",
+        "control2FeatureId": "sleeve-cap-front-ctrl2-pt",
+        "endFeatureId": "sleeve-front-corner-pt"
+      }
+    },
+    {
+      "id": "sleeve-underarm-front-curve",
+      "type": "d2p:line",
+      "params": {
+        "startFeatureId": "sleeve-front-corner-pt",
+        "endFeatureId": "sleeve-hem-front-pt"
+      }
+    }
+  ],
+  "pieces": [
+    {
+      "id": "front",
+      "name": "Front",
+      "contours": [
+        {
+          "id": "front-outer",
+          "role": "outer",
+          "edges": [
+            {
+              "id": "front-hem",
+              "curveFeatureId": "front-hem-curve",
+              "reversed": false
+            },
+            {
+              "id": "front-side-left",
+              "curveFeatureId": "front-side-left-curve",
+              "reversed": false
+            },
+            {
+              "id": "front-armhole-left",
+              "curveFeatureId": "front-armhole-left-curve",
+              "reversed": false
+            },
+            {
+              "id": "front-shoulder-left",
+              "curveFeatureId": "front-shoulder-left-curve",
+              "reversed": false
+            },
+            {
+              "id": "front-neckline",
+              "curveFeatureId": "front-neckline-curve",
+              "reversed": false
+            },
+            {
+              "id": "front-shoulder-right",
+              "curveFeatureId": "front-shoulder-right-curve",
+              "reversed": true
+            },
+            {
+              "id": "front-armhole-right",
+              "curveFeatureId": "front-armhole-right-curve",
+              "reversed": true
+            },
+            {
+              "id": "front-side-right",
+              "curveFeatureId": "front-side-right-curve",
+              "reversed": true
+            }
+          ]
+        }
+      ],
+      "notches": [
+        {
+          "id": "front-armhole-left-notch",
+          "edgeId": "front-armhole-left",
+          "position": 0.4,
+          "marks": 1
+        },
+        {
+          "id": "front-armhole-right-notch",
+          "edgeId": "front-armhole-right",
+          "position": 0.6,
+          "marks": 1
+        }
+      ],
+      "grainlines": [
+        {
+          "id": "front-grainline",
+          "startFeatureId": "front-grain-start-pt",
+          "endFeatureId": "front-grain-end-pt"
+        }
+      ],
+      "cutInstruction": {
+        "instances": [
+          {
+            "cutInstanceKey": "front",
+            "mirrored": false
+          }
+        ],
+        "materialRole": "d2p:main"
+      },
+      "seamAllowance": {
+        "default": {
+          "expr": {
+            "op": "param",
+            "parameterId": "seam-allowance"
+          }
+        }
+      }
+    },
+    {
+      "id": "back",
+      "name": "Back",
+      "contours": [
+        {
+          "id": "back-outer",
+          "role": "outer",
+          "edges": [
+            {
+              "id": "back-hem",
+              "curveFeatureId": "back-hem-curve",
+              "reversed": false
+            },
+            {
+              "id": "back-side-right",
+              "curveFeatureId": "back-side-right-curve",
+              "reversed": false
+            },
+            {
+              "id": "back-armhole-right",
+              "curveFeatureId": "back-armhole-right-curve",
+              "reversed": false
+            },
+            {
+              "id": "back-shoulder-right",
+              "curveFeatureId": "back-shoulder-right-curve",
+              "reversed": false
+            },
+            {
+              "id": "back-neckline",
+              "curveFeatureId": "back-neckline-curve",
+              "reversed": false
+            },
+            {
+              "id": "back-shoulder-left",
+              "curveFeatureId": "back-shoulder-left-curve",
+              "reversed": true
+            },
+            {
+              "id": "back-armhole-left",
+              "curveFeatureId": "back-armhole-left-curve",
+              "reversed": true
+            },
+            {
+              "id": "back-side-left",
+              "curveFeatureId": "back-side-left-curve",
+              "reversed": true
+            }
+          ]
+        }
+      ],
+      "notches": [
+        {
+          "id": "back-armhole-left-notch",
+          "edgeId": "back-armhole-left",
+          "position": 0.55,
+          "marks": 2
+        },
+        {
+          "id": "back-armhole-right-notch",
+          "edgeId": "back-armhole-right",
+          "position": 0.45,
+          "marks": 2
+        }
+      ],
+      "grainlines": [
+        {
+          "id": "back-grainline",
+          "startFeatureId": "back-grain-start-pt",
+          "endFeatureId": "back-grain-end-pt"
+        }
+      ],
+      "cutInstruction": {
+        "instances": [
+          {
+            "cutInstanceKey": "back",
+            "mirrored": false
+          }
+        ],
+        "materialRole": "d2p:main"
+      },
+      "seamAllowance": {
+        "default": {
+          "expr": {
+            "op": "param",
+            "parameterId": "seam-allowance"
+          }
+        }
+      }
+    },
+    {
+      "id": "sleeve",
+      "name": "Sleeve",
+      "contours": [
+        {
+          "id": "sleeve-outer",
+          "role": "outer",
+          "edges": [
+            {
+              "id": "sleeve-hem",
+              "curveFeatureId": "sleeve-hem-curve",
+              "reversed": false
+            },
+            {
+              "id": "sleeve-underarm-back",
+              "curveFeatureId": "sleeve-underarm-back-curve",
+              "reversed": false
+            },
+            {
+              "id": "sleeve-cap-back",
+              "curveFeatureId": "sleeve-cap-back-curve",
+              "reversed": false
+            },
+            {
+              "id": "sleeve-cap-front",
+              "curveFeatureId": "sleeve-cap-front-curve",
+              "reversed": false
+            },
+            {
+              "id": "sleeve-underarm-front",
+              "curveFeatureId": "sleeve-underarm-front-curve",
+              "reversed": false
+            }
+          ]
+        }
+      ],
+      "notches": [
+        {
+          "id": "sleeve-cap-back-notch",
+          "edgeId": "sleeve-cap-back",
+          "position": 0.45,
+          "marks": 2
+        },
+        {
+          "id": "sleeve-cap-front-notch",
+          "edgeId": "sleeve-cap-front",
+          "position": 0.6,
+          "marks": 1
+        }
+      ],
+      "grainlines": [
+        {
+          "id": "sleeve-grainline",
+          "startFeatureId": "sleeve-grain-start-pt",
+          "endFeatureId": "sleeve-grain-end-pt"
+        }
+      ],
+      "cutInstruction": {
+        "instances": [
+          {
+            "cutInstanceKey": "sleeve-left",
+            "mirrored": false
+          },
+          {
+            "cutInstanceKey": "sleeve-right",
+            "mirrored": true
+          }
+        ],
+        "materialRole": "d2p:main"
+      },
+      "seamAllowance": {
+        "default": {
+          "expr": {
+            "op": "param",
+            "parameterId": "seam-allowance"
+          }
+        }
+      }
+    }
+  ],
+  "seamInterfaces": [
+    {
+      "id": "si-front-shoulder-left",
+      "segments": [
+        {
+          "edgeId": "front-shoulder-left",
+          "from": 0,
+          "to": 1,
+          "direction": "forward"
+        }
+      ]
+    },
+    {
+      "id": "si-back-shoulder-left",
+      "segments": [
+        {
+          "edgeId": "back-shoulder-left",
+          "from": 0,
+          "to": 1,
+          "direction": "reverse"
+        }
+      ]
+    },
+    {
+      "id": "si-front-side-left",
+      "segments": [
+        {
+          "edgeId": "front-side-left",
+          "from": 0,
+          "to": 1,
+          "direction": "forward"
+        }
+      ]
+    },
+    {
+      "id": "si-back-side-left",
+      "segments": [
+        {
+          "edgeId": "back-side-left",
+          "from": 0,
+          "to": 1,
+          "direction": "reverse"
+        }
+      ]
+    },
+    {
+      "id": "si-front-armhole-left",
+      "segments": [
+        {
+          "edgeId": "front-armhole-left",
+          "from": 0,
+          "to": 1,
+          "direction": "forward"
+        }
+      ]
+    },
+    {
+      "id": "si-back-armhole-left",
+      "segments": [
+        {
+          "edgeId": "back-armhole-left",
+          "from": 0,
+          "to": 1,
+          "direction": "forward"
+        }
+      ]
+    },
+    {
+      "id": "si-front-shoulder-right",
+      "segments": [
+        {
+          "edgeId": "front-shoulder-right",
+          "from": 0,
+          "to": 1,
+          "direction": "forward"
+        }
+      ]
+    },
+    {
+      "id": "si-back-shoulder-right",
+      "segments": [
+        {
+          "edgeId": "back-shoulder-right",
+          "from": 0,
+          "to": 1,
+          "direction": "reverse"
+        }
+      ]
+    },
+    {
+      "id": "si-front-side-right",
+      "segments": [
+        {
+          "edgeId": "front-side-right",
+          "from": 0,
+          "to": 1,
+          "direction": "forward"
+        }
+      ]
+    },
+    {
+      "id": "si-back-side-right",
+      "segments": [
+        {
+          "edgeId": "back-side-right",
+          "from": 0,
+          "to": 1,
+          "direction": "reverse"
+        }
+      ]
+    },
+    {
+      "id": "si-front-armhole-right",
+      "segments": [
+        {
+          "edgeId": "front-armhole-right",
+          "from": 0,
+          "to": 1,
+          "direction": "forward"
+        }
+      ]
+    },
+    {
+      "id": "si-back-armhole-right",
+      "segments": [
+        {
+          "edgeId": "back-armhole-right",
+          "from": 0,
+          "to": 1,
+          "direction": "forward"
+        }
+      ]
+    },
+    {
+      "id": "si-sleeve-left-cap-front",
+      "segments": [
+        {
+          "edgeId": "sleeve-cap-front",
+          "from": 0,
+          "to": 1,
+          "direction": "reverse"
+        }
+      ],
+      "cutInstanceKey": "sleeve-left"
+    },
+    {
+      "id": "si-sleeve-left-cap-back",
+      "segments": [
+        {
+          "edgeId": "sleeve-cap-back",
+          "from": 0,
+          "to": 1,
+          "direction": "reverse"
+        }
+      ],
+      "cutInstanceKey": "sleeve-left"
+    },
+    {
+      "id": "si-sleeve-left-underarm-front",
+      "segments": [
+        {
+          "edgeId": "sleeve-underarm-front",
+          "from": 0,
+          "to": 1,
+          "direction": "forward"
+        }
+      ],
+      "cutInstanceKey": "sleeve-left"
+    },
+    {
+      "id": "si-sleeve-left-underarm-back",
+      "segments": [
+        {
+          "edgeId": "sleeve-underarm-back",
+          "from": 0,
+          "to": 1,
+          "direction": "reverse"
+        }
+      ],
+      "cutInstanceKey": "sleeve-left"
+    },
+    {
+      "id": "si-sleeve-right-cap-front",
+      "segments": [
+        {
+          "edgeId": "sleeve-cap-front",
+          "from": 0,
+          "to": 1,
+          "direction": "forward"
+        }
+      ],
+      "cutInstanceKey": "sleeve-right"
+    },
+    {
+      "id": "si-sleeve-right-cap-back",
+      "segments": [
+        {
+          "edgeId": "sleeve-cap-back",
+          "from": 0,
+          "to": 1,
+          "direction": "forward"
+        }
+      ],
+      "cutInstanceKey": "sleeve-right"
+    },
+    {
+      "id": "si-sleeve-right-underarm-front",
+      "segments": [
+        {
+          "edgeId": "sleeve-underarm-front",
+          "from": 0,
+          "to": 1,
+          "direction": "forward"
+        }
+      ],
+      "cutInstanceKey": "sleeve-right"
+    },
+    {
+      "id": "si-sleeve-right-underarm-back",
+      "segments": [
+        {
+          "edgeId": "sleeve-underarm-back",
+          "from": 0,
+          "to": 1,
+          "direction": "reverse"
+        }
+      ],
+      "cutInstanceKey": "sleeve-right"
+    }
+  ],
+  "seamConnections": [
+    {
+      "id": "seam-shoulder-left",
+      "interfaceIds": [
+        "si-front-shoulder-left",
+        "si-back-shoulder-left"
+      ],
+      "type": "d2p:stitched",
+      "active": true,
+      "ease": {
+        "mode": "none"
+      }
+    },
+    {
+      "id": "seam-side-left",
+      "interfaceIds": [
+        "si-front-side-left",
+        "si-back-side-left"
+      ],
+      "type": "d2p:stitched",
+      "active": true,
+      "ease": {
+        "mode": "none"
+      }
+    },
+    {
+      "id": "seam-armhole-front-left",
+      "interfaceIds": [
+        "si-front-armhole-left",
+        "si-sleeve-left-cap-front"
+      ],
+      "type": "d2p:stitched",
+      "active": true,
+      "ease": {
+        "mode": "eased",
+        "amount": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "cap-ease-front"
+              }
+            ]
+          }
+        }
+      },
+      "matchPoints": [
+        {
+          "notchIdA": "front-armhole-left-notch",
+          "notchIdB": "sleeve-cap-front-notch"
+        }
+      ]
+    },
+    {
+      "id": "seam-armhole-back-left",
+      "interfaceIds": [
+        "si-back-armhole-left",
+        "si-sleeve-left-cap-back"
+      ],
+      "type": "d2p:stitched",
+      "active": true,
+      "ease": {
+        "mode": "eased",
+        "amount": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "cap-ease-back"
+              }
+            ]
+          }
+        }
+      },
+      "matchPoints": [
+        {
+          "notchIdA": "back-armhole-left-notch",
+          "notchIdB": "sleeve-cap-back-notch"
+        }
+      ]
+    },
+    {
+      "id": "seam-underarm-left",
+      "interfaceIds": [
+        "si-sleeve-left-underarm-front",
+        "si-sleeve-left-underarm-back"
+      ],
+      "type": "d2p:stitched",
+      "active": true,
+      "ease": {
+        "mode": "none"
+      }
+    },
+    {
+      "id": "seam-shoulder-right",
+      "interfaceIds": [
+        "si-front-shoulder-right",
+        "si-back-shoulder-right"
+      ],
+      "type": "d2p:stitched",
+      "active": true,
+      "ease": {
+        "mode": "none"
+      }
+    },
+    {
+      "id": "seam-side-right",
+      "interfaceIds": [
+        "si-front-side-right",
+        "si-back-side-right"
+      ],
+      "type": "d2p:stitched",
+      "active": true,
+      "ease": {
+        "mode": "none"
+      }
+    },
+    {
+      "id": "seam-armhole-front-right",
+      "interfaceIds": [
+        "si-front-armhole-right",
+        "si-sleeve-right-cap-front"
+      ],
+      "type": "d2p:stitched",
+      "active": true,
+      "ease": {
+        "mode": "eased",
+        "amount": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "cap-ease-front"
+              }
+            ]
+          }
+        }
+      },
+      "matchPoints": [
+        {
+          "notchIdA": "front-armhole-right-notch",
+          "notchIdB": "sleeve-cap-front-notch"
+        }
+      ]
+    },
+    {
+      "id": "seam-armhole-back-right",
+      "interfaceIds": [
+        "si-back-armhole-right",
+        "si-sleeve-right-cap-back"
+      ],
+      "type": "d2p:stitched",
+      "active": true,
+      "ease": {
+        "mode": "eased",
+        "amount": {
+          "expr": {
+            "op": "neg",
+            "args": [
+              {
+                "op": "param",
+                "parameterId": "cap-ease-back"
+              }
+            ]
+          }
+        }
+      },
+      "matchPoints": [
+        {
+          "notchIdA": "back-armhole-right-notch",
+          "notchIdB": "sleeve-cap-back-notch"
+        }
+      ]
+    },
+    {
+      "id": "seam-underarm-right",
+      "interfaceIds": [
+        "si-sleeve-right-underarm-front",
+        "si-sleeve-right-underarm-back"
+      ],
+      "type": "d2p:stitched",
+      "active": true,
+      "ease": {
+        "mode": "none"
+      }
+    }
+  ],
+  "sewingGroups": [
+    {
+      "id": "group-armhole-left",
+      "type": "d2p:composite-assembly",
+      "members": [
+        {
+          "connectionId": "seam-armhole-front-left"
+        },
+        {
+          "connectionId": "seam-armhole-back-left"
+        }
+      ],
+      "requirements": {
+        "groupTopology": "connected",
+        "validateMemberSeams": true
+      }
+    },
+    {
+      "id": "group-armhole-right",
+      "type": "d2p:composite-assembly",
+      "members": [
+        {
+          "connectionId": "seam-armhole-front-right"
+        },
+        {
+          "connectionId": "seam-armhole-back-right"
+        }
+      ],
+      "requirements": {
+        "groupTopology": "connected",
+        "validateMemberSeams": true
+      }
+    }
+  ],
+  "featureCapabilities": []
+}

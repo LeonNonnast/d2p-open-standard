@@ -1,0 +1,17 @@
+{
+  "id": "collar",
+  "name": "Collar",
+  "contours": [
+    {
+      "id": "collar-outer",
+      "role": "outer",
+      "edges": [
+        {
+          "id": "collar-edge",
+          "curveFeatureId": "collar-curve",
+          "reversed": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/pattern/pattern.schema.json",
+  "title": "D2P Pattern",
+  "description": "Content of one immutable revision of a pattern artifact (artifactType d2p:pattern; design decisions ADR-006, ADR-007, ADR-007.1). Parametrics (parameters, measurement inputs, features) are the source of truth; geometry is derived. All arrays keep authoring order, so reordering elements changes the content digest. Element IDs share one namespace per document.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "type": "string",
+      "const": "d2p:pattern",
+      "description": "Document type discriminator; always \"d2p:pattern\"."
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against (\"1.0.0\" in this release)."
+    },
+    "artifactId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/artifactId",
+      "description": "ID of the pattern artifact this content belongs to."
+    },
+    "revisionId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/revisionId",
+      "description": "ID of the immutable artifact revision whose content this document is."
+    },
+    "contentDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "Optional digest of this document (digest profile d2p-digest-v1, computed with this member excluded)."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Human-readable name of the pattern."
+    },
+    "featureSetVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver",
+      "description": "Version of the d2p: feature types and expression nodes used (\"1.0.0\" in this release)."
+    },
+    "definitionRegistries": {
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+      },
+      "description": "Measurement-definition registries (ID and version) used by the measurement inputs. May be empty.",
+      "uniqueItems": true
+    },
+    "parameters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/parameter"
+      },
+      "description": "Named parameters. May be empty."
+    },
+    "measurementInputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/measurementInput"
+      },
+      "description": "Measurement inputs bound to measurement definitions. May be empty."
+    },
+    "features": {
+      "$ref": "https://d2p.nonnast.dev/schemas/pattern/feature-graph.schema.json#/$defs/featureList",
+      "description": "The feature graph."
+    },
+    "pieces": {
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/pattern/piece.schema.json#/$defs/piece"
+      },
+      "description": "Pattern pieces, at least one.",
+      "minItems": 1
+    },
+    "seamInterfaces": {
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/pattern/seam-interface.schema.json#/$defs/seamInterface"
+      },
+      "description": "Seam interfaces. May be empty."
+    },
+    "seamConnections": {
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/pattern/seam-connection.schema.json#/$defs/seamConnection"
+      },
+      "description": "Binary seam connections. May be empty."
+    },
+    "sewingGroups": {
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/pattern/sewing-group.schema.json#/$defs/sewingGroup"
+      },
+      "description": "Sewing groups. May be empty."
+    },
+    "featureCapabilities": {
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/pattern/feature-capability.schema.json#/$defs/featureCapability"
+      },
+      "description": "Exactly one capability per extension feature type used (D2P-SEM-005). It MUST NOT list d2p: feature types (schema-enforced). May be empty.",
+      "not": {
+        "contains": {
+          "type": "object",
+          "properties": {
+            "featureType": {
+              "type": "string",
+              "pattern": "^d2p:"
+            }
+          },
+          "required": [
+            "featureType"
+          ]
+        }
+      }
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional namespaced extension blocks (§1.7 of the schema catalog)."
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "artifactId",
+    "revisionId",
+    "name",
+    "featureSetVersion",
+    "definitionRegistries",
+    "parameters",
+    "measurementInputs",
+    "features",
+    "pieces",
+    "seamInterfaces",
+    "seamConnections",
+    "sewingGroups",
+    "featureCapabilities"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "parameter": {
+      "title": "Parameter",
+      "description": "A named, dimensioned value defined by an expression. The expression MUST evaluate to the declared dimension (D2P-SEM-002).",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the parameter."
+        },
+        "dimension": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/dimension",
+          "description": "Dimension of the parameter."
+        },
+        "expr": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprNode",
+          "description": "Expression defining the parameter value."
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "Optional human-readable label."
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000,
+          "description": "Optional description."
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional namespaced extension blocks (§1.7 of the schema catalog)."
+        }
+      },
+      "required": [
+        "id",
+        "dimension",
+        "expr"
+      ],
+      "additionalProperties": false
+    },
+    "measurementInput": {
+      "title": "Measurement input",
+      "description": "Binds a key used in expressions to a measurement definition. Values are resolved per evaluation request.",
+      "type": "object",
+      "properties": {
+        "key": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Key referenced by measurement expression nodes; unique among the pattern's measurement inputs."
+        },
+        "definitionId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName",
+          "description": "Measurement definition ID, resolved in the registries named by 'definitionRegistries' (D2P-REF-008)."
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Whether an evaluation needs a value for this input (D2P-SEM-072 when none resolves and there is no fallback)."
+        },
+        "fallback": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/quantity",
+          "description": "Optional estimate used when no value resolves. Using it emits D2P-EVL-011. Its unit MUST match the definition's dimension (D2P-SEM-070)."
+        }
+      },
+      "required": [
+        "key",
+        "definitionId",
+        "required"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "op": "if",
+  "args": [
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": "ge",
+          "args": [
+            {
+              "op": "measurement",
+              "key": "chest-girth"
+            },
+            {
+              "op": "literal",
+              "value": 800,
+              "unit": "mm"
+            }
+          ]
+        },
+        {
+          "op": "not",
+          "args": [
+            {
+              "op": "lt",
+              "args": [
+                {
+                  "op": "param",
+                  "parameterId": "ease"
+                },
+                {
+                  "op": "literal",
+                  "value": 0,
+                  "unit": "mm"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "op": "clamp",
+      "args": [
+        {
+          "op": "param",
+          "parameterId": "ease"
+        },
+        {
+          "op": "literal",
+          "value": 0,
+          "unit": "mm"
+        },
+        {
+          "op": "literal",
+          "value": 60,
+          "unit": "mm"
+        }
+      ]
+    },
+    {
+      "op": "abs",
+      "args": [
+        {
+          "op": "neg",
+          "args": [
+            {
+              "op": "param",
+              "parameterId": "ease"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.report-purpose-differs",
+  "level": "semantic",
+  "title": "A report whose purpose differs from its profile's purpose is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/report-purpose-differs/validation-report.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/report-purpose-differs/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/report-purpose-differs/validation-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/report-purpose-differs/validation-rule.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-103",
+        "documentPath": "conformance/semantic/report-purpose-differs/validation-report.json",
+        "instancePath": "/purpose"
+      }
+    ]
+  },
+  "testIds": [
+    "VAL-007"
+  ]
+}

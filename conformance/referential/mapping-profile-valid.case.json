@@ -1,0 +1,17 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.mapping-profile-valid",
+  "level": "referential",
+  "title": "A mapping profile with sorted, unique entries is accepted",
+  "documents": [
+    {
+      "path": "conformance/referential/mapping-profile-valid/mapping-profile.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

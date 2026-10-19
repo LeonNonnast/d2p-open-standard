@@ -1,0 +1,35 @@
+{
+  "documentType": "d2p:fit-profile",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_golden-tshirt-fit-profile-relaxed",
+  "revisionId": "rev_golden-tshirt-fit-profile-relaxed-r1",
+  "name": "Relaxed fit (synthetic)",
+  "intent": "d2p:relaxed",
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.0.0"
+    }
+  ],
+  "easeRules": [
+    {
+      "id": "ease-chest",
+      "bodyDefinitionId": "d2p:body.chest-girth",
+      "garmentDefinitionId": "d2p:garment.chest-girth",
+      "easeType": "wearing",
+      "amount": {
+        "value": 160,
+        "unit": "mm"
+      },
+      "priority": 0,
+      "scope": {
+        "zones": [
+          "d2p:chest"
+        ]
+      }
+    }
+  ],
+  "materialAssumptions": {
+    "materialClass": "knit"
+  }
+}

@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/benchmark/quality-evidence-bundle.schema.json",
+  "title": "D2P Quality Evidence Bundle",
+  "description": "Collects the test and benchmark reports that serve as evidence for a quality gate over pinned subject revisions (design decision ADR-025). overallState follows the evidence state rule, checked at the semantic level from this document alone (D2P-SEM-110): it is failed if a requiredSuites entry has no reports entry with the same suiteId and suiteVersion, or if any reports entry is failed; otherwise it is inconclusive if any entry is inconclusive or skipped; otherwise it is passed. Incomplete evidence is never passed. reports[].reportId is informative and not resolved by the referential runner.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:quality-evidence-bundle"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "bundleId": {
+      "description": "Global ID of this evidence bundle (prefix qeb_).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/evidenceBundleId"
+    },
+    "createdAt": {
+      "description": "UTC time at which the bundle was assembled.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp"
+    },
+    "gate": {
+      "description": "The gate this evidence is collected for, identified by the validation profile (ID and version) the gate applies: a gate evaluation may list this bundle in 'evidenceRefs' only if its 'profile' equals 'gate' and its 'targetRefs' equal 'subjectRefs' as sets (D2P-REF-007).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+    },
+    "subjectRefs": {
+      "description": "Pinned artifact revisions the evidence is about.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+      }
+    },
+    "requiredSuites": {
+      "description": "Suites (with exact version) the gate requires evidence from. A required suite without a matching reports entry makes overallState failed.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/suitePin"
+      }
+    },
+    "reports": {
+      "description": "One entry per included test run report or benchmark run.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/evidenceReportEntry"
+      }
+    },
+    "overallState": {
+      "description": "Aggregated state according to the evidence state rule (D2P-SEM-110).",
+      "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/resultState"
+    },
+    "contentDigest": {
+      "description": "Optional digest of this document (d2p-digest-v1, excluding contentDigest).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "bundleId",
+    "createdAt",
+    "gate",
+    "subjectRefs",
+    "requiredSuites",
+    "reports",
+    "overallState"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "suitePin": {
+      "title": "Suite pin",
+      "description": "A test suite at an exact version.",
+      "type": "object",
+      "properties": {
+        "suiteId": {
+          "description": "Qualified name of the suite.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+        },
+        "suiteVersion": {
+          "description": "Exact version of the suite.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+        }
+      },
+      "required": [
+        "suiteId",
+        "suiteVersion"
+      ],
+      "additionalProperties": false
+    },
+    "evidenceReportEntry": {
+      "title": "Evidence report entry",
+      "description": "Summary of one included report, pinned by its contentDigest.",
+      "type": "object",
+      "properties": {
+        "reportId": {
+          "description": "reportId of the included test run report (trr_) or benchmark run (bmr_).",
+          "anyOf": [
+            {
+              "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/testRunReportId"
+            },
+            {
+              "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/benchmarkRunId"
+            }
+          ]
+        },
+        "documentType": {
+          "description": "documentType of the included report.",
+          "type": "string",
+          "enum": [
+            "d2p:test-run-report",
+            "d2p:benchmark-run"
+          ]
+        },
+        "suiteId": {
+          "description": "suiteId of the included report.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+        },
+        "suiteVersion": {
+          "description": "suiteVersion of the included report.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+        },
+        "resultState": {
+          "description": "resultState of the included report.",
+          "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/resultState"
+        },
+        "contentDigest": {
+          "description": "contentDigest of the included report as defined by d2p-digest-v1 (computed whether or not the report writes it out).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+        },
+        "backend": {
+          "description": "Backend pin of the included report, where it has one.",
+          "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/backendPin"
+        }
+      },
+      "required": [
+        "reportId",
+        "documentType",
+        "suiteId",
+        "suiteVersion",
+        "resultState",
+        "contentDigest"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

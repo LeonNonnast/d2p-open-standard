@@ -1,0 +1,22 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.manifest-digest-mismatch",
+  "level": "referential",
+  "title": "A manifest file digest that does not match the file is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/manifest-digest-mismatch/fixture/manifest.json",
+      "role": "manifest"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-011",
+        "instancePath": "/files/1/digest"
+      }
+    ]
+  }
+}

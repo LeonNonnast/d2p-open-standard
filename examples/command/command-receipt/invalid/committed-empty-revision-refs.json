@@ -1,0 +1,8 @@
+{
+  "documentType": "d2p:command-receipt",
+  "schemaVersion": "1.0.0",
+  "commandId": "cmd_example-change-1",
+  "status": "committed",
+  "revisionRefs": [],
+  "eventCursor": "example-stream-42"
+}

@@ -1,0 +1,247 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "golden-tshirt.feature-cycle",
+  "level": "semantic",
+  "title": "Golden T-Shirt: feature dependency cycle",
+  "documents": [
+    {
+      "path": "fixtures/golden-tshirt/v1/negative/feature-cycle/pattern.json",
+      "role": "subject"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/artifacts/fit-profile-regular.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/artifacts/fit-profile-relaxed.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/artifacts/garment-measurement-spec.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/artifacts/grading-rule-set.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/artifacts/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/artifacts/size-system.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/evaluation-requests/r1-size-a-regular-woven.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/evaluation-requests/r1-size-a-relaxed-knit.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/evaluation-requests/r1-size-b-regular-woven.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/evaluation-requests/r1-size-b-relaxed-knit.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/fit-profile-regular-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/fit-profile-relaxed-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/garment-measurement-spec-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/grading-rule-set-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/project.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/relationships/project-contains-fit-profile-regular.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/relationships/project-contains-fit-profile-relaxed.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/relationships/project-contains-garment-measurement-spec.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/relationships/project-contains-grading-rule-set.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/relationships/project-contains-pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/relationships/project-contains-size-system.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/revisions/fit-profile-regular-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/revisions/fit-profile-relaxed-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/revisions/garment-measurement-spec-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/revisions/grading-rule-set-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/revisions/size-system-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/size-system-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "tolerance-profiles/golden-tshirt-2d-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/profiles/print-1to1-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/profiles/sample-cut-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/constraints-consistent-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/constraints-solved-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/contour-closed-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/contour-orientation-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/contour-simple-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/data-classification-consistent-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/ease-material-compatible-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/evaluation-succeeded-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/expression-dimensions-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/extensions-supported-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/feature-graph-acyclic-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/grading-consistent-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/measurement-equivalence-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/measurement-fallback-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/measurements-complete-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/no-personal-data-in-export-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/print-calibrated-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/print-geometry-valid-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/references-resolve-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/schema-valid-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/seam-interface-continuous-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/seam-interface-single-connection-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/seam-length-match-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/sewing-group-integrity-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/snapshot-consistent-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-001",
+        "documentPath": "fixtures/golden-tshirt/v1/negative/feature-cycle/pattern.json"
+      }
+    ]
+  },
+  "description": "cycle-a-pt depends on cycle-b-pt through baseFeatureId, and cycle-b-pt depends on cycle-a-pt through a featureOutput expression."
+}

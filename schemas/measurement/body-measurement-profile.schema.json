@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/measurement/body-measurement-profile.schema.json",
+  "title": "D2P Body Measurement Profile",
+  "description": "Artifact content (artifactType 'd2p:body-measurement-profile'): measurement values of one individual body, an anonymous reference figure or a synthetic figure, each with method, origin and optional uncertainty. A profile may be incomplete; a missing value is a diagnosable gap, not an error of the profile. Values of profiles classified 'personal' or 'sensitive-personal' never enter export documents (D2P-SEM-050).",
+  "$comment": "Schema catalog section 3.3 (design decision ADR-011 sections 2, 4 and 8). Not schema-enforced: subject.kind 'individual' requires dataClassification 'personal' or 'sensitive-personal' (D2P-SEM-051); definitionIds resolve via definitionRegistries (D2P-REF-008); units match definition dimensions (D2P-SEM-070).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "artifactId",
+    "revisionId",
+    "subject",
+    "dataClassification",
+    "definitionRegistries",
+    "measurements"
+  ],
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "type": "string",
+      "const": "d2p:body-measurement-profile"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "artifactId": {
+      "description": "ID of the artifact this content belongs to.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/artifactId"
+    },
+    "revisionId": {
+      "description": "ID of the immutable artifact revision this content is.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/revisionId"
+    },
+    "subject": {
+      "description": "Whose body the values describe. Never carries a real name.",
+      "$ref": "#/$defs/measurementSubject"
+    },
+    "dataClassification": {
+      "description": "Policy classification of the profile. A profile of an individual MUST be 'personal' or 'sensitive-personal' (D2P-SEM-051) and MUST agree with the artifact metadata.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact.schema.json#/$defs/dataClassification"
+    },
+    "definitionRegistries": {
+      "description": "Pinned measurement-definition registries (id and version) against which the definitionIds of this document resolve.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+      }
+    },
+    "measurements": {
+      "description": "The measurement values of the profile. May be incomplete or empty (e.g. a draft profile). Values use body definitions (kind 'body', D2P-SEM-075); a definitionId appears at most once (D2P-REF-005).",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/measurement/measurement-value.schema.json#/$defs/measurementValue"
+      }
+    },
+    "contentDigest": {
+      "description": "Optional digest of this document per digest profile d2p-digest-v1 (excluding contentDigest itself).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional namespaced extension blocks.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "$defs": {
+    "measurementSubject": {
+      "title": "Measurement subject",
+      "description": "The measured subject, identified at most by a pseudonym.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "description": "'individual' (a real person), 'reference-figure' (an anonymous reference body, e.g. a dress form or averaged figure), 'synthetic' (invented test data).",
+          "type": "string",
+          "enum": [
+            "individual",
+            "reference-figure",
+            "synthetic"
+          ]
+        },
+        "pseudonym": {
+          "description": "Optional pseudonym for display. MUST NOT be a real name or other directly identifying data.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      }
+    }
+  }
+}

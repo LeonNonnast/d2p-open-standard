@@ -1,0 +1,68 @@
+{
+  "documentType": "d2p:pattern-evaluation",
+  "schemaVersion": "1.0.0",
+  "evaluationId": "pev_conformance-square-size-a",
+  "createdAt": "2026-01-02T00:00:00Z",
+  "request": {
+    "documentType": "d2p:evaluation-request",
+    "schemaVersion": "1.0.0",
+    "requestId": "erq_conformance-square-size-a",
+    "patternRef": {
+      "artifactId": "art_conformance-square",
+      "revisionId": "rev_conformance-square-r1"
+    },
+    "evaluatorProfile": {
+      "id": "org.example.conformance:analytic",
+      "version": "1.0.0"
+    },
+    "sizeSystemRef": {
+      "artifactId": "art_conformance-size-system",
+      "revisionId": "rev_conformance-size-system-r1"
+    },
+    "fitProfileRef": {
+      "artifactId": "art_conformance-fit-profile",
+      "revisionId": "rev_conformance-fit-profile-r1"
+    },
+    "sizeKey": "size-a",
+    "requestedOutputs": [
+      "geometry-snapshot"
+    ]
+  },
+  "evaluator": {
+    "engineId": "conformance-kit",
+    "engineVersion": "1.0.0",
+    "algorithmProfileVersion": "1.0.0",
+    "evaluatorProfile": {
+      "id": "org.example.conformance:analytic",
+      "version": "1.0.0"
+    }
+  },
+  "featureSetVersion": "1.0.0",
+  "inputDigests": [
+    {
+      "role": "fit-profile",
+      "artifactRef": {
+        "artifactId": "art_conformance-fit-profile",
+        "revisionId": "rev_conformance-fit-profile-r1"
+      },
+      "digest": "sha256:36c4cc12a427358ffde1daf608ea40aee48245c43b33eb7c8b600b1d140d7086"
+    },
+    {
+      "role": "pattern",
+      "artifactRef": {
+        "artifactId": "art_conformance-square",
+        "revisionId": "rev_conformance-square-r2"
+      },
+      "digest": "sha256:d53334d45908ec926163a4f9693b3699061a6c7d5b6a41901f209f56d8139328"
+    }
+  ],
+  "status": "succeeded",
+  "constraintStatus": "solved",
+  "snapshotRef": {
+    "id": "snp_conformance-square",
+    "digest": "sha256:c645d15b5dc340ad6ee2660062486986c2120bfba102fdc9bc91bf6565d9a658"
+  },
+  "measurements": [],
+  "diagnostics": [],
+  "resultDigest": "sha256:8267908d9e53e02f17acae157c7299e9cd85fd7d5ba0b4419eb0d66d5c72e228"
+}

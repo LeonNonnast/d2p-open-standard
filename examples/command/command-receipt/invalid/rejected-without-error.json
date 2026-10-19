@@ -1,0 +1,6 @@
+{
+  "documentType": "d2p:command-receipt",
+  "schemaVersion": "1.0.0",
+  "commandId": "cmd_example-change-2",
+  "status": "rejected"
+}

@@ -1,0 +1,15 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_golden-tshirt-size-system-r1",
+  "artifactId": "art_golden-tshirt-size-system",
+  "sequence": 1,
+  "parentRevisionIds": [],
+  "contentDigest": "sha256:57d8493744de25f3eec5792e75cbc89b1fb0f11223ad9b8ffde542027a5d94cc",
+  "createdAt": "2026-01-01T00:00:00Z",
+  "author": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  },
+  "message": "Initial revision of the synthetic Golden T-Shirt fixture."
+}

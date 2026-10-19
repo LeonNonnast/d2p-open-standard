@@ -1,0 +1,15 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_golden-tshirt-fit-profile-relaxed-r1",
+  "artifactId": "art_golden-tshirt-fit-profile-relaxed",
+  "sequence": 1,
+  "parentRevisionIds": [],
+  "contentDigest": "sha256:c169d05f39839cc47fc48793b564318056ac26ae2328f13ecba0516a174bec2e",
+  "createdAt": "2026-01-01T00:00:00Z",
+  "author": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  },
+  "message": "Initial revision of the synthetic Golden T-Shirt fixture."
+}

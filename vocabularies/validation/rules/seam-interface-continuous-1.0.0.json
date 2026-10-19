@@ -1,0 +1,21 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:seam-interface-continuous",
+  "version": "1.0.0",
+  "title": "Seam interfaces are continuous",
+  "description": "The edge intervals of every seam interface are valid and form a continuous chain on one piece, an interface on a piece with several cut instances names its cut instance, and the match-point notches of a seam connection lie on the interface of their side.",
+  "layer": "domain",
+  "targetDocumentTypes": [
+    "d2p:pattern"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-SEM-020",
+    "D2P-SEM-021",
+    "D2P-SEM-022",
+    "D2P-SEM-025"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

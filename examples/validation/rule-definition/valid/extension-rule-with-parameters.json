@@ -1,0 +1,32 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "com.example.atelier:min-seam-allowance",
+  "version": "1.0.0",
+  "title": "Minimum seam allowance",
+  "description": "Example extension rule with parameters.",
+  "layer": "domain",
+  "targetDocumentTypes": [
+    "d2p:pattern"
+  ],
+  "defaultSeverity": "warning",
+  "diagnosticCodes": [
+    "com.example.atelier:SEAM-ALLOWANCE-TOO-SMALL"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": true,
+  "requiredCapabilities": [
+    {
+      "id": "d2p:eval",
+      "version": "1.0.0"
+    }
+  ],
+  "parametersSchema": {
+    "type": "object",
+    "properties": {
+      "minimumMm": {
+        "type": "number"
+      }
+    }
+  }
+}

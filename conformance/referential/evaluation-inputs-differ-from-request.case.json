@@ -1,0 +1,53 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.evaluation-inputs-differ-from-request",
+  "level": "referential",
+  "title": "An evaluation whose input digests name another pattern revision and omit a pinned input is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/evaluation-inputs-differ-from-request/pattern-evaluation.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/evaluation-inputs-differ-from-request/pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/evaluation-inputs-differ-from-request/pattern-r2.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/evaluation-inputs-differ-from-request/size-system.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/evaluation-inputs-differ-from-request/fit-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/evaluation-inputs-differ-from-request/geometry-snapshot.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-007",
+        "documentPath": "conformance/referential/evaluation-inputs-differ-from-request/pattern-evaluation.json",
+        "instancePath": "/inputDigests/1/artifactRef"
+      },
+      {
+        "code": "D2P-REF-007",
+        "documentPath": "conformance/referential/evaluation-inputs-differ-from-request/pattern-evaluation.json",
+        "instancePath": "/inputDigests"
+      }
+    ]
+  },
+  "description": "The embedded request pins pattern r1 and a size system; the evaluation claims pattern r2 as its pattern input and records no size-system digest. Each artifact the request pins needs exactly one input digest with the matching role and the same revision (catalog §3.4)."
+}

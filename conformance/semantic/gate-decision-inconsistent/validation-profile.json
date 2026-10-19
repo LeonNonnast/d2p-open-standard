@@ -1,0 +1,18 @@
+{
+  "documentType": "d2p:validation-profile",
+  "schemaVersion": "1.0.0",
+  "profileId": "org.example.conformance:sample-cut",
+  "version": "1.0.0",
+  "purpose": "sample-cut",
+  "rules": [
+    {
+      "ruleId": "org.example.conformance:contour-closed",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    }
+  ],
+  "waiverPolicy": {
+    "allowed": true,
+    "maxSeverity": "error"
+  }
+}

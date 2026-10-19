@@ -1,0 +1,18 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_golden-tshirt-pattern-r2",
+  "artifactId": "art_golden-tshirt-pattern",
+  "sequence": 2,
+  "parentRevisionIds": [
+    "rev_golden-tshirt-pattern-r1"
+  ],
+  "contentDigest": "sha256:c2045521293e2327eb34a61e1d60485ca5c7c6062ea977bb5e1414a0f3f377b5",
+  "createdAt": "2026-01-03T00:00:00Z",
+  "author": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  },
+  "commandId": "cmd_golden-tshirt-change-1",
+  "message": "Change case: bust-ease +20 mm, sleeve-length +30 mm (synthetic)."
+}

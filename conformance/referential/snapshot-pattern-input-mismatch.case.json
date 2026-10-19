@@ -1,0 +1,31 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.snapshot-pattern-input-mismatch",
+  "level": "referential",
+  "title": "A snapshot whose pattern input digest names another revision than its patternRef is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/snapshot-pattern-input-mismatch/geometry-snapshot.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/snapshot-pattern-input-mismatch/pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/snapshot-pattern-input-mismatch/pattern-r2.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-007",
+        "documentPath": "conformance/referential/snapshot-pattern-input-mismatch/geometry-snapshot.json",
+        "instancePath": "/inputDigests/0/artifactRef"
+      }
+    ]
+  }
+}

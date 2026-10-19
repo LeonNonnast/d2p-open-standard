@@ -1,0 +1,24 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "TOP-003-discontinuous-interface",
+  "level": "semantic",
+  "title": "Discontinuous EdgeInterval chain is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/topology/TOP-003-discontinuous-interface/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-020"
+      }
+    ]
+  },
+  "testIds": [
+    "TOP-003"
+  ]
+}

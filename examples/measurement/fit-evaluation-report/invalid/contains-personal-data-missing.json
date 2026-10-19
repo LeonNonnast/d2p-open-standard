@@ -1,0 +1,84 @@
+{
+  "documentType": "d2p:fit-evaluation-report",
+  "schemaVersion": "1.0.0",
+  "reportId": "fer_example-size-a-regular-woven",
+  "createdAt": "2026-01-02T00:00:00Z",
+  "evaluationRef": {
+    "id": "pev_example-size-a-regular-woven",
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "evaluator": {
+    "engineId": "example-engine",
+    "engineVersion": "0.1.0",
+    "algorithmProfileVersion": "1.0.0",
+    "evaluatorProfile": {
+      "id": "com.example.atelier:analytic",
+      "version": "1.0.0"
+    }
+  },
+  "inputDigests": [
+    {
+      "role": "fit-profile",
+      "artifactRef": {
+        "artifactId": "art_example-fit-profile",
+        "revisionId": "rev_example-fit-profile-r1"
+      },
+      "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "role": "garment-measurement-spec",
+      "artifactRef": {
+        "artifactId": "art_example-garment-spec",
+        "revisionId": "rev_example-garment-spec-r1"
+      },
+      "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    {
+      "role": "measurement-definition-registry",
+      "id": {
+        "id": "d2p:measurement-definitions",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    },
+    {
+      "role": "pattern",
+      "artifactRef": {
+        "artifactId": "art_example-pattern",
+        "revisionId": "rev_example-pattern-r1"
+      },
+      "digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    }
+  ],
+  "evidenceKind": "analytical",
+  "results": [
+    {
+      "id": "target-chest-girth-size-a",
+      "garmentDefinitionId": "d2p:garment.chest-girth",
+      "predicted": {
+        "value": 1024,
+        "unit": "mm"
+      },
+      "target": {
+        "value": 1020,
+        "unit": "mm"
+      },
+      "deviation": {
+        "value": 4,
+        "unit": "mm"
+      },
+      "status": "within-tolerance"
+    },
+    {
+      "id": "target-sleeve-length-size-a-regular-woven",
+      "garmentDefinitionId": "d2p:garment.sleeve-length",
+      "predicted": {
+        "value": 212,
+        "unit": "mm"
+      },
+      "status": "not-evaluated"
+    }
+  ],
+  "diagnostics": [],
+  "resultDigest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+}

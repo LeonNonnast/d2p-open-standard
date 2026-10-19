@@ -1,0 +1,22 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:sewing-group-integrity",
+  "version": "1.0.0",
+  "title": "Sewing groups are consistent",
+  "description": "A sewing group lists each connection once, no connection belongs to two groups, members of a connected group form a connected graph, and every layer order entry names a participating cut instance exactly once. An importer or editor that cannot express a construction as binary seam connections plus sewing groups without losing meaning reports D2P-SEM-034 (unsupported profile); the conformance runners cannot detect that case, because a conforming document is binary by construction.",
+  "layer": "domain",
+  "targetDocumentTypes": [
+    "d2p:pattern"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-SEM-030",
+    "D2P-SEM-031",
+    "D2P-SEM-032",
+    "D2P-SEM-033",
+    "D2P-SEM-034"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

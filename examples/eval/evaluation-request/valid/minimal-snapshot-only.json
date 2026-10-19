@@ -1,0 +1,16 @@
+{
+  "documentType": "d2p:evaluation-request",
+  "schemaVersion": "1.0.0",
+  "requestId": "erq_example-minimal",
+  "patternRef": {
+    "artifactId": "art_golden-tshirt-pattern",
+    "revisionId": "rev_golden-tshirt-pattern-r1"
+  },
+  "evaluatorProfile": {
+    "id": "d2p:golden-fixture-analytic",
+    "version": "1.0.0"
+  },
+  "requestedOutputs": [
+    "geometry-snapshot"
+  ]
+}

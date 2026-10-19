@@ -1,0 +1,26 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "SWG-005-connection-in-two-groups",
+  "level": "semantic",
+  "title": "Two groups claiming the same connection are rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/sewing-groups/SWG-005-connection-in-two-groups/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-031",
+        "documentPath": "conformance/semantic/sewing-groups/SWG-005-connection-in-two-groups/pattern.json",
+        "instancePath": "/sewingGroups/1/members/0"
+      }
+    ]
+  },
+  "testIds": [
+    "SWG-005"
+  ]
+}

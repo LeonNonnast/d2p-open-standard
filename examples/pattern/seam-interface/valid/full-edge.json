@@ -1,0 +1,11 @@
+{
+  "id": "si-front-side-left",
+  "segments": [
+    {
+      "edgeId": "front-side-left",
+      "from": 0,
+      "to": 1,
+      "direction": "forward"
+    }
+  ]
+}

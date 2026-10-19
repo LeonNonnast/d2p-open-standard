@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/core/project.schema.json",
+  "title": "D2P Project",
+  "description": "Project record (document type 'd2p:project'). Projects and products organize artifacts only through relationships and never copy them (design decision ADR-001).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "projectId",
+    "name"
+  ],
+  "properties": {
+    "documentType": {
+      "description": "Document type; always 'd2p:project'.",
+      "type": "string",
+      "const": "d2p:project"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "projectId": {
+      "description": "Own ID of the project ('prj_').",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/projectId"
+    },
+    "name": {
+      "description": "Name of the project.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "description": "Free-text description of the project.",
+      "type": "string",
+      "maxLength": 4000
+    },
+    "createdAt": {
+      "description": "When the project was created (UTC).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp"
+    },
+    "contentDigest": {
+      "description": "Optional digest of this whole document, excluding this member (digest profile d2p-digest-v1).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  }
+}

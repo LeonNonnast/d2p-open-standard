@@ -1,0 +1,41 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.gate-evidence-missing",
+  "level": "semantic",
+  "title": "A gate that references evidence lacking a required suite denies the action",
+  "documents": [
+    {
+      "path": "conformance/semantic/gate-evidence-missing/gate-evaluation.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/gate-evidence-missing/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-evidence-missing/validation-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-evidence-missing/validation-rule.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-evidence-missing/validation-report.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-evidence-missing/quality-evidence-bundle.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "QEV-012"
+  ],
+  "description": "The validation report passes, but the referenced quality evidence bundle has no report for its required suite. QEV-012: a missing evidence report means the gate is not passed (step 4, d2p:evidence-missing)."
+}

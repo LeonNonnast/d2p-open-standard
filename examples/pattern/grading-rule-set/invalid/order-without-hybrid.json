@@ -1,0 +1,27 @@
+{
+  "documentType": "d2p:grading-rule-set",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_example-two-panel-bag-grading",
+  "revisionId": "rev_example-two-panel-bag-grading-r1",
+  "patternRef": {
+    "artifactId": "art_example-two-panel-bag-pattern",
+    "revisionId": "rev_example-two-panel-bag-pattern-r1"
+  },
+  "mode": "measurement-driven",
+  "sizeSystemRef": {
+    "artifactId": "art_example-size-system",
+    "revisionId": "rev_example-size-system-r1"
+  },
+  "rules": [
+    {
+      "id": "grade-chest-girth",
+      "kind": "measurement-source",
+      "measurementKey": "chest-girth",
+      "source": "size-entry"
+    }
+  ],
+  "order": [
+    "point-increment",
+    "measurement-driven"
+  ]
+}

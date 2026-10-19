@@ -1,0 +1,35 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_example-pattern-r3",
+  "artifactId": "art_example-pattern",
+  "sequence": 3,
+  "parentRevisionIds": [
+    "rev_example-pattern-r2"
+  ],
+  "contentDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "createdAt": "2026-10-02T09:00:00Z",
+  "author": {
+    "kind": "agent",
+    "principalId": "prn_assistant-1"
+  },
+  "lineage": [
+    {
+      "operation": "split",
+      "fromElementIds": [
+        "front"
+      ],
+      "toElementIds": [
+        "front-upper",
+        "front-lower"
+      ]
+    },
+    {
+      "operation": "remove",
+      "fromElementIds": [
+        "pocket"
+      ],
+      "toElementIds": []
+    }
+  ]
+}

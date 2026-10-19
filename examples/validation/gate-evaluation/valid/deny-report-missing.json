@@ -1,0 +1,41 @@
+{
+  "documentType": "d2p:gate-evaluation",
+  "schemaVersion": "1.0.0",
+  "gateEvaluationId": "gte_example-missing",
+  "evaluatedAt": "2026-01-02T00:00:00Z",
+  "action": "export-1to1",
+  "targetRefs": [
+    {
+      "artifactId": "art_golden-tshirt-fit-profile-regular",
+      "revisionId": "rev_golden-tshirt-fit-profile-regular-r1"
+    },
+    {
+      "artifactId": "art_golden-tshirt-garment-measurement-spec",
+      "revisionId": "rev_golden-tshirt-garment-measurement-spec-r1"
+    },
+    {
+      "artifactId": "art_golden-tshirt-grading-rule-set",
+      "revisionId": "rev_golden-tshirt-grading-rule-set-r1"
+    },
+    {
+      "artifactId": "art_golden-tshirt-pattern",
+      "revisionId": "rev_golden-tshirt-pattern-r1"
+    },
+    {
+      "artifactId": "art_golden-tshirt-size-system",
+      "revisionId": "rev_golden-tshirt-size-system-r1"
+    }
+  ],
+  "profile": {
+    "id": "d2p:print-1to1",
+    "version": "1.0.0"
+  },
+  "reportRefs": [],
+  "waiverIds": [],
+  "decision": "deny",
+  "reasonCodes": [
+    "d2p:report-missing"
+  ],
+  "addressedFindings": [],
+  "resultDigest": "sha256:c1a68322be888c67b9a0711a7a0ec9d52559a16a8a6c8e9938102f3540824378"
+}

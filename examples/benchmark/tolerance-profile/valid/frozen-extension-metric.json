@@ -1,0 +1,16 @@
+{
+  "documentType": "d2p:tolerance-profile",
+  "schemaVersion": "1.0.0",
+  "profileId": "com.example.atelier:knit-2d",
+  "version": "2.0.0",
+  "status": "frozen",
+  "scope": "Example extension profile with an extension metric.",
+  "tolerances": [
+    {
+      "metric": "com.example.atelier:rib-width-deviation",
+      "limit": 0.5,
+      "unit": "mm",
+      "comparison": "absolute-lte"
+    }
+  ]
+}

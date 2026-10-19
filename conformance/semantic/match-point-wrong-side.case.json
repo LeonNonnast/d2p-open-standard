@@ -1,0 +1,29 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.match-point-wrong-side",
+  "level": "semantic",
+  "title": "A match point whose notches are swapped between side A and side B is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/match-point-wrong-side/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-025",
+        "documentPath": "conformance/semantic/match-point-wrong-side/pattern.json",
+        "instancePath": "/seamConnections/0/matchPoints/0/notchIdA"
+      },
+      {
+        "code": "D2P-SEM-025",
+        "documentPath": "conformance/semantic/match-point-wrong-side/pattern.json",
+        "instancePath": "/seamConnections/0/matchPoints/0/notchIdB"
+      }
+    ]
+  },
+  "description": "Both notches exist, but notchIdA names the notch on the back (side B) and notchIdB the notch on the front (side A). Match points tell the sewer which points of the two sides meet (design decision ADR-007.1), so each notch must lie on the interface of its side."
+}

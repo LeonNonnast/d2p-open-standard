@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/benchmark/tolerance-profile.schema.json",
+  "title": "D2P Tolerance Profile",
+  "description": "Versioned vocabulary of numeric tolerances used to compare implementation results with expected fixture results (design decisions ADR-017.1, ADR-025). Agreement across implementations is judged with tolerance profiles, never with digests. A profile is pinned before any benchmark run and never adjusted afterwards to fit an implementation. Once status is frozen the profile is immutable: any changed limit is a new version. A profile with status provisional holds proposed values only and is not an adopted norm. Profile files are stored as tolerance-profiles/<local>-<version>.json for profileId d2p:<local>. Producers MUST sort tolerances by metric (UTF-16 code-unit order).",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:tolerance-profile"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "profileId": {
+      "description": "Qualified name of the profile. Together with version it identifies the profile.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+    },
+    "version": {
+      "description": "Version of the profile, independent of the standard version.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+    },
+    "status": {
+      "description": "provisional: proposed values, not yet adopted, and not to be used for comparing implementations; frozen: adopted and immutable.",
+      "type": "string",
+      "enum": [
+        "provisional",
+        "frozen"
+      ]
+    },
+    "scope": {
+      "description": "What the profile applies to (for example a fixture and the kind of results compared).",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "tolerances": {
+      "description": "Tolerance entries, sorted by metric. Metrics without an agreed value are omitted.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/toleranceEntry"
+      }
+    },
+    "notes": {
+      "description": "Free-text notes, for example on the provenance and status of the values.",
+      "type": "string",
+      "maxLength": 4000
+    },
+    "contentDigest": {
+      "description": "Optional digest of this document (d2p-digest-v1, excluding contentDigest). Pins of this profile digest the whole file instead.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "profileId",
+    "version",
+    "status",
+    "scope",
+    "tolerances"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "toleranceEntry": {
+      "title": "Tolerance entry",
+      "description": "Limit for one metric. A measured deviation d passes if d <= limit, where d is the absolute deviation (absolute-lte) or |actual - expected| / expected (relative-lte).",
+      "type": "object",
+      "properties": {
+        "metric": {
+          "$ref": "#/$defs/toleranceMetric",
+          "description": "Metric the limit applies to."
+        },
+        "limit": {
+          "description": "Maximum permitted deviation, in unit.",
+          "type": "number",
+          "minimum": 0
+        },
+        "unit": {
+          "description": "Unit of limit. For relative-lte comparisons this is 1.",
+          "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/benchmarkUnit"
+        },
+        "comparison": {
+          "description": "How the deviation is computed and compared with limit.",
+          "$ref": "#/$defs/toleranceComparison"
+        }
+      },
+      "required": [
+        "metric",
+        "limit",
+        "unit",
+        "comparison"
+      ],
+      "additionalProperties": false
+    },
+    "toleranceComparison": {
+      "title": "Tolerance comparison",
+      "description": "absolute-lte: |actual - expected| <= limit; relative-lte: |actual - expected| / expected <= limit.",
+      "type": "string",
+      "enum": [
+        "absolute-lte",
+        "relative-lte"
+      ]
+    },
+    "toleranceMetric": {
+      "title": "Tolerance metric",
+      "description": "Metric the limit applies to. Standard metrics: d2p:contour-deviation (mm, absolute-lte; Hausdorff distance between expected and actual contour, control points compare under this metric as degenerate contours), d2p:seam-length-deviation-relative (1, relative-lte), d2p:seam-length-deviation-absolute (mm, absolute-lte; for short seams), d2p:control-square-deviation (mm, absolute-lte; control-square side in file coordinates vs 100 mm), d2p:angle-deviation (rad, absolute-lte). Extension metrics use extension names.",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "d2p:angle-deviation",
+            "d2p:contour-deviation",
+            "d2p:control-square-deviation",
+            "d2p:seam-length-deviation-absolute",
+            "d2p:seam-length-deviation-relative"
+          ]
+        },
+        {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+        }
+      ],
+      "type": "string"
+    }
+  }
+}

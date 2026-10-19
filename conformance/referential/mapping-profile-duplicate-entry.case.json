@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.mapping-profile-duplicate-entry",
+  "level": "referential",
+  "title": "A mapping profile that lists the same (d2pTerm, externalTerm) pair twice is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/mapping-profile-duplicate-entry/mapping-profile.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-005",
+        "documentPath": "conformance/referential/mapping-profile-duplicate-entry/mapping-profile.json",
+        "instancePath": "/entries/1"
+      }
+    ]
+  }
+}

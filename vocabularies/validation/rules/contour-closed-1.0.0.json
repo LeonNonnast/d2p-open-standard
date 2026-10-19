@@ -1,0 +1,19 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:contour-closed",
+  "version": "1.0.0",
+  "title": "Contours are closed",
+  "description": "Every contour edge chain is closed through shared point features, and every snapshot contour ends exactly at its start after quantization.",
+  "layer": "domain",
+  "targetDocumentTypes": [
+    "d2p:geometry-snapshot",
+    "d2p:pattern"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-SEM-010"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

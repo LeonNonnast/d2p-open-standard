@@ -1,0 +1,450 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json",
+  "title": "D2P Test Run Report",
+  "description": "Record of one execution of a test suite against a pinned fixture and a pinned tolerance profile (design decisions ADR-017.1, ADR-025). A run is compared only with the fixture whose recomputed digest equals fixture.fixtureDigest and only with the pinned tolerance profile; otherwise the comparison is refused (QEV-001). Every member of this document is informative for the referential level: nothing in it is resolved by the referential runner.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:test-run-report"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "reportId": {
+      "description": "Global ID of this test run report (prefix trr_).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/testRunReportId"
+    },
+    "suiteId": {
+      "description": "Qualified name of the test suite that was executed.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+    },
+    "suiteVersion": {
+      "description": "Version of the executed test suite.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+    },
+    "subjectKind": {
+      "description": "Kind of implementation under test.",
+      "$ref": "#/$defs/subjectKind"
+    },
+    "fixture": {
+      "description": "The exact fixture version and digest this run was compared against.",
+      "$ref": "#/$defs/fixturePin"
+    },
+    "implementation": {
+      "description": "Name and version of the implementation under test.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/softwareInfo"
+    },
+    "executionEnvironment": {
+      "description": "Operating system, architecture and runtime the run was executed on.",
+      "$ref": "#/$defs/executionEnvironment"
+    },
+    "toleranceProfile": {
+      "description": "ID and version of the tolerance profile results were compared with. The profile is pinned before the run and never adjusted afterwards.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+    },
+    "testRunnerVersion": {
+      "description": "Version string of the test runner (harness) that executed the suite.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "startedAt": {
+      "description": "UTC time at which the run started.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp"
+    },
+    "durationMs": {
+      "description": "Wall-clock duration of the run in milliseconds.",
+      "type": "number",
+      "minimum": 0
+    },
+    "resultState": {
+      "description": "Overall result of the run. An incomplete or empty result is never passed.",
+      "$ref": "#/$defs/resultState"
+    },
+    "measurements": {
+      "description": "Machine-readable measured values of the run. Required; written as [] when nothing was measured.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/runMeasurement"
+      }
+    },
+    "findings": {
+      "description": "Diagnostics reported by the run. Required; written as [] when there are none.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/diagnostic.schema.json#/$defs/diagnostic"
+      }
+    },
+    "skipReason": {
+      "description": "Why the run was skipped. Required when resultState is skipped (schema-enforced).",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "backend": {
+      "description": "Pinned backend and adapter versions. Required when subjectKind is evaluator (schema-enforced).",
+      "$ref": "#/$defs/backendPin"
+    },
+    "evaluatorProfile": {
+      "description": "ID and version of the evaluator profile used. Required when subjectKind is evaluator (schema-enforced). Evaluator profiles are identified only, not digested, in 1.0.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+    },
+    "targetRefs": {
+      "description": "Pinned artifact revisions the run was executed on, if any. Informative; not resolved by the referential runner.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+      },
+      "minItems": 1
+    },
+    "randomSeed": {
+      "description": "Random seed used by the run, where randomness is relevant. Absent means the run used no randomness.",
+      "type": "integer"
+    },
+    "provenance": {
+      "description": "Who produced the report and from which source revision of the implementation.",
+      "$ref": "#/$defs/runProvenance"
+    },
+    "attachments": {
+      "description": "Additional files produced by the run (logs, rendered outputs), each pinned by digest.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/attachment"
+      },
+      "minItems": 1
+    },
+    "contentDigest": {
+      "description": "Optional digest of this document (d2p-digest-v1, excluding contentDigest).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "reportId",
+    "suiteId",
+    "suiteVersion",
+    "subjectKind",
+    "fixture",
+    "implementation",
+    "executionEnvironment",
+    "toleranceProfile",
+    "testRunnerVersion",
+    "startedAt",
+    "durationMs",
+    "resultState",
+    "measurements",
+    "findings"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "resultState": {
+            "const": "skipped"
+          }
+        },
+        "required": [
+          "resultState"
+        ]
+      },
+      "then": {
+        "properties": {
+          "skipReason": true
+        },
+        "required": [
+          "skipReason"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "subjectKind": {
+            "const": "evaluator"
+          }
+        },
+        "required": [
+          "subjectKind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "backend": true,
+          "evaluatorProfile": true
+        },
+        "required": [
+          "backend",
+          "evaluatorProfile"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "resultState": {
+      "title": "Result state",
+      "description": "Result of a test, measurement or run. passed: all checks met their limits; failed: at least one check failed; inconclusive: the result could not be decided (for example incomplete evidence); skipped: not executed. Same values as the tooling's RESULT_STATES.",
+      "type": "string",
+      "enum": [
+        "passed",
+        "failed",
+        "inconclusive",
+        "skipped"
+      ]
+    },
+    "benchmarkUnit": {
+      "title": "Benchmark unit",
+      "description": "Unit of a measured or limiting value in test and benchmark documents: mm (length), rad (angle), 1 (dimensionless), ms (milliseconds), byte, count.",
+      "type": "string",
+      "enum": [
+        "mm",
+        "rad",
+        "1",
+        "ms",
+        "byte",
+        "count"
+      ]
+    },
+    "subjectKind": {
+      "title": "Subject kind",
+      "description": "Kind of implementation under test: evaluator (geometry, constraint or evaluation backend), renderer, validator or other.",
+      "type": "string",
+      "enum": [
+        "evaluator",
+        "renderer",
+        "validator",
+        "other"
+      ]
+    },
+    "fixturePin": {
+      "title": "Fixture pin",
+      "description": "Exact fixture a run was compared against. A run compares only with the fixture whose recomputed fixtureDigest equals this digest.",
+      "type": "object",
+      "properties": {
+        "fixtureId": {
+          "description": "ID of the fixture (the manifest's fixtureId).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "fixtureVersion": {
+          "description": "Version of the fixture (the manifest's fixtureVersion).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+        },
+        "fixtureDigest": {
+          "description": "The manifest's fixtureDigest.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+        }
+      },
+      "required": [
+        "fixtureId",
+        "fixtureVersion",
+        "fixtureDigest"
+      ],
+      "additionalProperties": false
+    },
+    "executionEnvironment": {
+      "title": "Execution environment",
+      "description": "Environment a run was executed in. Results are only comparable within the same stated environment where the metric depends on it (for example performance).",
+      "type": "object",
+      "properties": {
+        "os": {
+          "description": "Operating system name and version.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "arch": {
+          "description": "CPU architecture (for example amd64, arm64).",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "runtime": {
+          "description": "Language runtime or toolchain and its version, if relevant.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "buildFlags": {
+          "description": "Build flags of the implementation under test, if relevant.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "hardware": {
+          "description": "Hardware description (CPU model, memory), required in practice for performance comparisons.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      },
+      "required": [
+        "os",
+        "arch"
+      ],
+      "additionalProperties": false
+    },
+    "backendPin": {
+      "title": "Backend pin",
+      "description": "Pinned versions of a numeric backend and the adapter that connects it (design decision ADR-017.1 §10). An implementation without a separate adapter states its own version as adapterVersion.",
+      "type": "object",
+      "properties": {
+        "backendId": {
+          "description": "Identifier of the backend.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "backendVersion": {
+          "description": "Version of the backend.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "adapterVersion": {
+          "description": "Version of the adapter in front of the backend.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "backendId",
+        "backendVersion",
+        "adapterVersion"
+      ],
+      "additionalProperties": false
+    },
+    "runMeasurement": {
+      "title": "Run measurement",
+      "description": "One machine-readable measured value of a run, with its limit and per-measurement result state.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Element ID of the measurement, unique within the document.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "metric": {
+          "$ref": "https://d2p.nonnast.dev/schemas/benchmark/tolerance-profile.schema.json#/$defs/toleranceMetric",
+          "description": "Qualified name of the measured metric (for example a tolerance metric such as d2p:contour-deviation). Extensible: a d2p: value is one of the standard tolerance metrics (an unknown d2p: metric is a schema error); other metrics use extension names."
+        },
+        "value": {
+          "description": "Measured value, in unit.",
+          "type": "number"
+        },
+        "unit": {
+          "description": "Unit of value and limit.",
+          "$ref": "#/$defs/benchmarkUnit"
+        },
+        "limit": {
+          "description": "Limit the value was compared with, in unit, taken from the pinned tolerance profile where the metric is listed there. Absent means the value is recorded for comparison only.",
+          "type": "number"
+        },
+        "state": {
+          "description": "Result of this measurement.",
+          "$ref": "#/$defs/resultState"
+        },
+        "provenance": {
+          "description": "How the value was obtained.",
+          "$ref": "#/$defs/measurementProvenance"
+        },
+        "extensions": {
+          "description": "Optional extension blocks.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+        }
+      },
+      "required": [
+        "id",
+        "metric",
+        "value",
+        "unit",
+        "state",
+        "provenance"
+      ],
+      "additionalProperties": false
+    },
+    "measurementProvenance": {
+      "title": "Measurement provenance",
+      "description": "How a measured value was obtained.",
+      "type": "object",
+      "properties": {
+        "method": {
+          "description": "Measurement method (for example the sampling procedure for a Hausdorff distance).",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "toolVersion": {
+          "description": "Version of the measuring tool, if separate from the test runner.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        }
+      },
+      "required": [
+        "method"
+      ],
+      "additionalProperties": false
+    },
+    "runProvenance": {
+      "title": "Run provenance",
+      "description": "Who produced a report and from which source revision of the implementation.",
+      "type": "object",
+      "properties": {
+        "producer": {
+          "description": "Software that produced the report.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/softwareInfo"
+        },
+        "sourceRevision": {
+          "description": "Source revision (for example a VCS commit) of the implementation under test.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "notes": {
+          "description": "Free-text notes.",
+          "type": "string",
+          "maxLength": 4000
+        }
+      },
+      "required": [
+        "producer"
+      ],
+      "additionalProperties": false
+    },
+    "attachment": {
+      "title": "Attachment",
+      "description": "A file produced by a run, pinned by digest (canonical form for JSON files, raw-byte SHA-256 otherwise).",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Relative POSIX path of the file, relative to the report's location.",
+          "$ref": "https://d2p.nonnast.dev/schemas/benchmark/fixture-manifest.schema.json#/$defs/relativePath"
+        },
+        "mediaType": {
+          "description": "IANA media type of the file (for example application/json, image/svg+xml).",
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9!#$&^_.+-]*/[a-z0-9][a-z0-9!#$&^_.+-]*$",
+          "maxLength": 255
+        },
+        "digest": {
+          "description": "Digest of the file.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+        }
+      },
+      "required": [
+        "path",
+        "mediaType",
+        "digest"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

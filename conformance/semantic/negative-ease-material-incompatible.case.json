@@ -1,0 +1,43 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.negative-ease-material-incompatible",
+  "level": "semantic",
+  "title": "A stretch-conditioned negative-ease rule evaluated for a woven material is reported, not applied silently",
+  "documents": [
+    {
+      "path": "conformance/semantic/negative-ease-material-incompatible/evaluation-request.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/negative-ease-material-incompatible/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/negative-ease-material-incompatible/size-system.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/negative-ease-material-incompatible/fit-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-074",
+        "documentPath": "conformance/semantic/negative-ease-material-incompatible/evaluation-request.json",
+        "instancePath": "/materialAssumptions"
+      }
+    ]
+  },
+  "testIds": [
+    "FIT-002"
+  ],
+  "description": "The fit profile's negative-ease rule requires a knit with at least 0.2 stretch; the request evaluates a woven configuration. The rule does not apply, and D2P-SEM-074 makes that visible (synthetic values, not a norm)."
+}

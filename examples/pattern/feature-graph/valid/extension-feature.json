@@ -1,0 +1,35 @@
+[
+  {
+    "id": "p-a",
+    "type": "d2p:point.absolute",
+    "params": {
+      "x": {
+        "expr": {
+          "op": "literal",
+          "value": 0,
+          "unit": "mm"
+        }
+      },
+      "y": {
+        "expr": {
+          "op": "literal",
+          "value": 0,
+          "unit": "mm"
+        }
+      }
+    }
+  },
+  {
+    "id": "smock",
+    "type": "com.example.atelier:smocking",
+    "params": {
+      "rows": 6,
+      "anything": {
+        "nested": true
+      }
+    },
+    "dependsOn": [
+      "p-a"
+    ]
+  }
+]

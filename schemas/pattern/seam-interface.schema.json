@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/pattern/seam-interface.schema.json",
+  "title": "D2P Seam Interface",
+  "description": "A seam interface: an ordered, continuous chain of edge intervals on one piece and one cut instance that can be sewn to another interface (design decisions ADR-007, ADR-007.1). Continuity is D2P-SEM-020, single piece / cut instance is D2P-SEM-022.",
+  "$ref": "#/$defs/seamInterface",
+  "$defs": {
+    "seamInterface": {
+      "title": "Seam interface",
+      "description": "A sewable chain of edge intervals.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the seam interface."
+        },
+        "segments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/edgeInterval"
+          },
+          "description": "Edge intervals in sewing direction. Consecutive intervals MUST be continuous (D2P-SEM-020).",
+          "minItems": 1
+        },
+        "cutInstanceKey": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Cut instance the interface belongs to. Required when the piece has more than one cut instance (D2P-SEM-022, semantic, not schema-enforced); absent means the piece's implicit instance."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "Optional human-readable name."
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional namespaced extension blocks (§1.7 of the schema catalog)."
+        }
+      },
+      "required": [
+        "id",
+        "segments"
+      ],
+      "additionalProperties": false
+    },
+    "edgeInterval": {
+      "title": "Edge interval",
+      "description": "A sub-interval of one edge. Parameters are normalized arc length along the edge direction. 'from' MUST be less than 'to' (D2P-SEM-021). A forward interval runs from 'from' to 'to', a reverse interval from 'to' to 'from'.",
+      "type": "object",
+      "properties": {
+        "edgeId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the edge."
+        },
+        "from": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Lower interval bound in [0, 1] (normalized arc length along the edge direction)."
+        },
+        "to": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Upper interval bound in [0, 1] (normalized arc length along the edge direction)."
+        },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "forward",
+            "reverse"
+          ],
+          "description": "Traversal direction of the interval relative to the edge direction."
+        }
+      },
+      "required": [
+        "edgeId",
+        "from",
+        "to",
+        "direction"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

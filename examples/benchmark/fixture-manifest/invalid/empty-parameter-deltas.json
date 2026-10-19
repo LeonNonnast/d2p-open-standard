@@ -1,0 +1,85 @@
+{
+  "documentType": "d2p:fixture-manifest",
+  "schemaVersion": "1.0.0",
+  "fixtureId": "golden-tshirt",
+  "fixtureVersion": "1.0.0",
+  "title": "Golden T-Shirt v1 (excerpt)",
+  "description": "Shortened example of the Golden T-Shirt manifest: synthetic data, two sizes, two material/fit configurations. Digests in this example are placeholders except the tolerance profile pin.",
+  "synthetic": true,
+  "standardVersion": "1.0.0",
+  "digestProfile": "d2p-digest-v1",
+  "toleranceProfile": {
+    "profileId": "d2p:golden-tshirt-2d",
+    "version": "1.0.0",
+    "path": "tolerance-profiles/golden-tshirt-2d-1.0.0.json",
+    "digest": "sha256:0f0a4b144bf0c71acda4b07a65b72355aa1e4c078a0598c181c9869565a7fd8d"
+  },
+  "configurations": [
+    {
+      "configurationKey": "regular-woven",
+      "fitProfileRef": {
+        "artifactId": "art_golden-tshirt-fit-profile-regular",
+        "revisionId": "rev_golden-tshirt-fit-profile-regular-r1"
+      },
+      "materialAssumptions": {
+        "materialClass": "woven"
+      }
+    },
+    {
+      "configurationKey": "relaxed-knit",
+      "fitProfileRef": {
+        "artifactId": "art_golden-tshirt-fit-profile-relaxed",
+        "revisionId": "rev_golden-tshirt-fit-profile-relaxed-r1"
+      },
+      "materialAssumptions": {
+        "materialClass": "knit"
+      }
+    }
+  ],
+  "changeCase": {
+    "commandPath": "inputs/change/command.json",
+    "parameterDeltas": []
+  },
+  "files": [
+    {
+      "path": "expected/change/pattern-r2.json",
+      "role": "expected",
+      "documentType": "d2p:pattern",
+      "digest": "sha256:a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1"
+    },
+    {
+      "path": "inputs/change/command.json",
+      "role": "input",
+      "documentType": "d2p:command",
+      "digest": "sha256:b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2"
+    },
+    {
+      "path": "inputs/pattern-r1.json",
+      "role": "input",
+      "documentType": "d2p:pattern",
+      "digest": "sha256:c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3"
+    },
+    {
+      "path": "negative/open-contour/pattern.json",
+      "role": "negative",
+      "documentType": "d2p:pattern",
+      "digest": "sha256:d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4"
+    }
+  ],
+  "externalFiles": [
+    {
+      "path": "tolerance-profiles/golden-tshirt-2d-1.0.0.json",
+      "documentType": "d2p:tolerance-profile",
+      "digest": "sha256:0f0a4b144bf0c71acda4b07a65b72355aa1e4c078a0598c181c9869565a7fd8d"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "documentType": "d2p:measurement-definition-registry",
+      "digest": "sha256:e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5"
+    }
+  ],
+  "review": {
+    "status": "pending"
+  },
+  "fixtureDigest": "sha256:f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6"
+}

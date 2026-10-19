@@ -1,0 +1,55 @@
+{
+  "documentType": "d2p:command",
+  "schemaVersion": "1.0.0",
+  "commandId": "cmd_golden-tshirt-change-1",
+  "idempotencyKey": "golden-tshirt-change-1",
+  "type": "d2p:pattern.parameters.update",
+  "target": {
+    "artifactId": "art_golden-tshirt-pattern",
+    "branch": "main"
+  },
+  "expectedRevisionId": "rev_golden-tshirt-pattern-r1",
+  "payload": {
+    "updates": [
+      {
+        "parameterId": "bust-ease",
+        "expr": {
+          "op": "literal",
+          "value": 120,
+          "unit": "mm"
+        }
+      },
+      {
+        "parameterId": "sleeve-length",
+        "expr": {
+          "op": "add",
+          "args": [
+            {
+              "op": "mul",
+              "args": [
+                {
+                  "op": "measurement",
+                  "key": "arm-length"
+                },
+                {
+                  "op": "literal",
+                  "value": 0.33,
+                  "unit": "1"
+                }
+              ]
+            },
+            {
+              "op": "literal",
+              "value": 30,
+              "unit": "mm"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "actorContext": {
+    "actorPrincipalId": "prn_golden-fixture"
+  },
+  "issuedAt": "2026-01-03T00:00:00Z"
+}

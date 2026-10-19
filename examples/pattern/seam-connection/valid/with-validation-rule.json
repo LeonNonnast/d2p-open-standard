@@ -1,0 +1,13 @@
+{
+  "id": "seam-armhole-front-left",
+  "interfaceIds": [
+    "si-front-side-left",
+    "si-back-side-left"
+  ],
+  "type": "d2p:stitched",
+  "active": true,
+  "ease": {
+    "mode": "none"
+  },
+  "validationRuleId": "d2p:seam-length-match"
+}

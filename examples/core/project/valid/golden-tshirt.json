@@ -1,0 +1,8 @@
+{
+  "documentType": "d2p:project",
+  "schemaVersion": "1.0.0",
+  "projectId": "prj_golden-tshirt",
+  "name": "Golden T-Shirt",
+  "description": "Reference project of the Golden T-Shirt fixture.",
+  "createdAt": "2026-10-01T00:00:00Z"
+}

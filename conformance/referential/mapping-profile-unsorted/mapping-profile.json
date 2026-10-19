@@ -1,0 +1,24 @@
+{
+  "documentType": "d2p:mapping-profile",
+  "schemaVersion": "1.0.0",
+  "mappingId": "org.example.conformance:house-terms",
+  "version": "1.0.0",
+  "title": "Conformance kit house measurement terms (fictitious)",
+  "system": "Fictitious house size charts",
+  "systemVersion": "2026",
+  "provenance": {
+    "publisher": "Conformance kit (fictitious)"
+  },
+  "entries": [
+    {
+      "d2pTerm": "d2p:body.waist-girth",
+      "relation": "exact",
+      "externalTerm": "Waist"
+    },
+    {
+      "d2pTerm": "d2p:body.chest-girth",
+      "relation": "exact",
+      "externalTerm": "Chest"
+    }
+  ]
+}

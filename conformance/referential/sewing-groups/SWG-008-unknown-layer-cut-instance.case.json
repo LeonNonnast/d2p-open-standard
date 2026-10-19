@@ -1,0 +1,26 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "SWG-008-unknown-layer-cut-instance",
+  "level": "referential",
+  "title": "A layer order naming an undeclared cut instance is a reference error",
+  "documents": [
+    {
+      "path": "conformance/referential/sewing-groups/SWG-008-unknown-layer-cut-instance/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-010",
+        "documentPath": "conformance/referential/sewing-groups/SWG-008-unknown-layer-cut-instance/pattern.json",
+        "instancePath": "/sewingGroups/0/layerOrder/1/cutInstanceKey"
+      }
+    ]
+  },
+  "testIds": [
+    "SWG-008"
+  ]
+}

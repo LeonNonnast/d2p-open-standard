@@ -1,0 +1,24 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.match-point-outside-interval",
+  "level": "semantic",
+  "title": "A match-point notch on the right edge but outside the interface's interval is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/match-point-outside-interval/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-025",
+        "documentPath": "conformance/semantic/match-point-outside-interval/pattern.json",
+        "instancePath": "/seamConnections/0/matchPoints/0/notchIdA"
+      }
+    ]
+  },
+  "description": "Interface A covers only the upper half (0.5 to 1) of the front side edge, and the notch sits at 0.25 of that edge."
+}

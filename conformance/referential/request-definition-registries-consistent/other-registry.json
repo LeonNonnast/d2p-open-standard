@@ -1,0 +1,27 @@
+{
+  "documentType": "d2p:measurement-definition-registry",
+  "schemaVersion": "1.0.0",
+  "registryId": "org.example.other:definitions",
+  "version": "1.0.0",
+  "definitions": [
+    {
+      "definitionId": "d2p:body.chest-girth",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Closed horizontal path around the torso at armpit level, under the arms and across the shoulder blades."
+      },
+      "landmarks": [
+        "left armpit (axilla)",
+        "right armpit (axilla)",
+        "shoulder blades (scapulae)"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body chest girth: horizontal girth of the torso at the level of the armpits, passing under both arms and across the shoulder blades. The subject stands upright and relaxed with weight on both feet, arms hanging at the sides, breathing normally; the tape lies on the skin without compressing it. Distinct from d2p:body.bust-girth.",
+      "status": "active"
+    }
+  ]
+}

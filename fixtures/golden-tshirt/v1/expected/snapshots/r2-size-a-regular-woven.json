@@ -1,0 +1,651 @@
+{
+  "documentType": "d2p:geometry-snapshot",
+  "schemaVersion": "1.0.0",
+  "snapshotId": "snp_golden-tshirt-r2-size-a-regular-woven",
+  "createdAt": "2026-01-04T00:00:00Z",
+  "patternRef": {
+    "artifactId": "art_golden-tshirt-pattern",
+    "revisionId": "rev_golden-tshirt-pattern-r2"
+  },
+  "evaluationId": "pev_golden-tshirt-r2-size-a-regular-woven",
+  "sizeKey": "size-a",
+  "configurationKey": "regular-woven",
+  "evaluator": {
+    "engineId": "golden-fixture",
+    "engineVersion": "1.0.0",
+    "algorithmProfileVersion": "1.0.0",
+    "evaluatorProfile": {
+      "id": "d2p:golden-fixture-analytic",
+      "version": "1.0.0"
+    }
+  },
+  "featureSetVersion": "1.0.0",
+  "inputDigests": [
+    {
+      "role": "fit-profile",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-fit-profile-regular",
+        "revisionId": "rev_golden-tshirt-fit-profile-regular-r1"
+      },
+      "digest": "sha256:b3e83ec409b680ec29ba3597976f1081133f87b14fdfeea9cd84e2e7826ddd46"
+    },
+    {
+      "role": "material-assumptions",
+      "digest": "sha256:b2d14743b5b88f5e6116d3d241dfd11cefd44ef638867100dfe8e0c32e5959fc"
+    },
+    {
+      "role": "measurement-definition-registry",
+      "id": {
+        "id": "d2p:measurement-definitions",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:c4026449780808e4fa4b9d1f3b0ed8d02e1b63fc7ee6512193b302e7ea4eb4fd"
+    },
+    {
+      "role": "pattern",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-pattern",
+        "revisionId": "rev_golden-tshirt-pattern-r2"
+      },
+      "digest": "sha256:c2045521293e2327eb34a61e1d60485ca5c7c6062ea977bb5e1414a0f3f377b5"
+    },
+    {
+      "role": "size-system",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-size-system",
+        "revisionId": "rev_golden-tshirt-size-system-r1"
+      },
+      "digest": "sha256:57d8493744de25f3eec5792e75cbc89b1fb0f11223ad9b8ffde542027a5d94cc"
+    },
+    {
+      "role": "tolerance-profile",
+      "id": {
+        "id": "d2p:golden-tshirt-2d",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:0f0a4b144bf0c71acda4b07a65b72355aa1e4c078a0598c181c9869565a7fd8d"
+    }
+  ],
+  "units": {
+    "length": "mm",
+    "angle": "rad"
+  },
+  "pieces": [
+    {
+      "pieceId": "back",
+      "contours": [
+        {
+          "contourId": "back-outer",
+          "role": "outer",
+          "start": [
+            -260,
+            0
+          ],
+          "segments": [
+            {
+              "kind": "line",
+              "edgeId": "back-hem",
+              "end": [
+                260,
+                0
+              ]
+            },
+            {
+              "kind": "line",
+              "edgeId": "back-side-right",
+              "end": [
+                260,
+                435
+              ]
+            },
+            {
+              "kind": "cubic",
+              "edgeId": "back-armhole-right",
+              "control1": [
+                228.8,
+                435
+              ],
+              "control2": [
+                214,
+                525
+              ],
+              "end": [
+                220,
+                635
+              ]
+            },
+            {
+              "kind": "line",
+              "edgeId": "back-shoulder-right",
+              "end": [
+                71.666666667,
+                680
+              ]
+            },
+            {
+              "kind": "cubic",
+              "edgeId": "back-neckline",
+              "control1": [
+                71.666666667,
+                653.333333333
+              ],
+              "control2": [
+                -71.666666667,
+                653.333333333
+              ],
+              "end": [
+                -71.666666667,
+                680
+              ]
+            },
+            {
+              "kind": "line",
+              "edgeId": "back-shoulder-left",
+              "end": [
+                -220,
+                635
+              ]
+            },
+            {
+              "kind": "cubic",
+              "edgeId": "back-armhole-left",
+              "control1": [
+                -214,
+                525
+              ],
+              "control2": [
+                -228.8,
+                435
+              ],
+              "end": [
+                -260,
+                435
+              ]
+            },
+            {
+              "kind": "line",
+              "edgeId": "back-side-left",
+              "end": [
+                -260,
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "notches": [
+        {
+          "notchId": "back-armhole-left-notch",
+          "edgeId": "back-armhole-left",
+          "point": [
+            -222.451054421,
+            517.509731535
+          ],
+          "angleRad": -1.689206715
+        },
+        {
+          "notchId": "back-armhole-right-notch",
+          "edgeId": "back-armhole-right",
+          "point": [
+            222.451054421,
+            517.509731535
+          ],
+          "angleRad": 1.689206715
+        }
+      ],
+      "grainlines": [
+        {
+          "grainlineId": "back-grainline",
+          "start": [
+            0,
+            80
+          ],
+          "end": [
+            0,
+            600
+          ]
+        }
+      ],
+      "folds": [],
+      "boundingBox": {
+        "min": [
+          -260,
+          0
+        ],
+        "max": [
+          260,
+          680
+        ]
+      },
+      "areaMm2": 326957.266666667
+    },
+    {
+      "pieceId": "front",
+      "contours": [
+        {
+          "contourId": "front-outer",
+          "role": "outer",
+          "start": [
+            -260,
+            0
+          ],
+          "segments": [
+            {
+              "kind": "line",
+              "edgeId": "front-hem",
+              "end": [
+                260,
+                0
+              ]
+            },
+            {
+              "kind": "line",
+              "edgeId": "front-side-left",
+              "end": [
+                260,
+                435
+              ]
+            },
+            {
+              "kind": "cubic",
+              "edgeId": "front-armhole-left",
+              "control1": [
+                213.2,
+                435
+              ],
+              "control2": [
+                208,
+                535
+              ],
+              "end": [
+                220,
+                635
+              ]
+            },
+            {
+              "kind": "line",
+              "edgeId": "front-shoulder-left",
+              "end": [
+                71.666666667,
+                680
+              ]
+            },
+            {
+              "kind": "cubic",
+              "edgeId": "front-neckline",
+              "control1": [
+                71.666666667,
+                556.666666667
+              ],
+              "control2": [
+                -71.666666667,
+                556.666666667
+              ],
+              "end": [
+                -71.666666667,
+                680
+              ]
+            },
+            {
+              "kind": "line",
+              "edgeId": "front-shoulder-right",
+              "end": [
+                -220,
+                635
+              ]
+            },
+            {
+              "kind": "cubic",
+              "edgeId": "front-armhole-right",
+              "control1": [
+                -208,
+                535
+              ],
+              "control2": [
+                -213.2,
+                435
+              ],
+              "end": [
+                -260,
+                435
+              ]
+            },
+            {
+              "kind": "line",
+              "edgeId": "front-side-right",
+              "end": [
+                -260,
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "notches": [
+        {
+          "notchId": "front-armhole-left-notch",
+          "edgeId": "front-armhole-left",
+          "point": [
+            217.1337585,
+            503.402431886
+          ],
+          "angleRad": 1.696551279
+        },
+        {
+          "notchId": "front-armhole-right-notch",
+          "edgeId": "front-armhole-right",
+          "point": [
+            -217.1337585,
+            503.402431886
+          ],
+          "angleRad": -1.696551279
+        }
+      ],
+      "grainlines": [
+        {
+          "grainlineId": "front-grainline",
+          "start": [
+            0,
+            80
+          ],
+          "end": [
+            0,
+            527.5
+          ]
+        }
+      ],
+      "folds": [],
+      "boundingBox": {
+        "min": [
+          -260,
+          0
+        ],
+        "max": [
+          260,
+          680
+        ]
+      },
+      "areaMm2": 316666.333333333
+    },
+    {
+      "pieceId": "sleeve",
+      "contours": [
+        {
+          "contourId": "sleeve-outer",
+          "role": "outer",
+          "start": [
+            -191.121509621,
+            -0.934091687
+          ],
+          "segments": [
+            {
+              "kind": "line",
+              "edgeId": "sleeve-hem",
+              "end": [
+                187.43470171,
+                0.934091687
+              ]
+            },
+            {
+              "kind": "line",
+              "edgeId": "sleeve-underarm-back",
+              "end": [
+                195.135152962,
+                129.120899893
+              ]
+            },
+            {
+              "kind": "cubic",
+              "edgeId": "sleeve-cap-back",
+              "control1": [
+                140.497310133,
+                137.031227902
+              ],
+              "control2": [
+                74.151358126,
+                228
+              ],
+              "end": [
+                0,
+                228
+              ]
+            },
+            {
+              "kind": "cubic",
+              "edgeId": "sleeve-cap-front",
+              "control1": [
+                -71.575905915,
+                228
+              ],
+              "control2": [
+                -139.175372612,
+                137.327444867
+              ],
+              "end": [
+                -198.821960874,
+                127.252716519
+              ]
+            },
+            {
+              "kind": "line",
+              "edgeId": "sleeve-underarm-front",
+              "end": [
+                -191.121509621,
+                -0.934091687
+              ]
+            }
+          ]
+        }
+      ],
+      "notches": [
+        {
+          "notchId": "sleeve-cap-back-notch",
+          "edgeId": "sleeve-cap-back",
+          "point": [
+            109.261723638,
+            178.334533098
+          ],
+          "angleRad": 2.509490119
+        },
+        {
+          "notchId": "sleeve-cap-front-notch",
+          "edgeId": "sleeve-cap-front",
+          "point": [
+            -119.941340879,
+            169.773814785
+          ],
+          "angleRad": -2.514501609
+        }
+      ],
+      "grainlines": [
+        {
+          "grainlineId": "sleeve-grainline",
+          "start": [
+            0,
+            30
+          ],
+          "end": [
+            0,
+            198
+          ]
+        }
+      ],
+      "folds": [],
+      "boundingBox": {
+        "min": [
+          -198.821960874,
+          -0.934091687
+        ],
+        "max": [
+          195.135152962,
+          228
+        ]
+      },
+      "areaMm2": 70979.590538805
+    }
+  ],
+  "interfaces": [
+    {
+      "seamInterfaceId": "si-back-armhole-left",
+      "lengthMm": 213.917833082
+    },
+    {
+      "seamInterfaceId": "si-back-armhole-right",
+      "lengthMm": 213.917833082
+    },
+    {
+      "seamInterfaceId": "si-back-shoulder-left",
+      "lengthMm": 155.008960314
+    },
+    {
+      "seamInterfaceId": "si-back-shoulder-right",
+      "lengthMm": 155.008960314
+    },
+    {
+      "seamInterfaceId": "si-back-side-left",
+      "lengthMm": 435
+    },
+    {
+      "seamInterfaceId": "si-back-side-right",
+      "lengthMm": 435
+    },
+    {
+      "seamInterfaceId": "si-front-armhole-left",
+      "lengthMm": 219.883616154
+    },
+    {
+      "seamInterfaceId": "si-front-armhole-right",
+      "lengthMm": 219.883616154
+    },
+    {
+      "seamInterfaceId": "si-front-shoulder-left",
+      "lengthMm": 155.008960314
+    },
+    {
+      "seamInterfaceId": "si-front-shoulder-right",
+      "lengthMm": 155.008960314
+    },
+    {
+      "seamInterfaceId": "si-front-side-left",
+      "lengthMm": 435
+    },
+    {
+      "seamInterfaceId": "si-front-side-right",
+      "lengthMm": 435
+    },
+    {
+      "seamInterfaceId": "si-sleeve-left-cap-back",
+      "cutInstanceKey": "sleeve-left",
+      "lengthMm": 221.917833082
+    },
+    {
+      "seamInterfaceId": "si-sleeve-left-cap-front",
+      "cutInstanceKey": "sleeve-left",
+      "lengthMm": 225.883616154
+    },
+    {
+      "seamInterfaceId": "si-sleeve-left-underarm-back",
+      "cutInstanceKey": "sleeve-left",
+      "lengthMm": 128.417891073
+    },
+    {
+      "seamInterfaceId": "si-sleeve-left-underarm-front",
+      "cutInstanceKey": "sleeve-left",
+      "lengthMm": 128.417891073
+    },
+    {
+      "seamInterfaceId": "si-sleeve-right-cap-back",
+      "cutInstanceKey": "sleeve-right",
+      "lengthMm": 221.917833082
+    },
+    {
+      "seamInterfaceId": "si-sleeve-right-cap-front",
+      "cutInstanceKey": "sleeve-right",
+      "lengthMm": 225.883616154
+    },
+    {
+      "seamInterfaceId": "si-sleeve-right-underarm-back",
+      "cutInstanceKey": "sleeve-right",
+      "lengthMm": 128.417891073
+    },
+    {
+      "seamInterfaceId": "si-sleeve-right-underarm-front",
+      "cutInstanceKey": "sleeve-right",
+      "lengthMm": 128.417891073
+    }
+  ],
+  "seams": [
+    {
+      "seamConnectionId": "seam-armhole-back-left",
+      "lengthAMm": 213.917833082,
+      "lengthBMm": 221.917833082,
+      "declaredEaseMm": -8,
+      "deviationMm": 0
+    },
+    {
+      "seamConnectionId": "seam-armhole-back-right",
+      "lengthAMm": 213.917833082,
+      "lengthBMm": 221.917833082,
+      "declaredEaseMm": -8,
+      "deviationMm": 0
+    },
+    {
+      "seamConnectionId": "seam-armhole-front-left",
+      "lengthAMm": 219.883616154,
+      "lengthBMm": 225.883616154,
+      "declaredEaseMm": -6,
+      "deviationMm": 0
+    },
+    {
+      "seamConnectionId": "seam-armhole-front-right",
+      "lengthAMm": 219.883616154,
+      "lengthBMm": 225.883616154,
+      "declaredEaseMm": -6,
+      "deviationMm": 0
+    },
+    {
+      "seamConnectionId": "seam-shoulder-left",
+      "lengthAMm": 155.008960314,
+      "lengthBMm": 155.008960314,
+      "declaredEaseMm": 0,
+      "deviationMm": 0
+    },
+    {
+      "seamConnectionId": "seam-shoulder-right",
+      "lengthAMm": 155.008960314,
+      "lengthBMm": 155.008960314,
+      "declaredEaseMm": 0,
+      "deviationMm": 0
+    },
+    {
+      "seamConnectionId": "seam-side-left",
+      "lengthAMm": 435,
+      "lengthBMm": 435,
+      "declaredEaseMm": 0,
+      "deviationMm": 0
+    },
+    {
+      "seamConnectionId": "seam-side-right",
+      "lengthAMm": 435,
+      "lengthBMm": 435,
+      "declaredEaseMm": 0,
+      "deviationMm": 0
+    },
+    {
+      "seamConnectionId": "seam-underarm-left",
+      "lengthAMm": 128.417891073,
+      "lengthBMm": 128.417891073,
+      "declaredEaseMm": 0,
+      "deviationMm": 0
+    },
+    {
+      "seamConnectionId": "seam-underarm-right",
+      "lengthAMm": 128.417891073,
+      "lengthBMm": 128.417891073,
+      "declaredEaseMm": 0,
+      "deviationMm": 0
+    }
+  ],
+  "diagnostics": [],
+  "geometryDigest": "sha256:5f2192412864df0c940179d1b745bc7f361ef7279a5f9fe0ac7a069387d8beea"
+}

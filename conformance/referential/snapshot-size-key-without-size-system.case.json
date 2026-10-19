@@ -1,0 +1,28 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.snapshot-size-key-without-size-system",
+  "level": "referential",
+  "title": "A snapshot with a sizeKey but no size-system input digest is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/snapshot-size-key-without-size-system/geometry-snapshot.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/snapshot-size-key-without-size-system/pattern.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-009",
+        "documentPath": "conformance/referential/snapshot-size-key-without-size-system/geometry-snapshot.json",
+        "instancePath": "/sizeKey"
+      }
+    ]
+  },
+  "description": "A size key alone is no unique reference; the snapshot's sizeKey resolves only in the size system named by its inputDigests."
+}

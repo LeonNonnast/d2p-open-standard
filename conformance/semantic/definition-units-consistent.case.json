@@ -1,0 +1,17 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.definition-units-consistent",
+  "level": "semantic",
+  "title": "A registry whose definitions use the canonical unit of their dimension is accepted",
+  "documents": [
+    {
+      "path": "conformance/semantic/definition-units-consistent/measurement-definition-registry.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

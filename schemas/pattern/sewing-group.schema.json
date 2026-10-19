@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/pattern/sewing-group.schema.json",
+  "title": "D2P Sewing Group",
+  "description": "A sewing group: a named relationship between two or more existing seam connections (design decision ADR-007.1). Groups contain no geometry, create no implicit connections and cannot be nested. A connection belongs to at most one group (D2P-SEM-031).",
+  "$ref": "#/$defs/sewingGroup",
+  "$defs": {
+    "sewingGroup": {
+      "title": "Sewing group",
+      "description": "Groups at least two seam connections. 'type = d2p:layered-seam' requires 'requirements.multiLayer: true', and 'requirements.multiLayer: true' requires 'layerOrder' (both schema-enforced).",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the sewing group."
+        },
+        "type": {
+          "description": "Group type.",
+          "type": "string",
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "d2p:layered-seam",
+                "d2p:binding",
+                "d2p:reinforcement",
+                "d2p:composite-assembly"
+              ]
+            },
+            {
+              "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+            }
+          ]
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sewingGroupMember"
+          },
+          "description": "Member connections, at least two. Order is the layer/relationship order, not sewing order. A duplicate connection is D2P-SEM-030.",
+          "minItems": 2
+        },
+        "requirements": {
+          "$ref": "#/$defs/sewingGroupRequirements",
+          "description": "Requirements on the group's members."
+        },
+        "layerOrder": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/layerOrderEntry"
+          },
+          "description": "Layer order of the cut instances, required when requirements.multiLayer is true. Each cut instance appears once and takes part in a member connection (D2P-SEM-033).",
+          "minItems": 1
+        },
+        "alignmentAnchors": {
+          "type": "array",
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+          },
+          "description": "Notch IDs used to align the members. Omitted when there are none.",
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "annotations": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000,
+          "description": "Free-text annotations."
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional namespaced extension blocks (§1.7 of the schema catalog)."
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "members",
+        "requirements"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "d2p:layered-seam"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "requirements": {
+                "type": "object",
+                "properties": {
+                  "multiLayer": {
+                    "type": "boolean",
+                    "const": true
+                  }
+                },
+                "required": [
+                  "multiLayer"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "requirements": {
+                "type": "object",
+                "properties": {
+                  "multiLayer": {
+                    "type": "boolean",
+                    "const": true
+                  }
+                },
+                "required": [
+                  "multiLayer"
+                ]
+              }
+            },
+            "required": [
+              "requirements"
+            ]
+          },
+          "then": {
+            "properties": {
+              "layerOrder": true
+            },
+            "required": [
+              "layerOrder"
+            ]
+          }
+        }
+      ]
+    },
+    "sewingGroupMember": {
+      "title": "Sewing group member",
+      "description": "One member connection of a sewing group.",
+      "type": "object",
+      "properties": {
+        "connectionId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of a seam connection of the same pattern."
+        },
+        "role": {
+          "$ref": "#/$defs/sewingRole",
+          "description": "Optional role of the member within the group."
+        }
+      },
+      "required": [
+        "connectionId"
+      ],
+      "additionalProperties": false
+    },
+    "sewingGroupRequirements": {
+      "title": "Sewing group requirements",
+      "description": "Requirements a sewing group places on its members.",
+      "type": "object",
+      "properties": {
+        "groupTopology": {
+          "type": "string",
+          "enum": [
+            "connected",
+            "logical-collection"
+          ],
+          "description": "'connected': the member connections MUST form a connected graph of cut instances (D2P-SEM-032); 'logical-collection': no connectivity requirement."
+        },
+        "validateMemberSeams": {
+          "type": "boolean",
+          "description": "Whether the member seams are validated as part of the group."
+        },
+        "multiLayer": {
+          "type": "boolean",
+          "description": "Whether the group joins more than two layers. Absent means false."
+        }
+      },
+      "required": [
+        "groupTopology",
+        "validateMemberSeams"
+      ],
+      "additionalProperties": false
+    },
+    "layerOrderEntry": {
+      "title": "Layer order entry",
+      "description": "One layer of a multi-layer group.",
+      "type": "object",
+      "properties": {
+        "cutInstanceKey": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Cut instance forming this layer."
+        },
+        "role": {
+          "$ref": "#/$defs/sewingRole",
+          "description": "Role of the layer."
+        }
+      },
+      "required": [
+        "cutInstanceKey",
+        "role"
+      ],
+      "additionalProperties": false
+    },
+    "sewingRole": {
+      "title": "Sewing role",
+      "description": "Extensible role of a member connection or of a layer in a sewing group (design decision ADR-007.1 §4). The d2p: terms are the ADR role vocabulary; other roles (for example a 'front attachment' member role) use extension names. An unknown d2p: term is a schema error.",
+      "type": "string",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "d2p:outer-fabric",
+            "d2p:inner-fabric",
+            "d2p:binding",
+            "d2p:lining",
+            "d2p:reinforcement",
+            "d2p:interfacing"
+          ]
+        },
+        {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,269 @@
+[
+  {
+    "id": "p-origin",
+    "type": "d2p:point.absolute",
+    "params": {
+      "x": {
+        "expr": {
+          "op": "literal",
+          "value": 0,
+          "unit": "mm"
+        }
+      },
+      "y": {
+        "expr": {
+          "op": "literal",
+          "value": 0,
+          "unit": "mm"
+        }
+      }
+    },
+    "label": "Origin"
+  },
+  {
+    "id": "p-offset",
+    "type": "d2p:point.offset",
+    "params": {
+      "baseFeatureId": "p-origin",
+      "dx": {
+        "expr": {
+          "op": "literal",
+          "value": 100,
+          "unit": "mm"
+        }
+      },
+      "dy": {
+        "expr": {
+          "op": "literal",
+          "value": 0,
+          "unit": "mm"
+        }
+      }
+    }
+  },
+  {
+    "id": "p-polar",
+    "type": "d2p:point.polar",
+    "params": {
+      "baseFeatureId": "p-origin",
+      "distance": {
+        "expr": {
+          "op": "literal",
+          "value": 100,
+          "unit": "mm"
+        }
+      },
+      "angle": {
+        "expr": {
+          "op": "div",
+          "args": [
+            {
+              "op": "constant",
+              "name": "pi"
+            },
+            {
+              "op": "literal",
+              "value": 2,
+              "unit": "1"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "l-base",
+    "type": "d2p:line",
+    "params": {
+      "startFeatureId": "p-origin",
+      "endFeatureId": "p-offset"
+    }
+  },
+  {
+    "id": "l-side",
+    "type": "d2p:line",
+    "params": {
+      "startFeatureId": "p-origin",
+      "endFeatureId": "p-polar"
+    }
+  },
+  {
+    "id": "p-along",
+    "type": "d2p:point.along-curve",
+    "params": {
+      "curveFeatureId": "l-base",
+      "distance": {
+        "expr": {
+          "op": "mul",
+          "args": [
+            {
+              "op": "featureOutput",
+              "featureId": "l-base",
+              "output": "length"
+            },
+            {
+              "op": "literal",
+              "value": 0.5,
+              "unit": "1"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "id": "p-mirror",
+    "type": "d2p:point.mirror",
+    "params": {
+      "pointFeatureId": "p-polar",
+      "axisFeatureId": "l-base"
+    }
+  },
+  {
+    "id": "p-free",
+    "type": "d2p:point.free",
+    "params": {
+      "x": {
+        "expr": {
+          "op": "literal",
+          "value": 50,
+          "unit": "mm"
+        }
+      },
+      "y": {
+        "expr": {
+          "op": "literal",
+          "value": 60,
+          "unit": "mm"
+        }
+      }
+    }
+  },
+  {
+    "id": "c-arc",
+    "type": "d2p:arc",
+    "params": {
+      "startFeatureId": "p-offset",
+      "endFeatureId": "p-polar",
+      "centerFeatureId": "p-origin",
+      "direction": "ccw"
+    }
+  },
+  {
+    "id": "c-bezier",
+    "type": "d2p:bezier.cubic",
+    "params": {
+      "startFeatureId": "p-offset",
+      "control1FeatureId": "p-free",
+      "control2FeatureId": "p-mirror",
+      "endFeatureId": "p-polar"
+    }
+  },
+  {
+    "id": "p-cross",
+    "type": "d2p:point.intersection",
+    "params": {
+      "curveAFeatureId": "c-arc",
+      "curveBFeatureId": "c-bezier",
+      "index": 0
+    }
+  },
+  {
+    "id": "l-free",
+    "type": "d2p:line",
+    "params": {
+      "startFeatureId": "p-free",
+      "endFeatureId": "p-polar"
+    }
+  },
+  {
+    "id": "k-coincident",
+    "type": "d2p:constraint.coincident",
+    "params": {
+      "aFeatureId": "p-free",
+      "bFeatureId": "p-along"
+    }
+  },
+  {
+    "id": "k-distance",
+    "type": "d2p:constraint.distance",
+    "params": {
+      "aFeatureId": "p-free",
+      "bFeatureId": "p-origin",
+      "value": {
+        "expr": {
+          "op": "literal",
+          "value": 70,
+          "unit": "mm"
+        }
+      }
+    }
+  },
+  {
+    "id": "k-length",
+    "type": "d2p:constraint.length",
+    "params": {
+      "curveFeatureId": "l-free",
+      "value": {
+        "expr": {
+          "op": "literal",
+          "value": 80,
+          "unit": "mm"
+        }
+      }
+    }
+  },
+  {
+    "id": "k-angle",
+    "type": "d2p:constraint.angle",
+    "params": {
+      "aFeatureId": "l-free",
+      "bFeatureId": "l-base",
+      "value": {
+        "expr": {
+          "op": "literal",
+          "value": 0.785398163,
+          "unit": "rad"
+        }
+      }
+    }
+  },
+  {
+    "id": "k-horizontal",
+    "type": "d2p:constraint.horizontal",
+    "params": {
+      "lineFeatureId": "l-base"
+    }
+  },
+  {
+    "id": "k-vertical",
+    "type": "d2p:constraint.vertical",
+    "params": {
+      "lineFeatureId": "l-side"
+    }
+  },
+  {
+    "id": "k-parallel",
+    "type": "d2p:constraint.parallel",
+    "params": {
+      "aFeatureId": "l-free",
+      "bFeatureId": "l-side"
+    }
+  },
+  {
+    "id": "k-perpendicular",
+    "type": "d2p:constraint.perpendicular",
+    "params": {
+      "aFeatureId": "l-base",
+      "bFeatureId": "l-side"
+    }
+  },
+  {
+    "id": "k-tangent",
+    "type": "d2p:constraint.tangent",
+    "params": {
+      "aFeatureId": "c-arc",
+      "bFeatureId": "c-bezier"
+    }
+  }
+]

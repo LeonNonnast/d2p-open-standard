@@ -1,0 +1,8 @@
+{
+  "documentType": "d2p:artifact",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_conformance-private-profile",
+  "artifactType": "d2p:body-measurement-profile",
+  "name": "d2p:body-measurement-profile (synthetic)",
+  "dataClassification": "sensitive-personal"
+}

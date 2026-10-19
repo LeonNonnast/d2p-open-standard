@@ -1,0 +1,348 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/pattern/piece.schema.json",
+  "title": "D2P Pattern Piece",
+  "description": "A pattern piece with its contours, edges and piece-level elements (design decision ADR-007). A piece has exactly one connected outer boundary; separate cut islands are separate pieces. Element identity is independent of seam allowance, SVG/PDF object IDs, coordinates and sewing order.",
+  "$ref": "#/$defs/piece",
+  "$defs": {
+    "piece": {
+      "title": "Piece",
+      "description": "A pattern piece. 'contours' contains exactly one contour with role 'outer' (schema-enforced) and any number of holes.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the piece."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "Human-readable name of the piece."
+        },
+        "contours": {
+          "type": "array",
+          "description": "The piece's contours: exactly one with role 'outer', optionally holes.",
+          "items": {
+            "$ref": "#/$defs/contour"
+          },
+          "minItems": 1,
+          "contains": {
+            "type": "object",
+            "properties": {
+              "role": {
+                "type": "string",
+                "const": "outer"
+              }
+            },
+            "required": [
+              "role"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        "notches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/notch"
+          },
+          "description": "Notches of the piece. Omitted when there are none.",
+          "minItems": 1
+        },
+        "grainlines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/grainline"
+          },
+          "description": "Grainlines of the piece. Omitted when there are none.",
+          "minItems": 1
+        },
+        "folds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/fold"
+          },
+          "description": "Fold lines of the piece. Omitted when there are none.",
+          "minItems": 1
+        },
+        "cutInstruction": {
+          "$ref": "#/$defs/cutInstruction",
+          "description": "How the piece is cut. Absent means one implicit cut instance whose cutInstanceKey is the piece id, not mirrored."
+        },
+        "seamAllowance": {
+          "$ref": "#/$defs/seamAllowance",
+          "description": "Seam allowance of the piece. Absent means no seam allowance is defined. Seam allowance is derived geometry and never part of seam identity."
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional namespaced extension blocks (§1.7 of the schema catalog)."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "contours"
+      ],
+      "additionalProperties": false
+    },
+    "contour": {
+      "title": "Contour",
+      "description": "A closed chain of edges. The chain MUST close via shared point features (D2P-SEM-010); a coincident constraint does not count.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the contour."
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "outer",
+            "hole"
+          ],
+          "description": "Whether this contour is the piece's outer boundary or a hole."
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/edge"
+          },
+          "description": "Edges in traversal order.",
+          "minItems": 1
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional namespaced extension blocks (§1.7 of the schema catalog)."
+        }
+      },
+      "required": [
+        "id",
+        "role",
+        "edges"
+      ],
+      "additionalProperties": false
+    },
+    "edge": {
+      "title": "Edge",
+      "description": "One edge of a contour, backed by a curve feature. The edge direction is the curve direction, flipped if 'reversed'. Two edges of the same piece MUST NOT reference the same curve (D2P-SEM-013).",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the edge."
+        },
+        "curveFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the curve backing this edge feature in the same pattern."
+        },
+        "reversed": {
+          "type": "boolean",
+          "description": "True if the edge runs against the curve direction (start and end swapped)."
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional namespaced extension blocks (§1.7 of the schema catalog)."
+        }
+      },
+      "required": [
+        "id",
+        "curveFeatureId",
+        "reversed"
+      ],
+      "additionalProperties": false
+    },
+    "notch": {
+      "title": "Notch",
+      "description": "A notch (balance mark) on an edge.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the notch."
+        },
+        "edgeId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the edge carrying the notch."
+        },
+        "position": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Position as normalized arc length in [0, 1] along the edge direction."
+        },
+        "marks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3,
+          "description": "Number of notch marks (1 to 3), used to tell matching notches apart."
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional namespaced extension blocks (§1.7 of the schema catalog)."
+        }
+      },
+      "required": [
+        "id",
+        "edgeId",
+        "position",
+        "marks"
+      ],
+      "additionalProperties": false
+    },
+    "grainline": {
+      "title": "Grainline",
+      "description": "A grainline running from a start point feature to an end point feature.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the grainline."
+        },
+        "startFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the start point feature in the same pattern."
+        },
+        "endFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the end point feature in the same pattern."
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional namespaced extension blocks (§1.7 of the schema catalog)."
+        }
+      },
+      "required": [
+        "id",
+        "startFeatureId",
+        "endFeatureId"
+      ],
+      "additionalProperties": false
+    },
+    "fold": {
+      "title": "Fold",
+      "description": "A fold line; the referenced edge is the fold line.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the fold."
+        },
+        "edgeId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the edge that is the fold line."
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional namespaced extension blocks (§1.7 of the schema catalog)."
+        }
+      },
+      "required": [
+        "id",
+        "edgeId"
+      ],
+      "additionalProperties": false
+    },
+    "cutInstruction": {
+      "title": "Cut instruction",
+      "description": "How many instances of the piece are cut, and from which material role. The fabric layer/face is not modelled in this release.",
+      "type": "object",
+      "properties": {
+        "instances": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cutInstance"
+          },
+          "description": "Cut instances of the piece. Keys are unique within the piece (D2P-REF-005).",
+          "minItems": 1
+        },
+        "materialRole": {
+          "description": "Material role the piece is cut from.",
+          "type": "string",
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "d2p:main",
+                "d2p:lining",
+                "d2p:interfacing",
+                "d2p:contrast"
+              ]
+            },
+            {
+              "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+            }
+          ]
+        }
+      },
+      "required": [
+        "instances",
+        "materialRole"
+      ],
+      "additionalProperties": false
+    },
+    "cutInstance": {
+      "title": "Cut instance",
+      "description": "One physical instance of a piece produced by cutting.",
+      "type": "object",
+      "properties": {
+        "cutInstanceKey": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Key of the cut instance, referenced by seam interfaces and layer orders."
+        },
+        "mirrored": {
+          "type": "boolean",
+          "description": "True if this instance is cut mirrored."
+        }
+      },
+      "required": [
+        "cutInstanceKey",
+        "mirrored"
+      ],
+      "additionalProperties": false
+    },
+    "seamAllowance": {
+      "title": "Seam allowance",
+      "description": "Seam allowance of a piece: a default width plus optional per-edge overrides. The offset geometry is an evaluator capability.",
+      "type": "object",
+      "properties": {
+        "default": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprValue",
+          "description": "Expression wrapper; the expression MUST have dimension length (checked at semantic level, D2P-SEM-002)."
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/edgeSeamAllowance"
+          },
+          "description": "Per-edge overrides of the default width. Omitted when there are none.",
+          "minItems": 1
+        }
+      },
+      "required": [
+        "default"
+      ],
+      "additionalProperties": false
+    },
+    "edgeSeamAllowance": {
+      "title": "Edge seam allowance",
+      "description": "Seam allowance width for one edge, overriding the piece default.",
+      "type": "object",
+      "properties": {
+        "edgeId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the edge."
+        },
+        "expr": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprNode",
+          "description": "Seam allowance width; the expression MUST have dimension length."
+        }
+      },
+      "required": [
+        "edgeId",
+        "expr"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

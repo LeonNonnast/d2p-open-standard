@@ -2,7 +2,7 @@
 
 An open, vendor-neutral data standard for **digital garment patterns** — pattern pieces, measurements, grading, seams, validation and print-ready 1:1 output — together with a **conformance kit** anyone can run.
 
-> **Status: pre-release (v0, foundation phase).** The repository structure, tooling and a single seed schema exist. Normative schemas, the Golden T-Shirt fixture and conformance cases follow in the next phase. Nothing here is stable yet; see [CHANGELOG.md](CHANGELOG.md).
+> **Status: pre-release `v0.1.0` (draft of standard 1.0).** The schema catalog, 50 JSON Schemas, the measurement-definition registry, the standard validation rules and profiles, the Golden T-Shirt v1 fixture and a conformance kit with three runnable levels exist. Documents already declare `schemaVersion: "1.0.0"`, the release they are drafted for, but nothing is stable before the `v1.0.0` tag. That tag waits for the domain review of the fixture by a pattern maker or seamstress (test QEV-016, pending), the maintainer freeze of the provisional tolerance profile and the maintainer confirmation of the digest quantization step. All fixture and case values are synthetic test data, not size tables or norms. See [CHANGELOG.md](CHANGELOG.md).
 
 ## Why this exists
 
@@ -20,10 +20,10 @@ The standard is published so that it can be **implemented by third parties witho
 |---|---|
 | [`schemas/`](schemas/) | Canonical JSON Schemas (draft 2020-12), one directory per module |
 | [`examples/`](examples/) | Normative valid and invalid examples per schema |
-| [`fixtures/`](fixtures/) | Golden fixtures (e.g. the *Golden T-Shirt*) with inputs, expected results and negative cases |
+| [`fixtures/`](fixtures/) | Golden fixtures: the synthetic *Golden T-Shirt* v1 with inputs, expected results, negative cases and a digest manifest |
 | [`tolerance-profiles/`](tolerance-profiles/) | Versioned numeric tolerances used to compare results |
 | [`conformance/`](conformance/) | Conformance cases in three separately runnable levels: structural, referential, semantic |
-| [`specifications/`](specifications/) | Normative prose: semantics, versioning and compatibility rules |
+| [`specifications/`](specifications/) | Normative prose: the schema catalog (conventions, diagnostics, conformance levels, module catalog, fixture) |
 | [`vocabularies/`](vocabularies/) | Controlled vocabularies and registries (e.g. measurement definitions) |
 | [`mappings/`](mappings/) | Versioned mappings to external ontologies and industry conventions |
 | [`tools/`](tools/) | The schema and conformance tooling itself |
@@ -41,12 +41,14 @@ Requires Node.js 22 or newer.
 
 ```bash
 npm ci                              # install the exact pinned toolchain
-npm run validate                    # compile all schemas, check all examples
+npm run validate                    # compile all schemas, check all examples and data files
 npm run conformance:structural      # each level runs on its own ...
 npm run conformance:referential
 npm run conformance:semantic
 npm run conformance                 # ... or all three in sequence
-npm test                            # unit tests of the tooling
+npm run fixture:verify              # verify the Golden T-Shirt manifest before comparing against it
+npm run oracle:check                # regenerate the fixture in a temp dir, byte-compare, schema-check
+npm test                            # unit tests of the tooling, fixture wiring, OSS-001, QEV-001
 npm run check                       # everything above
 ```
 
@@ -55,7 +57,20 @@ npm run check                       # everything above
 1. every `*.schema.json` is valid JSON, declares the 2020-12 dialect and a unique absolute `$id`, and is valid against the 2020-12 meta-schema;
 2. every schema compiles in Ajv **strict mode** (unknown keywords are errors) with all `$ref`s resolvable;
 3. every file in `examples/<module>/<schema>/valid/` validates and every file in `.../invalid/` is rejected;
-4. every schema in `schemas/` has at least one valid example (a missing negative example produces a warning).
+4. every schema in `schemas/` has at least one valid example (a missing negative example produces a warning);
+5. every vocabulary, tolerance-profile, fixture (`manifest.json`, `inputs/`, `expected/`) and conformance case file validates against the schema selected by its `documentType`, and vocabulary files are named after their ID and version;
+6. the standard-gap analysis `specifications/gap-analysis.md` exists (test OSS-002).
+
+The conformance kit runs each case at its level after all lower levels have passed on the whole bundle (structural → referential → semantic) and compares the outcome and the diagnostic codes with the case's expectation (`specifications/schema-catalog.md` §2). Every negative case, including each Golden T-Shirt negative fixture, must report exactly its expected diagnostic codes. See [`conformance/README.md`](conformance/README.md) and [`tools/README.md`](tools/README.md).
+
+### Using the Golden T-Shirt to test an implementation
+
+1. Pin a released tag of this repository.
+2. Verify the fixture first: `npm run fixture:verify` (or `openFixtureForComparison` in `tools/lib/fixture.mjs`). If any digest, listed file or reference does not match, the fixture is **refused** and no comparison may start (test QEV-001).
+3. Evaluate the inputs in `fixtures/golden-tshirt/v1/inputs/` with your implementation and compare with `expected/` using the pinned tolerance profile (currently **provisional**, so results are not yet a benchmark).
+4. Run your implementation's validator on the negative fixtures; each one names the diagnostic code it must produce.
+
+Everything needed is in this repository: the schemas, fixtures and kit are read with a generic JSON Schema 2020-12 validator and Node.js only, without any D2P account, service or proprietary code (test OSS-001).
 
 Pass `--json` to any tool for machine-readable output, e.g. `node tools/validate.mjs --json`.
 

@@ -1,0 +1,51 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.scene-included-cut-line-inside-contour",
+  "level": "semantic",
+  "title": "A scene whose cut lines lie inside the contours of pieces with a declared seam allowance is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/scene-included-cut-line-inside-contour/export-scene-2d.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/scene-included-cut-line-inside-contour/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/scene-included-cut-line-inside-contour/pattern-evaluation.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/scene-included-cut-line-inside-contour/geometry-snapshot.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-096",
+        "documentPath": "conformance/semantic/scene-included-cut-line-inside-contour/export-scene-2d.json",
+        "instancePath": "/pieceInstances/0/paths/0"
+      },
+      {
+        "code": "D2P-SEM-096",
+        "documentPath": "conformance/semantic/scene-included-cut-line-inside-contour/export-scene-2d.json",
+        "instancePath": "/pieceInstances/1/paths/0"
+      },
+      {
+        "code": "D2P-SEM-096",
+        "documentPath": "conformance/semantic/scene-included-cut-line-inside-contour/export-scene-2d.json",
+        "instancePath": "/pieceInstances/2/paths/0"
+      },
+      {
+        "code": "D2P-SEM-096",
+        "documentPath": "conformance/semantic/scene-included-cut-line-inside-contour/export-scene-2d.json",
+        "instancePath": "/pieceInstances/3/paths/0"
+      }
+    ]
+  },
+  "description": "An outward seam-allowance offset of an outer contour contains the contour's vertex box for every non-negative width and join."
+}

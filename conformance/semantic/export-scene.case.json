@@ -1,0 +1,29 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.export-scene",
+  "level": "semantic",
+  "title": "An export scene without personal inputs, with closed cut lines and resolved layers is accepted",
+  "documents": [
+    {
+      "path": "conformance/semantic/export-scene/export-scene-2d.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/export-scene/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/export-scene/pattern-evaluation.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/export-scene/geometry-snapshot.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

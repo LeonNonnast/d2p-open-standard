@@ -1,0 +1,20 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "SWG-006-distinct-members",
+  "level": "semantic",
+  "title": "A group whose members name distinct connections is valid",
+  "documents": [
+    {
+      "path": "conformance/semantic/sewing-groups/SWG-006-distinct-members/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "SWG-006"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "documentType": "d2p:event",
+  "schemaVersion": "1.0.0",
+  "eventId": "evt_example-pattern-r1-committed",
+  "aggregateId": "art_example-pattern",
+  "revisionId": "rev_example-pattern-r1",
+  "eventType": "d2p:artifact.revision-committed",
+  "sequence": 1,
+  "occurredAt": "2026-01-01T00:00:00Z",
+  "payload": {
+    "artifactRef": {
+      "artifactId": "art_example-pattern",
+      "revisionId": "rev_example-pattern-r1"
+    },
+    "parentRevisionIds": []
+  }
+}

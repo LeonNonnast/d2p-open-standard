@@ -1,0 +1,18 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:feature-graph-acyclic",
+  "version": "1.0.0",
+  "title": "Feature graph is acyclic",
+  "description": "The dependency graph of features and parameters, built from feature ID members, feature outputs and parameter references in expressions and from the dependsOn lists of extension feature types, contains no cycle.",
+  "layer": "domain",
+  "targetDocumentTypes": [
+    "d2p:pattern"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-SEM-001"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

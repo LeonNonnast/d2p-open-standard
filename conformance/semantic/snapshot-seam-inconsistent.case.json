@@ -1,0 +1,27 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.snapshot-seam-inconsistent",
+  "level": "semantic",
+  "title": "A snapshot seam whose deviation is not lengthA − lengthB − declared ease is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/snapshot-seam-inconsistent/geometry-snapshot.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/snapshot-seam-inconsistent/pattern.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-024",
+        "documentPath": "conformance/semantic/snapshot-seam-inconsistent/geometry-snapshot.json",
+        "instancePath": "/seams/0/deviationMm"
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "TOP-010-two-active-connections",
+  "level": "semantic",
+  "title": "An active interface used by two active connections is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/topology/TOP-010-two-active-connections/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-023",
+        "documentPath": "conformance/semantic/topology/TOP-010-two-active-connections/pattern.json",
+        "instancePath": "/seamInterfaces/0"
+      }
+    ]
+  },
+  "testIds": [
+    "TOP-010"
+  ]
+}

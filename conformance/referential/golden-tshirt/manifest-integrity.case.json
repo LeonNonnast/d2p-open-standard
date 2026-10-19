@@ -1,0 +1,21 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "golden-tshirt.manifest-integrity",
+  "level": "referential",
+  "title": "Golden T-Shirt: manifest integrity and reference resolution",
+  "documents": [
+    {
+      "path": "fixtures/golden-tshirt/v1/manifest.json",
+      "role": "manifest"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "QEV-001"
+  ],
+  "description": "Checks the integrity of the Golden T-Shirt v1 manifest (every listed file exists with a matching digest, no unlisted file in the fixture directory, correct fixtureDigest; D2P-REF-011, D2P-REF-012) and resolves the expanded bundle of all input and expected files plus the external files. A fixture whose digests do not match is rejected, so no comparison against it can start (QEV-001)."
+}

@@ -1,0 +1,43 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.evidence-gate-mismatch",
+  "level": "referential",
+  "title": "A gate that references evidence collected for another gate is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/evidence-gate-mismatch/gate-evaluation.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/evidence-gate-mismatch/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/evidence-gate-mismatch/validation-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/evidence-gate-mismatch/validation-rule.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/evidence-gate-mismatch/validation-report.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/evidence-gate-mismatch/quality-evidence-bundle.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-007",
+        "documentPath": "conformance/referential/evidence-gate-mismatch/gate-evaluation.json",
+        "instancePath": "/evidenceRefs/0"
+      }
+    ]
+  }
+}

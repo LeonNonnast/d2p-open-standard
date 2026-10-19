@@ -1,0 +1,18 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "golden-tshirt.fixture",
+  "level": "semantic",
+  "title": "Golden T-Shirt: all semantic rules on the whole fixture",
+  "documents": [
+    {
+      "path": "fixtures/golden-tshirt/v1/manifest.json",
+      "role": "manifest"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "description": "Expands the Golden T-Shirt v1 manifest and runs every structural, referential and semantic rule of the kit on the input and expected files, including the gate decision procedure."
+}

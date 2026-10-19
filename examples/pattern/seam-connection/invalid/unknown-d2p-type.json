@@ -1,0 +1,12 @@
+{
+  "id": "seam-side-left",
+  "interfaceIds": [
+    "si-front-side-left",
+    "si-back-side-left"
+  ],
+  "type": "d2p:glued",
+  "active": true,
+  "ease": {
+    "mode": "none"
+  }
+}

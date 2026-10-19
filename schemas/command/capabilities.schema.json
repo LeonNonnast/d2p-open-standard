@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/command/capabilities.schema.json",
+  "title": "D2P Capabilities",
+  "description": "Capability negotiation document of an implementation (documentType 'd2p:capabilities'). It states the standard version, the capability, feature-type and evaluator-profile versions and the conformance levels an implementation supports. Initial capability versions of release 1.0: 'd2p:core', 'd2p:pattern', 'd2p:measurement', 'd2p:eval', 'd2p:validation', 'd2p:command', 'd2p:event', 'd2p:error', 'd2p:print', 'd2p:benchmark', 'd2p:feature-set', 'd2p:expression' and 'd2p:digest' (= digest profile d2p-digest-v1), all at 1.0.0. An implementation MUST answer requests needing an unknown feature with error code 'unsupported_capability' and a snapshot fallback, never with a silent change of a construction.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "implementation",
+    "standardVersion",
+    "capabilities",
+    "featureTypes",
+    "evaluatorProfiles",
+    "conformance"
+  ],
+  "properties": {
+    "documentType": {
+      "const": "d2p:capabilities",
+      "description": "Document type discriminator; always 'd2p:capabilities'."
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against."
+    },
+    "implementation": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/softwareInfo",
+      "description": "Name and version of the implementation."
+    },
+    "standardVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver",
+      "description": "Highest standard release the implementation implements."
+    },
+    "capabilities": {
+      "type": "array",
+      "description": "Supported capability versions (for example 'd2p:pattern' 1.0.0). Written as [] when there are none.",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+      }
+    },
+    "featureTypes": {
+      "type": "array",
+      "description": "Supported feature types with their versions, including extension feature types the implementation can evaluate. Written as [] when there are none.",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+      }
+    },
+    "evaluatorProfiles": {
+      "type": "array",
+      "description": "Evaluator profiles the implementation offers. Written as [] when there are none.",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+      }
+    },
+    "conformance": {
+      "$ref": "#/$defs/conformanceClaim",
+      "description": "Conformance levels the implementation claims."
+    },
+    "contentDigest": {
+      "description": "Optional digest of this document (d2p-c14n-v1 over the whole document, excluding 'contentDigest' itself).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks keyed by extension namespace."
+    }
+  },
+  "$defs": {
+    "conformanceClaim": {
+      "title": "Conformance claim",
+      "description": "Claimed conformance levels of the standard and, optionally, of the print conformance profile.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "levels"
+      ],
+      "properties": {
+        "levels": {
+          "type": "array",
+          "description": "Claimed conformance levels (each separately runnable). Written as [] when none is claimed.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "structural",
+              "referential",
+              "semantic"
+            ]
+          }
+        },
+        "printProfile": {
+          "$ref": "#/$defs/printConformanceClaim",
+          "description": "Claimed levels of the print conformance profile. Absent when no print conformance is claimed."
+        }
+      }
+    },
+    "printConformanceClaim": {
+      "title": "Print conformance claim",
+      "description": "Claimed levels of the print conformance profile 'd2p:print-v1'.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profileId",
+        "levels"
+      ],
+      "properties": {
+        "profileId": {
+          "const": "d2p:print-v1",
+          "description": "Print conformance profile; always 'd2p:print-v1' in release 1.0."
+        },
+        "levels": {
+          "type": "array",
+          "description": "Claimed print conformance levels. Written as [] when none is claimed.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "parse",
+              "geometry",
+              "print"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

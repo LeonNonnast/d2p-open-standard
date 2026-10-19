@@ -1,0 +1,24 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.unknown-extension-block-read-only",
+  "level": "semantic",
+  "title": "An unknown extension block with onUnknown: read-only is accepted but not editable",
+  "documents": [
+    {
+      "path": "conformance/semantic/unknown-extension-block-read-only/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-007",
+        "documentPath": "conformance/semantic/unknown-extension-block-read-only/pattern.json",
+        "instancePath": "/extensions/org.example.atelier"
+      }
+    ],
+    "editability": "read-only"
+  }
+}

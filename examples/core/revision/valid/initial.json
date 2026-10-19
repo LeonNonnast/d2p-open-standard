@@ -1,0 +1,14 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_golden-tshirt-pattern-r1",
+  "artifactId": "art_golden-tshirt-pattern",
+  "sequence": 1,
+  "parentRevisionIds": [],
+  "contentDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "createdAt": "2026-10-01T00:00:00Z",
+  "author": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  }
+}

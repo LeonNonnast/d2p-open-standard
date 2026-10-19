@@ -1,0 +1,16 @@
+{
+  "code": "D2P-REF-003",
+  "severity": "error",
+  "message": "Element 'sleeve-cap' not found in the pinned pattern revision.",
+  "documentPath": "fixtures/golden-tshirt/1.0.0/inputs/relationship.json",
+  "instancePath": "/targetRef",
+  "elementRef": {
+    "artifactId": "art_golden-tshirt-pattern",
+    "revisionId": "rev_golden-tshirt-pattern-r1",
+    "elementId": "sleeve-cap",
+    "elementType": "d2p:edge"
+  },
+  "details": {
+    "expectedKind": "edge"
+  }
+}

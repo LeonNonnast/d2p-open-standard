@@ -1,0 +1,53 @@
+{
+  "documentType": "d2p:grading-rule-set",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_golden-tshirt-grading-rule-set",
+  "revisionId": "rev_golden-tshirt-grading-rule-set-r1",
+  "patternRef": {
+    "artifactId": "art_golden-tshirt-pattern",
+    "revisionId": "rev_golden-tshirt-pattern-r1"
+  },
+  "mode": "measurement-driven",
+  "sizeSystemRef": {
+    "artifactId": "art_golden-tshirt-size-system",
+    "revisionId": "rev_golden-tshirt-size-system-r1"
+  },
+  "rules": [
+    {
+      "id": "grade-chest-girth",
+      "kind": "measurement-source",
+      "measurementKey": "chest-girth",
+      "source": "size-entry"
+    },
+    {
+      "id": "grade-waist-girth",
+      "kind": "measurement-source",
+      "measurementKey": "waist-girth",
+      "source": "size-entry"
+    },
+    {
+      "id": "grade-shoulder-width",
+      "kind": "measurement-source",
+      "measurementKey": "shoulder-width",
+      "source": "size-entry"
+    },
+    {
+      "id": "grade-arm-length",
+      "kind": "measurement-source",
+      "measurementKey": "arm-length",
+      "source": "size-entry"
+    },
+    {
+      "id": "grade-neck-girth",
+      "kind": "measurement-source",
+      "measurementKey": "neck-girth",
+      "source": "size-entry"
+    },
+    {
+      "id": "grade-back-length",
+      "kind": "measurement-source",
+      "measurementKey": "back-length",
+      "source": "size-entry"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "definitionId": "d2p:body.waist-girth",
+  "value": 812,
+  "unit": "mm",
+  "method": "manual",
+  "source": {
+    "kind": "professional"
+  },
+  "measuredAt": "2026-03-14T10:30:00Z",
+  "uncertainty": {
+    "type": "interval",
+    "lower": 805,
+    "upper": 820
+  }
+}

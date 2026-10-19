@@ -1,0 +1,29 @@
+[
+  {
+    "id": "p-1",
+    "type": "d2p:point.absolute",
+    "params": {
+      "x": {
+        "expr": {
+          "op": "literal",
+          "value": 0,
+          "unit": "mm"
+        }
+      },
+      "y": {
+        "expr": {
+          "op": "literal",
+          "value": 0,
+          "unit": "mm"
+        }
+      },
+      "z": {
+        "expr": {
+          "op": "literal",
+          "value": 0,
+          "unit": "mm"
+        }
+      }
+    }
+  }
+]

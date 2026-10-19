@@ -1,0 +1,51 @@
+{
+  "documentType": "d2p:pattern-evaluation",
+  "schemaVersion": "1.0.0",
+  "evaluationId": "pev_conformance-square-export",
+  "createdAt": "2026-01-02T00:00:00Z",
+  "request": {
+    "documentType": "d2p:evaluation-request",
+    "schemaVersion": "1.0.0",
+    "requestId": "erq_conformance-square-export",
+    "patternRef": {
+      "artifactId": "art_conformance-square",
+      "revisionId": "rev_conformance-square-r1"
+    },
+    "evaluatorProfile": {
+      "id": "org.example.conformance:analytic",
+      "version": "1.0.0"
+    },
+    "requestedOutputs": [
+      "geometry-snapshot"
+    ]
+  },
+  "evaluator": {
+    "engineId": "conformance-kit",
+    "engineVersion": "1.0.0",
+    "algorithmProfileVersion": "1.0.0",
+    "evaluatorProfile": {
+      "id": "org.example.conformance:analytic",
+      "version": "1.0.0"
+    }
+  },
+  "featureSetVersion": "1.0.0",
+  "inputDigests": [
+    {
+      "role": "pattern",
+      "artifactRef": {
+        "artifactId": "art_conformance-square",
+        "revisionId": "rev_conformance-square-r1"
+      },
+      "digest": "sha256:cd6d59cfc0fe10306bf06108ff7ec67f9f78c41def45565ec8b5b567e755576f"
+    }
+  ],
+  "status": "succeeded",
+  "constraintStatus": "solved",
+  "snapshotRef": {
+    "id": "snp_conformance-square",
+    "digest": "sha256:c645d15b5dc340ad6ee2660062486986c2120bfba102fdc9bc91bf6565d9a658"
+  },
+  "measurements": [],
+  "diagnostics": [],
+  "resultDigest": "sha256:b318b5d115a997b4edb97dfbbac35b56050346063a979b6be56b2822840c03b4"
+}

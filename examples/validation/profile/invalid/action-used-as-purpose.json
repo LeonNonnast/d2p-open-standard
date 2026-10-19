@@ -1,0 +1,28 @@
+{
+  "documentType": "d2p:validation-profile",
+  "schemaVersion": "1.0.0",
+  "profileId": "d2p:print-1to1",
+  "version": "1.0.0",
+  "purpose": "export-1to1",
+  "rules": [
+    {
+      "ruleId": "d2p:contour-closed",
+      "ruleVersion": "1.0.0",
+      "severity": "error"
+    },
+    {
+      "ruleId": "d2p:no-personal-data-in-export",
+      "ruleVersion": "1.0.0",
+      "severity": "critical"
+    },
+    {
+      "ruleId": "d2p:print-calibrated",
+      "ruleVersion": "1.0.0",
+      "severity": "critical"
+    }
+  ],
+  "waiverPolicy": {
+    "allowed": true,
+    "maxSeverity": "warning"
+  }
+}

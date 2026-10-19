@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json",
+  "title": "D2P References",
+  "description": "Pinned references. Every reference that leaves an aggregate names a concrete revision; a branch name, HEAD, 'latest' or a missing revision is not expressible (D2P-STR-011), and a different revision MUST NOT be substituted silently. The root accepts an artifact reference.",
+  "$ref": "#/$defs/artifactRef",
+  "$defs": {
+    "artifactRef": {
+      "title": "Artifact reference",
+      "description": "Reference to one immutable revision of an artifact.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifactId",
+        "revisionId"
+      ],
+      "properties": {
+        "artifactId": {
+          "description": "Referenced artifact.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/artifactId"
+        },
+        "revisionId": {
+          "description": "Pinned revision of that artifact.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/revisionId"
+        }
+      }
+    },
+    "elementRef": {
+      "title": "Element reference",
+      "description": "Reference to an element inside a pinned artifact revision.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifactId",
+        "revisionId",
+        "elementId"
+      ],
+      "properties": {
+        "artifactId": {
+          "description": "Artifact containing the element.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/artifactId"
+        },
+        "revisionId": {
+          "description": "Pinned revision of that artifact.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/revisionId"
+        },
+        "elementId": {
+          "description": "Stable element ID inside the revision's content document.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "elementType": {
+          "description": "Expected kind of the element; a mismatch is D2P-REF-004.",
+          "$ref": "#/$defs/elementType"
+        }
+      }
+    },
+    "derivedRef": {
+      "title": "Derived reference",
+      "description": "Reference to a derived document (evaluation, report, snapshot, scene, print job) by its own ID. 'digest' holds the target's resultDigest; for a geometry snapshot its geometryDigest; for a target with neither, its contentDigest (computed whether or not the target writes it out).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "description": "Own ID of the derived document.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/globalId"
+        },
+        "digest": {
+          "description": "Digest of the target as described above. Required only where a member says so.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+        }
+      }
+    },
+    "elementType": {
+      "title": "Element type",
+      "description": "Kind of an element (extensible vocabulary): one of the registered 'd2p:' element types or an extension name.",
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "d2p:feature",
+            "d2p:parameter",
+            "d2p:measurement-input",
+            "d2p:piece",
+            "d2p:contour",
+            "d2p:edge",
+            "d2p:notch",
+            "d2p:grainline",
+            "d2p:fold",
+            "d2p:seam-interface",
+            "d2p:seam-connection",
+            "d2p:sewing-group",
+            "d2p:grading-rule",
+            "d2p:size-entry",
+            "d2p:measurement-target",
+            "d2p:ease-rule",
+            "d2p:fit-target"
+          ]
+        },
+        {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+        }
+      ]
+    }
+  }
+}

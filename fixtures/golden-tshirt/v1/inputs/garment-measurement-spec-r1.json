@@ -1,0 +1,119 @@
+{
+  "documentType": "d2p:garment-measurement-spec",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_golden-tshirt-garment-measurement-spec",
+  "revisionId": "rev_golden-tshirt-garment-measurement-spec-r1",
+  "name": "Golden T-Shirt garment targets (synthetic)",
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.0.0"
+    }
+  ],
+  "targets": [
+    {
+      "id": "target-chest-girth-size-a-regular-woven",
+      "definitionId": "d2p:garment.chest-girth",
+      "value": 1020,
+      "unit": "mm",
+      "tolerance": {
+        "minus": 10,
+        "plus": 10
+      },
+      "sizeKey": "size-a",
+      "configurationKey": "regular-woven"
+    },
+    {
+      "id": "target-sleeve-length-size-a-regular-woven",
+      "definitionId": "d2p:garment.sleeve-length",
+      "value": 198,
+      "unit": "mm",
+      "tolerance": {
+        "minus": 5,
+        "plus": 5
+      },
+      "sizeKey": "size-a",
+      "configurationKey": "regular-woven"
+    },
+    {
+      "id": "target-chest-girth-size-a-relaxed-knit",
+      "definitionId": "d2p:garment.chest-girth",
+      "value": 1080,
+      "unit": "mm",
+      "tolerance": {
+        "minus": 10,
+        "plus": 10
+      },
+      "sizeKey": "size-a",
+      "configurationKey": "relaxed-knit"
+    },
+    {
+      "id": "target-sleeve-length-size-a-relaxed-knit",
+      "definitionId": "d2p:garment.sleeve-length",
+      "value": 198,
+      "unit": "mm",
+      "tolerance": {
+        "minus": 5,
+        "plus": 5
+      },
+      "sizeKey": "size-a",
+      "configurationKey": "relaxed-knit"
+    },
+    {
+      "id": "target-chest-girth-size-b-regular-woven",
+      "definitionId": "d2p:garment.chest-girth",
+      "value": 1140,
+      "unit": "mm",
+      "tolerance": {
+        "minus": 10,
+        "plus": 10
+      },
+      "sizeKey": "size-b",
+      "configurationKey": "regular-woven"
+    },
+    {
+      "id": "target-sleeve-length-size-b-regular-woven",
+      "definitionId": "d2p:garment.sleeve-length",
+      "value": 208,
+      "unit": "mm",
+      "tolerance": {
+        "minus": 5,
+        "plus": 5
+      },
+      "sizeKey": "size-b",
+      "configurationKey": "regular-woven"
+    },
+    {
+      "id": "target-chest-girth-size-b-relaxed-knit",
+      "definitionId": "d2p:garment.chest-girth",
+      "value": 1200,
+      "unit": "mm",
+      "tolerance": {
+        "minus": 10,
+        "plus": 10
+      },
+      "sizeKey": "size-b",
+      "configurationKey": "relaxed-knit"
+    },
+    {
+      "id": "target-sleeve-length-size-b-relaxed-knit",
+      "definitionId": "d2p:garment.sleeve-length",
+      "value": 208,
+      "unit": "mm",
+      "tolerance": {
+        "minus": 5,
+        "plus": 5
+      },
+      "sizeKey": "size-b",
+      "configurationKey": "relaxed-knit"
+    }
+  ],
+  "patternRef": {
+    "artifactId": "art_golden-tshirt-pattern",
+    "revisionId": "rev_golden-tshirt-pattern-r1"
+  },
+  "sizeSystemRef": {
+    "artifactId": "art_golden-tshirt-size-system",
+    "revisionId": "rev_golden-tshirt-size-system-r1"
+  }
+}

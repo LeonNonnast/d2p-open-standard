@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.impossible-constraint",
+  "level": "semantic",
+  "title": "Two constant distance constraints on the same point pair with different values are rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/impossible-constraint/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-040",
+        "documentPath": "conformance/semantic/impossible-constraint/pattern.json",
+        "instancePath": "/features/26"
+      }
+    ]
+  }
+}

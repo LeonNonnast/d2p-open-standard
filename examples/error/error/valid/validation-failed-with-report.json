@@ -1,0 +1,10 @@
+{
+  "code": "validation_failed",
+  "message": "The validation profile reported blocking findings.",
+  "correlationId": "cor_example-request-3",
+  "retryable": false,
+  "validationReportRef": {
+    "id": "vrp_example-report-1",
+    "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+  }
+}

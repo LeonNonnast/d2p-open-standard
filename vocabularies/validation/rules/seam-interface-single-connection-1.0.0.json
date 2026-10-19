@@ -1,0 +1,18 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:seam-interface-single-connection",
+  "version": "1.0.0",
+  "title": "Seam interfaces have one active connection",
+  "description": "No seam interface is used by more than one active seam connection.",
+  "layer": "domain",
+  "targetDocumentTypes": [
+    "d2p:pattern"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-SEM-023"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

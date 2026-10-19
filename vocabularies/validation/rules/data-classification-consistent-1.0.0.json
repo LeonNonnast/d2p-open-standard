@@ -1,0 +1,19 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:data-classification-consistent",
+  "version": "1.0.0",
+  "title": "Data classification is consistent",
+  "description": "A body measurement profile of an individual is classified personal or sensitive-personal, and artifact metadata and content agree on the data classification.",
+  "layer": "contextual",
+  "targetDocumentTypes": [
+    "d2p:artifact",
+    "d2p:body-measurement-profile"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-SEM-051"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

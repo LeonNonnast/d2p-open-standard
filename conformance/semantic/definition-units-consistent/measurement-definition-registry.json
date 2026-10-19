@@ -1,0 +1,42 @@
+{
+  "documentType": "d2p:measurement-definition-registry",
+  "schemaVersion": "1.0.0",
+  "registryId": "org.example.conformance:units",
+  "version": "1.0.0",
+  "definitions": [
+    {
+      "definitionId": "org.example.conformance:body.chest-girth",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Synthetic length path of the conformance kit."
+      },
+      "landmarks": [
+        "synthetic landmark"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Synthetic length definition of the conformance kit.",
+      "status": "active"
+    },
+    {
+      "definitionId": "org.example.conformance:body.shoulder-slope",
+      "kind": "body",
+      "dimension": "angle",
+      "unit": "rad",
+      "path": {
+        "type": "arc",
+        "description": "Synthetic angle path of the conformance kit."
+      },
+      "landmarks": [
+        "synthetic landmark"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Synthetic angle definition of the conformance kit.",
+      "status": "active"
+    }
+  ]
+}

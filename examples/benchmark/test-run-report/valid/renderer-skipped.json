@@ -1,0 +1,32 @@
+{
+  "documentType": "d2p:test-run-report",
+  "schemaVersion": "1.0.0",
+  "reportId": "trr_print-example-skipped",
+  "suiteId": "d2p:print-geometry",
+  "suiteVersion": "1.0.0",
+  "subjectKind": "renderer",
+  "fixture": {
+    "fixtureId": "golden-tshirt",
+    "fixtureVersion": "1.0.0",
+    "fixtureDigest": "sha256:3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c"
+  },
+  "implementation": {
+    "name": "Example Renderer",
+    "version": "1.0.0"
+  },
+  "executionEnvironment": {
+    "os": "macOS 15",
+    "arch": "arm64"
+  },
+  "toleranceProfile": {
+    "id": "d2p:golden-tshirt-2d",
+    "version": "1.0.0"
+  },
+  "testRunnerVersion": "0.1.0",
+  "startedAt": "2026-02-01T11:00:00Z",
+  "durationMs": 0,
+  "resultState": "skipped",
+  "measurements": [],
+  "findings": [],
+  "skipReason": "The pinned tolerance profile is still provisional; no comparison is performed before it is frozen."
+}

@@ -1,0 +1,42 @@
+{
+  "documentType": "d2p:measurement-definition-registry",
+  "schemaVersion": "1.0.0",
+  "registryId": "org.example.conformance:measurements",
+  "version": "1.0.0",
+  "definitions": [
+    {
+      "definitionId": "org.example.conformance:garment.chest-girth",
+      "kind": "garment",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Synthetic girth path of the conformance kit."
+      },
+      "landmarks": [
+        "synthetic landmark"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:flat-relaxed",
+      "description": "Synthetic garment definition of the conformance kit.",
+      "status": "active"
+    },
+    {
+      "definitionId": "org.example.conformance:body.chest-girth",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Synthetic girth path of the conformance kit."
+      },
+      "landmarks": [
+        "synthetic landmark"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Synthetic body definition of the conformance kit.",
+      "status": "active"
+    }
+  ]
+}

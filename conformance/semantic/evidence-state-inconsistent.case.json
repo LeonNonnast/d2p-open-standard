@@ -1,0 +1,27 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.evidence-state-inconsistent",
+  "level": "semantic",
+  "title": "Evidence that lacks a required suite is never passed",
+  "documents": [
+    {
+      "path": "conformance/semantic/evidence-state-inconsistent/quality-evidence-bundle.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/evidence-state-inconsistent/pattern.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-110",
+        "documentPath": "conformance/semantic/evidence-state-inconsistent/quality-evidence-bundle.json",
+        "instancePath": "/overallState"
+      }
+    ]
+  }
+}

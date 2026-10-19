@@ -1,0 +1,18 @@
+{
+  "findingId": "f-2",
+  "ruleId": "d2p:print-geometry-valid",
+  "ruleVersion": "1.0.0",
+  "code": "D2P-SEM-093",
+  "severity": "error",
+  "message": "A scene path references a layer that does not exist.",
+  "elementRefs": [],
+  "subjectRef": {
+    "id": "xsc_example-scene",
+    "digest": "sha256:4f48f7207cebf92638debb5694e4a8677350cf88a9e98e73c6c466b6b1d43890"
+  },
+  "instancePath": "/pieceInstances/0/paths/3/layerId",
+  "visibility": "general",
+  "evidence": {
+    "layerId": "notches-extra"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "structural.snapshot-without-pattern-input",
+  "level": "structural",
+  "title": "A geometry snapshot whose inputDigests name no pattern is rejected",
+  "documents": [
+    {
+      "path": "conformance/structural/snapshot-without-pattern-input/geometry-snapshot.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-001",
+        "documentPath": "conformance/structural/snapshot-without-pattern-input/geometry-snapshot.json",
+        "instancePath": "/inputDigests"
+      }
+    ]
+  },
+  "description": "A snapshot records the digests of the inputs its geometry depends on; the pattern entry is mandatory (catalog §3.4)."
+}

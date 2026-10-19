@@ -1,0 +1,6 @@
+{
+  "code": "com.example.atelier:quota-exceeded",
+  "message": "The workspace storage quota is exhausted.",
+  "correlationId": "cor_example-request-4",
+  "retryable": true
+}

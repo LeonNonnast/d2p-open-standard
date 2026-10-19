@@ -1,0 +1,20 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:contour-simple",
+  "version": "1.0.0",
+  "title": "Contours are simple",
+  "description": "Snapshot contours and closed scene paths must not self-intersect, and two edges of one piece must not reuse the same curve. Conformance runners check line-only contours; evaluators may extend the check to curves.",
+  "layer": "derived",
+  "targetDocumentTypes": [
+    "d2p:export-scene-2d",
+    "d2p:geometry-snapshot",
+    "d2p:pattern"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-SEM-011",
+    "D2P-SEM-013"
+  ],
+  "requiresEvaluator": false
+}

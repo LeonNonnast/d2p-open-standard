@@ -1,0 +1,18 @@
+{
+  "findingId": "f-1",
+  "ruleId": "d2p:contour-closed",
+  "ruleVersion": "1.0.0",
+  "code": "D2P-SEM-010",
+  "severity": "error",
+  "message": "Contour 'front-outer' is not closed: the last edge does not end at the start of the first edge.",
+  "elementRefs": [
+    {
+      "artifactId": "art_golden-tshirt-pattern",
+      "revisionId": "rev_golden-tshirt-pattern-r1",
+      "elementId": "front-outer",
+      "elementType": "d2p:contour"
+    }
+  ],
+  "visibility": "private",
+  "recommendation": "Connect the end point of edge 'front-side-right' to the start point of edge 'front-hem'."
+}

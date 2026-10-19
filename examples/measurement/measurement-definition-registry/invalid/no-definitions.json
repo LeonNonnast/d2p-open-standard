@@ -1,0 +1,7 @@
+{
+  "documentType": "d2p:measurement-definition-registry",
+  "schemaVersion": "1.0.0",
+  "registryId": "com.example.atelier:measurement-definitions",
+  "version": "1.2.0",
+  "definitions": []
+}

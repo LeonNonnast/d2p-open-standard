@@ -1,0 +1,85 @@
+{
+  "documentType": "d2p:size-system",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_example-size-system",
+  "revisionId": "rev_example-size-system-r1",
+  "name": "Example synthetic size system",
+  "issuer": {
+    "kind": "synthetic",
+    "name": "D2P examples"
+  },
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.0.0"
+    }
+  ],
+  "sizes": [
+    {
+      "sizeKey": "Size A",
+      "label": "A",
+      "ordinal": 1,
+      "measurements": [
+        {
+          "definitionId": "d2p:body.chest-girth",
+          "value": 920,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic"
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.waist-girth",
+          "value": 780,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic"
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        }
+      ]
+    },
+    {
+      "sizeKey": "size-b",
+      "label": "B",
+      "ordinal": 2,
+      "measurements": [
+        {
+          "definitionId": "d2p:body.chest-girth",
+          "value": 1000,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic"
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.waist-girth",
+          "value": 860,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic"
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        }
+      ]
+    }
+  ]
+}

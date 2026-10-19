@@ -1,0 +1,25 @@
+{
+  "documentType": "d2p:fixture-manifest",
+  "schemaVersion": "1.0.0",
+  "fixtureId": "minimal",
+  "fixtureVersion": "1.0.0",
+  "title": "Minimal fixture",
+  "description": "Fixture without configurations or change case.",
+  "synthetic": true,
+  "standardVersion": "1.0.0",
+  "digestProfile": "d2p-digest-v1",
+  "toleranceProfile": {
+    "profileId": "d2p:golden-tshirt-2d",
+    "version": "1.0.0",
+    "path": "tolerance-profiles/golden-tshirt-2d-1.0.0.json",
+    "digest": "sha256:0f0a4b144bf0c71acda4b07a65b72355aa1e4c078a0598c181c9869565a7fd8d"
+  },
+  "files": [],
+  "externalFiles": [],
+  "review": {
+    "status": "completed",
+    "reviewerRole": "pattern maker",
+    "completedAt": "2026-03-01T00:00:00Z"
+  },
+  "fixtureDigest": "sha256:8a22ce04b7a9b8fc700078333466a9cccd78935ab8b3d3bb98ae19718cc55247"
+}

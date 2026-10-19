@@ -1,0 +1,35 @@
+{
+  "id": "seam-skirt-waist",
+  "interfaceIds": [
+    "si-skirt-waist",
+    "si-bodice-waist"
+  ],
+  "type": "d2p:stitched",
+  "active": true,
+  "ease": {
+    "mode": "gathered",
+    "amount": {
+      "expr": {
+        "op": "mul",
+        "args": [
+          {
+            "op": "param",
+            "parameterId": "gather-ratio"
+          },
+          {
+            "op": "literal",
+            "value": 100,
+            "unit": "mm"
+          }
+        ]
+      }
+    }
+  },
+  "matchPoints": [
+    {
+      "notchIdA": "skirt-cf-notch",
+      "notchIdB": "bodice-cf-notch"
+    }
+  ],
+  "validationRuleId": "com.example.atelier:seam-length-match"
+}

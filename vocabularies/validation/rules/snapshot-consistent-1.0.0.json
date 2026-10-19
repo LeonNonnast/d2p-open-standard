@@ -1,0 +1,19 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:snapshot-consistent",
+  "version": "1.0.0",
+  "title": "Snapshot is complete and consistent",
+  "description": "A geometry snapshot holds every piece, contour, notch, grainline, fold and seam interface of its pinned pattern revision and every active seam connection exactly once, each contour with one segment per edge in contour order, and its seam lengths and deviations agree with its interface lengths and the declared ease.",
+  "layer": "derived",
+  "targetDocumentTypes": [
+    "d2p:geometry-snapshot"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-SEM-014",
+    "D2P-SEM-024"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

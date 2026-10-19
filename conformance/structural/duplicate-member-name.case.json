@@ -1,0 +1,22 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "structural.duplicate-member-name",
+  "level": "structural",
+  "title": "A document with a duplicate member name is rejected as invalid JSON",
+  "documents": [
+    {
+      "path": "conformance/structural/duplicate-member-name/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-004",
+        "documentPath": "conformance/structural/duplicate-member-name/pattern.json"
+      }
+    ]
+  }
+}

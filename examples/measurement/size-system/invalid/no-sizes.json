@@ -1,0 +1,18 @@
+{
+  "documentType": "d2p:size-system",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_example-size-system",
+  "revisionId": "rev_example-size-system-r1",
+  "name": "Example synthetic size system",
+  "issuer": {
+    "kind": "synthetic",
+    "name": "D2P examples"
+  },
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.0.0"
+    }
+  ],
+  "sizes": []
+}

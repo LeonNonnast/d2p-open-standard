@@ -1,0 +1,44 @@
+{
+  "documentType": "d2p:evaluation-request",
+  "schemaVersion": "1.0.0",
+  "requestId": "erq_golden-tshirt-r1-size-a-regular-woven",
+  "patternRef": {
+    "artifactId": "art_golden-tshirt-pattern",
+    "revisionId": "rev_golden-tshirt-pattern-r1"
+  },
+  "evaluatorProfile": {
+    "id": "d2p:golden-fixture-analytic",
+    "version": "1.0.0"
+  },
+  "gradingRuleSetRef": {
+    "artifactId": "art_golden-tshirt-grading-rule-set",
+    "revisionId": "rev_golden-tshirt-grading-rule-set-r1"
+  },
+  "sizeSystemRef": {
+    "artifactId": "art_golden-tshirt-size-system",
+    "revisionId": "rev_golden-tshirt-size-system-r1"
+  },
+  "fitProfileRef": {
+    "artifactId": "art_golden-tshirt-fit-profile-regular",
+    "revisionId": "rev_golden-tshirt-fit-profile-regular-r1"
+  },
+  "garmentMeasurementSpecRef": {
+    "artifactId": "art_golden-tshirt-garment-measurement-spec",
+    "revisionId": "rev_golden-tshirt-garment-measurement-spec-r1"
+  },
+  "sizeKey": "size-a",
+  "configurationKey": "regular-woven",
+  "materialAssumptions": {
+    "materialClass": "woven"
+  },
+  "toleranceProfile": {
+    "id": "d2p:golden-tshirt-2d",
+    "version": "1.0.0"
+  },
+  "requestedOutputs": [
+    "fit-evaluation-report",
+    "geometry-snapshot",
+    "measurement-report",
+    "validation-report"
+  ]
+}

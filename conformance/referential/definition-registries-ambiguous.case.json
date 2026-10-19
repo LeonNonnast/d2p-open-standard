@@ -1,0 +1,32 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.definition-registries-ambiguous",
+  "level": "referential",
+  "title": "A document whose declared registries define the same definitionId differently is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/definition-registries-ambiguous/size-system.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/definition-registries-ambiguous/other-registry.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-015",
+        "documentPath": "conformance/referential/definition-registries-ambiguous/size-system.json",
+        "instancePath": "/definitionRegistries/1"
+      }
+    ]
+  },
+  "description": "A second registry redefines d2p:body.chest-girth as a flat width. A definition is the unique kind of a measurement (design decision ADR-011 §2); which meaning applied would otherwise depend on the order of definitionRegistries."
+}

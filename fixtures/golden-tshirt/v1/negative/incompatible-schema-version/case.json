@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "golden-tshirt.incompatible-schema-version",
+  "level": "structural",
+  "title": "Golden T-Shirt: pattern written against standard 99.0.0",
+  "documents": [
+    {
+      "path": "fixtures/golden-tshirt/v1/negative/incompatible-schema-version/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-003",
+        "documentPath": "fixtures/golden-tshirt/v1/negative/incompatible-schema-version/pattern.json"
+      }
+    ]
+  },
+  "description": "schemaVersion 99.0.0 is outside the compatibility line of release 1.0.0; the version gate rejects the document before schema validation."
+}

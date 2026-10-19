@@ -1,0 +1,30 @@
+{
+  "featureType": "com.example.atelier:smocking",
+  "version": "1.2.0",
+  "lowering": "normative",
+  "kind": "other",
+  "outputs": [
+    {
+      "name": "rowCount",
+      "dimension": "dimensionless"
+    }
+  ],
+  "onUnknown": "read-only",
+  "evaluator": {
+    "id": "com.example.atelier:smocking-evaluator",
+    "version": "1.0.0"
+  },
+  "provenance": {
+    "publisher": "Example Atelier",
+    "uri": "https://example.com/d2p-ext"
+  },
+  "paramsSchema": {
+    "type": "object",
+    "properties": {
+      "rows": {
+        "type": "integer"
+      }
+    }
+  },
+  "specification": "https://example.com/specs/smocking"
+}

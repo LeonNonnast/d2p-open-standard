@@ -1,0 +1,201 @@
+{
+  "documentType": "d2p:size-system",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_golden-tshirt-size-system",
+  "revisionId": "rev_golden-tshirt-size-system-r1",
+  "name": "Golden T-Shirt synthetic sizes A and B",
+  "issuer": {
+    "kind": "synthetic",
+    "name": "D2P Golden T-Shirt fixture (synthetic test data)"
+  },
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.0.0"
+    }
+  ],
+  "sizes": [
+    {
+      "sizeKey": "size-a",
+      "label": "A",
+      "ordinal": 1,
+      "measurements": [
+        {
+          "definitionId": "d2p:body.arm-length",
+          "value": 600,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 3
+          }
+        },
+        {
+          "definitionId": "d2p:body.back-length",
+          "value": 420,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 3
+          }
+        },
+        {
+          "definitionId": "d2p:body.chest-girth",
+          "value": 920,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.neck-girth",
+          "value": 370,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.shoulder-width",
+          "value": 420,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.waist-girth",
+          "value": 800,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        }
+      ]
+    },
+    {
+      "sizeKey": "size-b",
+      "label": "B",
+      "ordinal": 2,
+      "measurements": [
+        {
+          "definitionId": "d2p:body.arm-length",
+          "value": 630,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 3
+          }
+        },
+        {
+          "definitionId": "d2p:body.back-length",
+          "value": 440,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 3
+          }
+        },
+        {
+          "definitionId": "d2p:body.chest-girth",
+          "value": 1040,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.neck-girth",
+          "value": 400,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.shoulder-width",
+          "value": 460,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.waist-girth",
+          "value": 940,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        }
+      ]
+    }
+  ]
+}

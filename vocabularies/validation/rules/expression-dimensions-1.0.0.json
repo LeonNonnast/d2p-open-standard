@@ -1,0 +1,20 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:expression-dimensions",
+  "version": "1.0.0",
+  "title": "Expressions are dimensionally consistent",
+  "description": "Every expression has consistent dimensions (operands, function arguments and the result match the dimension expected by their slot) and stays within the depth and node-count limits of release 1.0.",
+  "layer": "domain",
+  "targetDocumentTypes": [
+    "d2p:grading-rule-set",
+    "d2p:pattern"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-SEM-002",
+    "D2P-SEM-003"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

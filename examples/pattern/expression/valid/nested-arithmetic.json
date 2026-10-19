@@ -1,0 +1,33 @@
+{
+  "op": "add",
+  "args": [
+    {
+      "op": "div",
+      "args": [
+        {
+          "op": "measurement",
+          "key": "chest-girth"
+        },
+        {
+          "op": "literal",
+          "value": 4,
+          "unit": "1"
+        }
+      ]
+    },
+    {
+      "op": "div",
+      "args": [
+        {
+          "op": "param",
+          "parameterId": "ease"
+        },
+        {
+          "op": "literal",
+          "value": 2,
+          "unit": "1"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "code": "unavailable",
+  "message": "retryable must be a boolean.",
+  "correlationId": "cor_example-request-7",
+  "retryable": "yes"
+}

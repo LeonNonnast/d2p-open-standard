@@ -1,0 +1,29 @@
+{
+  "documentType": "d2p:evaluation-request",
+  "schemaVersion": "1.0.0",
+  "requestId": "erq_conformance-square-size-a",
+  "patternRef": {
+    "artifactId": "art_conformance-square",
+    "revisionId": "rev_conformance-square-r1"
+  },
+  "evaluatorProfile": {
+    "id": "org.example.conformance:analytic",
+    "version": "1.0.0"
+  },
+  "sizeSystemRef": {
+    "artifactId": "art_conformance-size-system",
+    "revisionId": "rev_conformance-size-system-r1"
+  },
+  "fitProfileRef": {
+    "artifactId": "art_conformance-fit-profile",
+    "revisionId": "rev_conformance-fit-profile-r1"
+  },
+  "sizeKey": "size-a",
+  "requestedOutputs": [
+    "geometry-snapshot"
+  ],
+  "bodyMeasurementProfileRef": {
+    "artifactId": "art_conformance-missing-profile",
+    "revisionId": "rev_conformance-missing-profile-r1"
+  }
+}

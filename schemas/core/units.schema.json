@@ -3,7 +3,7 @@
   "$id": "https://d2p.nonnast.dev/schemas/core/units.schema.json",
   "title": "D2P Unit",
   "description": "Physical unit identifier used by D2P documents. Canonical domain units are millimetres (length) and radians (angle); 'm' and 'deg' are permitted only where a schema explicitly allows them at an import/export boundary and must be converted explicitly. The root of this schema accepts any supported unit; use the $defs for narrower contexts.",
-  "$comment": "Seed schema (P0). Unit conventions follow the canonical model: lengths in mm, angles in rad.",
+  "$comment": "Extended for standard 1.0. All 1.0 documents use canonical units only; no 1.0 document schema references the root or the 'unit', 'lengthUnit' or 'angleUnit' definitions, so 'm' and 'deg' stay reserved for later import/export boundary schemas.",
   "$ref": "#/$defs/unit",
   "$defs": {
     "unit": {
@@ -35,6 +35,130 @@
       "title": "Canonical angle unit",
       "description": "The only angle unit permitted inside evaluated domain data (e.g. geometry snapshots).",
       "const": "rad"
+    },
+    "lengthMm": {
+      "title": "Length in mm",
+      "description": "Length in millimetres as a bare number (may be negative, e.g. a coordinate or a signed offset).",
+      "type": "number"
+    },
+    "nonNegativeLengthMm": {
+      "title": "Non-negative length in mm",
+      "description": "Length in millimetres, greater than or equal to 0.",
+      "type": "number",
+      "minimum": 0
+    },
+    "positiveLengthMm": {
+      "title": "Positive length in mm",
+      "description": "Length in millimetres, strictly greater than 0.",
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "angleRad": {
+      "title": "Angle in rad",
+      "description": "Angle in radians as a bare number.",
+      "type": "number"
+    },
+    "ratio": {
+      "title": "Ratio",
+      "description": "Dimensionless, non-negative ratio (1 = 100 %).",
+      "type": "number",
+      "minimum": 0
+    },
+    "dimension": {
+      "title": "Dimension",
+      "description": "Physical dimension of a value: length (mm), angle (rad) or dimensionless.",
+      "type": "string",
+      "enum": ["length", "angle", "dimensionless"]
+    },
+    "quantityUnit": {
+      "title": "Quantity unit",
+      "description": "Canonical unit of a quantity: 'mm' (length), 'rad' (angle) or '1' (dimensionless).",
+      "type": "string",
+      "enum": ["mm", "rad", "1"]
+    },
+    "quantity": {
+      "title": "Quantity",
+      "description": "Value with an explicit canonical unit, used where a value is entered or transported as a measurement and for expression literals.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "value": {
+          "description": "Numeric value in the given unit.",
+          "type": "number"
+        },
+        "unit": {
+          "description": "Canonical unit of the value.",
+          "$ref": "#/$defs/quantityUnit"
+        }
+      }
+    },
+    "lengthQuantity": {
+      "title": "Length quantity",
+      "description": "Quantity whose unit is fixed to millimetres.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "value": {
+          "description": "Length in millimetres.",
+          "type": "number"
+        },
+        "unit": {
+          "description": "Always 'mm'.",
+          "type": "string",
+          "const": "mm"
+        }
+      }
+    },
+    "angleQuantity": {
+      "title": "Angle quantity",
+      "description": "Quantity whose unit is fixed to radians.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "value": {
+          "description": "Angle in radians.",
+          "type": "number"
+        },
+        "unit": {
+          "description": "Always 'rad'.",
+          "type": "string",
+          "const": "rad"
+        }
+      }
+    },
+    "unitsDeclaration": {
+      "title": "Units declaration",
+      "description": "Explicit declaration of the canonical units used by a document: millimetres for length and radians for angle.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "length",
+        "angle"
+      ],
+      "properties": {
+        "length": {
+          "description": "Length unit; always 'mm'.",
+          "type": "string",
+          "const": "mm"
+        },
+        "angle": {
+          "description": "Angle unit; always 'rad'.",
+          "type": "string",
+          "const": "rad"
+        }
+      }
     }
   }
 }

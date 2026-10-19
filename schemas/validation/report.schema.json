@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/validation/report.schema.json",
+  "title": "Validation report",
+  "description": "Immutable derived result of validating pinned artifact revisions (and optionally derived documents) against one validation profile (design decision ADR-016). 'result' is 'pass' if and only if 'status' = 'completed' and no finding has severity 'error' or 'critical'. A report alone never authorizes an action; gate evaluations decide. Identical pinned inputs yield identical reports apart from the members excluded from 'resultDigest'.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator of a validation report.",
+      "const": "d2p:validation-report"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "reportId": {
+      "description": "Own ID of this report (prefix 'vrp').",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/validationReportId"
+    },
+    "createdAt": {
+      "description": "UTC time the report was produced. Excluded from 'resultDigest'.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp"
+    },
+    "targetRefs": {
+      "description": "Pinned artifact revisions the report is about, sorted by artifactId, revisionId.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+      },
+      "minItems": 1
+    },
+    "derivedSubjectRefs": {
+      "description": "Derived documents checked by the report (such as evaluations, snapshots, scenes and print jobs), sorted by id, digest. Omitted when there are none.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef"
+      },
+      "minItems": 1
+    },
+    "purpose": {
+      "description": "Purpose of the validation.",
+      "$ref": "https://d2p.nonnast.dev/schemas/validation/profile.schema.json#/$defs/validationPurpose"
+    },
+    "profile": {
+      "description": "Validation profile (ID and version) applied.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+    },
+    "inputDigests": {
+      "description": "Digests of the pinned inputs of the validation.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/inputDigest"
+      }
+    },
+    "status": {
+      "description": "'completed' if the validation ran to the end, 'failed' if it could not be completed.",
+      "type": "string",
+      "enum": [
+        "completed",
+        "failed"
+      ]
+    },
+    "result": {
+      "description": "'pass' if and only if 'status' = 'completed' and no finding has severity 'error' or 'critical'; otherwise 'fail'.",
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "findings": {
+      "description": "Findings in finding order (see the finding fragment).",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/validation/finding.schema.json#/$defs/finding"
+      }
+    },
+    "resultDigest": {
+      "description": "Digest of this document excluding 'contentDigest', 'resultDigest', 'reportId' and every top-level member ending in 'At' (digest profile d2p-digest-v1).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "evaluator": {
+      "description": "Implementation that produced the report.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/evaluatorDescriptor"
+    },
+    "contentDigest": {
+      "description": "Optional digest of this whole document in canonical form, excluding 'contentDigest' itself.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks keyed by extension namespace.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "reportId",
+    "createdAt",
+    "targetRefs",
+    "purpose",
+    "profile",
+    "inputDigests",
+    "status",
+    "result",
+    "findings",
+    "resultDigest"
+  ],
+  "additionalProperties": false
+}

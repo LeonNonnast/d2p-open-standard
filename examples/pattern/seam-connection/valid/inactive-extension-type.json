@@ -1,0 +1,19 @@
+{
+  "id": "seam-fused",
+  "interfaceIds": [
+    "si-a",
+    "si-b"
+  ],
+  "type": "com.example.atelier:ultrasonic-weld",
+  "active": false,
+  "ease": {
+    "mode": "stretched",
+    "amount": {
+      "expr": {
+        "op": "literal",
+        "value": -5,
+        "unit": "mm"
+      }
+    }
+  }
+}

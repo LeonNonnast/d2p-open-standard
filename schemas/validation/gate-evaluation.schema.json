@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/validation/gate-evaluation.schema.json",
+  "title": "Gate evaluation",
+  "description": "Immutable derived decision whether an action may be performed on pinned artifact revisions, based on validation reports, optional quality evidence bundles, a profile and waivers (design decisions ADR-016 and ADR-025 §11.4: domain validation and test evidence stay separate, and a gate references both). The decision follows a deterministic procedure, first matching step wins: (1) 'deny' with 'd2p:report-missing' if no report is referenced; (2) 'deny' with 'd2p:report-stale' if a report has a different profile, a different target set or a finding whose rule version differs from the profile; (3) 'deny' with 'd2p:report-failed' if a report has status 'failed'; (4) 'deny' with 'd2p:evidence-missing' if a referenced evidence bundle lacks a report for one of its required suites (QEV-012); (5) 'deny' with 'd2p:evidence-not-passed' if a referenced evidence bundle has an 'overallState' other than 'passed'; (6) 'deny' with 'd2p:blocking-findings' if a finding of severity 'error' or 'critical' is not addressed by a valid waiver; (7) 'pending-approval' with 'd2p:approval-required' if the profile requires approvals; (8) 'allow-with-warning' with 'd2p:warnings-present' if a finding of severity 'warning' is not addressed by a valid waiver; (9) otherwise 'allow'. 'reasonCodes' is the sorted set of the deciding step's reason code plus 'd2p:waived' if 'addressedFindings' is not empty (checked as D2P-SEM-102).",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator of a gate evaluation.",
+      "const": "d2p:gate-evaluation"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "gateEvaluationId": {
+      "description": "Own ID of this gate evaluation (prefix 'gte').",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/gateEvaluationId"
+    },
+    "evaluatedAt": {
+      "description": "UTC time the gate was evaluated. Excluded from 'resultDigest'.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp"
+    },
+    "action": {
+      "description": "Action the gate decides on.",
+      "$ref": "#/$defs/gateAction"
+    },
+    "targetRefs": {
+      "description": "Pinned artifact revisions the action applies to, sorted by artifactId, revisionId.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+      },
+      "minItems": 1
+    },
+    "profile": {
+      "description": "Validation profile (ID and version) the gate applies.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+    },
+    "reportRefs": {
+      "description": "Validation reports the decision is based on, sorted by id, digest. Each reference carries the report's 'resultDigest' in 'digest' (required).",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef",
+        "properties": {
+          "digest": true
+        },
+        "required": [
+          "digest"
+        ]
+      }
+    },
+    "evidenceRefs": {
+      "description": "Quality evidence bundles (test and benchmark evidence) the decision is also based on, sorted by id, digest. Each reference carries the bundle's digest in 'digest' (required; the bundle's contentDigest per catalog §1.5 rule 5). Each bundle's 'gate' equals this gate's 'profile' and its 'subjectRefs' equal 'targetRefs' as sets (D2P-REF-007). Omitted when the gate uses no test evidence; no 1.0 validation profile requires evidence.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef",
+        "properties": {
+          "digest": true
+        },
+        "required": [
+          "digest"
+        ]
+      },
+      "minItems": 1
+    },
+    "waiverIds": {
+      "description": "Waivers considered by the gate, as a sorted set.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/waiverId"
+      },
+      "uniqueItems": true
+    },
+    "decision": {
+      "description": "Outcome of the decision procedure.",
+      "$ref": "#/$defs/gateDecision"
+    },
+    "reasonCodes": {
+      "description": "Sorted set of reason codes: the deciding step's code (none for 'allow') plus 'd2p:waived' if findings were addressed by waivers.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reasonCode"
+      },
+      "uniqueItems": true
+    },
+    "addressedFindings": {
+      "description": "Every finding addressed by a valid waiver, sorted by reportId, findingId; empty when the decision is made in steps 1 to 5.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/addressedFinding"
+      }
+    },
+    "resultDigest": {
+      "description": "Digest of this document excluding 'contentDigest', 'resultDigest', 'gateEvaluationId' and every top-level member ending in 'At' (digest profile d2p-digest-v1).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "contentDigest": {
+      "description": "Optional digest of this whole document in canonical form, excluding 'contentDigest' itself.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks keyed by extension namespace.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "gateEvaluationId",
+    "evaluatedAt",
+    "action",
+    "targetRefs",
+    "profile",
+    "reportRefs",
+    "waiverIds",
+    "decision",
+    "reasonCodes",
+    "addressedFindings",
+    "resultDigest"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "gateAction": {
+      "title": "Gate action",
+      "description": "Action guarded by a gate. 'edit-draft', 'export-1to1' and 'cut-sample' correspond to the validation purposes 'draft-edit', '1to1-print' and 'sample-cut'.",
+      "type": "string",
+      "enum": [
+        "edit-draft",
+        "export-1to1",
+        "cut-sample",
+        "create-product-release",
+        "release-manufacturing",
+        "publish-package",
+        "promote-import"
+      ]
+    },
+    "gateDecision": {
+      "title": "Gate decision",
+      "description": "Outcome of a gate evaluation.",
+      "type": "string",
+      "enum": [
+        "allow",
+        "allow-with-warning",
+        "deny",
+        "pending-approval"
+      ]
+    },
+    "reasonCode": {
+      "title": "Reason code",
+      "description": "Extensible reason for a gate decision.",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "d2p:report-missing",
+            "d2p:report-stale",
+            "d2p:report-failed",
+            "d2p:evidence-missing",
+            "d2p:evidence-not-passed",
+            "d2p:blocking-findings",
+            "d2p:warnings-present",
+            "d2p:approval-required",
+            "d2p:waived"
+          ]
+        },
+        {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+        }
+      ]
+    },
+    "addressedFinding": {
+      "title": "Addressed finding",
+      "description": "A finding of a referenced report that is addressed by a valid waiver.",
+      "type": "object",
+      "properties": {
+        "reportId": {
+          "description": "Report containing the finding.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/validationReportId"
+        },
+        "findingId": {
+          "description": "ID of the finding within that report.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        }
+      },
+      "required": [
+        "reportId",
+        "findingId"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

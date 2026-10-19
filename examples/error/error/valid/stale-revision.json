@@ -1,0 +1,10 @@
+{
+  "code": "stale_revision",
+  "message": "The target branch head is not the expected revision.",
+  "correlationId": "cor_example-request-1",
+  "retryable": false,
+  "details": {
+    "expectedRevisionId": "rev_example-pattern-r1",
+    "headRevisionId": "rev_example-pattern-r2"
+  }
+}

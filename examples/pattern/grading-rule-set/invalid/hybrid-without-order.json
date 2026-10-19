@@ -1,0 +1,71 @@
+{
+  "documentType": "d2p:grading-rule-set",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_example-two-panel-bag-grading",
+  "revisionId": "rev_example-two-panel-bag-grading-r2",
+  "patternRef": {
+    "artifactId": "art_example-two-panel-bag-pattern",
+    "revisionId": "rev_example-two-panel-bag-pattern-r1"
+  },
+  "mode": "hybrid",
+  "sizeSystemRef": {
+    "artifactId": "art_example-size-system",
+    "revisionId": "rev_example-size-system-r1"
+  },
+  "rules": [
+    {
+      "id": "grade-chest-girth",
+      "kind": "measurement-source",
+      "measurementKey": "chest-girth",
+      "source": "size-entry"
+    },
+    {
+      "id": "grade-height",
+      "kind": "parameter-override",
+      "parameterId": "panel-height",
+      "bySize": [
+        {
+          "sizeKey": "size-a",
+          "expr": {
+            "op": "literal",
+            "value": 400,
+            "unit": "mm"
+          }
+        },
+        {
+          "sizeKey": "size-b",
+          "expr": {
+            "op": "literal",
+            "value": 420,
+            "unit": "mm"
+          }
+        }
+      ]
+    },
+    {
+      "id": "grade-front-tr",
+      "kind": "point-increment",
+      "pointFeatureId": "front-tr",
+      "increments": [
+        {
+          "sizeKey": "size-b",
+          "dxMm": 5,
+          "dyMm": -2.5
+        }
+      ]
+    }
+  ],
+  "baseSizeKey": "size-a",
+  "identityEffects": [
+    {
+      "operation": "split",
+      "fromElementIds": [
+        "front-top"
+      ],
+      "toElementIds": [
+        "front-top-left",
+        "front-top-right"
+      ]
+    }
+  ]
+}

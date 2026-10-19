@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.duplicate-element-id",
+  "level": "referential",
+  "title": "Two elements of one document with the same ID are rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/duplicate-element-id/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-005",
+        "documentPath": "conformance/referential/duplicate-element-id/pattern.json",
+        "instancePath": "/pieces/1/contours/0/edges/0/id"
+      }
+    ]
+  }
+}

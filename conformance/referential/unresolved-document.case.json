@@ -1,0 +1,47 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.unresolved-document",
+  "level": "referential",
+  "title": "A reference to an artifact outside the bundle is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/unresolved-document/evaluation-request.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/unresolved-document/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/unresolved-document/size-system.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/unresolved-document/fit-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/unresolved-document/revision-pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/unresolved-document/artifact-pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-001",
+        "documentPath": "conformance/referential/unresolved-document/evaluation-request.json",
+        "instancePath": "/bodyMeasurementProfileRef"
+      }
+    ]
+  }
+}

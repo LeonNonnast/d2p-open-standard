@@ -4,17 +4,17 @@ Canonical JSON Schemas (draft 2020-12) of the D2P Open Standard, one directory p
 
 | Module | Scope |
 |---|---|
-| `core` | Identity, artifacts, revisions, references, units, extension mechanism |
+| `core` | Identity, artifacts, revisions, references, units, extension mechanism, mapping profiles |
 | `pattern` | Pattern pieces, feature graph, typed expressions, grading, seams, sewing groups |
 | `measurement` | Body measurement profiles, size systems, garment measurement specs, fit |
-| `eval` | Pattern evaluation results, geometry snapshots, digests, constraint status |
+| `eval` | Evaluation requests, pattern evaluation results, geometry snapshots, constraint status |
 | `validation` | Validation rules, profiles, findings, reports, gates, waivers |
-| `command` | Command envelopes |
+| `command` | Command envelopes, command receipts, capability negotiation |
 | `event` | Event envelopes |
 | `error` | Error structure |
-| `print` | `ExportScene2D`, `PrintJobSpec`, print conformance profile |
-| `benchmark` | Test run reports, benchmark runs, quality evidence |
-| `3d`, `assembly`, `production`, `package`, `import` | Later modules, added by minor releases |
+| `print` | Export scenes (`export-scene-2d`) and print job specifications (`print-job-spec`) |
+| `benchmark` | Test run reports, benchmark runs, quality evidence bundles, tolerance profiles, fixture manifests, conformance cases |
+| `3d`, `assembly`, `production`, `package`, `import` | No schemas in release 1.0; added by later minor releases |
 
 Rules (enforced by `npm run validate`):
 
@@ -22,5 +22,6 @@ Rules (enforced by `npm run validate`):
 - `$schema` = `https://json-schema.org/draft/2020-12/schema`.
 - Compiles in Ajv strict mode; every `$ref` resolves.
 - At least one valid example in `examples/<module>/<name>/valid/` (and a negative one in `invalid/`).
+- Every data file the catalog names (vocabularies, tolerance profiles, fixture files, conformance cases) validates against the schema of its `documentType` (catalog §3.0).
 
-Only `core/units.schema.json` exists so far (seed schema).
+The shapes, member tables, canonical `$defs` names and module dependency order of every schema are defined in [`specifications/schema-catalog.md`](../specifications/schema-catalog.md). A schema that contradicts the catalog is a bug in the schema. Cross-file references use the absolute `$id` plus a JSON pointer, and a schema references only its own module and modules in earlier groups of the module order (catalog §1.10.3).

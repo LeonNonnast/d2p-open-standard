@@ -1,0 +1,21 @@
+{
+  "documentType": "d2p:garment-measurement-spec",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_conformance-garment-spec",
+  "revisionId": "rev_conformance-garment-spec-r1",
+  "name": "Conformance kit garment spec (synthetic)",
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.0.0"
+    }
+  ],
+  "targets": [
+    {
+      "id": "target-chest",
+      "definitionId": "d2p:body.chest-girth",
+      "value": 1000,
+      "unit": "mm"
+    }
+  ]
+}

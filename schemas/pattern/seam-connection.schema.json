@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/pattern/seam-connection.schema.json",
+  "title": "D2P Seam Connection",
+  "description": "A binary seam connection between exactly two seam interfaces (design decision ADR-007.1). Multi-party relationships are expressed by sewing groups, never by connections with more than two interfaces. An interface is used by at most one active connection (D2P-SEM-023).",
+  "$ref": "#/$defs/seamConnection",
+  "$defs": {
+    "seamConnection": {
+      "title": "Seam connection",
+      "description": "Connects side A (first interface) to side B (second interface). A traversed in its direction corresponds to B traversed in its direction.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the seam connection."
+        },
+        "interfaceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+          },
+          "description": "Exactly two distinct seam interface IDs: side A, then side B.",
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true
+        },
+        "type": {
+          "description": "Connection type.",
+          "type": "string",
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "d2p:stitched"
+              ]
+            },
+            {
+              "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+            }
+          ]
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Whether the connection is active. Inactive connections are kept but not sewn."
+        },
+        "ease": {
+          "$ref": "#/$defs/seamEase",
+          "description": "Ease between the two sides."
+        },
+        "matchPoints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/matchPoint"
+          },
+          "description": "Notch pairs that must meet when sewing. Omitted when there are none.",
+          "minItems": 1
+        },
+        "validationRuleId": {
+          "description": "Optional validation rule that checks this seam (for example d2p:seam-length-match). Extensible: a d2p: value is a rule ID of the standard 1.0 rule vocabulary (vocabularies/validation/rules), other rules use extension names. An unknown d2p: rule ID is a schema error.",
+          "type": "string",
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "d2p:constraints-consistent",
+                "d2p:constraints-solved",
+                "d2p:contour-closed",
+                "d2p:contour-orientation",
+                "d2p:contour-simple",
+                "d2p:data-classification-consistent",
+                "d2p:ease-material-compatible",
+                "d2p:evaluation-succeeded",
+                "d2p:expression-dimensions",
+                "d2p:extensions-supported",
+                "d2p:feature-graph-acyclic",
+                "d2p:grading-consistent",
+                "d2p:measurement-equivalence",
+                "d2p:measurement-fallback",
+                "d2p:measurements-complete",
+                "d2p:no-personal-data-in-export",
+                "d2p:print-calibrated",
+                "d2p:print-geometry-valid",
+                "d2p:references-resolve",
+                "d2p:schema-valid",
+                "d2p:seam-interface-continuous",
+                "d2p:seam-interface-single-connection",
+                "d2p:seam-length-match",
+                "d2p:sewing-group-integrity"
+              ]
+            },
+            {
+              "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+            }
+          ]
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional namespaced extension blocks (§1.7 of the schema catalog)."
+        }
+      },
+      "required": [
+        "id",
+        "interfaceIds",
+        "type",
+        "active",
+        "ease"
+      ],
+      "additionalProperties": false
+    },
+    "seamEase": {
+      "title": "Seam ease",
+      "description": "How length differences between side A and side B are absorbed. 'amount' is forbidden when mode is 'none' and required otherwise (schema-enforced). Negative amounts are allowed.",
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "none",
+            "gathered",
+            "eased",
+            "stretched"
+          ],
+          "description": "Ease mode."
+        },
+        "amount": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprValue",
+          "description": "Expression wrapper; the expression MUST have dimension length (expected length of side A minus side B) (checked at semantic level, D2P-SEM-002)."
+        }
+      },
+      "required": [
+        "mode"
+      ],
+      "additionalProperties": false,
+      "if": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "const": "none"
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "amount": false
+        }
+      },
+      "else": {
+        "properties": {
+          "amount": true
+        },
+        "required": [
+          "amount"
+        ]
+      }
+    },
+    "matchPoint": {
+      "title": "Match point",
+      "description": "A pair of notches, one on each side, that must meet.",
+      "type": "object",
+      "properties": {
+        "notchIdA": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Notch on side A: on an edge interval of interfaceIds[0] (D2P-SEM-025)."
+        },
+        "notchIdB": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Notch on side B: on an edge interval of interfaceIds[1] (D2P-SEM-025)."
+        }
+      },
+      "required": [
+        "notchIdA",
+        "notchIdB"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

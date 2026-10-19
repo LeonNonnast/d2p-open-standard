@@ -1,0 +1,17 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "structural.valid-pattern",
+  "level": "structural",
+  "title": "A schema-valid pattern of a compatible version is accepted",
+  "documents": [
+    {
+      "path": "conformance/structural/valid-pattern/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

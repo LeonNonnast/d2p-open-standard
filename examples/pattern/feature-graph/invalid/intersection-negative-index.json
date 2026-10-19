@@ -1,0 +1,11 @@
+[
+  {
+    "id": "p-1",
+    "type": "d2p:point.intersection",
+    "params": {
+      "curveAFeatureId": "a",
+      "curveBFeatureId": "b",
+      "index": -1
+    }
+  }
+]

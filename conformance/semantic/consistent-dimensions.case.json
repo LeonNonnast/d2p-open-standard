@@ -1,0 +1,17 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.consistent-dimensions",
+  "level": "semantic",
+  "title": "Expressions mixing lengths, angles and dimensionless factors consistently are accepted",
+  "documents": [
+    {
+      "path": "conformance/semantic/consistent-dimensions/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

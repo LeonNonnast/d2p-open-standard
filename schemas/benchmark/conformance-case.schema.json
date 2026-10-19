@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/benchmark/conformance-case.schema.json",
+  "title": "D2P Conformance Case",
+  "description": "A conformance case, stored as conformance/<level>/**/<case>.case.json. It names the documents under test (subject), the documents needed for resolution (context) and at most one fixture manifest (manifest; never in a structural case), and the expected outcome. A case passes if the observed outcome equals expect.outcome, every expected diagnostic is reported (matching code, and documentPath/instancePath when given) and the observed editability equals expect.editability when given. Additional diagnostics are allowed. The observed outcome is reject if and only if at least one diagnostic of severity error or critical is reported for any bundle document at the case's level or below.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:conformance-case"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "caseId": {
+      "description": "ID of the case, unique within the repository.",
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9.-]*$",
+      "maxLength": 200
+    },
+    "level": {
+      "description": "Conformance level the case belongs to. The runner first runs the lower levels on the whole bundle.",
+      "type": "string",
+      "enum": [
+        "structural",
+        "referential",
+        "semantic"
+      ]
+    },
+    "title": {
+      "description": "Human-readable title.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "documents": {
+      "description": "Documents of the case bundle.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/caseDocument"
+      }
+    },
+    "expect": {
+      "description": "Expected result of the case.",
+      "$ref": "#/$defs/caseExpectation"
+    },
+    "testIds": {
+      "description": "IDs of the design-decision conformance tests this case covers (for example TOP-003).",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64
+      },
+      "minItems": 1
+    },
+    "description": {
+      "description": "Longer explanation of the case.",
+      "type": "string",
+      "maxLength": 4000
+    },
+    "contentDigest": {
+      "description": "Optional digest of this document (d2p-c14n-v1 over the whole document, excluding 'contentDigest' itself).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "caseId",
+    "level",
+    "title",
+    "documents",
+    "expect"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "caseDocument": {
+      "title": "Case document",
+      "description": "One document of a case. subject: under test; context: needed for resolution and expected to be valid; manifest: a d2p:fixture-manifest whose integrity is checked and whose input, expected and external files are expanded into the bundle (at most one per case, never in a structural case).",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Repository-relative POSIX path of the document.",
+          "$ref": "https://d2p.nonnast.dev/schemas/benchmark/fixture-manifest.schema.json#/$defs/relativePath"
+        },
+        "role": {
+          "description": "Role of the document in the case.",
+          "type": "string",
+          "enum": [
+            "subject",
+            "context",
+            "manifest"
+          ]
+        }
+      },
+      "required": [
+        "path",
+        "role"
+      ],
+      "additionalProperties": false
+    },
+    "caseExpectation": {
+      "title": "Case expectation",
+      "description": "Expected outcome, diagnostics and (semantic level only) editability.",
+      "type": "object",
+      "properties": {
+        "outcome": {
+          "description": "accept or reject, as defined for the observed outcome.",
+          "type": "string",
+          "enum": [
+            "accept",
+            "reject"
+          ]
+        },
+        "diagnostics": {
+          "description": "Diagnostics that MUST be reported. Required; written as [] when none are expected.",
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/expectedDiagnostic"
+          }
+        },
+        "editability": {
+          "description": "Expected editability: read-only if and only if D2P-SEM-004 or D2P-SEM-007 is reported for a subject document. Absent means editability is not checked.",
+          "type": "string",
+          "enum": [
+            "editable",
+            "read-only"
+          ]
+        }
+      },
+      "required": [
+        "outcome",
+        "diagnostics"
+      ],
+      "additionalProperties": false
+    },
+    "expectedDiagnostic": {
+      "title": "Expected diagnostic",
+      "description": "A diagnostic the runner must report. code always has to match; documentPath and instancePath have to match when given.",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Expected diagnostic code.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/diagnosticCode"
+        },
+        "documentPath": {
+          "description": "Repository-relative path of the document the diagnostic is about.",
+          "$ref": "https://d2p.nonnast.dev/schemas/benchmark/fixture-manifest.schema.json#/$defs/relativePath"
+        },
+        "instancePath": {
+          "description": "JSON Pointer (RFC 6901) into that document.",
+          "type": "string",
+          "pattern": "^(/([^~/]|~[01])*)*$"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

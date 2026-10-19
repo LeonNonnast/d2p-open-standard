@@ -1,0 +1,27 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "structural.unpinned-reference",
+  "level": "structural",
+  "title": "A cross-aggregate reference without a pinned revision is rejected",
+  "documents": [
+    {
+      "path": "conformance/structural/unpinned-reference/evaluation-request.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-011",
+        "documentPath": "conformance/structural/unpinned-reference/evaluation-request.json",
+        "instancePath": "/fitProfileRef"
+      },
+      {
+        "code": "D2P-STR-001",
+        "documentPath": "conformance/structural/unpinned-reference/evaluation-request.json"
+      }
+    ]
+  }
+}

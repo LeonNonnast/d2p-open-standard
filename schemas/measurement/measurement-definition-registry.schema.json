@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/measurement/measurement-definition-registry.schema.json",
+  "title": "D2P Measurement Definition Registry",
+  "description": "Vocabulary document: a versioned registry of measurement definitions. Each definition states precisely what is measured (kind, dimension, unit, path, landmarks, posture, clothing or garment state), so that values are comparable only when they share a definitionId. A definition's meaning never changes; a changed meaning requires a new definitionId. A new registry version may only change editorial text, status and mappings. The standard registry is 'd2p:measurement-definitions', stored at vocabularies/measurement-definitions/<local-name>-<version>.json.",
+  "$comment": "Schema catalog section 3.3 (design decision ADR-011 section 4). Not schema-enforced: definitions sorted by definitionId; unit consistent with dimension (mm for length, rad for angle; D2P-SEM-070); standard-registry definitionIds of the form d2p:body.* / d2p:garment.*; body state d2p:minimal-clothing versus garment states d2p:flat-relaxed / d2p:on-form. Definitions carry no own version member: the pair (immutable definitionId, pinned registry version) is the definition version.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "registryId",
+    "version",
+    "definitions"
+  ],
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "type": "string",
+      "const": "d2p:measurement-definition-registry"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "registryId": {
+      "description": "Qualified name of the registry. The standard registry is 'd2p:measurement-definitions'; other publishers use an extension name.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+    },
+    "version": {
+      "description": "SemVer of this registry, versioned independently of the standard. Documents pin it through definitionRegistries.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+    },
+    "definitions": {
+      "description": "The measurement definitions of this registry, sorted by definitionId (UTF-16 code-unit order).",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/measurementDefinition"
+      }
+    },
+    "contentDigest": {
+      "description": "Optional digest of this document per digest profile d2p-digest-v1 (excluding contentDigest itself).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional namespaced extension blocks.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "$defs": {
+    "measurementDefinition": {
+      "title": "Measurement definition",
+      "description": "The immutable meaning of one body or garment measurement.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "definitionId",
+        "kind",
+        "dimension",
+        "unit",
+        "path",
+        "landmarks",
+        "posture",
+        "state",
+        "description",
+        "status"
+      ],
+      "properties": {
+        "definitionId": {
+          "description": "Stable qualified name of the definition. In the standard registry it has the form d2p:body.<name> or d2p:garment.<name>. Never reused for a different meaning.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+        },
+        "kind": {
+          "description": "'body' for measurements of a human body (or reference figure), 'garment' for measurements of a finished garment or its evaluated pattern.",
+          "type": "string",
+          "enum": [
+            "body",
+            "garment"
+          ]
+        },
+        "dimension": {
+          "description": "Physical dimension of the measured quantity.",
+          "type": "string",
+          "enum": [
+            "length",
+            "angle"
+          ]
+        },
+        "unit": {
+          "description": "Canonical unit of values of this definition: 'mm' for dimension 'length', 'rad' for dimension 'angle'.",
+          "type": "string",
+          "enum": [
+            "mm",
+            "rad"
+          ]
+        },
+        "path": {
+          "description": "Geometric path of the measurement.",
+          "$ref": "#/$defs/measurementPath"
+        },
+        "landmarks": {
+          "description": "Anatomical or garment landmarks that fix the measurement path, in path order where the order matters.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        "posture": {
+          "description": "Posture of the body (or of the figure or form the garment is on) during measurement. Extensible vocabulary: 'd2p:standing-relaxed' or an extension name.",
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "d2p:standing-relaxed"
+              ]
+            },
+            {
+              "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+            }
+          ]
+        },
+        "state": {
+          "description": "Clothing state of the body or state of the garment during measurement. Extensible vocabulary: body 'd2p:minimal-clothing'; garment 'd2p:flat-relaxed' (laid flat, unstretched) or 'd2p:on-form' (worn by a dress form); or an extension name.",
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "d2p:minimal-clothing",
+                "d2p:flat-relaxed",
+                "d2p:on-form"
+              ]
+            },
+            {
+              "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+            }
+          ]
+        },
+        "description": {
+          "description": "Human-readable statement of how the measurement is taken. Written for this registry; no copied normative text from other standards.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "status": {
+          "description": "'active', or 'deprecated' (kept resolvable, not to be used for new documents).",
+          "type": "string",
+          "enum": [
+            "active",
+            "deprecated"
+          ]
+        },
+        "supersededBy": {
+          "description": "definitionId of the definition that replaces a deprecated one. Absent when there is no replacement.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+        },
+        "mappings": {
+          "description": "Informative mappings to terms of external measurement systems. Omitted when there are none. Mappings never copy normative text or tables of the external system.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/definitionMapping"
+          }
+        }
+      }
+    },
+    "measurementPath": {
+      "title": "Measurement path",
+      "description": "The geometric path along which a measurement is taken.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "description"
+      ],
+      "properties": {
+        "type": {
+          "description": "Path type: 'girth' (closed path around a body part or garment), 'length' (along the surface between landmarks), 'width' (straight horizontal distance), 'flat-width' (straight distance across a garment laid flat, one layer), 'height' (vertical distance from the floor or a reference level), 'depth' (front-to-back distance), 'arc' (open path over the surface between landmarks). Definitions with different path types are never implicitly equivalent (D2P-SEM-071).",
+          "type": "string",
+          "enum": [
+            "girth",
+            "length",
+            "width",
+            "flat-width",
+            "height",
+            "depth",
+            "arc"
+          ]
+        },
+        "description": {
+          "description": "How the path runs between the landmarks.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        }
+      }
+    },
+    "definitionMapping": {
+      "title": "Definition mapping",
+      "description": "Informative link from a definition to a term of an external measurement system or standard.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "system",
+        "systemVersion",
+        "provenance"
+      ],
+      "properties": {
+        "system": {
+          "description": "Name of the external system or standard.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "systemVersion": {
+          "description": "Edition or version of the external system the mapping refers to.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "provenance": {
+          "description": "Who published the mapping and where it is specified.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/provenance"
+        },
+        "term": {
+          "description": "Identifier or name of the corresponding term in the external system. Absent when the mapping is only a note.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "note": {
+          "description": "Free-text remark, for example on differences between the definitions.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        }
+      }
+    }
+  }
+}

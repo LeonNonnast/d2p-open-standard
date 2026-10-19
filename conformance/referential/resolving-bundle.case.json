@@ -1,0 +1,41 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.resolving-bundle",
+  "level": "referential",
+  "title": "Pinned references, revision records and size keys resolve inside the bundle",
+  "documents": [
+    {
+      "path": "conformance/referential/resolving-bundle/evaluation-request.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/resolving-bundle/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/resolving-bundle/size-system.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/resolving-bundle/fit-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/resolving-bundle/revision-pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/resolving-bundle/artifact-pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

@@ -1,0 +1,298 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/pattern/grading-rule-set.schema.json",
+  "title": "D2P Grading Rule Set",
+  "description": "Content of one immutable revision of a grading rule set artifact (artifactType d2p:grading-rule-set; design decisions ADR-011 §5, ADR-017). Grading is measurement-driven or by explicit point increments; there is no scale rule and uniform scaling is not expressible.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "type": "string",
+      "const": "d2p:grading-rule-set",
+      "description": "Document type discriminator; always \"d2p:grading-rule-set\"."
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against (\"1.0.0\" in this release)."
+    },
+    "artifactId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/artifactId",
+      "description": "ID of the grading rule set artifact this content belongs to."
+    },
+    "revisionId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/revisionId",
+      "description": "ID of the immutable artifact revision whose content this document is."
+    },
+    "contentDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "Optional digest of this document (digest profile d2p-digest-v1, computed with this member excluded)."
+    },
+    "patternRef": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef",
+      "description": "Pinned revision of the graded pattern."
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "measurement-driven",
+        "point-increment",
+        "hybrid"
+      ],
+      "description": "Grading mode."
+    },
+    "order": {
+      "type": "array",
+      "description": "Application order of the two stages; required when mode is 'hybrid', forbidden otherwise (schema-enforced).",
+      "items": {
+        "type": "string",
+        "enum": [
+          "measurement-driven",
+          "point-increment"
+        ]
+      },
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true
+    },
+    "sizeSystemRef": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef",
+      "description": "Pinned size system revision. Required when any rule names a sizeKey (D2P-SEM-080, semantic)."
+    },
+    "baseSizeKey": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+      "description": "Size key of the base size. Required when any point-increment rule exists (D2P-SEM-080, semantic)."
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/gradingRule"
+      },
+      "description": "Grading rules."
+    },
+    "identityEffects": {
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/revision.schema.json#/$defs/lineageEntry"
+      },
+      "description": "Element identity changes caused by topology-changing rules. Omitted when there are none.",
+      "minItems": 1
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional namespaced extension blocks (§1.7 of the schema catalog)."
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "artifactId",
+    "revisionId",
+    "patternRef",
+    "mode",
+    "rules"
+  ],
+  "additionalProperties": false,
+  "if": {
+    "properties": {
+      "mode": {
+        "type": "string",
+        "const": "hybrid"
+      }
+    },
+    "required": [
+      "mode"
+    ]
+  },
+  "then": {
+    "properties": {
+      "order": true
+    },
+    "required": [
+      "order"
+    ]
+  },
+  "else": {
+    "properties": {
+      "order": false
+    }
+  },
+  "$defs": {
+    "gradingRule": {
+      "title": "Grading rule",
+      "description": "One grading rule, discriminated by 'kind': measurement-source, parameter-override or point-increment.",
+      "type": "object",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/measurementSourceRule"
+        },
+        {
+          "$ref": "#/$defs/parameterOverrideRule"
+        },
+        {
+          "$ref": "#/$defs/pointIncrementRule"
+        }
+      ]
+    },
+    "measurementSourceRule": {
+      "title": "Measurement source rule",
+      "description": "Declares where the value of a pattern measurement input comes from per size.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the grading rule."
+        },
+        "kind": {
+          "type": "string",
+          "const": "measurement-source",
+          "description": "Rule kind discriminator; always \"measurement-source\"."
+        },
+        "measurementKey": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Key of a measurement input of the pattern at patternRef."
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "size-entry",
+            "body-profile"
+          ],
+          "description": "Source of the value: the size entry of the size system, or a body measurement profile."
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional namespaced extension blocks (§1.7 of the schema catalog)."
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "measurementKey",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "parameterOverrideRule": {
+      "title": "Parameter override rule",
+      "description": "Overrides a pattern parameter with a size-specific expression.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the grading rule."
+        },
+        "kind": {
+          "type": "string",
+          "const": "parameter-override",
+          "description": "Rule kind discriminator; always \"parameter-override\"."
+        },
+        "parameterId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of a parameter of the pattern at patternRef."
+        },
+        "bySize": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/sizeExpr"
+          },
+          "description": "Override expression per size.",
+          "minItems": 1
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional namespaced extension blocks (§1.7 of the schema catalog)."
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "parameterId",
+        "bySize"
+      ],
+      "additionalProperties": false
+    },
+    "pointIncrementRule": {
+      "title": "Point increment rule",
+      "description": "Moves a point feature by an explicit increment per size, relative to the base size. The target MUST be a point feature (D2P-SEM-080).",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the grading rule."
+        },
+        "kind": {
+          "type": "string",
+          "const": "point-increment",
+          "description": "Rule kind discriminator; always \"point-increment\"."
+        },
+        "pointFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of a point feature of the pattern at patternRef."
+        },
+        "increments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/pointIncrement"
+          },
+          "description": "Increment per size.",
+          "minItems": 1
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional namespaced extension blocks (§1.7 of the schema catalog)."
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "pointFeatureId",
+        "increments"
+      ],
+      "additionalProperties": false
+    },
+    "sizeExpr": {
+      "title": "Size expression",
+      "description": "An expression that applies to one size.",
+      "type": "object",
+      "properties": {
+        "sizeKey": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Size key in the size system at sizeSystemRef."
+        },
+        "expr": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprNode",
+          "description": "Expression for this size; its dimension MUST match the overridden parameter (D2P-SEM-002)."
+        }
+      },
+      "required": [
+        "sizeKey",
+        "expr"
+      ],
+      "additionalProperties": false
+    },
+    "pointIncrement": {
+      "title": "Point increment",
+      "description": "Displacement of a point for one size relative to the base size.",
+      "type": "object",
+      "properties": {
+        "sizeKey": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Size key in the size system at sizeSystemRef."
+        },
+        "dxMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/lengthMm",
+          "description": "Displacement along X in mm."
+        },
+        "dyMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/lengthMm",
+          "description": "Displacement along Y in mm."
+        }
+      },
+      "required": [
+        "sizeKey",
+        "dxMm",
+        "dyMm"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

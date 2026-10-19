@@ -1,0 +1,21 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:print-geometry-valid",
+  "version": "1.0.0",
+  "title": "Print geometry is valid",
+  "description": "Cut and seam lines of an export scene are closed, every path, label, marker and line style references an existing layer, a multi-size scene distinguishes every size by a size style, and the scene reproduces the pinned snapshot geometry under rigid instance transforms only, with every cut instance once per size.",
+  "layer": "contextual",
+  "targetDocumentTypes": [
+    "d2p:export-scene-2d"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-SEM-090",
+    "D2P-SEM-093",
+    "D2P-SEM-094",
+    "D2P-SEM-096"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

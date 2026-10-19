@@ -1,0 +1,398 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/measurement/fit-profile.schema.json",
+  "title": "D2P Fit Profile",
+  "description": "Artifact content (artifactType 'd2p:fit-profile'): fit intent, ease rules between precisely paired body and garment definitions, prioritised fit targets and inline material assumptions. 'Target = body reference + ease' is applied only where the paired definitions have the same path type; a girth and a flat width are never implicitly equated (D2P-SEM-071). Negative ease is never accepted silently without a stretch condition (D2P-SEM-073). Seam allowance and shrinkage are not ease.",
+  "$comment": "Schema catalog section 3.3 (design decision ADR-011 sections 2, 3 and 6). Schema-enforced (catalog section 1.12): fitTarget min/max presence by comparison. Not schema-enforced: sizeSystemRef required when any scope.sizeKeys is used (D2P-REF-009); amount units match the definitions' dimension (D2P-SEM-070); unique ids (D2P-REF-005). Not part of 1.0: ease amounts given as expressions, references to material artifacts (materialAssumptions is the inline substitute).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "artifactId",
+    "revisionId",
+    "name",
+    "intent",
+    "definitionRegistries",
+    "easeRules"
+  ],
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "type": "string",
+      "const": "d2p:fit-profile"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "artifactId": {
+      "description": "ID of the artifact this content belongs to.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/artifactId"
+    },
+    "revisionId": {
+      "description": "ID of the immutable artifact revision this content is.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/revisionId"
+    },
+    "name": {
+      "description": "Human-readable name of the fit profile.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "intent": {
+      "description": "Fit intent. Extensible vocabulary: 'd2p:fitted', 'd2p:regular', 'd2p:relaxed', 'd2p:oversized', or an extension name.",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "d2p:fitted",
+            "d2p:regular",
+            "d2p:relaxed",
+            "d2p:oversized"
+          ]
+        },
+        {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+        }
+      ]
+    },
+    "definitionRegistries": {
+      "description": "Pinned measurement-definition registries (id and version) against which the definitionIds of this document resolve.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+      }
+    },
+    "easeRules": {
+      "description": "Ease rules of the profile (may be empty, then written as []).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/easeRule"
+      }
+    },
+    "fitTargets": {
+      "description": "Prioritised fit goals on garment measurements. Omitted when there are none.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/fitTarget"
+      }
+    },
+    "materialAssumptions": {
+      "description": "Inline material assumptions the profile is designed for. Absent when the profile makes none.",
+      "$ref": "#/$defs/materialAssumptions"
+    },
+    "sizeSystemRef": {
+      "description": "Pinned size-system revision against which scope.sizeKeys resolve. Required (referentially, D2P-REF-009) when any rule or target scope uses sizeKeys.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+    },
+    "contentDigest": {
+      "description": "Optional digest of this document per digest profile d2p-digest-v1 (excluding contentDigest itself).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional namespaced extension blocks.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "$defs": {
+    "easeRule": {
+      "title": "Ease rule",
+      "description": "Ease between one body definition and one garment definition (element type 'd2p:ease-rule'): garment value = body value + amount, where both definitions have the same path type (D2P-SEM-071).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "bodyDefinitionId",
+        "garmentDefinitionId",
+        "easeType",
+        "amount",
+        "priority"
+      ],
+      "properties": {
+        "id": {
+          "description": "Stable element ID of the rule, unique within the document.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "bodyDefinitionId": {
+          "description": "Body measurement definition (kind 'body', D2P-SEM-075) the ease is added to.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+        },
+        "garmentDefinitionId": {
+          "description": "Garment measurement definition (kind 'garment', D2P-SEM-075) the ease results in. Its path type must equal the body definition's (D2P-SEM-071).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+        },
+        "easeType": {
+          "description": "'wearing' (comfort and movement), 'design' (silhouette), 'functional' (a specific function, e.g. layering).",
+          "type": "string",
+          "enum": [
+            "wearing",
+            "design",
+            "functional"
+          ]
+        },
+        "amount": {
+          "description": "Ease amount as a quantity; its unit must match the definitions' dimension (D2P-SEM-070). A negative amount needs a materialCondition with minStretchRatio > 0 (D2P-SEM-073, warning).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/quantity"
+        },
+        "priority": {
+          "description": "Priority of the rule; 0 is the highest priority.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "scope": {
+          "description": "Sizes and zones the rule applies to. Absent means all sizes and zones.",
+          "$ref": "#/$defs/easeScope"
+        },
+        "materialCondition": {
+          "description": "Material condition under which the rule applies. Absent means the rule applies regardless of material.",
+          "$ref": "#/$defs/materialCondition"
+        },
+        "extensions": {
+          "description": "Optional namespaced extension blocks.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+        }
+      }
+    },
+    "easeScope": {
+      "title": "Ease scope",
+      "description": "Restriction of a rule or target to sizes and/or body zones. At least one member is present; a present member restricts, an absent member does not.",
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "sizeKeys": {
+          "description": "Sizes the rule or target applies to, resolved against the document's sizeSystemRef (D2P-REF-009).",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+          }
+        },
+        "zones": {
+          "description": "Body zones the rule or target applies to. Extensible vocabulary: 'd2p:chest', 'd2p:waist', 'd2p:hip', 'd2p:shoulder', 'd2p:upper-arm', or extension names.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "d2p:chest",
+                  "d2p:waist",
+                  "d2p:hip",
+                  "d2p:shoulder",
+                  "d2p:upper-arm"
+                ]
+              },
+              {
+                "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "materialCondition": {
+      "title": "Material condition",
+      "description": "Material classes (and optional minimum stretch) required for a rule to apply.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "materialClasses"
+      ],
+      "properties": {
+        "materialClasses": {
+          "description": "Material classes for which the rule applies.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/materialClass"
+          }
+        },
+        "minStretchRatio": {
+          "description": "Minimum declared stretch ratio (dimensionless, e.g. 0.2 = 20 % elongation) the material must have. Absent means no stretch requirement.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/ratio"
+        }
+      }
+    },
+    "materialAssumptions": {
+      "title": "Material assumptions",
+      "description": "Inline, declared (not tested) material properties assumed for an evaluation or a fit profile. Reused by evaluation requests.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "materialClass"
+      ],
+      "properties": {
+        "materialClass": {
+          "description": "Assumed material class.",
+          "$ref": "#/$defs/materialClass"
+        },
+        "stretch": {
+          "description": "Declared stretch ratios. Absent means no stretch is declared.",
+          "$ref": "#/$defs/materialStretch"
+        },
+        "description": {
+          "description": "Free-text description of the assumed material.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        }
+      }
+    },
+    "materialClass": {
+      "title": "Material class",
+      "description": "Coarse material class: 'woven', 'knit' or 'nonwoven'.",
+      "type": "string",
+      "enum": [
+        "woven",
+        "knit",
+        "nonwoven"
+      ]
+    },
+    "materialStretch": {
+      "title": "Material stretch",
+      "description": "Declared stretch ratios (dimensionless elongation, e.g. 0.3 = 30 %) along the two fabric directions. Declared, not tested.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lengthwise",
+        "crosswise"
+      ],
+      "properties": {
+        "lengthwise": {
+          "description": "Stretch ratio along the grain (warp or wale direction).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/ratio"
+        },
+        "crosswise": {
+          "description": "Stretch ratio across the grain (weft or course direction).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/ratio"
+        }
+      }
+    },
+    "fitTarget": {
+      "title": "Fit target",
+      "description": "A prioritised fit goal on one garment measurement (element type 'd2p:fit-target'). 'min' requires min and forbids max, 'max' requires max and forbids min, 'range' requires both (schema-enforced).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "garmentDefinitionId",
+        "comparison",
+        "priority"
+      ],
+      "properties": {
+        "id": {
+          "description": "Stable element ID of the fit target, unique within the document.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "garmentDefinitionId": {
+          "description": "Garment measurement definition the goal constrains.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+        },
+        "comparison": {
+          "description": "Kind of goal: 'min' (value ≥ min), 'max' (value ≤ max), 'range' (min ≤ value ≤ max).",
+          "type": "string",
+          "enum": [
+            "min",
+            "max",
+            "range"
+          ]
+        },
+        "min": {
+          "description": "Lower bound; unit must match the definition's dimension (D2P-SEM-070). Present exactly for comparison 'min' and 'range'.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/quantity"
+        },
+        "max": {
+          "description": "Upper bound; unit must match the definition's dimension (D2P-SEM-070). Present exactly for comparison 'max' and 'range'.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/quantity"
+        },
+        "priority": {
+          "description": "Priority of the goal; 0 is the highest priority.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "scope": {
+          "description": "Sizes and zones the goal applies to. Absent means all sizes and zones.",
+          "$ref": "#/$defs/easeScope"
+        },
+        "extensions": {
+          "description": "Optional namespaced extension blocks.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "comparison": {
+                "const": "min"
+              }
+            },
+            "required": [
+              "comparison"
+            ]
+          },
+          "then": {
+            "properties": {
+              "min": true,
+              "max": false
+            },
+            "required": [
+              "min"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "comparison": {
+                "const": "max"
+              }
+            },
+            "required": [
+              "comparison"
+            ]
+          },
+          "then": {
+            "properties": {
+              "min": false,
+              "max": true
+            },
+            "required": [
+              "max"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "comparison": {
+                "const": "range"
+              }
+            },
+            "required": [
+              "comparison"
+            ]
+          },
+          "then": {
+            "properties": {
+              "min": true,
+              "max": true
+            },
+            "required": [
+              "min",
+              "max"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

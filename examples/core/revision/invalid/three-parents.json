@@ -1,0 +1,18 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_example-pattern-r5",
+  "artifactId": "art_example-pattern",
+  "sequence": 5,
+  "parentRevisionIds": [
+    "rev_example-pattern-r2",
+    "rev_example-pattern-r3",
+    "rev_example-pattern-r4"
+  ],
+  "contentDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "createdAt": "2026-10-02T09:00:00Z",
+  "author": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  }
+}

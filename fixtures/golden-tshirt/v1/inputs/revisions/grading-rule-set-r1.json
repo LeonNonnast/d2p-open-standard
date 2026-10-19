@@ -1,0 +1,15 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_golden-tshirt-grading-rule-set-r1",
+  "artifactId": "art_golden-tshirt-grading-rule-set",
+  "sequence": 1,
+  "parentRevisionIds": [],
+  "contentDigest": "sha256:5754eca2347369aefca12b2414dd69659081b88c058b4db2f2923e513189e9d8",
+  "createdAt": "2026-01-01T00:00:00Z",
+  "author": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  },
+  "message": "Initial revision of the synthetic Golden T-Shirt fixture."
+}

@@ -1,0 +1,53 @@
+{
+  "documentType": "d2p:measurement-definition-registry",
+  "schemaVersion": "1.0.0",
+  "registryId": "com.example.atelier:measurement-definitions",
+  "version": "1.2.0",
+  "definitions": [
+    {
+      "definitionId": "com.example.atelier:body.cuff-height",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "height",
+        "description": "Vertical distance from the floor to the wrist point."
+      },
+      "landmarks": [],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Example extension definition: height of the wrist point above the floor, arms hanging relaxed.",
+      "status": "active",
+      "mappings": [
+        {
+          "system": "Example Atelier measuring guide",
+          "systemVersion": "2026",
+          "provenance": {
+            "publisher": "Example Atelier",
+            "uri": "https://example.com/measuring-guide"
+          },
+          "term": "cuff height"
+        }
+      ]
+    },
+    {
+      "definitionId": "com.example.atelier:body.cuff-height-old",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "height",
+        "description": "Vertical distance from the floor to the wrist crease."
+      },
+      "landmarks": [
+        "floor",
+        "wrist crease"
+      ],
+      "posture": "com.example.atelier:seated",
+      "state": "d2p:minimal-clothing",
+      "description": "Earlier definition based on the wrist crease; superseded.",
+      "status": "deprecated",
+      "supersededBy": "com.example.atelier:body.cuff-height"
+    }
+  ]
+}

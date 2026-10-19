@@ -1,0 +1,26 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "SWG-003-unknown-member",
+  "level": "referential",
+  "title": "A sewing group member naming a non-existent connection is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/sewing-groups/SWG-003-unknown-member/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-003",
+        "documentPath": "conformance/referential/sewing-groups/SWG-003-unknown-member/pattern.json",
+        "instancePath": "/sewingGroups/0/members/1/connectionId"
+      }
+    ]
+  },
+  "testIds": [
+    "SWG-003"
+  ]
+}

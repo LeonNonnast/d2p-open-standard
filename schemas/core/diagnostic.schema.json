@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/core/diagnostic.schema.json",
+  "title": "D2P Diagnostic",
+  "description": "A diagnostic reported by a structural, referential, semantic or evaluator check. The root accepts a diagnostic object.",
+  "$ref": "#/$defs/diagnostic",
+  "$defs": {
+    "diagnostic": {
+      "title": "Diagnostic",
+      "description": "One reported condition with its code, severity and location.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "severity",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "description": "Registered diagnostic code or extension code.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/diagnosticCode"
+        },
+        "severity": {
+          "description": "Severity of this occurrence.",
+          "$ref": "#/$defs/severity"
+        },
+        "message": {
+          "description": "Human-readable message. It MUST NOT contain raw personal measurement values.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "documentPath": {
+          "description": "POSIX path of the document the diagnostic is about; repository-relative in conformance runs.",
+          "type": "string",
+          "minLength": 1
+        },
+        "instancePath": {
+          "description": "JSON Pointer (RFC 6901) into that document.",
+          "type": "string",
+          "format": "json-pointer"
+        },
+        "elementRef": {
+          "description": "Element the diagnostic is about.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/elementRef"
+        },
+        "details": {
+          "description": "Additional machine-readable details (open object). It MUST NOT contain raw personal measurement values.",
+          "type": "object"
+        }
+      }
+    },
+    "severity": {
+      "title": "Severity",
+      "description": "Ordered severity: info < warning < error < critical.",
+      "type": "string",
+      "enum": [
+        "info",
+        "warning",
+        "error",
+        "critical"
+      ]
+    }
+  }
+}

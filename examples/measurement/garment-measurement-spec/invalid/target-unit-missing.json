@@ -1,0 +1,47 @@
+{
+  "documentType": "d2p:garment-measurement-spec",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_example-garment-spec",
+  "revisionId": "rev_example-garment-spec-r1",
+  "name": "Example T-shirt garment spec",
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.0.0"
+    }
+  ],
+  "targets": [
+    {
+      "id": "target-chest-girth-size-a",
+      "definitionId": "d2p:garment.chest-girth",
+      "value": 1020,
+      "unit": "mm",
+      "tolerance": {
+        "minus": 10,
+        "plus": 10
+      },
+      "sizeKey": "size-a"
+    },
+    {
+      "id": "target-sleeve-length-size-a-regular-woven",
+      "definitionId": "d2p:garment.sleeve-length",
+      "value": 210,
+      "unit": "mm",
+      "sizeKey": "size-a",
+      "configurationKey": "regular-woven"
+    },
+    {
+      "id": "target-body-length",
+      "definitionId": "d2p:garment.body-length",
+      "value": 700
+    }
+  ],
+  "patternRef": {
+    "artifactId": "art_example-pattern",
+    "revisionId": "rev_example-pattern-r1"
+  },
+  "sizeSystemRef": {
+    "artifactId": "art_example-size-system",
+    "revisionId": "rev_example-size-system-r1"
+  }
+}

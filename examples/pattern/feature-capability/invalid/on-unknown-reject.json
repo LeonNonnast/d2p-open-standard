@@ -1,0 +1,20 @@
+{
+  "featureType": "com.example.atelier:dart",
+  "version": "0.3.0",
+  "lowering": "declarative",
+  "kind": "other",
+  "outputs": [
+    {
+      "name": "apex",
+      "dimension": "length"
+    }
+  ],
+  "onUnknown": "reject",
+  "lowersTo": [
+    "d2p:point.polar",
+    "d2p:line"
+  ],
+  "provenance": {
+    "publisher": "Example Atelier"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "SWG-007-disconnected-members",
+  "level": "semantic",
+  "title": "Disconnected members with groupTopology connected are rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/sewing-groups/SWG-007-disconnected-members/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-032",
+        "documentPath": "conformance/semantic/sewing-groups/SWG-007-disconnected-members/pattern.json",
+        "instancePath": "/sewingGroups/0"
+      }
+    ]
+  },
+  "testIds": [
+    "SWG-007"
+  ],
+  "description": "seam-side-left joins the front and back cut instances, seam-underarm-left joins sleeve-left to itself; the two components are not connected."
+}

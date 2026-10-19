@@ -1,0 +1,29 @@
+{
+  "id": "group-neckband",
+  "type": "d2p:binding",
+  "members": [
+    {
+      "connectionId": "seam-neckline-front",
+      "role": "com.example.atelier:front-attachment"
+    },
+    {
+      "connectionId": "seam-neckline-back",
+      "role": "com.example.atelier:back-attachment"
+    }
+  ],
+  "requirements": {
+    "groupTopology": "connected",
+    "validateMemberSeams": true,
+    "multiLayer": true
+  },
+  "layerOrder": [
+    {
+      "cutInstanceKey": "tee-body",
+      "role": "d2p:outer-fabric"
+    },
+    {
+      "cutInstanceKey": "neckband",
+      "role": "d2p:binding"
+    }
+  ]
+}

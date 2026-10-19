@@ -1,0 +1,91 @@
+{
+  "documentType": "d2p:test-run-report",
+  "schemaVersion": "1.0.0",
+  "reportId": "trr_golden-tshirt-geometry-example-1",
+  "suiteId": "com.example.cad:golden-geometry",
+  "suiteVersion": "1.0.0",
+  "subjectKind": "evaluator",
+  "fixture": {
+    "fixtureId": "golden-tshirt",
+    "fixtureVersion": "1.0.0",
+    "fixtureDigest": "sha256:3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c"
+  },
+  "implementation": {
+    "name": "Example Evaluator",
+    "version": "0.3.0"
+  },
+  "executionEnvironment": {
+    "os": "Linux 6.8",
+    "arch": "amd64",
+    "runtime": "go1.25.1"
+  },
+  "toleranceProfile": {
+    "id": "d2p:golden-tshirt-2d",
+    "version": "1.0.0"
+  },
+  "testRunnerVersion": "0.1.0",
+  "startedAt": "2026-02-01T10:00:00Z",
+  "durationMs": 1234.5,
+  "resultState": "failed",
+  "measurements": [
+    {
+      "id": "contour-front-outer-r1-size-a-regular-woven",
+      "metric": "d2p:contour-deviation",
+      "value": 0.04,
+      "unit": "mm",
+      "limit": 0.1,
+      "state": "passed",
+      "provenance": {
+        "method": "symmetric Hausdorff distance, adaptive sampling"
+      }
+    },
+    {
+      "id": "seam-shoulder-left-r1-size-a-regular-woven",
+      "metric": "d2p:seam-length-deviation-relative",
+      "value": 0.007,
+      "unit": "1",
+      "limit": 0.005,
+      "state": "failed",
+      "provenance": {
+        "method": "relative difference of evaluated seam lengths",
+        "toolVersion": "0.1.0"
+      }
+    }
+  ],
+  "findings": [
+    {
+      "code": "D2P-EVL-010",
+      "severity": "warning",
+      "message": "Seam seam-shoulder-left exceeds the pinned relative seam-length tolerance."
+    }
+  ],
+  "backend": {
+    "backendId": "com.example.geometry",
+    "backendVersion": "2.1.0"
+  },
+  "evaluatorProfile": {
+    "id": "com.example.cad:default",
+    "version": "1.0.0"
+  },
+  "targetRefs": [
+    {
+      "artifactId": "art_golden-tshirt-pattern",
+      "revisionId": "rev_golden-tshirt-pattern-r1"
+    }
+  ],
+  "randomSeed": 42,
+  "provenance": {
+    "producer": {
+      "name": "Example Test Runner",
+      "version": "0.1.0"
+    },
+    "sourceRevision": "4f2a9c1"
+  },
+  "attachments": [
+    {
+      "path": "logs/run.log",
+      "mediaType": "text/plain",
+      "digest": "sha256:abababababababababababababababababababababababababababababababab"
+    }
+  ]
+}

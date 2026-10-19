@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "structural.incompatible-schema-version",
+  "level": "structural",
+  "title": "A document of an incompatible major version is rejected before schema validation",
+  "documents": [
+    {
+      "path": "conformance/structural/incompatible-schema-version/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-003",
+        "documentPath": "conformance/structural/incompatible-schema-version/pattern.json",
+        "instancePath": "/schemaVersion"
+      }
+    ]
+  }
+}

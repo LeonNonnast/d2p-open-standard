@@ -1,0 +1,48 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.private-measurement-export",
+  "level": "semantic",
+  "title": "An export scene that references a personal measurement profile is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/private-measurement-export/body-measurement-profile.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/private-measurement-export/artifact.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/private-measurement-export/export-scene-2d.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/private-measurement-export/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/private-measurement-export/pattern-evaluation.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/private-measurement-export/geometry-snapshot.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-050",
+        "documentPath": "conformance/semantic/private-measurement-export/export-scene-2d.json",
+        "instancePath": "/source/inputRefs/0"
+      }
+    ]
+  },
+  "description": "An individual's profile classified sensitive-personal is named in the scene's source.inputRefs."
+}

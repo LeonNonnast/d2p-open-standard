@@ -1,0 +1,52 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.stale-revision-gate",
+  "level": "referential",
+  "title": "A gate whose report checked an older revision than the gate's target is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/stale-revision-gate/gate-evaluation.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/stale-revision-gate/validation-report.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/stale-revision-gate/pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/stale-revision-gate/pattern-r2.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/stale-revision-gate/revision-pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/stale-revision-gate/revision-pattern-r2.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/stale-revision-gate/validation-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/stale-revision-gate/validation-rule.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-006",
+        "documentPath": "conformance/referential/stale-revision-gate/gate-evaluation.json",
+        "instancePath": "/reportRefs/0"
+      }
+    ]
+  },
+  "description": "The gate targets pattern r2, but its validation report targets r1; r2 is a child of r1 in the bundle."
+}

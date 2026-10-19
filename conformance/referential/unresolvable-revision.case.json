@@ -1,0 +1,48 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.unresolvable-revision",
+  "level": "referential",
+  "title": "A pinned revision that is not in the bundle is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/unresolvable-revision/evaluation-request.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/unresolvable-revision/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/unresolvable-revision/size-system.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/unresolvable-revision/fit-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/unresolvable-revision/revision-pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/unresolvable-revision/artifact-pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-002",
+        "documentPath": "conformance/referential/unresolvable-revision/evaluation-request.json",
+        "instancePath": "/fitProfileRef"
+      }
+    ]
+  },
+  "description": "The fit profile artifact is present in revision r1 only; the request pins r9. A different revision is never substituted."
+}

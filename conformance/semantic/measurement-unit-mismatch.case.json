@@ -1,0 +1,27 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.measurement-unit-mismatch",
+  "level": "semantic",
+  "title": "A length measurement given in radians is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/measurement-unit-mismatch/body-measurement-profile.json",
+      "role": "subject"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-070",
+        "documentPath": "conformance/semantic/measurement-unit-mismatch/body-measurement-profile.json",
+        "instancePath": "/measurements/0/unit"
+      }
+    ]
+  }
+}

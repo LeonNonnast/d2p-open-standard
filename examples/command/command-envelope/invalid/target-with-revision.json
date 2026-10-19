@@ -1,0 +1,49 @@
+{
+  "documentType": "d2p:command",
+  "schemaVersion": "1.0.0",
+  "commandId": "cmd_example-change-1",
+  "idempotencyKey": "example-change-1",
+  "type": "d2p:pattern.parameters.update",
+  "target": {
+    "artifactId": "art_example-pattern",
+    "branch": "main",
+    "revisionId": "rev_example-pattern-r1"
+  },
+  "expectedRevisionId": "rev_example-pattern-r1",
+  "payload": {
+    "updates": [
+      {
+        "parameterId": "bust-ease",
+        "expr": {
+          "op": "literal",
+          "value": 80,
+          "unit": "mm"
+        }
+      },
+      {
+        "parameterId": "sleeve-length",
+        "expr": {
+          "op": "add",
+          "args": [
+            {
+              "op": "measurement",
+              "key": "arm-length"
+            },
+            {
+              "op": "literal",
+              "value": -20,
+              "unit": "mm"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "actorContext": {
+    "actorPrincipalId": "prn_example-agent",
+    "onBehalfOfPrincipalId": "prn_example-user",
+    "clientId": "example-cad-client"
+  },
+  "correlationId": "cor_example-request-1",
+  "issuedAt": "2026-01-03T00:00:00Z"
+}

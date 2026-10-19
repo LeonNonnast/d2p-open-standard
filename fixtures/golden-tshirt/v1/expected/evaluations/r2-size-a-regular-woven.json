@@ -1,0 +1,105 @@
+{
+  "documentType": "d2p:pattern-evaluation",
+  "schemaVersion": "1.0.0",
+  "evaluationId": "pev_golden-tshirt-r2-size-a-regular-woven",
+  "createdAt": "2026-01-04T00:00:00Z",
+  "request": {
+    "documentType": "d2p:evaluation-request",
+    "schemaVersion": "1.0.0",
+    "requestId": "erq_golden-tshirt-r2-size-a-regular-woven",
+    "patternRef": {
+      "artifactId": "art_golden-tshirt-pattern",
+      "revisionId": "rev_golden-tshirt-pattern-r2"
+    },
+    "evaluatorProfile": {
+      "id": "d2p:golden-fixture-analytic",
+      "version": "1.0.0"
+    },
+    "sizeSystemRef": {
+      "artifactId": "art_golden-tshirt-size-system",
+      "revisionId": "rev_golden-tshirt-size-system-r1"
+    },
+    "fitProfileRef": {
+      "artifactId": "art_golden-tshirt-fit-profile-regular",
+      "revisionId": "rev_golden-tshirt-fit-profile-regular-r1"
+    },
+    "sizeKey": "size-a",
+    "configurationKey": "regular-woven",
+    "materialAssumptions": {
+      "materialClass": "woven"
+    },
+    "toleranceProfile": {
+      "id": "d2p:golden-tshirt-2d",
+      "version": "1.0.0"
+    },
+    "requestedOutputs": [
+      "geometry-snapshot",
+      "measurement-report"
+    ]
+  },
+  "evaluator": {
+    "engineId": "golden-fixture",
+    "engineVersion": "1.0.0",
+    "algorithmProfileVersion": "1.0.0",
+    "evaluatorProfile": {
+      "id": "d2p:golden-fixture-analytic",
+      "version": "1.0.0"
+    }
+  },
+  "featureSetVersion": "1.0.0",
+  "inputDigests": [
+    {
+      "role": "fit-profile",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-fit-profile-regular",
+        "revisionId": "rev_golden-tshirt-fit-profile-regular-r1"
+      },
+      "digest": "sha256:b3e83ec409b680ec29ba3597976f1081133f87b14fdfeea9cd84e2e7826ddd46"
+    },
+    {
+      "role": "material-assumptions",
+      "digest": "sha256:b2d14743b5b88f5e6116d3d241dfd11cefd44ef638867100dfe8e0c32e5959fc"
+    },
+    {
+      "role": "measurement-definition-registry",
+      "id": {
+        "id": "d2p:measurement-definitions",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:c4026449780808e4fa4b9d1f3b0ed8d02e1b63fc7ee6512193b302e7ea4eb4fd"
+    },
+    {
+      "role": "pattern",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-pattern",
+        "revisionId": "rev_golden-tshirt-pattern-r2"
+      },
+      "digest": "sha256:c2045521293e2327eb34a61e1d60485ca5c7c6062ea977bb5e1414a0f3f377b5"
+    },
+    {
+      "role": "size-system",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-size-system",
+        "revisionId": "rev_golden-tshirt-size-system-r1"
+      },
+      "digest": "sha256:57d8493744de25f3eec5792e75cbc89b1fb0f11223ad9b8ffde542027a5d94cc"
+    },
+    {
+      "role": "tolerance-profile",
+      "id": {
+        "id": "d2p:golden-tshirt-2d",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:0f0a4b144bf0c71acda4b07a65b72355aa1e4c078a0598c181c9869565a7fd8d"
+    }
+  ],
+  "status": "succeeded",
+  "constraintStatus": "solved",
+  "snapshotRef": {
+    "id": "snp_golden-tshirt-r2-size-a-regular-woven",
+    "digest": "sha256:5f2192412864df0c940179d1b745bc7f361ef7279a5f9fe0ac7a069387d8beea"
+  },
+  "measurements": [],
+  "diagnostics": [],
+  "resultDigest": "sha256:bee0a1c75370ac9ffec21f5dca84b95f04fc85727953c54527fd5fc1fbeb0bef"
+}

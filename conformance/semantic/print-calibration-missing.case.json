@@ -1,0 +1,35 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.print-calibration-missing",
+  "level": "semantic",
+  "title": "A home-print job without a calibration square is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/print-calibration-missing/print-job-spec.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/print-calibration-missing/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/print-calibration-missing/pattern-evaluation.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/print-calibration-missing/geometry-snapshot.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-091",
+        "documentPath": "conformance/semantic/print-calibration-missing/print-job-spec.json",
+        "instancePath": "/calibration"
+      }
+    ]
+  }
+}

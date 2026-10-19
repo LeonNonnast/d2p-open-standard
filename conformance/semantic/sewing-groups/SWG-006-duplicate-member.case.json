@@ -1,0 +1,26 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "SWG-006-duplicate-member",
+  "level": "semantic",
+  "title": "A duplicate connection inside one group is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/sewing-groups/SWG-006-duplicate-member/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-030",
+        "documentPath": "conformance/semantic/sewing-groups/SWG-006-duplicate-member/pattern.json",
+        "instancePath": "/sewingGroups/0/members/1"
+      }
+    ]
+  },
+  "testIds": [
+    "SWG-006"
+  ]
+}

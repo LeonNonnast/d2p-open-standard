@@ -1,0 +1,37 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.gate-allow-with-waiver",
+  "level": "semantic",
+  "title": "A gate that allows an action because a valid waiver addresses the only blocking finding is consistent",
+  "documents": [
+    {
+      "path": "conformance/semantic/gate-allow-with-waiver/gate-evaluation.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/gate-allow-with-waiver/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-allow-with-waiver/validation-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-allow-with-waiver/validation-rule.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-allow-with-waiver/validation-report.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-allow-with-waiver/waiver.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

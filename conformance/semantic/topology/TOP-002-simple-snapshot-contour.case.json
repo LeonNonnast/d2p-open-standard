@@ -1,0 +1,24 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "TOP-002-simple-snapshot-contour",
+  "level": "semantic",
+  "title": "A line-only snapshot contour without self-intersection is accepted",
+  "documents": [
+    {
+      "path": "conformance/semantic/topology/TOP-002-simple-snapshot-contour/geometry-snapshot.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/topology/TOP-002-simple-snapshot-contour/pattern.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "TOP-002"
+  ]
+}

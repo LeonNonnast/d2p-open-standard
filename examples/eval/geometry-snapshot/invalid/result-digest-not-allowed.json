@@ -1,0 +1,167 @@
+{
+  "documentType": "d2p:geometry-snapshot",
+  "schemaVersion": "1.0.0",
+  "snapshotId": "snp_example-sleeve",
+  "createdAt": "2026-01-02T00:00:00Z",
+  "patternRef": {
+    "artifactId": "art_golden-tshirt-pattern",
+    "revisionId": "rev_golden-tshirt-pattern-r1"
+  },
+  "evaluationId": "pev_example-sleeve",
+  "sizeKey": "size-a",
+  "configurationKey": "regular-woven",
+  "evaluator": {
+    "engineId": "golden-fixture",
+    "engineVersion": "1.0.0",
+    "algorithmProfileVersion": "1.0.0",
+    "evaluatorProfile": {
+      "id": "d2p:golden-fixture-analytic",
+      "version": "1.0.0"
+    }
+  },
+  "featureSetVersion": "1.0.0",
+  "inputDigests": [
+    {
+      "role": "pattern",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-pattern",
+        "revisionId": "rev_golden-tshirt-pattern-r1"
+      },
+      "digest": "sha256:4a2e893957f71af95e18d20d4a1e429606d3b3830b6e1ce6926d524a0c841bfa"
+    }
+  ],
+  "units": {
+    "length": "mm",
+    "angle": "rad"
+  },
+  "pieces": [
+    {
+      "pieceId": "sleeve",
+      "contours": [
+        {
+          "contourId": "sleeve-outer",
+          "role": "outer",
+          "start": [
+            0,
+            0
+          ],
+          "segments": [
+            {
+              "kind": "line",
+              "edgeId": "sleeve-hem",
+              "end": [
+                300,
+                0
+              ]
+            },
+            {
+              "kind": "line",
+              "edgeId": "sleeve-underarm-back",
+              "end": [
+                330,
+                150
+              ]
+            },
+            {
+              "kind": "cubic",
+              "edgeId": "sleeve-cap-back",
+              "control1": [
+                330,
+                250
+              ],
+              "control2": [
+                250,
+                330
+              ],
+              "end": [
+                150,
+                330
+              ]
+            },
+            {
+              "kind": "arc",
+              "edgeId": "sleeve-cap-front",
+              "end": [
+                -30,
+                150
+              ],
+              "center": [
+                150,
+                150
+              ],
+              "direction": "ccw"
+            },
+            {
+              "kind": "line",
+              "edgeId": "sleeve-underarm-front",
+              "end": [
+                0,
+                0
+              ]
+            }
+          ]
+        }
+      ],
+      "notches": [
+        {
+          "notchId": "sleeve-cap-front-notch",
+          "edgeId": "sleeve-cap-front",
+          "point": [
+            22.72077939,
+            277.27922061
+          ],
+          "angleRad": -2.35619449
+        }
+      ],
+      "grainlines": [
+        {
+          "grainlineId": "sleeve-grainline",
+          "start": [
+            150,
+            30
+          ],
+          "end": [
+            150,
+            280
+          ]
+        }
+      ],
+      "folds": [],
+      "boundingBox": {
+        "min": [
+          -30,
+          0
+        ],
+        "max": [
+          330,
+          330
+        ]
+      },
+      "areaMm2": 100446.9005
+    }
+  ],
+  "interfaces": [
+    {
+      "seamInterfaceId": "si-sleeve-left-underarm-back",
+      "cutInstanceKey": "sleeve-left",
+      "lengthMm": 152.97058541
+    },
+    {
+      "seamInterfaceId": "si-sleeve-left-underarm-front",
+      "cutInstanceKey": "sleeve-left",
+      "lengthMm": 152.97058541
+    }
+  ],
+  "seams": [
+    {
+      "seamConnectionId": "seam-underarm-left",
+      "lengthAMm": 152.97058541,
+      "lengthBMm": 152.97058541,
+      "declaredEaseMm": 0,
+      "deviationMm": 0
+    }
+  ],
+  "diagnostics": [],
+  "geometryDigest": "sha256:d396817e407ce3ede0b05caca13d84384ac881753734a29db3e014ab3835fbdf",
+  "resultDigest": "sha256:2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881"
+}

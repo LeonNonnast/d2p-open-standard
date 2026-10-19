@@ -1,0 +1,22 @@
+{
+  "featureType": "com.example.atelier:clothoid",
+  "version": "1.0.0",
+  "lowering": "normative",
+  "kind": "curve",
+  "outputs": [
+    {
+      "name": "length",
+      "dimension": "length"
+    },
+    {
+      "name": "turn",
+      "dimension": "angle"
+    }
+  ],
+  "onUnknown": "read-only",
+  "specification": "https://example.com/specs/clothoid-1.0.0",
+  "provenance": {
+    "publisher": "Example Atelier",
+    "specification": "https://example.com/specs/clothoid-1.0.0"
+  }
+}

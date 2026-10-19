@@ -1,0 +1,27 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "golden-tshirt.forbidden-expression-node",
+  "level": "structural",
+  "title": "Golden T-Shirt: script node in an expression",
+  "documents": [
+    {
+      "path": "fixtures/golden-tshirt/v1/negative/forbidden-expression-node/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-001",
+        "documentPath": "fixtures/golden-tshirt/v1/negative/forbidden-expression-node/pattern.json"
+      },
+      {
+        "code": "D2P-STR-010",
+        "documentPath": "fixtures/golden-tshirt/v1/negative/forbidden-expression-node/pattern.json"
+      }
+    ]
+  },
+  "description": "The expression of parameter back-neck-depth is a script node, which is outside the closed node list."
+}

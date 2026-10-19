@@ -1,0 +1,18 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:grading-consistent",
+  "version": "1.0.0",
+  "title": "Grading rules are consistent",
+  "description": "Point-increment rules have a base size, size-specific rules have a size system, and point-increment rules target point features.",
+  "layer": "domain",
+  "targetDocumentTypes": [
+    "d2p:grading-rule-set"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-SEM-080"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

@@ -1,0 +1,20 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "SWG-003-members-resolve",
+  "level": "referential",
+  "title": "Sewing group members naming existing connections resolve",
+  "documents": [
+    {
+      "path": "conformance/referential/sewing-groups/SWG-003-members-resolve/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "SWG-003"
+  ]
+}

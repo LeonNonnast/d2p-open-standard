@@ -1,0 +1,355 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/benchmark/fixture-manifest.schema.json",
+  "title": "D2P Fixture Manifest",
+  "description": "manifest.json of a golden fixture (design decisions ADR-017 §7, ADR-017.1 §4, ADR-025 §5). It lists every file of the fixture directory with its role, documentType and digest, the external vocabulary and profile files the fixture depends on, the pinned tolerance profile, the declared material/fit configurations and the machine-readable change case. Manifest integrity is a referential check: every listed file exists with a matching digest, no unlisted file exists in the manifest's directory tree (manifest.json excepted), and fixtureDigest is correct (D2P-REF-011, D2P-REF-012). Producers MUST sort files and externalFiles by path, configurations by configurationKey and changeCase.parameterDeltas by parameterId (UTF-16 code-unit order). Fixture values are synthetic test data, not size tables or norms.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:fixture-manifest"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "fixtureId": {
+      "description": "ID of the fixture (for example golden-tshirt). Together with fixtureVersion it identifies the manifest.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+    },
+    "fixtureVersion": {
+      "description": "Version of the fixture. Any change of fixture content is a new version.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+    },
+    "title": {
+      "description": "Human-readable title.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "description": "What the fixture covers.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "synthetic": {
+      "description": "True when all values are synthetic test data (the Golden T-Shirt fixture states true).",
+      "type": "boolean"
+    },
+    "standardVersion": {
+      "description": "Full version of the standard the fixture is written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+    },
+    "digestProfile": {
+      "description": "Digest profile used for every digest in the fixture.",
+      "const": "d2p-digest-v1"
+    },
+    "toleranceProfile": {
+      "description": "The tolerance profile expected results are compared with, pinned by version, path and digest.",
+      "$ref": "#/$defs/tolerancePin"
+    },
+    "configurations": {
+      "description": "Declared material/fit configurations. Configuration keys are unique (checked referentially, D2P-REF-013, D2P-REF-007). Absent means the fixture declares no configurations.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/fixtureConfiguration"
+      },
+      "minItems": 1
+    },
+    "changeCase": {
+      "description": "Machine-readable change case of the fixture. Absent means the fixture has no change case.",
+      "$ref": "#/$defs/changeCase"
+    },
+    "files": {
+      "description": "Every file inside the fixture directory except manifest.json, sorted by path.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/fixtureFile"
+      }
+    },
+    "externalFiles": {
+      "description": "Repository files outside the fixture directory that the fixture depends on (vocabularies, validation rules and profiles, tolerance profiles), sorted by path.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/externalFile"
+      }
+    },
+    "review": {
+      "description": "State of the domain review of the fixture (QEV-016).",
+      "$ref": "#/$defs/fixtureReview"
+    },
+    "fixtureDigest": {
+      "description": "Digest of this manifest (d2p-digest-v1, excluding fixtureDigest).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "contentDigest": {
+      "description": "Optional digest of this document (d2p-digest-v1, excluding contentDigest).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "fixtureId",
+    "fixtureVersion",
+    "title",
+    "description",
+    "synthetic",
+    "standardVersion",
+    "digestProfile",
+    "toleranceProfile",
+    "files",
+    "externalFiles",
+    "review",
+    "fixtureDigest"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "relativePath": {
+      "title": "Relative path",
+      "description": "Relative POSIX path: no leading slash, no backslash, no empty, '.' or '..' segment. Used for fixture files (relative to the manifest directory), external files and conformance case documents (repository-relative) and report attachments.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?!/)(?!.*//)(?!.*/$)(?!(.*/)?\\.\\.?(/|$))[^\\\\]+$"
+    },
+    "documentTypeName": {
+      "title": "Document type name",
+      "description": "A documentType value from the document-type registry of the standard.",
+      "type": "string",
+      "enum": [
+        "d2p:artifact",
+        "d2p:benchmark-run",
+        "d2p:body-measurement-profile",
+        "d2p:capabilities",
+        "d2p:command",
+        "d2p:command-receipt",
+        "d2p:conformance-case",
+        "d2p:evaluation-request",
+        "d2p:event",
+        "d2p:export-scene-2d",
+        "d2p:fit-evaluation-report",
+        "d2p:fit-profile",
+        "d2p:fixture-manifest",
+        "d2p:garment-measurement-spec",
+        "d2p:gate-evaluation",
+        "d2p:geometry-snapshot",
+        "d2p:grading-rule-set",
+        "d2p:measurement-definition-registry",
+        "d2p:pattern",
+        "d2p:pattern-evaluation",
+        "d2p:print-job-spec",
+        "d2p:product",
+        "d2p:project",
+        "d2p:quality-evidence-bundle",
+        "d2p:relationship",
+        "d2p:revision",
+        "d2p:size-system",
+        "d2p:test-run-report",
+        "d2p:tolerance-profile",
+        "d2p:validation-profile",
+        "d2p:validation-report",
+        "d2p:validation-rule-definition",
+        "d2p:waiver"
+      ]
+    },
+    "fixtureFile": {
+      "title": "Fixture file",
+      "description": "A file inside the fixture directory. Files with role input or expected join the expanded bundle of a manifest case; files with role negative are checked for manifest integrity only and never join a bundle.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path relative to the manifest directory.",
+          "$ref": "#/$defs/relativePath"
+        },
+        "role": {
+          "description": "input: fixture input; expected: expected result; negative: deliberately defective document of a negative fixture.",
+          "type": "string",
+          "enum": [
+            "input",
+            "expected",
+            "negative"
+          ]
+        },
+        "documentType": {
+          "description": "documentType of the file.",
+          "$ref": "#/$defs/documentTypeName"
+        },
+        "digest": {
+          "description": "Digest of the canonical form of the whole JSON file.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+        }
+      },
+      "required": [
+        "path",
+        "role",
+        "documentType",
+        "digest"
+      ],
+      "additionalProperties": false
+    },
+    "externalFile": {
+      "title": "External file",
+      "description": "A repository file outside the fixture directory that the fixture depends on. External files join the expanded bundle of a manifest case.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Repository-relative path.",
+          "$ref": "#/$defs/relativePath"
+        },
+        "documentType": {
+          "description": "documentType of the file.",
+          "$ref": "#/$defs/documentTypeName"
+        },
+        "digest": {
+          "description": "Digest of the canonical form of the whole JSON file.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+        }
+      },
+      "required": [
+        "path",
+        "documentType",
+        "digest"
+      ],
+      "additionalProperties": false
+    },
+    "tolerancePin": {
+      "title": "Tolerance pin",
+      "description": "Pin of a tolerance profile file. The profile is pinned before any comparison and is never adjusted afterwards.",
+      "type": "object",
+      "properties": {
+        "profileId": {
+          "description": "profileId of the tolerance profile.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+        },
+        "version": {
+          "description": "version of the tolerance profile.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+        },
+        "path": {
+          "description": "Repository-relative path of the profile file.",
+          "$ref": "#/$defs/relativePath"
+        },
+        "digest": {
+          "description": "Digest of the canonical form of the whole profile file.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+        }
+      },
+      "required": [
+        "profileId",
+        "version",
+        "path",
+        "digest"
+      ],
+      "additionalProperties": false
+    },
+    "fixtureReview": {
+      "title": "Fixture review",
+      "description": "Domain review of the fixture by a pattern maker or seamstress (QEV-016). It stays pending until performed and is never claimed as done.",
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "pending: not yet performed; completed: performed.",
+          "type": "string",
+          "enum": [
+            "pending",
+            "completed"
+          ]
+        },
+        "reviewerRole": {
+          "description": "Role of the reviewer (for example pattern maker). Names and other personal data are not recorded.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "completedAt": {
+          "description": "UTC time at which the review was completed.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp"
+        },
+        "notes": {
+          "description": "Free-text review notes.",
+          "type": "string",
+          "maxLength": 4000
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "fixtureConfiguration": {
+      "title": "Fixture configuration",
+      "description": "A declared material/fit configuration. Evaluation requests with this configurationKey MUST use exactly this fitProfileRef and materialAssumptions (D2P-REF-007).",
+      "type": "object",
+      "properties": {
+        "configurationKey": {
+          "description": "Key of the configuration, unique within the manifest.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "fitProfileRef": {
+          "description": "Pinned fit profile revision of the configuration.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+        },
+        "materialAssumptions": {
+          "description": "Inline material assumptions of the configuration.",
+          "$ref": "https://d2p.nonnast.dev/schemas/measurement/fit-profile.schema.json#/$defs/materialAssumptions"
+        }
+      },
+      "required": [
+        "configurationKey",
+        "fitProfileRef",
+        "materialAssumptions"
+      ],
+      "additionalProperties": false
+    },
+    "changeCase": {
+      "title": "Change case",
+      "description": "Machine-readable change case: the command that changes the fixture and the resulting parameter deltas.",
+      "type": "object",
+      "properties": {
+        "commandPath": {
+          "description": "Path of the change command file, relative to the manifest directory.",
+          "$ref": "#/$defs/relativePath"
+        },
+        "parameterDeltas": {
+          "description": "Parameter deltas caused by the command, sorted by parameterId.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/parameterDelta"
+          }
+        }
+      },
+      "required": [
+        "commandPath",
+        "parameterDeltas"
+      ],
+      "additionalProperties": false
+    },
+    "parameterDelta": {
+      "title": "Parameter delta",
+      "description": "Change of one length parameter: its value in the new revision minus its value in the old revision, identical for every size and configuration.",
+      "type": "object",
+      "properties": {
+        "parameterId": {
+          "description": "Element ID of the changed pattern parameter.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+        },
+        "deltaMm": {
+          "description": "New value minus old value, in mm.",
+          "type": "number"
+        }
+      },
+      "required": [
+        "parameterId",
+        "deltaMm"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

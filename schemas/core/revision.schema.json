@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/core/revision.schema.json",
+  "title": "D2P Revision",
+  "description": "Revision record (document type 'd2p:revision') of one immutable artifact revision (design decision ADR-003). A revision is never edited; undo is a new, compensating revision.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "revisionId",
+    "artifactId",
+    "sequence",
+    "parentRevisionIds",
+    "contentDigest",
+    "createdAt",
+    "author"
+  ],
+  "properties": {
+    "documentType": {
+      "description": "Document type; always 'd2p:revision'.",
+      "type": "string",
+      "const": "d2p:revision"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "revisionId": {
+      "description": "Own ID of the revision ('rev_').",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/revisionId"
+    },
+    "artifactId": {
+      "description": "Artifact this revision belongs to.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/artifactId"
+    },
+    "sequence": {
+      "description": "Position in the artifact's history: 1 if and only if parentRevisionIds is empty, otherwise max(parent sequence) + 1 (checked when the parent records are in the bundle, D2P-REF-007).",
+      "type": "integer",
+      "minimum": 1
+    },
+    "parentRevisionIds": {
+      "description": "Parent revisions: empty for the first revision, one for a normal commit; two are reserved for merges.",
+      "type": "array",
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/revisionId"
+      }
+    },
+    "contentDigest": {
+      "description": "Digest of this revision's artifact content document, excluding that document's own contentDigest member (digest profile d2p-digest-v1). Unlike on other documents, this member does not digest the revision record itself.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "createdAt": {
+      "description": "When the revision was created (UTC).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp"
+    },
+    "author": {
+      "description": "Actor that created the revision.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/actor"
+    },
+    "commandId": {
+      "description": "Command that produced the revision (used for staleness checks, D2P-REF-006).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/commandId"
+    },
+    "lineage": {
+      "description": "Identity changes of elements in this revision (split, merge, replace, remove). Omitted when there is nothing to record.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/lineageEntry"
+      }
+    },
+    "message": {
+      "description": "Free-text commit message.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "extensions": {
+      "description": "Optional extension blocks.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "$defs": {
+    "lineageEntry": {
+      "title": "Lineage entry",
+      "description": "One element identity change relative to the parent revision. Old references stay valid against their pinned revision.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "fromElementIds",
+        "toElementIds"
+      ],
+      "properties": {
+        "operation": {
+          "description": "Kind of identity change.",
+          "type": "string",
+          "enum": [
+            "split",
+            "merge",
+            "replace",
+            "remove"
+          ]
+        },
+        "fromElementIds": {
+          "description": "Element IDs of the parent revision affected by the change.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+          }
+        },
+        "toElementIds": {
+          "description": "Element IDs in this revision that result from the change. Empty only for 'remove' (semantic rule, not schema-enforced).",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+          }
+        }
+      }
+    }
+  }
+}

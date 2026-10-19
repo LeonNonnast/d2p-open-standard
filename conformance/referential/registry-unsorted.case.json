@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.registry-unsorted",
+  "level": "referential",
+  "title": "A registry whose definitions are not sorted by definitionId is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/registry-unsorted/measurement-definition-registry.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-014",
+        "documentPath": "conformance/referential/registry-unsorted/measurement-definition-registry.json",
+        "instancePath": "/definitions/1"
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "definitionId": "d2p:body.chest-girth",
+  "value": 960,
+  "unit": "mm",
+  "method": "size-table",
+  "uncertainty": {
+    "type": "symmetric",
+    "plusMinus": 5
+  }
+}

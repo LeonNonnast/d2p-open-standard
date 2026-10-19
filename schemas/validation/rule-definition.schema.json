@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/validation/rule-definition.schema.json",
+  "title": "Validation rule definition",
+  "description": "Vocabulary document defining one versioned validation rule (design decision ADR-016): what it checks, on which document types, and which diagnostic codes it reports. Identified by 'ruleId' + 'version'. The severity actually applied is set per profile.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator of a validation rule definition.",
+      "const": "d2p:validation-rule-definition"
+    },
+    "schemaVersion": {
+      "description": "Full SemVer of the standard release this document was written against.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion"
+    },
+    "ruleId": {
+      "description": "Qualified name of the rule.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+    },
+    "version": {
+      "description": "Version of this rule definition, independent of the standard version.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver"
+    },
+    "title": {
+      "description": "Short human-readable name of the rule.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "description": "What the rule checks and, where relevant, how evaluators may extend its coverage.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "layer": {
+      "description": "Validation layer the rule belongs to.",
+      "$ref": "#/$defs/ruleLayer"
+    },
+    "targetDocumentTypes": {
+      "description": "Document types (full 'documentType' values) the rule applies to, as a set.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+      },
+      "uniqueItems": true
+    },
+    "defaultSeverity": {
+      "description": "Severity used when no profile overrides it.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/diagnostic.schema.json#/$defs/severity"
+    },
+    "diagnosticCodes": {
+      "description": "Full diagnostic codes the rule reports, as a set (no wildcards or ranges).",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/diagnosticCode"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "deterministic": {
+      "description": "True if identical pinned inputs always yield identical findings.",
+      "type": "boolean"
+    },
+    "requiresEvaluator": {
+      "description": "True if only a geometry evaluator can check the rule; false if its kernel-free part is checkable by the conformance runners.",
+      "type": "boolean"
+    },
+    "requiredCapabilities": {
+      "description": "Capabilities (ID and version) an implementation needs to check the rule.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+      },
+      "minItems": 1
+    },
+    "parametersSchema": {
+      "description": "Open JSON Schema object describing the rule's profile parameters; profile rule 'parameters' are checked against it at the semantic level.",
+      "type": "object"
+    },
+    "contentDigest": {
+      "description": "Optional digest of this whole document in canonical form, excluding 'contentDigest' itself.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "description": "Optional extension blocks keyed by extension namespace.",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions"
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "ruleId",
+    "version",
+    "title",
+    "description",
+    "layer",
+    "targetDocumentTypes",
+    "defaultSeverity",
+    "diagnosticCodes",
+    "deterministic",
+    "requiresEvaluator"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "ruleLayer": {
+      "title": "Rule layer",
+      "description": "Validation layer: 'schema' (structural validity), 'domain' (rules on one artifact's content), 'derived' (rules on evaluated or derived results), 'contextual' (rules depending on the intended use, such as printing or privacy) or 'external' (checks delegated to external systems).",
+      "type": "string",
+      "enum": [
+        "schema",
+        "domain",
+        "derived",
+        "contextual",
+        "external"
+      ]
+    }
+  }
+}

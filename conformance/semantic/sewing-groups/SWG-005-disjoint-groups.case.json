@@ -1,0 +1,20 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "SWG-005-disjoint-groups",
+  "level": "semantic",
+  "title": "Two groups with disjoint member connections are valid",
+  "documents": [
+    {
+      "path": "conformance/semantic/sewing-groups/SWG-005-disjoint-groups/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "SWG-005"
+  ]
+}

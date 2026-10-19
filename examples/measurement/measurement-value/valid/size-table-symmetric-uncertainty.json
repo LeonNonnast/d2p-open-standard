@@ -1,0 +1,14 @@
+{
+  "definitionId": "d2p:body.chest-girth",
+  "value": 960,
+  "unit": "mm",
+  "method": "size-table",
+  "source": {
+    "kind": "synthetic",
+    "description": "Synthetic test value, not taken from a size table or norm."
+  },
+  "uncertainty": {
+    "type": "symmetric",
+    "plusMinus": 5
+  }
+}

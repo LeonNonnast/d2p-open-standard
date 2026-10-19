@@ -1,0 +1,9 @@
+[
+  {
+    "id": "l-1",
+    "type": "d2p:line",
+    "params": {
+      "startFeatureId": "p-a"
+    }
+  }
+]

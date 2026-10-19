@@ -1,0 +1,29 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.snapshot-size-key-resolves",
+  "level": "referential",
+  "title": "A snapshot sizeKey that its size-system input digest defines is accepted",
+  "documents": [
+    {
+      "path": "conformance/referential/snapshot-size-key-resolves/geometry-snapshot.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/snapshot-size-key-resolves/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/snapshot-size-key-resolves/size-system.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "documentType": "d2p:body-measurement-profile",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_golden-tshirt-private-body-profile",
+  "revisionId": "rev_golden-tshirt-private-body-profile-r1",
+  "subject": {
+    "kind": "individual",
+    "pseudonym": "subject-0001"
+  },
+  "dataClassification": "sensitive-personal",
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.0.0"
+    }
+  ],
+  "measurements": [
+    {
+      "definitionId": "d2p:body.chest-girth",
+      "value": 935,
+      "unit": "mm",
+      "method": "manual",
+      "source": {
+        "kind": "professional",
+        "description": "Synthetic value standing in for a personal measurement (negative test data)."
+      },
+      "measuredAt": "2026-01-01T00:00:00Z",
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 5
+      }
+    },
+    {
+      "definitionId": "d2p:body.waist-girth",
+      "value": 812,
+      "unit": "mm",
+      "method": "manual",
+      "source": {
+        "kind": "professional",
+        "description": "Synthetic value standing in for a personal measurement (negative test data)."
+      },
+      "measuredAt": "2026-01-01T00:00:00Z",
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 5
+      }
+    }
+  ]
+}

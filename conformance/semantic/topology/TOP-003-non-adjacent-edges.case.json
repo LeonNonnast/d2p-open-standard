@@ -1,0 +1,26 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "TOP-003-non-adjacent-edges",
+  "level": "semantic",
+  "title": "An EdgeInterval chain jumping between edges that share no endpoint is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/topology/TOP-003-non-adjacent-edges/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-020",
+        "documentPath": "conformance/semantic/topology/TOP-003-non-adjacent-edges/pattern.json",
+        "instancePath": "/seamInterfaces/8/segments/1"
+      }
+    ]
+  },
+  "testIds": [
+    "TOP-003"
+  ]
+}

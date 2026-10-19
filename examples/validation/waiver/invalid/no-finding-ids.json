@@ -1,0 +1,38 @@
+{
+  "documentType": "d2p:waiver",
+  "schemaVersion": "1.0.0",
+  "waiverId": "wvr_example-1",
+  "createdAt": "2026-01-02T00:00:00Z",
+  "expiresAt": "2026-02-01T00:00:00Z",
+  "targetRefs": [
+    {
+      "artifactId": "art_golden-tshirt-fit-profile-regular",
+      "revisionId": "rev_golden-tshirt-fit-profile-regular-r1"
+    },
+    {
+      "artifactId": "art_golden-tshirt-garment-measurement-spec",
+      "revisionId": "rev_golden-tshirt-garment-measurement-spec-r1"
+    },
+    {
+      "artifactId": "art_golden-tshirt-grading-rule-set",
+      "revisionId": "rev_golden-tshirt-grading-rule-set-r1"
+    },
+    {
+      "artifactId": "art_golden-tshirt-pattern",
+      "revisionId": "rev_golden-tshirt-pattern-r1"
+    },
+    {
+      "artifactId": "art_golden-tshirt-size-system",
+      "revisionId": "rev_golden-tshirt-size-system-r1"
+    }
+  ],
+  "action": "cut-sample",
+  "reportId": "vrp_example-fail",
+  "findingIds": [],
+  "justification": "The open contour is closed manually on the sample cut; the pattern is fixed in the next revision.",
+  "approvedBy": {
+    "kind": "person",
+    "principalId": "prn_example-pattern-maker"
+  },
+  "grantId": "grant-0001"
+}

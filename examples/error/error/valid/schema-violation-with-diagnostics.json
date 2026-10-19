@@ -1,0 +1,16 @@
+{
+  "code": "schema_violation",
+  "message": "The command payload does not conform to its schema.",
+  "correlationId": "cor_example-request-2",
+  "retryable": false,
+  "details": {
+    "diagnostics": [
+      {
+        "code": "D2P-STR-001",
+        "severity": "error",
+        "message": "/payload/updates must NOT have fewer than 1 items",
+        "instancePath": "/payload/updates"
+      }
+    ]
+  }
+}

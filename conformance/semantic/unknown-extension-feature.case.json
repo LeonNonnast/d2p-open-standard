@@ -1,0 +1,28 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.unknown-extension-feature",
+  "level": "semantic",
+  "title": "An unknown extension feature type makes the pattern read-only; its conforming snapshot stays displayable",
+  "documents": [
+    {
+      "path": "conformance/semantic/unknown-extension-feature/pattern.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/unknown-extension-feature/geometry-snapshot.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-004",
+        "documentPath": "conformance/semantic/unknown-extension-feature/pattern.json"
+      }
+    ],
+    "editability": "read-only"
+  },
+  "description": "The runner has no extension evaluator. The capability declares onUnknown: read-only, so the case is accepted with a warning and the pattern is not editable."
+}

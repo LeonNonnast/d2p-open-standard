@@ -1,0 +1,39 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.gate-decision-inconsistent",
+  "level": "semantic",
+  "title": "A gate that allows an action despite an unwaived blocking finding is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/gate-decision-inconsistent/gate-evaluation.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/gate-decision-inconsistent/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-decision-inconsistent/validation-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-decision-inconsistent/validation-rule.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-decision-inconsistent/validation-report.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-102",
+        "documentPath": "conformance/semantic/gate-decision-inconsistent/gate-evaluation.json",
+        "instancePath": "/decision"
+      }
+    ]
+  }
+}

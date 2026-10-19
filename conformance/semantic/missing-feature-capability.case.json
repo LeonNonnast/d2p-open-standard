@@ -1,0 +1,22 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.missing-feature-capability",
+  "level": "semantic",
+  "title": "An extension feature type without a matching feature capability is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/missing-feature-capability/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-005",
+        "documentPath": "conformance/semantic/missing-feature-capability/pattern.json"
+      }
+    ]
+  }
+}

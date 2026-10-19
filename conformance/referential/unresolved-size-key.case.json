@@ -1,0 +1,47 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.unresolved-size-key",
+  "level": "referential",
+  "title": "A sizeKey that the pinned size system does not define is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/unresolved-size-key/evaluation-request.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/unresolved-size-key/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/unresolved-size-key/size-system.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/unresolved-size-key/fit-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/unresolved-size-key/revision-pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/unresolved-size-key/artifact-pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-009",
+        "documentPath": "conformance/referential/unresolved-size-key/evaluation-request.json",
+        "instancePath": "/sizeKey"
+      }
+    ]
+  }
+}

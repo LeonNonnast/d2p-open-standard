@@ -1,0 +1,15 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_golden-tshirt-garment-measurement-spec-r1",
+  "artifactId": "art_golden-tshirt-garment-measurement-spec",
+  "sequence": 1,
+  "parentRevisionIds": [],
+  "contentDigest": "sha256:82fdc914a640b0cef99e956f20bf931e1f6328dee5828813dc4fa8aa7dadb219",
+  "createdAt": "2026-01-01T00:00:00Z",
+  "author": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  },
+  "message": "Initial revision of the synthetic Golden T-Shirt fixture."
+}

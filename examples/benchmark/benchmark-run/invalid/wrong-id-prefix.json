@@ -1,0 +1,86 @@
+{
+  "documentType": "d2p:benchmark-run",
+  "schemaVersion": "1.0.0",
+  "reportId": "trr_golden-tshirt-batch-example-1",
+  "suiteId": "com.example.cad:batch-evaluation",
+  "suiteVersion": "1.0.0",
+  "subjectKind": "evaluator",
+  "fixture": {
+    "fixtureId": "golden-tshirt",
+    "fixtureVersion": "1.0.0",
+    "fixtureDigest": "sha256:3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c"
+  },
+  "implementation": {
+    "name": "Example Evaluator",
+    "version": "0.3.0"
+  },
+  "executionEnvironment": {
+    "os": "Linux 6.8",
+    "arch": "amd64",
+    "runtime": "go1.25.1",
+    "hardware": "8-core x86-64 CPU, 32 GiB RAM (fixed benchmark host)"
+  },
+  "toleranceProfile": {
+    "id": "d2p:golden-tshirt-2d",
+    "version": "1.0.0"
+  },
+  "testRunnerVersion": "0.1.0",
+  "startedAt": "2026-02-01T10:00:00Z",
+  "durationMs": 1234.5,
+  "resultState": "passed",
+  "measurements": [],
+  "findings": [],
+  "backend": {
+    "backendId": "com.example.geometry",
+    "backendVersion": "2.1.0",
+    "adapterVersion": "0.3.0"
+  },
+  "evaluatorProfile": {
+    "id": "com.example.cad:default",
+    "version": "1.0.0"
+  },
+  "targetRefs": [
+    {
+      "artifactId": "art_golden-tshirt-pattern",
+      "revisionId": "rev_golden-tshirt-pattern-r1"
+    }
+  ],
+  "randomSeed": 42,
+  "provenance": {
+    "producer": {
+      "name": "Example Test Runner",
+      "version": "0.1.0"
+    },
+    "sourceRevision": "4f2a9c1"
+  },
+  "warmupIterations": 3,
+  "repetitions": 20,
+  "operations": [
+    {
+      "operationId": "evaluate-1-piece",
+      "pieceCount": 1,
+      "samples": 20,
+      "p50Ms": 2.1,
+      "p95Ms": 2.9,
+      "peakRssBytes": 41943040,
+      "allocations": 1830
+    },
+    {
+      "operationId": "evaluate-10-pieces",
+      "pieceCount": 10,
+      "samples": 20,
+      "p50Ms": 18.4,
+      "p95Ms": 23,
+      "peakRssBytes": 52428800,
+      "allocations": 17100
+    },
+    {
+      "operationId": "evaluate-100-pieces",
+      "pieceCount": 100,
+      "samples": 20,
+      "p50Ms": 190.2,
+      "p95Ms": 240.7,
+      "peakRssBytes": 125829120
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "documentType": "d2p:fit-profile",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_example-fit-empty",
+  "revisionId": "rev_example-fit-empty-r1",
+  "name": "Empty oversized preset",
+  "intent": "com.example.atelier:boxy",
+  "definitionRegistries": [],
+  "easeRules": []
+}

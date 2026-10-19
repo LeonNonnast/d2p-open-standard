@@ -1,0 +1,33 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.ease-rule-definitions-swapped",
+  "level": "semantic",
+  "title": "An ease rule whose body and garment definitions are swapped is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/ease-rule-definitions-swapped/fit-profile.json",
+      "role": "subject"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-075",
+        "documentPath": "conformance/semantic/ease-rule-definitions-swapped/fit-profile.json",
+        "instancePath": "/easeRules/0/bodyDefinitionId"
+      },
+      {
+        "code": "D2P-SEM-075",
+        "documentPath": "conformance/semantic/ease-rule-definitions-swapped/fit-profile.json",
+        "instancePath": "/easeRules/0/garmentDefinitionId"
+      }
+    ]
+  },
+  "description": "Both definitions are girths, so the path types match (D2P-SEM-071 does not apply); the definitions are on the wrong side."
+}

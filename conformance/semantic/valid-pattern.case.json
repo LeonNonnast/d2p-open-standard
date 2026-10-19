@@ -1,0 +1,18 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.valid-pattern",
+  "level": "semantic",
+  "title": "A pattern that satisfies every kernel-free domain rule is accepted and editable",
+  "documents": [
+    {
+      "path": "conformance/semantic/valid-pattern/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": [],
+    "editability": "editable"
+  }
+}

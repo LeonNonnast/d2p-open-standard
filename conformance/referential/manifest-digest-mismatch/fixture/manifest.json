@@ -1,0 +1,36 @@
+{
+  "documentType": "d2p:fixture-manifest",
+  "schemaVersion": "1.0.0",
+  "fixtureId": "conformance-mini",
+  "fixtureVersion": "1.0.0",
+  "title": "Conformance kit miniature fixture",
+  "description": "Synthetic test data for manifest integrity checks; not a norm.",
+  "synthetic": true,
+  "standardVersion": "1.0.0",
+  "digestProfile": "d2p-digest-v1",
+  "toleranceProfile": {
+    "profileId": "org.example.conformance:mini-fixture",
+    "version": "1.0.0",
+    "path": "conformance/referential/manifest-digest-mismatch/tolerance-profile.json",
+    "digest": "sha256:78a89e40d7ff5e859ae8f7efbaf1722cb959fece03b67b4d02081f747fd555e1"
+  },
+  "files": [
+    {
+      "path": "expected/snapshot.json",
+      "role": "expected",
+      "documentType": "d2p:geometry-snapshot",
+      "digest": "sha256:54eb6c20f5aabbc203aa52a49f5a75398b16f38e0b8a89a194bc63baece8b7f9"
+    },
+    {
+      "path": "inputs/pattern.json",
+      "role": "input",
+      "documentType": "d2p:pattern",
+      "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    }
+  ],
+  "externalFiles": [],
+  "review": {
+    "status": "pending"
+  },
+  "fixtureDigest": "sha256:02c17d96c29b268cc662eda10387772b816c489844c0227da47b8d120878116f"
+}

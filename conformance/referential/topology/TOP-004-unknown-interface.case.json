@@ -1,0 +1,27 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "TOP-004-unknown-interface",
+  "level": "referential",
+  "title": "A seam connection referencing an unknown interface ID is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/topology/TOP-004-unknown-interface/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-003",
+        "documentPath": "conformance/referential/topology/TOP-004-unknown-interface/pattern.json",
+        "instancePath": "/seamConnections/1/interfaceIds/1"
+      }
+    ]
+  },
+  "testIds": [
+    "TOP-004"
+  ],
+  "description": "Interface IDs are local to the pattern, so an interface of another pattern cannot be referenced: its ID is unknown in this pattern and resolves like any unknown ID (D2P-REF-003)."
+}

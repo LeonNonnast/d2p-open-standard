@@ -1,0 +1,365 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/core/ids.schema.json",
+  "title": "D2P Identifiers",
+  "description": "Identifier and small scalar definitions shared by all D2P schemas: global IDs (one definition per prefix), element IDs, qualified names, versions, timestamps, idempotency keys, diagnostic codes, versioned IDs, software info, actors and evaluator descriptors. The root accepts any global ID.",
+  "$ref": "#/$defs/globalId",
+  "$defs": {
+    "globalId": {
+      "title": "Global ID",
+      "description": "Identifier of a document or artifact: '<prefix>_<opaque>' with one of the registered prefixes. Consumers treat the opaque part as opaque and compare IDs byte-wise. Producers SHOULD use a UUIDv7 or ULID as the opaque part; fixtures use readable slugs.",
+      "type": "string",
+      "pattern": "^(prj|prd|art|rev|rel|cmd|evt|job|prn|cor|erq|snp|fer|vrp|gte|wvr|xsc|pjs|trr|bmr|qeb|pev)_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "projectId": {
+      "title": "Project ID",
+      "description": "Global ID of a project (prefix 'prj_').",
+      "type": "string",
+      "pattern": "^prj_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "productId": {
+      "title": "Product ID",
+      "description": "Global ID of a product (prefix 'prd_').",
+      "type": "string",
+      "pattern": "^prd_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "artifactId": {
+      "title": "Artifact ID",
+      "description": "Global ID of an artifact (prefix 'art_').",
+      "type": "string",
+      "pattern": "^art_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "revisionId": {
+      "title": "Artifact revision ID",
+      "description": "Global ID of an artifact revision (prefix 'rev_').",
+      "type": "string",
+      "pattern": "^rev_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "relationshipId": {
+      "title": "Relationship ID",
+      "description": "Global ID of a relationship (prefix 'rel_').",
+      "type": "string",
+      "pattern": "^rel_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "commandId": {
+      "title": "Command ID",
+      "description": "Global ID of a command (prefix 'cmd_').",
+      "type": "string",
+      "pattern": "^cmd_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "eventId": {
+      "title": "Event ID",
+      "description": "Global ID of an event (prefix 'evt_').",
+      "type": "string",
+      "pattern": "^evt_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "jobId": {
+      "title": "Job ID",
+      "description": "Global ID of a job (prefix 'job_').",
+      "type": "string",
+      "pattern": "^job_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "principalId": {
+      "title": "Principal (actor) ID",
+      "description": "Global ID of a principal (actor) (prefix 'prn_').",
+      "type": "string",
+      "pattern": "^prn_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "correlationId": {
+      "title": "Correlation ID",
+      "description": "Global ID of a correlation (prefix 'cor_').",
+      "type": "string",
+      "pattern": "^cor_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "evaluationRequestId": {
+      "title": "Evaluation request ID",
+      "description": "Global ID of an evaluation request (prefix 'erq_').",
+      "type": "string",
+      "pattern": "^erq_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "snapshotId": {
+      "title": "Geometry snapshot ID",
+      "description": "Global ID of a geometry snapshot (prefix 'snp_').",
+      "type": "string",
+      "pattern": "^snp_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "fitEvaluationReportId": {
+      "title": "Fit evaluation report ID",
+      "description": "Global ID of a fit evaluation report (prefix 'fer_').",
+      "type": "string",
+      "pattern": "^fer_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "validationReportId": {
+      "title": "Validation report ID",
+      "description": "Global ID of a validation report (prefix 'vrp_').",
+      "type": "string",
+      "pattern": "^vrp_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "gateEvaluationId": {
+      "title": "Gate evaluation ID",
+      "description": "Global ID of a gate evaluation (prefix 'gte_').",
+      "type": "string",
+      "pattern": "^gte_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "waiverId": {
+      "title": "Waiver ID",
+      "description": "Global ID of a waiver (prefix 'wvr_').",
+      "type": "string",
+      "pattern": "^wvr_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "sceneId": {
+      "title": "Export scene ID",
+      "description": "Global ID of an export scene (prefix 'xsc_').",
+      "type": "string",
+      "pattern": "^xsc_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "printJobId": {
+      "title": "Print job ID",
+      "description": "Global ID of a print job (prefix 'pjs_').",
+      "type": "string",
+      "pattern": "^pjs_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "testRunReportId": {
+      "title": "Test run report ID",
+      "description": "Global ID of a test run report (prefix 'trr_').",
+      "type": "string",
+      "pattern": "^trr_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "benchmarkRunId": {
+      "title": "Benchmark run ID",
+      "description": "Global ID of a benchmark run (prefix 'bmr_').",
+      "type": "string",
+      "pattern": "^bmr_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "evidenceBundleId": {
+      "title": "Quality evidence bundle ID",
+      "description": "Global ID of a quality evidence bundle (prefix 'qeb_').",
+      "type": "string",
+      "pattern": "^qeb_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "evaluationId": {
+      "title": "Pattern evaluation ID",
+      "description": "Global ID of a pattern evaluation (prefix 'pev_').",
+      "type": "string",
+      "pattern": "^pev_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "elementId": {
+      "title": "Element ID",
+      "description": "Stable identifier of an entity inside one aggregate or document (piece, edge, feature, seam interface, size entry, layer, ...). All 'id' members of one document share one namespace and are unique. An element ID is kept across revisions while the element exists, is never reused for a different element of the same artifact lineage, and MUST NOT be derived from coordinates, array positions, SVG/PDF object IDs, mesh indices or evaluation order. Keys ('key', 'sizeKey', 'cutInstanceKey', 'configurationKey') use the same format.",
+      "type": "string",
+      "maxLength": 128,
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+    },
+    "extensionNamespace": {
+      "title": "Extension namespace",
+      "description": "Reverse-DNS namespace of an extension. Contains at least one dot, so the reserved namespace 'd2p' cannot be expressed.",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)+$"
+    },
+    "d2pName": {
+      "title": "D2P qualified name",
+      "description": "Qualified name in the namespace 'd2p', which is reserved for this standard. The local part starts with a letter. An unknown 'd2p:' term is always a structural error.",
+      "type": "string",
+      "pattern": "^d2p:[a-z][a-z0-9]*([.-][a-z0-9]+)*$"
+    },
+    "extensionName": {
+      "title": "Extension qualified name",
+      "description": "Qualified name in an extension namespace ('<extensionNamespace>:<local>'). The local part starts with a letter. Unknown extension terms are handled by the extension rules of the standard.",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)+:[a-z][a-z0-9]*([.-][a-z0-9]+)*$"
+    },
+    "qualifiedName": {
+      "title": "Qualified name",
+      "description": "Name of an extensible vocabulary term (feature type, rule ID, profile ID, event type, ...): a d2pName or an extensionName, at most 128 characters.",
+      "type": "string",
+      "maxLength": 128,
+      "anyOf": [
+        {
+          "$ref": "#/$defs/d2pName"
+        },
+        {
+          "$ref": "#/$defs/extensionName"
+        }
+      ]
+    },
+    "semver": {
+      "title": "Semantic version",
+      "description": "Semantic Versioning 2.0.0 version without build metadata (pre-release identifiers are allowed).",
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?$"
+    },
+    "schemaVersion": {
+      "title": "Schema version",
+      "description": "Full SemVer of the standard release a document was written against. Documents of this release use '1.0.0'. Compatibility is checked before schema validation (D2P-STR-003).",
+      "$ref": "#/$defs/semver"
+    },
+    "timestamp": {
+      "title": "Timestamp",
+      "description": "RFC 3339 date-time in UTC ('Z' suffix only, optional fraction of up to 9 digits). Every member holding a timestamp ends in 'At'.",
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{1,9})?Z$"
+    },
+    "idempotencyKey": {
+      "title": "Idempotency key",
+      "description": "Client-chosen key that makes a command retry-safe: 1 to 255 printable ASCII characters without spaces.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "pattern": "^[\\x21-\\x7E]+$"
+    },
+    "diagnosticCode": {
+      "title": "Diagnostic code",
+      "description": "Code of a diagnostic: a standard code 'D2P-<STR|REF|SEM|EVL>-<nnn>' from the diagnostic code registry, or an extension code '<extensionNamespace>:<UPPER-CASE-NAME>'.",
+      "type": "string",
+      "pattern": "^(D2P-(STR|REF|SEM|EVL)-[0-9]{3}|[a-z][a-z0-9-]*(\\.[a-z][a-z0-9-]*)+:[A-Z][A-Z0-9-]*)$"
+    },
+    "versionedId": {
+      "title": "Versioned ID",
+      "description": "Identifier of an independently versioned vocabulary, profile or suite: a qualified name plus its SemVer version.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "description": "Qualified name of the versioned item.",
+          "$ref": "#/$defs/qualifiedName"
+        },
+        "version": {
+          "description": "SemVer version of the item.",
+          "$ref": "#/$defs/semver"
+        }
+      }
+    },
+    "softwareInfo": {
+      "title": "Software info",
+      "description": "Name and version of a piece of software (implementation, generator, runner).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version"
+      ],
+      "properties": {
+        "name": {
+          "description": "Software name.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "version": {
+          "description": "Software version as published by its maintainers (not necessarily SemVer).",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        }
+      }
+    },
+    "actor": {
+      "title": "Actor",
+      "description": "Principal that performed an action. Names, e-mail addresses and other personal data never appear in actor objects.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "principalId"
+      ],
+      "properties": {
+        "kind": {
+          "description": "Kind of principal: a person, an (AI or automation) agent, or the system itself.",
+          "type": "string",
+          "enum": [
+            "person",
+            "agent",
+            "system"
+          ]
+        },
+        "principalId": {
+          "description": "Opaque principal ID ('prn_').",
+          "$ref": "#/$defs/principalId"
+        }
+      }
+    },
+    "evaluatorDescriptor": {
+      "title": "Evaluator descriptor",
+      "description": "Identifies the implementation and profile that produced a derived result (pattern evaluation, geometry snapshot, fit evaluation report, validation report). 'precision' is mandatory for evaluator implementations and may be omitted only in analytically computed fixture files.",
+      "type": "object",
+      "properties": {
+        "engineId": {
+          "description": "Identifier of the evaluation engine.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "engineVersion": {
+          "description": "Version string of the evaluation engine.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "algorithmProfileVersion": {
+          "description": "Version string of the algorithm profile the engine applied.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "evaluatorProfile": {
+          "description": "Evaluator profile (ID and version) the result was produced with.",
+          "$ref": "#/$defs/versionedId"
+        },
+        "precision": {
+          "description": "Numeric precision settings of the evaluator.",
+          "$ref": "#/$defs/evaluatorPrecision"
+        }
+      },
+      "required": [
+        "engineId",
+        "engineVersion",
+        "algorithmProfileVersion",
+        "evaluatorProfile"
+      ],
+      "additionalProperties": false
+    },
+    "evaluatorPrecision": {
+      "title": "Evaluator precision",
+      "description": "Numeric tolerances and limits an evaluator worked with. These are properties of the implementation, not product norms.",
+      "type": "object",
+      "properties": {
+        "linearToleranceMm": {
+          "description": "Linear tolerance in mm.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/positiveLengthMm"
+        },
+        "angularToleranceRad": {
+          "description": "Angular tolerance in rad, greater than 0.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "curveApproximationToleranceMm": {
+          "description": "Maximum deviation in mm allowed when approximating curves (for example extension curve types written as line, arc or cubic segments).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/positiveLengthMm"
+        },
+        "solverTolerance": {
+          "description": "Convergence tolerance of the constraint solver (dimensionless, greater than 0).",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "maxIterations": {
+          "description": "Maximum number of solver iterations.",
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "linearToleranceMm",
+        "angularToleranceRad",
+        "curveApproximationToleranceMm",
+        "solverTolerance",
+        "maxIterations"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

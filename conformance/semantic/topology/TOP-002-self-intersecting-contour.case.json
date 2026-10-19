@@ -1,0 +1,30 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "TOP-002-self-intersecting-contour",
+  "level": "semantic",
+  "title": "A bow-tie shaped line-only outer contour is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/topology/TOP-002-self-intersecting-contour/geometry-snapshot.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/topology/TOP-002-self-intersecting-contour/pattern.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-011",
+        "documentPath": "conformance/semantic/topology/TOP-002-self-intersecting-contour/geometry-snapshot.json",
+        "instancePath": "/pieces/1/contours/0"
+      }
+    ]
+  },
+  "testIds": [
+    "TOP-002"
+  ]
+}

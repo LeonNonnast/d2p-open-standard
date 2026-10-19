@@ -1,0 +1,20 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:print-calibrated",
+  "version": "1.0.0",
+  "title": "Print job is calibrated and meets its output profile",
+  "description": "A print job for home printing or a 1:1 plotter carries a calibration control square (D2P-SEM-091), named media match their ISO 216 dimensions (D2P-SEM-092), and a home-print job meets the binding page properties of its output profile: the profile media, tiling with a positive overlap, registration marks, sheet labels and a label per piece instance (D2P-SEM-095).",
+  "layer": "contextual",
+  "targetDocumentTypes": [
+    "d2p:print-job-spec"
+  ],
+  "defaultSeverity": "critical",
+  "diagnosticCodes": [
+    "D2P-SEM-091",
+    "D2P-SEM-092",
+    "D2P-SEM-095"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

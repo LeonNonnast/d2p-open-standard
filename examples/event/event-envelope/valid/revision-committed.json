@@ -1,0 +1,21 @@
+{
+  "documentType": "d2p:event",
+  "schemaVersion": "1.0.0",
+  "eventId": "evt_example-pattern-r2-committed",
+  "aggregateId": "art_example-pattern",
+  "revisionId": "rev_example-pattern-r2",
+  "eventType": "d2p:artifact.revision-committed",
+  "sequence": 2,
+  "occurredAt": "2026-01-03T00:00:00Z",
+  "payload": {
+    "artifactRef": {
+      "artifactId": "art_example-pattern",
+      "revisionId": "rev_example-pattern-r2"
+    },
+    "parentRevisionIds": [
+      "rev_example-pattern-r1"
+    ],
+    "commandId": "cmd_example-change-1"
+  },
+  "correlationId": "cor_example-request-1"
+}

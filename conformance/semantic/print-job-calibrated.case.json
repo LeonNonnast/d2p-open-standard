@@ -1,0 +1,29 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.print-job-calibrated",
+  "level": "semantic",
+  "title": "A home-print job with calibration square, matching media and a valid embedded scene is accepted",
+  "documents": [
+    {
+      "path": "conformance/semantic/print-job-calibrated/print-job-spec.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/print-job-calibrated/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/print-job-calibrated/pattern-evaluation.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/print-job-calibrated/geometry-snapshot.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

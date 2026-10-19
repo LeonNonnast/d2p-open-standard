@@ -1,0 +1,41 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.evaluation-inputs-match-request",
+  "level": "referential",
+  "title": "An evaluation whose artifact input digests are exactly the revisions its request pins is accepted",
+  "documents": [
+    {
+      "path": "conformance/referential/evaluation-inputs-match-request/pattern-evaluation.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/evaluation-inputs-match-request/pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/evaluation-inputs-match-request/pattern-r2.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/evaluation-inputs-match-request/size-system.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/evaluation-inputs-match-request/fit-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/evaluation-inputs-match-request/geometry-snapshot.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

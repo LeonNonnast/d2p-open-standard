@@ -1,0 +1,17 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.manifest-integrity",
+  "level": "referential",
+  "title": "A fixture manifest with matching digests and no unlisted files is accepted",
+  "documents": [
+    {
+      "path": "conformance/referential/manifest-integrity/fixture/manifest.json",
+      "role": "manifest"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

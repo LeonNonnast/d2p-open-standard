@@ -1,0 +1,105 @@
+{
+  "documentType": "d2p:capabilities",
+  "schemaVersion": "1.0.0",
+  "implementation": {
+    "name": "Example D2P implementation",
+    "version": "0.9.0"
+  },
+  "standardVersion": "1.0.0",
+  "capabilities": [
+    {
+      "id": "d2p:benchmark",
+      "version": "1.0.0"
+    },
+    {
+      "id": "d2p:command",
+      "version": "1.0.0"
+    },
+    {
+      "id": "d2p:core",
+      "version": "1.0.0"
+    },
+    {
+      "id": "d2p:digest",
+      "version": "1.0.0"
+    },
+    {
+      "id": "d2p:error",
+      "version": "1.0.0"
+    },
+    {
+      "id": "d2p:eval",
+      "version": "1.0.0"
+    },
+    {
+      "id": "d2p:event",
+      "version": "1.0.0"
+    },
+    {
+      "id": "d2p:expression",
+      "version": "1.0.0"
+    },
+    {
+      "id": "d2p:feature-set",
+      "version": "1.0.0"
+    },
+    {
+      "id": "d2p:measurement",
+      "version": "1.0.0"
+    },
+    {
+      "id": "d2p:pattern",
+      "version": "1.0.0"
+    },
+    {
+      "id": "d2p:print",
+      "version": "1.0.0"
+    },
+    {
+      "id": "d2p:validation",
+      "version": "1.0.0"
+    },
+    {
+      "id": "d2p:core",
+      "version": "1.0.0"
+    }
+  ],
+  "featureTypes": [
+    {
+      "id": "d2p:bezier.cubic",
+      "version": "1.0.0"
+    },
+    {
+      "id": "d2p:line",
+      "version": "1.0.0"
+    },
+    {
+      "id": "d2p:point.absolute",
+      "version": "1.0.0"
+    },
+    {
+      "id": "d2p:point.offset",
+      "version": "1.0.0"
+    }
+  ],
+  "evaluatorProfiles": [
+    {
+      "id": "com.example.cad:reference-evaluator",
+      "version": "1.0.0"
+    }
+  ],
+  "conformance": {
+    "levels": [
+      "structural",
+      "referential",
+      "semantic"
+    ],
+    "printProfile": {
+      "profileId": "d2p:print-v1",
+      "levels": [
+        "parse",
+        "geometry"
+      ]
+    }
+  }
+}

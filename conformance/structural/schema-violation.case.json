@@ -1,0 +1,22 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "structural.schema-violation",
+  "level": "structural",
+  "title": "A closed enum value outside the schema is rejected",
+  "documents": [
+    {
+      "path": "conformance/structural/schema-violation/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-001",
+        "documentPath": "conformance/structural/schema-violation/pattern.json"
+      }
+    ]
+  }
+}

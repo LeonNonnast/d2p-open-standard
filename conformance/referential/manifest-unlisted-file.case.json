@@ -1,0 +1,21 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.manifest-unlisted-file",
+  "level": "referential",
+  "title": "A file inside a fixture directory that the manifest does not list is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/manifest-unlisted-file/fixture/manifest.json",
+      "role": "manifest"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-012"
+      }
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.unit-mismatch",
+  "level": "semantic",
+  "title": "Adding a length and an angle is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/unit-mismatch/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-002",
+        "documentPath": "conformance/semantic/unit-mismatch/pattern.json",
+        "instancePath": "/parameters/0/expr"
+      }
+    ]
+  }
+}

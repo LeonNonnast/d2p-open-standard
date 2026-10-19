@@ -1,0 +1,52 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.request-definition-registries-ambiguous",
+  "level": "referential",
+  "title": "A request whose pattern and size system use registries that define the same definitionId differently is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/request-definition-registries-ambiguous/evaluation-request.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/request-definition-registries-ambiguous/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/request-definition-registries-ambiguous/size-system.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/request-definition-registries-ambiguous/fit-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/request-definition-registries-ambiguous/revision-pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/request-definition-registries-ambiguous/artifact-pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/request-definition-registries-ambiguous/other-registry.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-015",
+        "documentPath": "conformance/referential/request-definition-registries-ambiguous/evaluation-request.json",
+        "instancePath": "/sizeSystemRef"
+      }
+    ]
+  },
+  "description": "The pattern resolves d2p:body.chest-girth in the standard registry, the size system in a registry that redefines it; one evaluation would use both meanings."
+}

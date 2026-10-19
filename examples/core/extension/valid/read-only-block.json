@@ -1,0 +1,13 @@
+{
+  "com.example.atelier": {
+    "version": "1.2.0",
+    "provenance": {
+      "publisher": "Example Atelier",
+      "uri": "https://example.com/d2p-ext"
+    },
+    "onUnknown": "read-only",
+    "data": {
+      "smockingRows": 6
+    }
+  }
+}

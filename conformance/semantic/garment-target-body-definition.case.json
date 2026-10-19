@@ -1,0 +1,28 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.garment-target-body-definition",
+  "level": "semantic",
+  "title": "A garment measurement target that uses a body definition is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/garment-target-body-definition/garment-measurement-spec.json",
+      "role": "subject"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-075",
+        "documentPath": "conformance/semantic/garment-target-body-definition/garment-measurement-spec.json",
+        "instancePath": "/targets/0/definitionId"
+      }
+    ]
+  },
+  "description": "Body measurements and finished garment measurements are different definitions and are never confused; garment targets use garment definitions."
+}

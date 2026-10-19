@@ -1,0 +1,18 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:measurement-fallback",
+  "version": "1.0.0",
+  "title": "No measurement fallback used",
+  "description": "Reports measurement inputs that the evaluation resolved from their fallback estimate instead of a measured or tabulated value.",
+  "layer": "derived",
+  "targetDocumentTypes": [
+    "d2p:pattern-evaluation"
+  ],
+  "defaultSeverity": "warning",
+  "diagnosticCodes": [
+    "D2P-EVL-011"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": true
+}

@@ -1,0 +1,15 @@
+{
+  "documentType": "d2p:relationship",
+  "schemaVersion": "1.0.0",
+  "relationshipId": "rel_golden-tshirt-contains-fit-profile-regular",
+  "relationshipType": "d2p:contains",
+  "source": {
+    "kind": "project",
+    "id": "prj_golden-tshirt"
+  },
+  "targetRef": {
+    "artifactId": "art_golden-tshirt-fit-profile-regular",
+    "revisionId": "rev_golden-tshirt-fit-profile-regular-r1"
+  },
+  "createdAt": "2026-01-01T00:00:00Z"
+}

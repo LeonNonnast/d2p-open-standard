@@ -1,0 +1,39 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.waiver-scope-invalid",
+  "level": "semantic",
+  "title": "A waiver that expires before it is created is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/waiver-scope-invalid/waiver.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/waiver-scope-invalid/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/waiver-scope-invalid/validation-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/waiver-scope-invalid/validation-rule.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/waiver-scope-invalid/validation-report.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-101",
+        "documentPath": "conformance/semantic/waiver-scope-invalid/waiver.json",
+        "instancePath": "/expiresAt"
+      }
+    ]
+  }
+}

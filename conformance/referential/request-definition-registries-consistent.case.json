@@ -1,0 +1,45 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.request-definition-registries-consistent",
+  "level": "referential",
+  "title": "A request whose pinned documents use different registries with identical definitions is accepted",
+  "documents": [
+    {
+      "path": "conformance/referential/request-definition-registries-consistent/evaluation-request.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/request-definition-registries-consistent/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/request-definition-registries-consistent/size-system.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/request-definition-registries-consistent/fit-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/request-definition-registries-consistent/revision-pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/request-definition-registries-consistent/artifact-pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/request-definition-registries-consistent/other-registry.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

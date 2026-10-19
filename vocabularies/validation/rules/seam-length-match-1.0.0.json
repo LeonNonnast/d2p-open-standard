@@ -1,0 +1,18 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:seam-length-match",
+  "version": "1.0.0",
+  "title": "Seam lengths match",
+  "description": "For every seam connection, the difference between the lengths of sides A and B, minus the declared ease, stays within the pinned tolerance profile.",
+  "layer": "derived",
+  "targetDocumentTypes": [
+    "d2p:geometry-snapshot"
+  ],
+  "defaultSeverity": "warning",
+  "diagnosticCodes": [
+    "D2P-EVL-010"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": true
+}

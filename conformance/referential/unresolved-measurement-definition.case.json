@@ -1,0 +1,27 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.unresolved-measurement-definition",
+  "level": "referential",
+  "title": "A measurement definition the declared registries do not define is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/unresolved-measurement-definition/pattern.json",
+      "role": "subject"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-008",
+        "documentPath": "conformance/referential/unresolved-measurement-definition/pattern.json",
+        "instancePath": "/measurementInputs/0/definitionId"
+      }
+    ]
+  }
+}

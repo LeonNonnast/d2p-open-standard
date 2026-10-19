@@ -1,0 +1,22 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:evaluation-succeeded",
+  "version": "1.0.0",
+  "title": "Evaluation succeeded without geometric errors",
+  "description": "The evaluation found every requested intersection, produced no degenerate geometry, raised no arithmetic domain error, kept every along-curve distance within its curve and found every arc consistent within the evaluator's linear tolerance.",
+  "layer": "derived",
+  "targetDocumentTypes": [
+    "d2p:pattern-evaluation"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-EVL-004",
+    "D2P-EVL-005",
+    "D2P-EVL-006",
+    "D2P-EVL-008",
+    "D2P-EVL-009"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": true
+}

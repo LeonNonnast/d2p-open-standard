@@ -1,0 +1,52 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "referential.fit-report-inputs-match-evaluation",
+  "level": "referential",
+  "title": "A fit evaluation report whose artifact input digests are pinned by its evaluation is accepted",
+  "documents": [
+    {
+      "path": "conformance/referential/fit-report-inputs-match-evaluation/fit-evaluation-report.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/fit-report-inputs-match-evaluation/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/fit-report-inputs-match-evaluation/size-system.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/fit-report-inputs-match-evaluation/fit-profile-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/fit-report-inputs-match-evaluation/fit-profile-r2.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/fit-report-inputs-match-evaluation/garment-measurement-spec.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/fit-report-inputs-match-evaluation/pattern-evaluation.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/fit-report-inputs-match-evaluation/geometry-snapshot.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "FIT-003"
+  ]
+}

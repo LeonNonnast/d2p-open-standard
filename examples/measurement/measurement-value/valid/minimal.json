@@ -1,0 +1,9 @@
+{
+  "definitionId": "com.example.atelier:body.cuff-height",
+  "value": 42.5,
+  "unit": "mm",
+  "method": "inferred",
+  "source": {
+    "kind": "derived"
+  }
+}

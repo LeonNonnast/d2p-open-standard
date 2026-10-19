@@ -1,0 +1,48 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.gate-purpose-mismatch",
+  "level": "semantic",
+  "title": "A 1:1 export gated by a sample-cut profile and report is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/gate-purpose-mismatch/gate-evaluation.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/gate-purpose-mismatch/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-purpose-mismatch/validation-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-purpose-mismatch/validation-rule.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/gate-purpose-mismatch/validation-report.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-104",
+        "documentPath": "conformance/semantic/gate-purpose-mismatch/gate-evaluation.json",
+        "instancePath": "/profile"
+      },
+      {
+        "code": "D2P-SEM-104",
+        "documentPath": "conformance/semantic/gate-purpose-mismatch/gate-evaluation.json",
+        "instancePath": "/reportRefs/0"
+      }
+    ]
+  },
+  "testIds": [
+    "VAL-003"
+  ],
+  "description": "A sample-cut profile has no print calibration or export privacy rules; a 1:1 export needs a 1to1-print profile (design decision ADR-016 §5, VAL-003)."
+}

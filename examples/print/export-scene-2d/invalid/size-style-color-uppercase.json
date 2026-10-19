@@ -1,0 +1,272 @@
+{
+  "documentType": "d2p:export-scene-2d",
+  "schemaVersion": "1.0.0",
+  "sceneId": "xsc_example-multi-size",
+  "source": {
+    "patternRef": {
+      "artifactId": "art_example-tshirt",
+      "revisionId": "rev_example-tshirt-r1"
+    },
+    "evaluations": [
+      {
+        "sizeKey": "size-a",
+        "evaluationId": "pev_example-size-a-plain",
+        "geometryDigest": "sha256:fd48fba0d006ee2ed2ead5b519e5feea58dfed1a2dc89ee6868814077a9bc42c"
+      },
+      {
+        "sizeKey": "size-b",
+        "evaluationId": "pev_example-size-b-plain",
+        "geometryDigest": "sha256:6a025b57cc01e183a64896f8f1480d263f1eb1d3d76d8ebb5ca8c75d31faea65"
+      }
+    ],
+    "inputRefs": [
+      {
+        "artifactId": "art_example-size-system",
+        "revisionId": "rev_example-size-system-r1"
+      }
+    ]
+  },
+  "units": {
+    "length": "mm",
+    "angle": "rad"
+  },
+  "coordinateSystem": {
+    "origin": "bottom-left",
+    "xAxis": "right",
+    "yAxis": "up"
+  },
+  "layers": [
+    {
+      "id": "cut",
+      "role": "d2p:cut-line",
+      "name": "Cut line"
+    },
+    {
+      "id": "seam",
+      "role": "d2p:seam-line",
+      "name": "Seam line"
+    }
+  ],
+  "seamAllowancePolicy": "included",
+  "pieceInstances": [
+    {
+      "id": "sleeve-left-size-a",
+      "pieceId": "sleeve",
+      "cutInstanceKey": "sleeve-left",
+      "sizeKey": "size-a",
+      "transform": {
+        "translate": [
+          10,
+          10
+        ],
+        "rotateRad": 0,
+        "mirror": false
+      },
+      "paths": [
+        {
+          "id": "sleeve-left-a-cut",
+          "layerId": "cut",
+          "elementId": "sleeve-outer",
+          "closed": true,
+          "start": [
+            10,
+            10
+          ],
+          "segments": [
+            {
+              "kind": "line",
+              "end": [
+                210,
+                10
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                210,
+                160
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                10,
+                160
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                10,
+                10
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sleeve-left-a-seam",
+          "layerId": "seam",
+          "elementId": "sleeve-outer",
+          "closed": true,
+          "start": [
+            20,
+            20
+          ],
+          "segments": [
+            {
+              "kind": "line",
+              "end": [
+                200,
+                20
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                200,
+                150
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                20,
+                150
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                20,
+                20
+              ]
+            }
+          ]
+        }
+      ],
+      "markers": [],
+      "labels": [],
+      "boundingBox": {
+        "min": [
+          10,
+          10
+        ],
+        "max": [
+          210,
+          160
+        ]
+      }
+    },
+    {
+      "id": "sleeve-right-size-b",
+      "pieceId": "sleeve",
+      "cutInstanceKey": "sleeve-right",
+      "sizeKey": "size-b",
+      "transform": {
+        "translate": [
+          430,
+          10
+        ],
+        "rotateRad": 0,
+        "mirror": true
+      },
+      "paths": [
+        {
+          "id": "sleeve-right-b-cut",
+          "layerId": "cut",
+          "elementId": "sleeve-outer",
+          "closed": true,
+          "start": [
+            220,
+            10
+          ],
+          "segments": [
+            {
+              "kind": "line",
+              "end": [
+                430,
+                10
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                430,
+                170
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                220,
+                170
+              ]
+            },
+            {
+              "kind": "line",
+              "end": [
+                220,
+                10
+              ]
+            }
+          ]
+        }
+      ],
+      "markers": [],
+      "labels": [],
+      "boundingBox": {
+        "min": [
+          220,
+          10
+        ],
+        "max": [
+          430,
+          170
+        ]
+      },
+      "extensions": {
+        "com.example.atelier": {
+          "version": "1.0.0",
+          "provenance": {
+            "publisher": "Example Atelier"
+          },
+          "onUnknown": "ignore",
+          "data": {
+            "note": "example"
+          }
+        }
+      }
+    }
+  ],
+  "lineStyles": [
+    {
+      "layerId": "cut",
+      "widthMm": 0.5
+    },
+    {
+      "layerId": "seam",
+      "widthMm": 0.3,
+      "dashMm": [
+        3,
+        1.5
+      ]
+    }
+  ],
+  "sizeStyles": [
+    {
+      "sizeKey": "size-a",
+      "label": "A",
+      "color": "#1F77B4"
+    },
+    {
+      "sizeKey": "size-b",
+      "label": "B",
+      "color": "#d62728",
+      "dashMm": [
+        4,
+        2
+      ]
+    }
+  ],
+  "resultDigest": "sha256:aa97f040e46b3dfe161bbc104a55688ffabe73517cdaf66c3844a5da2ad14551"
+}

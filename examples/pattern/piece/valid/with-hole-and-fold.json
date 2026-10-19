@@ -1,0 +1,52 @@
+{
+  "id": "pocket",
+  "name": "Pocket",
+  "contours": [
+    {
+      "id": "pocket-hole",
+      "role": "hole",
+      "edges": [
+        {
+          "id": "pocket-hole-edge",
+          "curveFeatureId": "pocket-hole-curve",
+          "reversed": true
+        }
+      ]
+    },
+    {
+      "id": "pocket-outer",
+      "role": "outer",
+      "edges": [
+        {
+          "id": "pocket-bottom",
+          "curveFeatureId": "pocket-bottom-curve",
+          "reversed": false
+        },
+        {
+          "id": "pocket-fold",
+          "curveFeatureId": "pocket-fold-curve",
+          "reversed": false
+        }
+      ]
+    }
+  ],
+  "folds": [
+    {
+      "id": "pocket-fold-line",
+      "edgeId": "pocket-fold"
+    }
+  ],
+  "cutInstruction": {
+    "instances": [
+      {
+        "cutInstanceKey": "pocket-left",
+        "mirrored": false
+      },
+      {
+        "cutInstanceKey": "pocket-right",
+        "mirrored": true
+      }
+    ],
+    "materialRole": "com.example.atelier:mesh"
+  }
+}

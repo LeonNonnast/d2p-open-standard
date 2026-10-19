@@ -1,0 +1,827 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/pattern/feature-graph.schema.json",
+  "title": "D2P Feature Graph",
+  "description": "Feature graph of a pattern (design decisions ADR-006, ADR-006.1, ADR-006.2): the parametric points, curves and constraints from which geometry is derived. Parametrics are the source of truth; geometry is derived by an evaluator. Dependency edges run from a feature to every feature named in a …FeatureId member of its params, every featureOutput.featureId and param.parameterId inside its expressions, and every dependsOn entry of an extension type. Measurement inputs are leaves.",
+  "$ref": "#/$defs/featureList",
+  "$defs": {
+    "featureList": {
+      "title": "Feature list",
+      "description": "The features of a pattern, in authoring order. Feature IDs share the document-wide element ID namespace (uniqueness is D2P-REF-005). Evaluation order is the topological order of the dependency graph with ties broken by 'id'; the graph MUST be acyclic (D2P-SEM-001).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/feature"
+      }
+    },
+    "feature": {
+      "title": "Feature",
+      "description": "One node of the feature graph: a point, curve or constraint of feature set 1.0.0, or an extension feature type. For a d2p: type, 'params' is validated by the closed params object of that type. Extension types (any extension name) have open 'params' and MUST declare 'dependsOn'; d2p: types MUST NOT declare 'dependsOn' (their dependencies are derived from …FeatureId members and expressions).",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the feature."
+        },
+        "type": {
+          "$ref": "#/$defs/featureType",
+          "description": "Feature type: a d2p: type of feature set 1.0.0 or an extension feature type."
+        },
+        "params": {
+          "type": "object",
+          "description": "Type-specific parameters. Closed for d2p: types (see the *Params definitions); open for extension types, where a matching feature capability MAY describe them."
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "Optional human-readable label."
+        },
+        "dependsOn": {
+          "type": "array",
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+          },
+          "description": "Explicit dependencies (features or parameters) of an extension feature type. Required for extension types, not used by d2p: types.",
+          "uniqueItems": true
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional namespaced extension blocks (§1.7 of the schema catalog)."
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "params"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "d2p:point.absolute"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/pointAbsoluteParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "d2p:point.offset"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/pointOffsetParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "d2p:point.polar"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/pointPolarParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "d2p:point.along-curve"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/pointAlongCurveParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "d2p:point.intersection"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/pointIntersectionParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "d2p:point.mirror"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/pointMirrorParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "d2p:point.free"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/pointFreeParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "d2p:line"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/lineParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "d2p:arc"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/arcParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "d2p:bezier.cubic"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/bezierCubicParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "d2p:constraint.coincident"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/constraintCoincidentParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "d2p:constraint.distance"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/constraintDistanceParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "d2p:constraint.length"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/constraintLengthParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "d2p:constraint.angle"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/constraintAngleParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "d2p:constraint.horizontal",
+                  "d2p:constraint.vertical"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/constraintLineParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "d2p:constraint.parallel",
+                  "d2p:constraint.perpendicular"
+                ]
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/constraintLinePairParams"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "d2p:constraint.tangent"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "params": {
+                "$ref": "#/$defs/constraintTangentParams"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "featureType": {
+      "title": "Feature type",
+      "description": "Feature type. The d2p: values are the closed feature set 1.0.0; any other d2p: name is a structural error. Extension feature types are extension names and need exactly one matching feature capability in the pattern (D2P-SEM-005).",
+      "type": "string",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "d2p:point.absolute",
+            "d2p:point.offset",
+            "d2p:point.polar",
+            "d2p:point.along-curve",
+            "d2p:point.intersection",
+            "d2p:point.mirror",
+            "d2p:point.free",
+            "d2p:line",
+            "d2p:arc",
+            "d2p:bezier.cubic",
+            "d2p:constraint.coincident",
+            "d2p:constraint.distance",
+            "d2p:constraint.length",
+            "d2p:constraint.angle",
+            "d2p:constraint.horizontal",
+            "d2p:constraint.vertical",
+            "d2p:constraint.parallel",
+            "d2p:constraint.perpendicular",
+            "d2p:constraint.tangent"
+          ]
+        },
+        {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+        }
+      ]
+    },
+    "pointAbsoluteParams": {
+      "title": "Absolute point parameters",
+      "description": "Params of d2p:point.absolute. Point at absolute coordinates. Outputs: x, y (length).",
+      "type": "object",
+      "properties": {
+        "x": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprValue",
+          "description": "Expression wrapper; the expression MUST have dimension length (checked at semantic level, D2P-SEM-002)."
+        },
+        "y": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprValue",
+          "description": "Expression wrapper; the expression MUST have dimension length (checked at semantic level, D2P-SEM-002)."
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "additionalProperties": false
+    },
+    "pointOffsetParams": {
+      "title": "Offset point parameters",
+      "description": "Params of d2p:point.offset. Point offset from a base point by (dx, dy). Outputs: x, y (length).",
+      "type": "object",
+      "properties": {
+        "baseFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the base point feature in the same pattern."
+        },
+        "dx": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprValue",
+          "description": "Expression wrapper; the expression MUST have dimension length (checked at semantic level, D2P-SEM-002)."
+        },
+        "dy": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprValue",
+          "description": "Expression wrapper; the expression MUST have dimension length (checked at semantic level, D2P-SEM-002)."
+        }
+      },
+      "required": [
+        "baseFeatureId",
+        "dx",
+        "dy"
+      ],
+      "additionalProperties": false
+    },
+    "pointPolarParams": {
+      "title": "Polar point parameters",
+      "description": "Params of d2p:point.polar. Point at a distance and angle from a base point; the angle is counter-clockwise from +X. Outputs: x, y (length).",
+      "type": "object",
+      "properties": {
+        "baseFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the base point feature in the same pattern."
+        },
+        "distance": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprValue",
+          "description": "Expression wrapper; the expression MUST have dimension length (checked at semantic level, D2P-SEM-002)."
+        },
+        "angle": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprValue",
+          "description": "Expression wrapper; the expression MUST have dimension angle (checked at semantic level, D2P-SEM-002)."
+        }
+      },
+      "required": [
+        "baseFeatureId",
+        "distance",
+        "angle"
+      ],
+      "additionalProperties": false
+    },
+    "pointAlongCurveParams": {
+      "title": "Along-curve point parameters",
+      "description": "Params of d2p:point.along-curve. Point at an arc-length distance from the start of a curve. A distance outside [0, curve length] is D2P-EVL-008. Outputs: x, y (length).",
+      "type": "object",
+      "properties": {
+        "curveFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the curve feature in the same pattern."
+        },
+        "distance": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprValue",
+          "description": "Expression wrapper; the expression MUST have dimension length (checked at semantic level, D2P-SEM-002)."
+        }
+      },
+      "required": [
+        "curveFeatureId",
+        "distance"
+      ],
+      "additionalProperties": false
+    },
+    "pointIntersectionParams": {
+      "title": "Intersection point parameters",
+      "description": "Params of d2p:point.intersection. The index-th intersection of two curves, ordered by parameter on curve A. A missing intersection is D2P-EVL-004. Outputs: x, y (length).",
+      "type": "object",
+      "properties": {
+        "curveAFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the first curve (curve A) feature in the same pattern."
+        },
+        "curveBFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the second curve (curve B) feature in the same pattern."
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based index of the intersection, ordered by parameter on curve A."
+        }
+      },
+      "required": [
+        "curveAFeatureId",
+        "curveBFeatureId",
+        "index"
+      ],
+      "additionalProperties": false
+    },
+    "pointMirrorParams": {
+      "title": "Mirror point parameters",
+      "description": "Params of d2p:point.mirror. A point mirrored across a line. Outputs: x, y (length).",
+      "type": "object",
+      "properties": {
+        "pointFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the point to mirror feature in the same pattern."
+        },
+        "axisFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the line used as mirror axis feature in the same pattern."
+        }
+      },
+      "required": [
+        "pointFeatureId",
+        "axisFeatureId"
+      ],
+      "additionalProperties": false
+    },
+    "pointFreeParams": {
+      "title": "Free point parameters",
+      "description": "Params of d2p:point.free. A solver-controlled point; x and y are initial values only. Constraints act on free points and their dependents. Outputs: x, y (length).",
+      "type": "object",
+      "properties": {
+        "x": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprValue",
+          "description": "Expression wrapper; the expression MUST have dimension length (checked at semantic level, D2P-SEM-002)."
+        },
+        "y": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprValue",
+          "description": "Expression wrapper; the expression MUST have dimension length (checked at semantic level, D2P-SEM-002)."
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "additionalProperties": false
+    },
+    "lineParams": {
+      "title": "Line parameters",
+      "description": "Params of d2p:line. Straight segment from start to end point. Outputs: length (length), angle (angle).",
+      "type": "object",
+      "properties": {
+        "startFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the start point feature in the same pattern."
+        },
+        "endFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the end point feature in the same pattern."
+        }
+      },
+      "required": [
+        "startFeatureId",
+        "endFeatureId"
+      ],
+      "additionalProperties": false
+    },
+    "arcParams": {
+      "title": "Arc parameters",
+      "description": "Params of d2p:arc. Circular arc from start to end around a center. Start and end not equidistant from the center is D2P-EVL-009. Outputs: length, radius (length), sweep (angle).",
+      "type": "object",
+      "properties": {
+        "startFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the start point feature in the same pattern."
+        },
+        "endFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the end point feature in the same pattern."
+        },
+        "centerFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the center point feature in the same pattern."
+        },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "ccw",
+            "cw"
+          ],
+          "description": "Sweep direction from start to end: counter-clockwise or clockwise."
+        }
+      },
+      "required": [
+        "startFeatureId",
+        "endFeatureId",
+        "centerFeatureId",
+        "direction"
+      ],
+      "additionalProperties": false
+    },
+    "bezierCubicParams": {
+      "title": "Cubic Bezier parameters",
+      "description": "Params of d2p:bezier.cubic. Cubic Bezier curve defined by four points. Output: length (length).",
+      "type": "object",
+      "properties": {
+        "startFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the start point feature in the same pattern."
+        },
+        "control1FeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the first control point feature in the same pattern."
+        },
+        "control2FeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the second control point feature in the same pattern."
+        },
+        "endFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the end point feature in the same pattern."
+        }
+      },
+      "required": [
+        "startFeatureId",
+        "control1FeatureId",
+        "control2FeatureId",
+        "endFeatureId"
+      ],
+      "additionalProperties": false
+    },
+    "constraintCoincidentParams": {
+      "title": "Coincident constraint parameters",
+      "description": "Params of d2p:constraint.coincident. Two points coincide. A coincident constraint does not make point features identical for contour closure.",
+      "type": "object",
+      "properties": {
+        "aFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the first point feature in the same pattern."
+        },
+        "bFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the second point feature in the same pattern."
+        }
+      },
+      "required": [
+        "aFeatureId",
+        "bFeatureId"
+      ],
+      "additionalProperties": false
+    },
+    "constraintDistanceParams": {
+      "title": "Distance constraint parameters",
+      "description": "Params of d2p:constraint.distance. Distance between two points equals 'value'. A constant negative value or two conflicting constant values on the same unordered point pair is D2P-SEM-040.",
+      "type": "object",
+      "properties": {
+        "aFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the first point feature in the same pattern."
+        },
+        "bFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the second point feature in the same pattern."
+        },
+        "value": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprValue",
+          "description": "Expression wrapper; the expression MUST have dimension length (checked at semantic level, D2P-SEM-002)."
+        }
+      },
+      "required": [
+        "aFeatureId",
+        "bFeatureId",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "constraintLengthParams": {
+      "title": "Length constraint parameters",
+      "description": "Params of d2p:constraint.length. Length of a curve equals 'value'. A constant negative value or two conflicting constant values on the same curve is D2P-SEM-040.",
+      "type": "object",
+      "properties": {
+        "curveFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the curve feature in the same pattern."
+        },
+        "value": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprValue",
+          "description": "Expression wrapper; the expression MUST have dimension length (checked at semantic level, D2P-SEM-002)."
+        }
+      },
+      "required": [
+        "curveFeatureId",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "constraintAngleParams": {
+      "title": "Angle constraint parameters",
+      "description": "Params of d2p:constraint.angle. Angle between two lines (ordered pair) equals 'value'. Two conflicting constant values on the same ordered line pair is D2P-SEM-040.",
+      "type": "object",
+      "properties": {
+        "aFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the first line feature in the same pattern."
+        },
+        "bFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the second line feature in the same pattern."
+        },
+        "value": {
+          "$ref": "https://d2p.nonnast.dev/schemas/pattern/expression.schema.json#/$defs/exprValue",
+          "description": "Expression wrapper; the expression MUST have dimension angle (checked at semantic level, D2P-SEM-002)."
+        }
+      },
+      "required": [
+        "aFeatureId",
+        "bFeatureId",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "constraintLineParams": {
+      "title": "Line orientation constraint parameters",
+      "description": "Params of d2p:constraint.horizontal / d2p:constraint.vertical. Shared parameters of d2p:constraint.horizontal and d2p:constraint.vertical. Both on the same line is D2P-SEM-040.",
+      "type": "object",
+      "properties": {
+        "lineFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the constrained line feature in the same pattern."
+        }
+      },
+      "required": [
+        "lineFeatureId"
+      ],
+      "additionalProperties": false
+    },
+    "constraintLinePairParams": {
+      "title": "Line pair constraint parameters",
+      "description": "Params of d2p:constraint.parallel / d2p:constraint.perpendicular. Shared parameters of d2p:constraint.parallel and d2p:constraint.perpendicular. Both on the same unordered line pair is D2P-SEM-040.",
+      "type": "object",
+      "properties": {
+        "aFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the first line feature in the same pattern."
+        },
+        "bFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the second line feature in the same pattern."
+        }
+      },
+      "required": [
+        "aFeatureId",
+        "bFeatureId"
+      ],
+      "additionalProperties": false
+    },
+    "constraintTangentParams": {
+      "title": "Tangent constraint parameters",
+      "description": "Params of d2p:constraint.tangent. Two curves sharing an endpoint feature are tangent at that endpoint.",
+      "type": "object",
+      "properties": {
+        "aFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the first curve feature in the same pattern."
+        },
+        "bFeatureId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the second curve feature in the same pattern."
+        }
+      },
+      "required": [
+        "aFeatureId",
+        "bFeatureId"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

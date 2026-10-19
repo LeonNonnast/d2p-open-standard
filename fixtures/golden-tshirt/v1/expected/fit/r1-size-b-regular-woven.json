@@ -1,0 +1,129 @@
+{
+  "documentType": "d2p:fit-evaluation-report",
+  "schemaVersion": "1.0.0",
+  "reportId": "fer_golden-tshirt-r1-size-b-regular-woven",
+  "createdAt": "2026-01-02T00:00:00Z",
+  "evaluationRef": {
+    "id": "pev_golden-tshirt-r1-size-b-regular-woven",
+    "digest": "sha256:44ad85d43fe7065357e63dd7a7ac29da7f6831f167f731a2795d41541b09505e"
+  },
+  "evaluator": {
+    "engineId": "golden-fixture",
+    "engineVersion": "1.0.0",
+    "algorithmProfileVersion": "1.0.0",
+    "evaluatorProfile": {
+      "id": "d2p:golden-fixture-analytic",
+      "version": "1.0.0"
+    }
+  },
+  "inputDigests": [
+    {
+      "role": "fit-profile",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-fit-profile-regular",
+        "revisionId": "rev_golden-tshirt-fit-profile-regular-r1"
+      },
+      "digest": "sha256:b3e83ec409b680ec29ba3597976f1081133f87b14fdfeea9cd84e2e7826ddd46"
+    },
+    {
+      "role": "garment-measurement-spec",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-garment-measurement-spec",
+        "revisionId": "rev_golden-tshirt-garment-measurement-spec-r1"
+      },
+      "digest": "sha256:82fdc914a640b0cef99e956f20bf931e1f6328dee5828813dc4fa8aa7dadb219"
+    },
+    {
+      "role": "grading-rule-set",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-grading-rule-set",
+        "revisionId": "rev_golden-tshirt-grading-rule-set-r1"
+      },
+      "digest": "sha256:5754eca2347369aefca12b2414dd69659081b88c058b4db2f2923e513189e9d8"
+    },
+    {
+      "role": "material-assumptions",
+      "digest": "sha256:b2d14743b5b88f5e6116d3d241dfd11cefd44ef638867100dfe8e0c32e5959fc"
+    },
+    {
+      "role": "measurement-definition-registry",
+      "id": {
+        "id": "d2p:measurement-definitions",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:c4026449780808e4fa4b9d1f3b0ed8d02e1b63fc7ee6512193b302e7ea4eb4fd"
+    },
+    {
+      "role": "pattern",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-pattern",
+        "revisionId": "rev_golden-tshirt-pattern-r1"
+      },
+      "digest": "sha256:ef7edb92161d6db884d89db7b16baac1e1432e26e9d9ff1f1a1ce23649eb6949"
+    },
+    {
+      "role": "size-system",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-size-system",
+        "revisionId": "rev_golden-tshirt-size-system-r1"
+      },
+      "digest": "sha256:57d8493744de25f3eec5792e75cbc89b1fb0f11223ad9b8ffde542027a5d94cc"
+    },
+    {
+      "role": "tolerance-profile",
+      "id": {
+        "id": "d2p:golden-tshirt-2d",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:0f0a4b144bf0c71acda4b07a65b72355aa1e4c078a0598c181c9869565a7fd8d"
+    },
+    {
+      "role": "validation-profile",
+      "id": {
+        "id": "d2p:sample-cut",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:abddc6507c20c4ce8d28e6ba4582ab409d9966055ab16c3739993264dc313e51"
+    }
+  ],
+  "evidenceKind": "analytical",
+  "results": [
+    {
+      "id": "target-chest-girth-size-b-regular-woven",
+      "garmentDefinitionId": "d2p:garment.chest-girth",
+      "predicted": {
+        "value": 1140,
+        "unit": "mm"
+      },
+      "target": {
+        "value": 1140,
+        "unit": "mm"
+      },
+      "deviation": {
+        "value": 0,
+        "unit": "mm"
+      },
+      "status": "within-tolerance"
+    },
+    {
+      "id": "target-sleeve-length-size-b-regular-woven",
+      "garmentDefinitionId": "d2p:garment.sleeve-length",
+      "predicted": {
+        "value": 207.889765221,
+        "unit": "mm"
+      },
+      "target": {
+        "value": 208,
+        "unit": "mm"
+      },
+      "deviation": {
+        "value": -0.110234779,
+        "unit": "mm"
+      },
+      "status": "within-tolerance"
+    }
+  ],
+  "containsPersonalData": false,
+  "diagnostics": [],
+  "resultDigest": "sha256:1ed1db251428c043172ec99688d223568e98f45fdb182afdf236f02179fb50b3"
+}

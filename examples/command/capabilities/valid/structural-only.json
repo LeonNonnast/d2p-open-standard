@@ -1,0 +1,22 @@
+{
+  "documentType": "d2p:capabilities",
+  "schemaVersion": "1.0.0",
+  "implementation": {
+    "name": "Example schema validator",
+    "version": "1.0.0"
+  },
+  "standardVersion": "1.0.0",
+  "capabilities": [
+    {
+      "id": "d2p:core",
+      "version": "1.0.0"
+    }
+  ],
+  "featureTypes": [],
+  "evaluatorProfiles": [],
+  "conformance": {
+    "levels": [
+      "structural"
+    ]
+  }
+}

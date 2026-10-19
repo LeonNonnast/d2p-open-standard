@@ -1,0 +1,254 @@
+{
+  "documentType": "d2p:print-job-spec",
+  "schemaVersion": "1.0.0",
+  "printJobId": "pjs_example-single-size-a4",
+  "scene": {
+    "documentType": "d2p:export-scene-2d",
+    "schemaVersion": "1.0.0",
+    "sceneId": "xsc_example-single-size",
+    "source": {
+      "patternRef": {
+        "artifactId": "art_example-tshirt",
+        "revisionId": "rev_example-tshirt-r1"
+      },
+      "evaluations": [
+        {
+          "sizeKey": "size-a",
+          "configurationKey": "regular-woven",
+          "evaluationId": "pev_example-size-a",
+          "geometryDigest": "sha256:79f64fd5ae8db7d54b60a941ddc1cf0ee7493bb755652e9ca1a6c2b1f9ab26f4"
+        }
+      ]
+    },
+    "units": {
+      "length": "mm",
+      "angle": "rad"
+    },
+    "coordinateSystem": {
+      "origin": "bottom-left",
+      "xAxis": "right",
+      "yAxis": "up"
+    },
+    "layers": [
+      {
+        "id": "cut",
+        "role": "d2p:cut-line",
+        "name": "Cut line"
+      },
+      {
+        "id": "grain",
+        "role": "d2p:grainline",
+        "name": "Grainline"
+      },
+      {
+        "id": "labels",
+        "role": "d2p:label",
+        "name": "Labels"
+      },
+      {
+        "id": "notches",
+        "role": "d2p:notch",
+        "name": "Notches"
+      }
+    ],
+    "seamAllowancePolicy": "none",
+    "pieceInstances": [
+      {
+        "id": "front-size-a",
+        "pieceId": "front",
+        "cutInstanceKey": "front-on-fold",
+        "sizeKey": "size-a",
+        "transform": {
+          "translate": [
+            0,
+            0
+          ],
+          "rotateRad": 0,
+          "mirror": false
+        },
+        "paths": [
+          {
+            "id": "front-fold-cut-outline",
+            "layerId": "cut",
+            "elementId": "front-outer",
+            "closed": true,
+            "start": [
+              20,
+              20
+            ],
+            "segments": [
+              {
+                "kind": "line",
+                "end": [
+                  270,
+                  20
+                ]
+              },
+              {
+                "kind": "line",
+                "end": [
+                  270,
+                  620
+                ]
+              },
+              {
+                "kind": "cubic",
+                "control1": [
+                  200,
+                  610
+                ],
+                "control2": [
+                  120,
+                  580
+                ],
+                "end": [
+                  70,
+                  560
+                ]
+              },
+              {
+                "kind": "arc",
+                "end": [
+                  20,
+                  510
+                ],
+                "center": [
+                  70,
+                  510
+                ],
+                "direction": "ccw"
+              },
+              {
+                "kind": "line",
+                "end": [
+                  20,
+                  20
+                ]
+              }
+            ]
+          }
+        ],
+        "markers": [
+          {
+            "id": "front-grainline-marker",
+            "layerId": "grain",
+            "kind": "grainline",
+            "elementId": "front-grainline",
+            "points": [
+              [
+                145,
+                120
+              ],
+              [
+                145,
+                480
+              ]
+            ]
+          },
+          {
+            "id": "front-side-notch-marker",
+            "layerId": "notches",
+            "kind": "notch",
+            "elementId": "front-side-notch",
+            "points": [
+              [
+                270,
+                300
+              ]
+            ]
+          }
+        ],
+        "labels": [
+          {
+            "id": "front-label",
+            "layerId": "labels",
+            "anchor": [
+              100,
+              300
+            ],
+            "text": "Front - size A - cut 1 on fold",
+            "fontSizeMm": 6
+          }
+        ],
+        "boundingBox": {
+          "min": [
+            20,
+            20
+          ],
+          "max": [
+            270,
+            620
+          ]
+        }
+      }
+    ],
+    "lineStyles": [
+      {
+        "layerId": "cut",
+        "widthMm": 0.5
+      },
+      {
+        "layerId": "grain",
+        "widthMm": 0.3
+      },
+      {
+        "layerId": "labels",
+        "widthMm": 0.2
+      },
+      {
+        "layerId": "notches",
+        "widthMm": 0.3,
+        "dashMm": [
+          2,
+          1
+        ]
+      }
+    ],
+    "resultDigest": "sha256:b454aadb4e767c525aa8f012bab86570a27dde68420d614609659efac9c6a079"
+  },
+  "outputProfile": {
+    "profileId": "d2p:home-print-a4",
+    "version": "1.0.0"
+  },
+  "pageLayout": {
+    "media": {
+      "name": "iso-a4",
+      "widthMm": 210,
+      "heightMm": 297
+    },
+    "orientation": "portrait",
+    "marginsMm": {
+      "top": 10,
+      "right": 10,
+      "bottom": 10,
+      "left": 10
+    },
+    "tiling": {
+      "mode": "tiled",
+      "overlapMm": 10,
+      "registrationMarks": true,
+      "sheetLabels": true
+    }
+  },
+  "scale": 1,
+  "calibration": {
+    "controlSquareMm": 50,
+    "placement": "every-sheet"
+  },
+  "printNotice": {
+    "text": "Print at 100 % / actual size. Do not scale or fit to page. Check the 100 mm control square.",
+    "locale": "en"
+  },
+  "conformance": {
+    "profileId": "d2p:print-v1",
+    "level": "geometry"
+  },
+  "provenance": {
+    "generator": {
+      "name": "example-exporter",
+      "version": "0.1.0"
+    },
+    "sceneDigest": "sha256:b454aadb4e767c525aa8f012bab86570a27dde68420d614609659efac9c6a079"
+  },
+  "resultDigest": "sha256:4051926f1aff1f163ab816d8b9ccbdf6943136a144e67a3b4d8a9d6d5313ab7b"
+}

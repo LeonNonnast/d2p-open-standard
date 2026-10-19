@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/command/command-receipt.schema.json",
+  "title": "D2P Command Receipt",
+  "description": "Outcome of one command (documentType 'd2p:command-receipt', design decision ADR-019). Schema-enforced: 'committed' requires 'eventCursor' and 'revisionRefs' (at least one); 'rejected' requires 'error'; 'accepted-async' requires 'jobId'.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "commandId",
+    "status"
+  ],
+  "properties": {
+    "documentType": {
+      "const": "d2p:command-receipt",
+      "description": "Document type discriminator; always 'd2p:command-receipt'."
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against."
+    },
+    "commandId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/commandId",
+      "description": "ID of the command this receipt answers. Informative, not resolved by the referential level."
+    },
+    "status": {
+      "$ref": "#/$defs/receiptStatus",
+      "description": "Outcome of the command."
+    },
+    "revisionRefs": {
+      "type": "array",
+      "description": "Pinned revisions created by a committed command: exactly one per affected aggregate. Required when 'status' is 'committed'; omitted when there is nothing to list.",
+      "minItems": 1,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+      }
+    },
+    "eventCursor": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "description": "Opaque position in the event stream from which the events caused by the command can be read. Required when 'status' is 'committed'."
+    },
+    "jobId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/jobId",
+      "description": "Job that processes the command asynchronously. Required when 'status' is 'accepted-async'."
+    },
+    "error": {
+      "$ref": "https://d2p.nonnast.dev/schemas/error/error.schema.json#/$defs/error",
+      "description": "Why the command was rejected. Required when 'status' is 'rejected'."
+    },
+    "contentDigest": {
+      "description": "Optional digest of this document (d2p-c14n-v1 over the whole document, excluding 'contentDigest' itself).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks keyed by extension namespace."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "committed"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "revisionRefs": true,
+          "eventCursor": true
+        },
+        "required": [
+          "revisionRefs",
+          "eventCursor"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "rejected"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "error": true
+        },
+        "required": [
+          "error"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "accepted-async"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "jobId": true
+        },
+        "required": [
+          "jobId"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "receiptStatus": {
+      "title": "Receipt status",
+      "description": "Outcome of a command: 'committed' (new revisions exist), 'rejected' (nothing was written), 'accepted-async' (a job will produce the outcome).",
+      "type": "string",
+      "enum": [
+        "committed",
+        "rejected",
+        "accepted-async"
+      ]
+    }
+  }
+}

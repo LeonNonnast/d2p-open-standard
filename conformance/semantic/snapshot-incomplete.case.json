@@ -1,0 +1,31 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.snapshot-incomplete",
+  "level": "semantic",
+  "title": "A snapshot that leaves out a piece of its pinned pattern is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/snapshot-incomplete/geometry-snapshot.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/snapshot-incomplete/pattern.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-014",
+        "documentPath": "conformance/semantic/snapshot-incomplete/geometry-snapshot.json",
+        "instancePath": "/pieces"
+      }
+    ]
+  },
+  "testIds": [
+    "TOP-009"
+  ],
+  "description": "The sleeve piece is missing. A snapshot is the read-only fallback of its pattern revision and must hold every piece, contour, edge, notch, grainline, fold, interface and active seam exactly once (design decision ADR-006.2)."
+}

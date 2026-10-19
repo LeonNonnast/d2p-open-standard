@@ -1,0 +1,77 @@
+{
+  "documentType": "d2p:pattern-evaluation",
+  "schemaVersion": "1.0.0",
+  "evaluationId": "pev_example-overconstrained",
+  "createdAt": "2026-01-02T00:00:00Z",
+  "request": {
+    "documentType": "d2p:evaluation-request",
+    "schemaVersion": "1.0.0",
+    "requestId": "erq_golden-tshirt-r1-size-a-regular-woven",
+    "patternRef": {
+      "artifactId": "art_golden-tshirt-pattern",
+      "revisionId": "rev_golden-tshirt-pattern-r1"
+    },
+    "evaluatorProfile": {
+      "id": "d2p:golden-fixture-analytic",
+      "version": "1.0.0"
+    },
+    "gradingRuleSetRef": {
+      "artifactId": "art_golden-tshirt-grading-rule-set",
+      "revisionId": "rev_golden-tshirt-grading-rule-set-r1"
+    },
+    "sizeSystemRef": {
+      "artifactId": "art_golden-tshirt-size-system",
+      "revisionId": "rev_golden-tshirt-size-system-r1"
+    },
+    "sizeKey": "size-a",
+    "configurationKey": "regular-woven",
+    "materialAssumptions": {
+      "materialClass": "woven"
+    },
+    "toleranceProfile": {
+      "id": "d2p:golden-tshirt-2d",
+      "version": "1.0.0"
+    },
+    "requestedOutputs": [
+      "geometry-snapshot"
+    ]
+  },
+  "evaluator": {
+    "engineId": "com.example.engine",
+    "engineVersion": "2.3.1",
+    "algorithmProfileVersion": "1.0.0",
+    "evaluatorProfile": {
+      "id": "com.example.engine:default",
+      "version": "1.0.0"
+    },
+    "precision": {
+      "linearToleranceMm": 0.001,
+      "angularToleranceRad": 0.000001,
+      "curveApproximationToleranceMm": 0.01,
+      "solverTolerance": 1e-9,
+      "maxIterations": 200
+    }
+  },
+  "featureSetVersion": "1.0.0",
+  "inputDigests": [
+    {
+      "role": "pattern",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-pattern",
+        "revisionId": "rev_golden-tshirt-pattern-r1"
+      },
+      "digest": "sha256:4a2e893957f71af95e18d20d4a1e429606d3b3830b6e1ce6926d524a0c841bfa"
+    }
+  ],
+  "status": "failed",
+  "constraintStatus": "overconstrained",
+  "measurements": [],
+  "diagnostics": [
+    {
+      "code": "D2P-EVL-002",
+      "severity": "error",
+      "message": "The constraint system is overconstrained."
+    }
+  ],
+  "resultDigest": "sha256:76daa912c5a81557bd0f40f357b3a2ea151bd5a8a0919e5e39ee260b5e7e7e3b"
+}

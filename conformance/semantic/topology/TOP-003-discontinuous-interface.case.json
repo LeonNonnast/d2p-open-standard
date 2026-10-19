@@ -1,0 +1,26 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "TOP-003-discontinuous-interface",
+  "level": "semantic",
+  "title": "An EdgeInterval chain with a gap is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/topology/TOP-003-discontinuous-interface/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-020",
+        "documentPath": "conformance/semantic/topology/TOP-003-discontinuous-interface/pattern.json",
+        "instancePath": "/seamInterfaces/8/segments/1"
+      }
+    ]
+  },
+  "testIds": [
+    "TOP-003"
+  ]
+}

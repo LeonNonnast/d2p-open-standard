@@ -1,0 +1,148 @@
+{
+  "documentType": "d2p:pattern-evaluation",
+  "schemaVersion": "1.0.0",
+  "evaluationId": "pev_golden-tshirt-r1-size-a-regular-woven",
+  "createdAt": "2026-01-02T00:00:00Z",
+  "request": {
+    "documentType": "d2p:evaluation-request",
+    "schemaVersion": "1.0.0",
+    "requestId": "erq_golden-tshirt-r1-size-a-regular-woven",
+    "patternRef": {
+      "artifactId": "art_golden-tshirt-pattern",
+      "revisionId": "rev_golden-tshirt-pattern-r1"
+    },
+    "evaluatorProfile": {
+      "id": "d2p:golden-fixture-analytic",
+      "version": "1.0.0"
+    },
+    "gradingRuleSetRef": {
+      "artifactId": "art_golden-tshirt-grading-rule-set",
+      "revisionId": "rev_golden-tshirt-grading-rule-set-r1"
+    },
+    "sizeSystemRef": {
+      "artifactId": "art_golden-tshirt-size-system",
+      "revisionId": "rev_golden-tshirt-size-system-r1"
+    },
+    "fitProfileRef": {
+      "artifactId": "art_golden-tshirt-fit-profile-regular",
+      "revisionId": "rev_golden-tshirt-fit-profile-regular-r1"
+    },
+    "garmentMeasurementSpecRef": {
+      "artifactId": "art_golden-tshirt-garment-measurement-spec",
+      "revisionId": "rev_golden-tshirt-garment-measurement-spec-r1"
+    },
+    "sizeKey": "size-a",
+    "configurationKey": "regular-woven",
+    "materialAssumptions": {
+      "materialClass": "woven"
+    },
+    "toleranceProfile": {
+      "id": "d2p:golden-tshirt-2d",
+      "version": "1.0.0"
+    },
+    "validationProfile": {
+      "id": "d2p:sample-cut",
+      "version": "1.0.0"
+    },
+    "requestedOutputs": [
+      "fit-evaluation-report",
+      "geometry-snapshot",
+      "measurement-report",
+      "validation-report"
+    ]
+  },
+  "evaluator": {
+    "engineId": "golden-fixture",
+    "engineVersion": "1.0.0",
+    "algorithmProfileVersion": "1.0.0",
+    "evaluatorProfile": {
+      "id": "d2p:golden-fixture-analytic",
+      "version": "1.0.0"
+    }
+  },
+  "featureSetVersion": "1.0.0",
+  "inputDigests": [
+    {
+      "role": "fit-profile",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-fit-profile-regular",
+        "revisionId": "rev_golden-tshirt-fit-profile-regular-r1"
+      },
+      "digest": "sha256:66385f4b5fcc48e71bfe32968c1699aa6aef5f1f0c6ec3b81b625fa4ae09851a"
+    },
+    {
+      "role": "garment-measurement-spec",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-garment-measurement-spec",
+        "revisionId": "rev_golden-tshirt-garment-measurement-spec-r1"
+      },
+      "digest": "sha256:7b7adb3f7118fee8160711fa68fce5c39f75d2459df9ded6f1a0389713dee4aa"
+    },
+    {
+      "role": "grading-rule-set",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-grading-rule-set",
+        "revisionId": "rev_golden-tshirt-grading-rule-set-r1"
+      },
+      "digest": "sha256:164c1d94d7e1f08845c59252f024135bac21891e0d635f455adec2f0c2ba0a4f"
+    },
+    {
+      "role": "material-assumptions",
+      "digest": "sha256:fbae595c0695876feb52d48d0432da909dd8052b42d21f946fd1d251a393d4ab"
+    },
+    {
+      "role": "pattern",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-pattern",
+        "revisionId": "rev_golden-tshirt-pattern-r1"
+      },
+      "digest": "sha256:4a2e893957f71af95e18d20d4a1e429606d3b3830b6e1ce6926d524a0c841bfa"
+    },
+    {
+      "role": "size-system",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-size-system",
+        "revisionId": "rev_golden-tshirt-size-system-r1"
+      },
+      "digest": "sha256:82a40fc5b4ab99500ec1d4cafa2a15a6ce4006cf4317f9b5413fd44692a6e39e"
+    },
+    {
+      "role": "tolerance-profile",
+      "id": {
+        "id": "d2p:golden-tshirt-2d",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:0b49742bed880314dfa6d652ec9fc7769b2be3916ec621a000e431365d0e5b00"
+    },
+    {
+      "role": "validation-profile",
+      "id": {
+        "id": "d2p:sample-cut",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:15e8745fcd982a6d1b1ea6c16ba800aa33647b476972e732435977eb841a39d1"
+    }
+  ],
+  "status": "succeeded",
+  "constraintStatus": "unique",
+  "snapshotRef": {
+    "id": "snp_golden-tshirt-r1-size-a-regular-woven",
+    "digest": "sha256:c22d7bec7da24e55d42a4e3c15d2a26a2f207381697f71692edfb50b32947fb3"
+  },
+  "measurements": [
+    {
+      "key": "target-chest-girth-size-a-regular-woven",
+      "definitionId": "d2p:garment.chest-girth",
+      "value": 1000,
+      "unit": "mm"
+    },
+    {
+      "key": "target-sleeve-length-size-a-regular-woven",
+      "definitionId": "d2p:garment.sleeve-length",
+      "value": 200,
+      "unit": "mm"
+    }
+  ],
+  "diagnostics": [],
+  "resultDigest": "sha256:ea061a8a6c87f6e087bbcf3c99bf751f64f169c4d15217d7eee3947bfe348734"
+}

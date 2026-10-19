@@ -1,0 +1,22 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:measurement-equivalence",
+  "version": "1.0.0",
+  "title": "Measurements are not implicitly equated or confused",
+  "description": "An ease rule pairs body and garment definitions only when their path types are the same (for example never a girth with a flat width) (D2P-SEM-071), and body and garment definitions are never used on the other side: size-entry and body-profile values and ease-rule body definitions are kind body; garment targets, fit targets and ease-rule garment definitions are kind garment (D2P-SEM-075).",
+  "layer": "domain",
+  "targetDocumentTypes": [
+    "d2p:body-measurement-profile",
+    "d2p:fit-profile",
+    "d2p:garment-measurement-spec",
+    "d2p:size-system"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-SEM-071",
+    "D2P-SEM-075"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

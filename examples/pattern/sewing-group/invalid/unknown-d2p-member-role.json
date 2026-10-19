@@ -1,0 +1,37 @@
+{
+  "id": "group-collar-layers",
+  "type": "d2p:layered-seam",
+  "members": [
+    {
+      "connectionId": "seam-collar-outer",
+      "role": "d2p:made-up-role"
+    },
+    {
+      "connectionId": "seam-collar-interfacing",
+      "role": "d2p:interfacing"
+    }
+  ],
+  "requirements": {
+    "groupTopology": "connected",
+    "validateMemberSeams": false,
+    "multiLayer": true
+  },
+  "layerOrder": [
+    {
+      "cutInstanceKey": "collar-top",
+      "role": "d2p:outer-fabric"
+    },
+    {
+      "cutInstanceKey": "collar-interfacing",
+      "role": "d2p:interfacing"
+    },
+    {
+      "cutInstanceKey": "collar-under",
+      "role": "d2p:inner-fabric"
+    }
+  ],
+  "alignmentAnchors": [
+    "collar-cb-notch"
+  ],
+  "annotations": "Sew all three layers in one pass."
+}

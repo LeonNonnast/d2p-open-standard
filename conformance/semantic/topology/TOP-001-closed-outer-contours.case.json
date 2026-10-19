@@ -1,0 +1,20 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "TOP-001-closed-outer-contours",
+  "level": "semantic",
+  "title": "Closed outer contours chained through shared point features are accepted",
+  "documents": [
+    {
+      "path": "conformance/semantic/topology/TOP-001-closed-outer-contours/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "TOP-001"
+  ]
+}

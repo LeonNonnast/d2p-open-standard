@@ -1,0 +1,29 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "semantic.scene-edge-and-construction-paths",
+  "level": "semantic",
+  "title": "An edge drawn as its snapshot geometry and a free path on a construction layer are accepted",
+  "documents": [
+    {
+      "path": "conformance/semantic/scene-edge-and-construction-paths/export-scene-2d.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/scene-edge-and-construction-paths/pattern.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/scene-edge-and-construction-paths/pattern-evaluation.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/scene-edge-and-construction-paths/geometry-snapshot.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  }
+}

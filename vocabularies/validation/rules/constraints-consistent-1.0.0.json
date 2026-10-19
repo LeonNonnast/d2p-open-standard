@@ -1,0 +1,18 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:constraints-consistent",
+  "version": "1.0.0",
+  "title": "Constraints have no static conflict",
+  "description": "The pattern's constraints contain no conflict that is detectable without a geometry kernel (contradicting constant values, horizontal and vertical on one line, parallel and perpendicular on one line pair, negative constant distances or lengths).",
+  "layer": "domain",
+  "targetDocumentTypes": [
+    "d2p:pattern"
+  ],
+  "defaultSeverity": "error",
+  "diagnosticCodes": [
+    "D2P-SEM-040"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

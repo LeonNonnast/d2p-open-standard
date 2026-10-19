@@ -1,0 +1,20 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "TOP-010-inactive-second-connection",
+  "level": "semantic",
+  "title": "An interface used by one active and one inactive connection is accepted",
+  "documents": [
+    {
+      "path": "conformance/semantic/topology/TOP-010-inactive-second-connection/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "TOP-010"
+  ]
+}

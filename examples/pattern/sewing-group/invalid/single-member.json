@@ -1,0 +1,13 @@
+{
+  "id": "group-sides",
+  "type": "d2p:composite-assembly",
+  "members": [
+    {
+      "connectionId": "seam-side-left"
+    }
+  ],
+  "requirements": {
+    "groupTopology": "connected",
+    "validateMemberSeams": true
+  }
+}

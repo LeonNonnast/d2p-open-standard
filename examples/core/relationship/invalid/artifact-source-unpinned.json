@@ -1,0 +1,14 @@
+{
+  "documentType": "d2p:relationship",
+  "schemaVersion": "1.0.0",
+  "relationshipId": "rel_cropped-tee-derived-from-tshirt",
+  "relationshipType": "d2p:derived-from",
+  "source": {
+    "kind": "artifact",
+    "id": "art_cropped-tee-pattern"
+  },
+  "targetRef": {
+    "artifactId": "art_golden-tshirt-pattern",
+    "revisionId": "rev_golden-tshirt-pattern-r1"
+  }
+}

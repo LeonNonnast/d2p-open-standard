@@ -1,0 +1,20 @@
+{
+  "documentType": "d2p:validation-rule-definition",
+  "schemaVersion": "1.0.0",
+  "ruleId": "d2p:ease-material-compatible",
+  "version": "1.0.0",
+  "title": "Ease is compatible with the material",
+  "description": "A negative ease amount is only used together with a material condition that requires stretch (D2P-SEM-073), and a negative-ease rule whose material condition the evaluated material does not meet is reported instead of being applied silently (D2P-SEM-074).",
+  "layer": "domain",
+  "targetDocumentTypes": [
+    "d2p:evaluation-request",
+    "d2p:fit-profile"
+  ],
+  "defaultSeverity": "warning",
+  "diagnosticCodes": [
+    "D2P-SEM-073",
+    "D2P-SEM-074"
+  ],
+  "deterministic": true,
+  "requiresEvaluator": false
+}

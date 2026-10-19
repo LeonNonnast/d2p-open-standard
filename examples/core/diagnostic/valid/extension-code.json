@@ -1,0 +1,5 @@
+{
+  "code": "com.example.atelier:SMOCKING-ROWS-TOO-DENSE",
+  "severity": "warning",
+  "message": "Smocking rows are closer than the extension recommends."
+}

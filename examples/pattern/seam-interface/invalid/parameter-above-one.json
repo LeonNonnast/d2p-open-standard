@@ -1,0 +1,11 @@
+{
+  "id": "si-x",
+  "segments": [
+    {
+      "edgeId": "e",
+      "from": 0,
+      "to": 1.2,
+      "direction": "forward"
+    }
+  ]
+}

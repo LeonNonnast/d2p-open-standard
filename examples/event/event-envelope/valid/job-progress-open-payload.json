@@ -1,0 +1,13 @@
+{
+  "documentType": "d2p:event",
+  "schemaVersion": "1.0.0",
+  "eventId": "evt_example-job-1-progress-3",
+  "aggregateId": "job_example-evaluation-1",
+  "eventType": "d2p:job.progress",
+  "sequence": 3,
+  "occurredAt": "2026-01-04T00:00:05.250Z",
+  "payload": {
+    "completedSteps": 3,
+    "totalSteps": 6
+  }
+}

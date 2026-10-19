@@ -1,0 +1,24 @@
+{
+  "documentType": "d2p:quality-evidence-bundle",
+  "schemaVersion": "1.0.0",
+  "bundleId": "qeb_conformance-gate",
+  "createdAt": "2026-01-01T00:00:00Z",
+  "gate": {
+    "id": "org.example.conformance:sample-cut",
+    "version": "1.0.0"
+  },
+  "subjectRefs": [
+    {
+      "artifactId": "art_conformance-square",
+      "revisionId": "rev_conformance-square-r1"
+    }
+  ],
+  "requiredSuites": [
+    {
+      "suiteId": "org.example.conformance:geometry",
+      "suiteVersion": "1.0.0"
+    }
+  ],
+  "reports": [],
+  "overallState": "failed"
+}

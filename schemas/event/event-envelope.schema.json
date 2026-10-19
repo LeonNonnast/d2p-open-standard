@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/event/event-envelope.schema.json",
+  "title": "D2P Event",
+  "description": "Envelope of a domain or job event (documentType 'd2p:event'). Events are delivery and projection data, never write commands (design decision ADR-019). Consumers deduplicate by 'eventId'. Order is guaranteed per 'aggregateId' stream only; a gap in 'sequence' requires a resync from a query or snapshot. For 'd2p:artifact.revision-committed' the schema requires 'revisionId' and the registered payload shape; other 1.0 event types have open payloads until a minor release registers them.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "eventId",
+    "aggregateId",
+    "eventType",
+    "sequence",
+    "occurredAt",
+    "payload"
+  ],
+  "properties": {
+    "documentType": {
+      "const": "d2p:event",
+      "description": "Document type discriminator; always 'd2p:event'."
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against."
+    },
+    "eventId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/eventId",
+      "description": "Unique ID of this event. Consumers deduplicate by it."
+    },
+    "aggregateId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/globalId",
+      "description": "ID of the stream the event belongs to: an artifact ID or a job ID. Informative, not resolved by the referential level."
+    },
+    "revisionId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/revisionId",
+      "description": "Revision the event is about. Required for 'd2p:artifact.revision-committed', where it equals 'payload.artifactRef.revisionId'."
+    },
+    "eventType": {
+      "$ref": "#/$defs/eventType",
+      "description": "Type of the event (extensible vocabulary)."
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Position in the 'aggregateId' stream: starts at 1 and increases strictly by 1 without gaps per stream. There is no global order across streams."
+    },
+    "occurredAt": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp",
+      "description": "UTC time at which the event occurred."
+    },
+    "payload": {
+      "type": "object",
+      "description": "Event data. For 'd2p:artifact.revision-committed' it is a 'revisionCommittedPayload' (closed); for other event types it is an open object until a minor release registers its schema."
+    },
+    "correlationId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/correlationId",
+      "description": "Correlation ID linking the event to the command or request that caused it."
+    },
+    "contentDigest": {
+      "description": "Optional digest of this document (d2p-c14n-v1 over the whole document, excluding 'contentDigest' itself).",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest"
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks keyed by extension namespace."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "eventType": {
+            "const": "d2p:artifact.revision-committed"
+          }
+        },
+        "required": [
+          "eventType"
+        ]
+      },
+      "then": {
+        "properties": {
+          "revisionId": true,
+          "payload": {
+            "$ref": "#/$defs/revisionCommittedPayload"
+          }
+        },
+        "required": [
+          "revisionId"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "eventType": {
+      "title": "Event type",
+      "description": "Extensible event-type vocabulary: the listed 'd2p:' terms or an extension name. An unknown 'd2p:' term is a structural error.",
+      "anyOf": [
+        {
+          "type": "string",
+          "description": "Event types defined by this standard.",
+          "enum": [
+            "d2p:artifact.revision-committed",
+            "d2p:job.state-changed",
+            "d2p:job.progress",
+            "d2p:job.result-ready",
+            "d2p:validation.requested",
+            "d2p:validation.completed",
+            "d2p:validation.invalidated",
+            "d2p:impact.reported"
+          ]
+        },
+        {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName",
+          "description": "Extension-defined event type."
+        }
+      ]
+    },
+    "revisionCommittedPayload": {
+      "title": "Revision committed payload",
+      "description": "Registered payload of 'd2p:artifact.revision-committed': the newly committed, pinned artifact revision and its parents.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifactRef",
+        "parentRevisionIds"
+      ],
+      "properties": {
+        "artifactRef": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef",
+          "description": "The committed artifact revision. Its 'artifactId' equals the envelope's 'aggregateId' and its 'revisionId' the envelope's 'revisionId'."
+        },
+        "parentRevisionIds": {
+          "type": "array",
+          "description": "Parent revisions of the committed revision, as in its revision record: empty for the first revision, one parent normally, two reserved for merges.",
+          "minItems": 0,
+          "maxItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/revisionId"
+          }
+        },
+        "commandId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/commandId",
+          "description": "Command that produced the revision. Absent when the revision was not produced by a command."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/core/digest.schema.json",
+  "title": "D2P Digest",
+  "description": "Content digests of digest profile 'd2p-digest-v1': 'sha256:' plus the lowercase hex SHA-256 of the canonical form 'd2p-c14n-v1' (members removed per digest kind, numbers quantized half-to-even to 9 fractional digits of the canonical unit, -0 mapped to 0, serialized per RFC 8785 JCS). The quantization step is a canonicalization parameter, not a tolerance. The root accepts a digest string.",
+  "$ref": "#/$defs/digest",
+  "$defs": {
+    "digest": {
+      "title": "Digest",
+      "description": "SHA-256 digest in the form 'sha256:<64 lowercase hex digits>'. In 1.0, sha256 is the only algorithm.",
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "inputRole": {
+      "title": "Input role",
+      "description": "Role of a pinned input of a derived document. The roles pattern, grading-rule-set, body-measurement-profile, size-system, garment-measurement-spec and fit-profile identify an artifact revision; measurement-definition-registry, tolerance-profile and validation-profile identify a versioned vocabulary or profile; material-assumptions identifies the inline material assumptions of an evaluation request.",
+      "type": "string",
+      "enum": [
+        "pattern",
+        "grading-rule-set",
+        "body-measurement-profile",
+        "size-system",
+        "garment-measurement-spec",
+        "fit-profile",
+        "material-assumptions",
+        "measurement-definition-registry",
+        "tolerance-profile",
+        "validation-profile"
+      ]
+    },
+    "inputDigest": {
+      "title": "Input digest",
+      "description": "Digest of one pinned input. With 'artifactRef': the referenced revision's contentDigest. With 'id': the canonical form of the whole vocabulary or profile document with that id and version. For 'material-assumptions': the canonical form of the request's inline materialAssumptions object. Presence of 'artifactRef' and 'id' by role is schema-enforced.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "digest"
+      ],
+      "properties": {
+        "role": {
+          "description": "Role of the input.",
+          "$ref": "#/$defs/inputRole"
+        },
+        "artifactRef": {
+          "description": "Pinned artifact revision; required for artifact roles, forbidden otherwise.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+        },
+        "id": {
+          "description": "Versioned ID of a vocabulary or profile; required for the roles measurement-definition-registry, tolerance-profile and validation-profile, forbidden otherwise.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+        },
+        "digest": {
+          "description": "Digest of the input as defined for its role.",
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "role": {
+                "enum": [
+                  "pattern",
+                  "grading-rule-set",
+                  "body-measurement-profile",
+                  "size-system",
+                  "garment-measurement-spec",
+                  "fit-profile"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "artifactRef"
+            ],
+            "properties": {
+              "artifactRef": true,
+              "id": false
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "role": {
+                "enum": [
+                  "measurement-definition-registry",
+                  "tolerance-profile",
+                  "validation-profile"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": true,
+              "artifactRef": false
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "role": {
+                "const": "material-assumptions"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "id": false,
+              "artifactRef": false
+            }
+          }
+        }
+      ]
+    }
+  }
+}

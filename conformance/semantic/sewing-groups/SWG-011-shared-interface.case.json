@@ -1,0 +1,26 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "SWG-011-shared-interface",
+  "level": "semantic",
+  "title": "The same interface used in two connections is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/sewing-groups/SWG-011-shared-interface/pattern.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-023",
+        "documentPath": "conformance/semantic/sewing-groups/SWG-011-shared-interface/pattern.json",
+        "instancePath": "/seamInterfaces/1"
+      }
+    ]
+  },
+  "testIds": [
+    "SWG-011"
+  ]
+}
