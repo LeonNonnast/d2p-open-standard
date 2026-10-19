@@ -1,0 +1,24 @@
+{
+  "name": "@d2p/open-standard-tooling",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Validation and conformance tooling for the D2P Open Standard (JSON Schema 2020-12).",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "validate": "node tools/validate.mjs",
+    "conformance:structural": "node tools/conformance.mjs structural",
+    "conformance:referential": "node tools/conformance.mjs referential",
+    "conformance:semantic": "node tools/conformance.mjs semantic",
+    "conformance": "npm run conformance:structural && npm run conformance:referential && npm run conformance:semantic",
+    "test": "node --test \"tools/test/**/*.test.mjs\"",
+    "check": "npm run validate && npm run conformance && npm test"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
+  }
+}

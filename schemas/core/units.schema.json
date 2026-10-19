@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/core/units.schema.json",
+  "title": "D2P Unit",
+  "description": "Physical unit identifier used by D2P documents. Canonical domain units are millimetres (length) and radians (angle); 'm' and 'deg' are permitted only where a schema explicitly allows them at an import/export boundary and must be converted explicitly. The root of this schema accepts any supported unit; use the $defs for narrower contexts.",
+  "$comment": "Seed schema (P0). Unit conventions follow the canonical model: lengths in mm, angles in rad.",
+  "$ref": "#/$defs/unit",
+  "$defs": {
+    "unit": {
+      "title": "Unit",
+      "description": "Any supported physical unit.",
+      "anyOf": [
+        { "$ref": "#/$defs/lengthUnit" },
+        { "$ref": "#/$defs/angleUnit" }
+      ]
+    },
+    "lengthUnit": {
+      "title": "Length unit",
+      "description": "Supported length units. 'mm' is canonical.",
+      "type": "string",
+      "enum": ["mm", "m"]
+    },
+    "angleUnit": {
+      "title": "Angle unit",
+      "description": "Supported angle units. 'rad' is canonical.",
+      "type": "string",
+      "enum": ["rad", "deg"]
+    },
+    "canonicalLengthUnit": {
+      "title": "Canonical length unit",
+      "description": "The only length unit permitted inside evaluated domain data (e.g. geometry snapshots).",
+      "const": "mm"
+    },
+    "canonicalAngleUnit": {
+      "title": "Canonical angle unit",
+      "description": "The only angle unit permitted inside evaluated domain data (e.g. geometry snapshots).",
+      "const": "rad"
+    }
+  }
+}
