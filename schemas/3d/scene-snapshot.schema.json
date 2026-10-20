@@ -1,0 +1,394 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/3d/scene-snapshot.schema.json",
+  "title": "D2P Scene Snapshot",
+  "description": "Derived 3D scene of a garment revision (design decisions ADR-009 §14 'GeometrySnapshot3D', ADR-021 §4 'SceneSnapshot'). It is never an editable master and never a garment revision (GAR-014). The scene uses a right-handed coordinate system with Y up and metres as scene unit, converted explicitly from the pattern's millimetres by the factor 0.001. It pins every consumed input (inputDigests, the evaluation pins and the evaluation key), the scene builder and mesh backend, the mesh results and the bindings of panels and seams to pattern elements. 'bindingsDigest' covers the semantic bindings only and is equal for every mesh backend given the same input (T3D-015, SIM-006); 'sceneDigest' also covers the mesh references. A snapshot whose evaluation key differs from the current scene input's key is stale and MUST NOT be served as current (GAR-016). Access rights are not part of the payload; personal body or fit data never appear (D2P-SEM-050).",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:scene-snapshot"
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against."
+    },
+    "sceneSnapshotId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/sceneSnapshotId",
+      "description": "Own ID ('ssn_')."
+    },
+    "createdAt": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp",
+      "description": "When the document was produced (UTC). Excluded from the resultDigest."
+    },
+    "sceneInputRef": {
+      "description": "Optional reference to the d2p:scene-input built (digest = its contentDigest).",
+      "type": "object",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef"
+    },
+    "garmentRef": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef",
+      "description": "Pinned garment revision."
+    },
+    "arrangementId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+      "description": "Arrangement of the garment that was built."
+    },
+    "mode": {
+      "description": "Evaluation mode.",
+      "$ref": "https://d2p.nonnast.dev/schemas/3d/scene-input.schema.json#/$defs/sceneMode"
+    },
+    "evaluationKey": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "evaluationKey of the scene input this snapshot was built for."
+    },
+    "coordinateSystem": {
+      "description": "Scene coordinate system: right-handed, Y up, front +Z.",
+      "$ref": "https://d2p.nonnast.dev/schemas/3d/garment.schema.json#/$defs/garmentCoordinateSystem"
+    },
+    "sceneUnit": {
+      "description": "Unit of every scene coordinate: metre.",
+      "type": "string",
+      "const": "m"
+    },
+    "unitConversion": {
+      "description": "Explicit conversion from the pattern unit to the scene unit.",
+      "type": "object",
+      "const": {
+        "from": "mm",
+        "to": "m",
+        "factor": 0.001
+      }
+    },
+    "inputDigests": {
+      "description": "Pinned inputs: at least the garment, every pattern revision of the evaluation pins and the mesh profile (D2P-REF-007).",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/inputDigest"
+      }
+    },
+    "patternEvaluations": {
+      "description": "The garment's evaluation pins, exactly as the garment states them (D2P-SEM-124).",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/3d/scene-input.schema.json#/$defs/sceneEvaluationPin"
+      }
+    },
+    "meshProfile": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+      "description": "Mesh profile used."
+    },
+    "backendBuild": {
+      "description": "Scene builder and mesh backend.",
+      "$ref": "#/$defs/backendBuild"
+    },
+    "panelBindings": {
+      "description": "One binding per panel instance of the garment, sorted by panelInstanceId.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/panelBinding"
+      }
+    },
+    "seamBindings": {
+      "description": "The garment's sewing bindings, copied unchanged and sorted by id (may be empty).",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/3d/garment.schema.json#/$defs/sewingBinding"
+      }
+    },
+    "controlMeasures": {
+      "description": "One control measure per interface binding of every seam-connection binding, sorted by seamInterfaceId, then panelInstanceId (may be empty).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/controlMeasure"
+      }
+    },
+    "meshRefs": {
+      "description": "Mesh results, sorted by panelInstanceId. Unless qualityStatus is 'failed' or 'unsupported', exactly one per panel binding (D2P-SEM-124).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/meshRef"
+      }
+    },
+    "qualityStatus": {
+      "description": "Quality status of the result (design decision ADR-009 §6): preview, validated, unsupported or failed. A failed scene carries at least one diagnostic (T3D-011).",
+      "type": "string",
+      "enum": [
+        "preview",
+        "validated",
+        "unsupported",
+        "failed"
+      ]
+    },
+    "representations": {
+      "description": "Optional derived view files.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/sceneRepresentation"
+      }
+    },
+    "diagnostics": {
+      "description": "Diagnostics, sorted per catalog §1.8.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/diagnostic.schema.json#/$defs/diagnostic"
+      }
+    },
+    "bindingsDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "Digest of {coordinateSystem, sceneUnit, unitConversion, panelBindings, seamBindings, controlMeasures} (catalog §1.8)."
+    },
+    "sceneDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "Digest of {coordinateSystem, sceneUnit, unitConversion, panelBindings, seamBindings, controlMeasures, meshRefs} (catalog §1.8)."
+    },
+    "contentDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "Optional digest of this document (d2p-digest-v1, excluding contentDigest)."
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks."
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "sceneSnapshotId",
+    "garmentRef",
+    "arrangementId",
+    "mode",
+    "evaluationKey",
+    "coordinateSystem",
+    "sceneUnit",
+    "unitConversion",
+    "inputDigests",
+    "patternEvaluations",
+    "meshProfile",
+    "backendBuild",
+    "panelBindings",
+    "seamBindings",
+    "controlMeasures",
+    "meshRefs",
+    "qualityStatus",
+    "diagnostics",
+    "bindingsDigest",
+    "sceneDigest"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "qualityStatus": {
+            "const": "failed"
+          }
+        },
+        "required": [
+          "qualityStatus"
+        ]
+      },
+      "then": {
+        "properties": {
+          "diagnostics": {
+            "type": "array",
+            "minItems": 1
+          }
+        },
+        "required": [
+          "diagnostics"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "sceneTransform": {
+      "title": "Scene transform",
+      "description": "Pose of a panel instance in the scene (m): the garment placement with its translation converted from mm to m (translationM = translationMm × 0.001, D2P-SEM-123) and the same rotation. A scene point is ((R · M · p) + translationMm) × 0.001 for a panel-local point p in mm, where M flips x for a mirrored panel.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "translationM",
+        "rotation"
+      ],
+      "properties": {
+        "translationM": {
+          "description": "Translation in m.",
+          "$ref": "https://d2p.nonnast.dev/schemas/3d/garment.schema.json#/$defs/point3"
+        },
+        "rotation": {
+          "description": "Rotation, equal to the placement rotation.",
+          "$ref": "https://d2p.nonnast.dev/schemas/3d/garment.schema.json#/$defs/unitQuaternion"
+        }
+      }
+    },
+    "panelBinding": {
+      "title": "Panel binding",
+      "description": "Binding of one panel instance to its pattern piece and its pose in the scene (design decision ADR-021 §4 'PanelMeshBinding'). It copies the garment's panel instance and the cut instance's mirror flag; transient mesh indices never appear (TOP-008).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "panelInstanceId",
+        "patternEvaluationId",
+        "pieceId",
+        "cutInstanceKey",
+        "side",
+        "mirrored",
+        "transform"
+      ],
+      "properties": {
+        "panelInstanceId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable panel instance ID of the garment."
+        },
+        "patternEvaluationId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "The garment's pattern evaluation reference of the panel."
+        },
+        "pieceId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Piece of the pinned pattern."
+        },
+        "cutInstanceKey": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Cut instance of that piece."
+        },
+        "side": {
+          "description": "Side of the wearer.",
+          "$ref": "https://d2p.nonnast.dev/schemas/3d/garment.schema.json#/$defs/panelSide"
+        },
+        "mirrored": {
+          "description": "The cut instance's 'mirrored' flag (false for an implicit instance).",
+          "type": "boolean"
+        },
+        "transform": {
+          "description": "Pose in the scene, in m.",
+          "$ref": "#/$defs/sceneTransform"
+        }
+      }
+    },
+    "meshRef": {
+      "title": "Mesh reference",
+      "description": "The panel mesh result of one panel instance.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "panelInstanceId",
+        "meshResultRef",
+        "meshDigest"
+      ],
+      "properties": {
+        "panelInstanceId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Panel instance the mesh belongs to."
+        },
+        "meshResultRef": {
+          "description": "The d2p:panel-mesh-result; 'digest' is required and equals its resultDigest.",
+          "type": "object",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef",
+          "properties": {
+            "digest": true
+          },
+          "required": [
+            "digest"
+          ]
+        },
+        "meshDigest": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+          "description": "meshDigest of that result (profile-dependent; not comparable across mesh backends, T3D-015)."
+        }
+      }
+    },
+    "controlMeasure": {
+      "title": "Control measure",
+      "description": "Length of one bound seam interface, stated in mm (from the pinned geometry snapshot) and in scene metres, so that the mm to m conversion is checkable (T3D-005, SIM-005): lengthM = lengthMm × 0.001 in binary64 (D2P-SEM-123).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "seamInterfaceId",
+        "panelInstanceId",
+        "lengthMm",
+        "lengthM"
+      ],
+      "properties": {
+        "seamInterfaceId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Seam interface of the pinned pattern."
+        },
+        "panelInstanceId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Panel instance that carries the interface."
+        },
+        "lengthMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/nonNegativeLengthMm",
+          "description": "Interface length in mm, equal to the geometry snapshot's lengthMm."
+        },
+        "lengthM": {
+          "description": "The same length in m.",
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "backendBuild": {
+      "title": "Backend build",
+      "description": "Software that produced the scene: the scene builder and the mesh backend (design decision ADR-021 §10: a scene pins every evaluator and backend version).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sceneBuilder",
+        "mesher"
+      ],
+      "properties": {
+        "sceneBuilder": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/softwareInfo",
+          "description": "Scene builder implementation."
+        },
+        "mesher": {
+          "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/backendPin",
+          "description": "Mesh backend and its adapter."
+        }
+      }
+    },
+    "sceneRepresentation": {
+      "title": "Scene representation",
+      "description": "A derived view file of the scene, such as a glTF 2.0 asset. It is a transport and rendering representation, never the normative garment structure (design decision ADR-009 §14). A glTF view has one node per panel binding named by its panelInstanceId, metre coordinates with Y up, and asset.extras.d2p = {sceneSnapshotId, sceneDigest} (EXP-013); it carries no access-control or body data. A view of a scene that pins a body measurement profile adds personalDerived: true to asset.extras.d2p and names neither the profile nor a body value (D2P-SEM-050, SIM-009).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "format",
+        "mediaType",
+        "digest"
+      ],
+      "properties": {
+        "format": {
+          "description": "Representation format.",
+          "type": "string",
+          "enum": [
+            "gltf-2.0"
+          ]
+        },
+        "mediaType": {
+          "description": "Media type of the file.",
+          "type": "string",
+          "enum": [
+            "model/gltf+json",
+            "model/gltf-binary"
+          ]
+        },
+        "path": {
+          "$ref": "https://d2p.nonnast.dev/schemas/benchmark/fixture-manifest.schema.json#/$defs/relativePath",
+          "description": "Optional relative POSIX path of the file, relative to the snapshot's location."
+        },
+        "digest": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+          "description": "Raw-byte SHA-256 of the file."
+        }
+      }
+    }
+  }
+}

@@ -14,6 +14,7 @@ Deterministic reference oracle for the Golden T-Shirt v1 fixture (`fixtures/gold
 | `lib/documents.mjs` | Builds every input, expected and manifest document, and runs the oracle assertions |
 | `lib/negative.mjs` | Negative fixtures of catalog §4.3 with their `case.json` |
 | `lib/ids.mjs`, `lib/expr.mjs` | Normative identifiers and expression-node builders |
+| `golden-tshirt-3d.mjs`, `lib/garment3d.mjs` | Golden T-Shirt 3D v1 generator (catalog §4.5): garments, scene inputs and expected scene structures from the 2D fixture, the 3D negative fixtures and the cases in `conformance/<level>/golden-tshirt-3d/` (including boundary-sampled panel meshes and a glTF view for the scene-snapshot case). It uses the kit's `lib/c14n.mjs` and asserts stable IDs, sides, the mm to m conversion and the rebind to pattern r2 on every run (`npm run oracle:3d`; `--check` is part of `npm run oracle:check`) |
 
 ```bash
 npm run oracle         # node tools/oracle/golden-tshirt.mjs

@@ -219,6 +219,7 @@ const VOCABULARY_ID_MEMBERS = {
   "d2p:validation-rule-definition": "ruleId",
   "d2p:validation-profile": "profileId",
   "d2p:tolerance-profile": "profileId",
+  "d2p:mesh-profile": "profileId",
   "d2p:mapping-profile": "mappingId",
 };
 

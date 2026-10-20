@@ -1,0 +1,328 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/3d/panel-mesh-result.schema.json",
+  "title": "D2P Panel Mesh Result",
+  "description": "Derived mesh of one panel instance (design decision ADR-021 §10 'GeneratePanelMesh'). It pins the evaluation and snapshot geometry, the mesh profile and the mesh backend, keeps the 2D-to-3D mapping (vertexUvToPattern2D) and states the approximation error against the pattern contour (design decision ADR-021 §5 rule 3). The 2D reference contour is never changed; triangulation is derived. A meshing failure is a result with status 'failed' and at least one diagnostic, never a silent success (T3D-011).",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:panel-mesh-result"
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against."
+    },
+    "meshResultId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/meshResultId",
+      "description": "Own ID ('pmr_')."
+    },
+    "createdAt": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp",
+      "description": "When the document was produced (UTC). Excluded from the resultDigest."
+    },
+    "garmentRef": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef",
+      "description": "Pinned garment revision that declares the panel instance."
+    },
+    "panelInstanceId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+      "description": "Panel instance meshed."
+    },
+    "pieceId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+      "description": "Piece of the panel instance."
+    },
+    "cutInstanceKey": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+      "description": "Cut instance of the panel instance."
+    },
+    "evaluationRef": {
+      "description": "The pinned pattern evaluation; 'digest' is required and equals its resultDigest.",
+      "type": "object",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef",
+      "properties": {
+        "digest": true
+      },
+      "required": [
+        "digest"
+      ]
+    },
+    "geometryDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "geometryDigest of the evaluation's geometry snapshot (the meshed 2D geometry)."
+    },
+    "meshProfile": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+      "description": "Mesh profile used."
+    },
+    "backend": {
+      "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/backendPin",
+      "description": "Mesh backend and adapter."
+    },
+    "status": {
+      "description": "succeeded: the mesh is present; failed: no mesh, at least one diagnostic.",
+      "type": "string",
+      "enum": [
+        "succeeded",
+        "failed"
+      ]
+    },
+    "mesh": {
+      "description": "The mesh (status succeeded only).",
+      "$ref": "#/$defs/panelMesh"
+    },
+    "vertexUvToPattern2D": {
+      "description": "UV to pattern mapping (status succeeded only).",
+      "$ref": "#/$defs/uvToPatternMapping"
+    },
+    "edgeBindings": {
+      "description": "One entry per edge of the piece, sorted by edgeId (status succeeded only).",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/edgeBinding"
+      }
+    },
+    "maxApproximationErrorMm": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/nonNegativeLengthMm",
+      "description": "Largest planar deviation of the mesh boundary from the pattern contour; at most the mesh profile's maxPlanarDeviationMm (D2P-SEM-125; status succeeded only)."
+    },
+    "meshDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "Digest of the 'mesh' object (catalog §1.8; status succeeded only)."
+    },
+    "diagnostics": {
+      "description": "Diagnostics, sorted per catalog §1.8.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/diagnostic.schema.json#/$defs/diagnostic"
+      }
+    },
+    "resultDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "resultDigest of this document (catalog §1.8)."
+    },
+    "contentDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "Optional digest of this document (d2p-digest-v1, excluding contentDigest)."
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks."
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "meshResultId",
+    "garmentRef",
+    "panelInstanceId",
+    "pieceId",
+    "cutInstanceKey",
+    "evaluationRef",
+    "geometryDigest",
+    "meshProfile",
+    "backend",
+    "status",
+    "diagnostics",
+    "resultDigest"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "succeeded"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "mesh": true,
+          "vertexUvToPattern2D": true,
+          "edgeBindings": true,
+          "maxApproximationErrorMm": true,
+          "meshDigest": true
+        },
+        "required": [
+          "mesh",
+          "vertexUvToPattern2D",
+          "edgeBindings",
+          "maxApproximationErrorMm",
+          "meshDigest"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "failed"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "diagnostics": {
+            "type": "array",
+            "minItems": 1
+          },
+          "mesh": false,
+          "vertexUvToPattern2D": false,
+          "edgeBindings": false,
+          "maxApproximationErrorMm": false,
+          "meshDigest": false
+        },
+        "required": [
+          "diagnostics"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "panelMesh": {
+      "title": "Panel mesh",
+      "description": "Triangle mesh of one panel in the panel-local frame (mm): flat, every position has z = 0, and positions[i] and uvs[i] describe the same vertex (D2P-SEM-125). The scene places the mesh with the panel's transform.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "positions",
+        "uvs",
+        "triangles"
+      ],
+      "properties": {
+        "positions": {
+          "description": "Vertex positions in panel-local mm (z = 0).",
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/3d/garment.schema.json#/$defs/point3"
+          }
+        },
+        "uvs": {
+          "description": "Texture coordinates per vertex (dimensionless). vertexUvToPattern2D maps them to pattern coordinates.",
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/eval/geometry-snapshot.schema.json#/$defs/point2"
+          }
+        },
+        "triangles": {
+          "description": "Triangles.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/triangle"
+          }
+        }
+      }
+    },
+    "triangle": {
+      "title": "Triangle",
+      "description": "Three vertex indices into 'positions' (0-based, counter-clockwise seen from +z). Indices are transient: they are valid only inside this document and are never referenced by domain bindings (TOP-008).",
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "integer",
+          "minimum": 0,
+          "description": "First vertex index."
+        },
+        {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Second vertex index."
+        },
+        {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Third vertex index."
+        }
+      ],
+      "minItems": 3,
+      "items": false
+    },
+    "uvToPatternMapping": {
+      "title": "UV to pattern mapping",
+      "description": "Affine map from texture coordinates (u, v) to 2D pattern coordinates in mm (T3D-003): x = a·u + b·v + c, y = d·u + e·v + f with matrix [a, b, c, d, e, f]. Every vertex therefore references its 2D pattern position traceably.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "matrix"
+      ],
+      "properties": {
+        "kind": {
+          "description": "Mapping kind; 'affine' in this release.",
+          "type": "string",
+          "const": "affine"
+        },
+        "matrix": {
+          "description": "Coefficients [a, b, c, d, e, f]; c and f are in mm, a, b, d and e in mm per UV unit.",
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number",
+              "description": "a"
+            },
+            {
+              "type": "number",
+              "description": "b"
+            },
+            {
+              "type": "number",
+              "description": "c (mm)"
+            },
+            {
+              "type": "number",
+              "description": "d"
+            },
+            {
+              "type": "number",
+              "description": "e"
+            },
+            {
+              "type": "number",
+              "description": "f (mm)"
+            }
+          ],
+          "minItems": 6,
+          "items": false
+        }
+      }
+    },
+    "edgeBinding": {
+      "title": "Edge binding",
+      "description": "How the mesh boundary samples one edge of the piece: by edge ID, never by mesh index (TOP-008). There is exactly one edge binding per edge of the piece's contours (D2P-SEM-125).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "edgeId",
+        "sampleCount",
+        "maxDeviationMm"
+      ],
+      "properties": {
+        "edgeId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Edge of the piece in the pinned pattern."
+        },
+        "sampleCount": {
+          "description": "Number of boundary vertices on the edge, including both end points.",
+          "type": "integer",
+          "minimum": 2
+        },
+        "maxDeviationMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/nonNegativeLengthMm",
+          "description": "Largest planar distance between the sampled boundary and the edge curve."
+        }
+      }
+    }
+  }
+}

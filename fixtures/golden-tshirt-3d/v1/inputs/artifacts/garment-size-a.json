@@ -1,0 +1,13 @@
+{
+  "documentType": "d2p:artifact",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_golden-tshirt-3d-garment-size-a",
+  "artifactType": "d2p:garment",
+  "name": "Golden T-Shirt 3D garment, size A",
+  "dataClassification": "public",
+  "createdAt": "2026-01-05T00:00:00Z",
+  "createdBy": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  }
+}

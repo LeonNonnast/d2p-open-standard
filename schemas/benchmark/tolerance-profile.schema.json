@@ -109,7 +109,7 @@
     },
     "toleranceMetric": {
       "title": "Tolerance metric",
-      "description": "Metric the limit applies to. Standard metrics: d2p:contour-deviation (mm, absolute-lte; Hausdorff distance between expected and actual contour, control points compare under this metric as degenerate contours), d2p:seam-length-deviation-relative (1, relative-lte), d2p:seam-length-deviation-absolute (mm, absolute-lte; for short seams), d2p:control-square-deviation (mm, absolute-lte; control-square side in file coordinates vs 100 mm), d2p:angle-deviation (rad, absolute-lte). Extension metrics use extension names.",
+      "description": "Metric the limit applies to. Standard metrics: d2p:contour-deviation (mm, absolute-lte; Hausdorff distance between expected and actual contour, control points compare under this metric as degenerate contours), d2p:seam-length-deviation-relative (1, relative-lte), d2p:seam-length-deviation-absolute (mm, absolute-lte; for short seams), d2p:control-square-deviation (mm, absolute-lte; control-square side in file coordinates vs 100 mm), d2p:angle-deviation (rad, absolute-lte), d2p:mesh-planar-deviation (mm, absolute-lte; largest planar distance between a panel mesh boundary and the pinned pattern contour, catalog §3.9). Extension metrics use extension names.",
       "anyOf": [
         {
           "type": "string",
@@ -117,6 +117,7 @@
             "d2p:angle-deviation",
             "d2p:contour-deviation",
             "d2p:control-square-deviation",
+            "d2p:mesh-planar-deviation",
             "d2p:seam-length-deviation-absolute",
             "d2p:seam-length-deviation-relative"
           ]

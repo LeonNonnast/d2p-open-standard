@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/3d/sim-report.schema.json",
+  "title": "D2P Simulation Report",
+  "description": "Report of one 3D simulation or preview run on a scene snapshot (design decision ADR-021 §4 'SimulationReport', §10 'SimulateCloth'). It names the solver with its version, the solver profile and the tolerance profile, so every diagnostic of the report is attributed to that solver and tolerance profile (VAL-012). A solver failure is a report with status 'failed' and at least one diagnostic, never a released simulation (SIM-007). Numerical results are profile- and solver-dependent; no bitwise equality is promised. Physical simulation is optional and not part of the arrangement mode.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:sim-report"
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against."
+    },
+    "simReportId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/simReportId",
+      "description": "Own ID ('smr_')."
+    },
+    "createdAt": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp",
+      "description": "When the document was produced (UTC). Excluded from the resultDigest."
+    },
+    "sceneSnapshotRef": {
+      "description": "The scene snapshot simulated; 'digest' is required and equals its sceneDigest.",
+      "type": "object",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef",
+      "properties": {
+        "digest": true
+      },
+      "required": [
+        "digest"
+      ]
+    },
+    "profileKind": {
+      "description": "Versioned profile family (design decision ADR-021 §4).",
+      "type": "string",
+      "enum": [
+        "assembly-preview",
+        "kinematic-sewing",
+        "fit-approximation",
+        "physical-cloth"
+      ]
+    },
+    "solver": {
+      "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/backendPin",
+      "description": "Solver and adapter versions."
+    },
+    "solverProfile": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+      "description": "Solver profile (algorithm and parameters)."
+    },
+    "materialPhysicsProfile": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+      "description": "Optional material physics profile."
+    },
+    "toleranceProfile": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+      "description": "Tolerance profile the results are judged with."
+    },
+    "inputDigests": {
+      "description": "Pinned inputs.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/inputDigest"
+      }
+    },
+    "randomSeed": {
+      "description": "Seed, when the solver uses one.",
+      "type": "integer"
+    },
+    "status": {
+      "description": "succeeded or failed.",
+      "type": "string",
+      "enum": [
+        "succeeded",
+        "failed"
+      ]
+    },
+    "convergence": {
+      "description": "converged, nonconvergent, or not-applicable (no iterative solver).",
+      "type": "string",
+      "enum": [
+        "converged",
+        "nonconvergent",
+        "not-applicable"
+      ]
+    },
+    "durationMs": {
+      "description": "Wall-clock duration in ms.",
+      "type": "number",
+      "minimum": 0
+    },
+    "metrics": {
+      "description": "Measured values, sorted by metric.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/simMetric"
+      }
+    },
+    "attachments": {
+      "description": "Produced artifacts pinned by digest.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/attachment"
+      }
+    },
+    "diagnostics": {
+      "description": "Diagnostics, sorted per catalog §1.8.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/diagnostic.schema.json#/$defs/diagnostic"
+      }
+    },
+    "resultDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "resultDigest of this document (catalog §1.8)."
+    },
+    "contentDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "Optional digest of this document (d2p-digest-v1, excluding contentDigest)."
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks."
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "simReportId",
+    "sceneSnapshotRef",
+    "profileKind",
+    "solver",
+    "solverProfile",
+    "toleranceProfile",
+    "inputDigests",
+    "status",
+    "convergence",
+    "durationMs",
+    "metrics",
+    "diagnostics",
+    "resultDigest"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "failed"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "diagnostics": {
+            "type": "array",
+            "minItems": 1
+          }
+        },
+        "required": [
+          "diagnostics"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "simMetric": {
+      "title": "Simulation metric",
+      "description": "One measured value of a simulation run, such as residual energy, seam error or body-collision count.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metric",
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "metric": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName",
+          "description": "Metric name (an extension name, or a d2p: name defined by a later release)."
+        },
+        "value": {
+          "description": "Measured value.",
+          "type": "number"
+        },
+        "unit": {
+          "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/benchmarkUnit",
+          "description": "Unit of the value."
+        }
+      }
+    }
+  }
+}

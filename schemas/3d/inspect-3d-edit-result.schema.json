@@ -1,0 +1,299 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/3d/inspect-3d-edit-result.schema.json",
+  "title": "D2P 3D Edit Inspection Result",
+  "description": "Result of inspecting 3D edits on a scene snapshot (design decision ADR-021 §10 'Inspect3DEdit(SceneSnapshotRef, EditDelta) -> PatternProposal'). Every edit is classified explicitly as supported, ambiguous or forbidden; nothing is dropped silently. The supported edits, and only those, are collected in one pattern proposal (proposalRef). The inspection never writes to the pattern or the garment.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:inspect-3d-edit-result"
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against."
+    },
+    "inspectionId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/inspectionId",
+      "description": "Own ID ('ier_')."
+    },
+    "createdAt": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp",
+      "description": "When the document was produced (UTC). Excluded from the resultDigest."
+    },
+    "sceneSnapshotRef": {
+      "description": "The scene snapshot the edits were made on; 'digest' is required and equals its sceneDigest.",
+      "type": "object",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef",
+      "properties": {
+        "digest": true
+      },
+      "required": [
+        "digest"
+      ]
+    },
+    "basePatternRef": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef",
+      "description": "Pattern revision the edits would change."
+    },
+    "edits": {
+      "description": "Classified edits, sorted by editId.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/editClassification"
+      }
+    },
+    "proposalRef": {
+      "description": "The d2p:pattern-proposal with the supported edits; present if and only if at least one edit is supported (D2P-SEM-126). 'digest' is required and equals the proposal's contentDigest.",
+      "type": "object",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef",
+      "properties": {
+        "digest": true
+      },
+      "required": [
+        "digest"
+      ]
+    },
+    "diagnostics": {
+      "description": "Diagnostics, sorted per catalog §1.8.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/diagnostic.schema.json#/$defs/diagnostic"
+      }
+    },
+    "resultDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "resultDigest of this document (catalog §1.8)."
+    },
+    "contentDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "Optional digest of this document (d2p-digest-v1, excluding contentDigest)."
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks."
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "inspectionId",
+    "sceneSnapshotRef",
+    "basePatternRef",
+    "edits",
+    "diagnostics",
+    "resultDigest"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "editTarget": {
+      "title": "Edit target",
+      "description": "What a 3D edit touches, named by stable domain IDs only (never by mesh indices, TOP-008).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "panelInstanceId"
+      ],
+      "properties": {
+        "panelInstanceId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Panel instance of the garment."
+        },
+        "edgeId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Optional edge of the panel's piece."
+        },
+        "sewingBindingId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Optional sewing binding of the garment."
+        },
+        "controlId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName",
+          "description": "Optional parametric 3D control (for example an extension-defined sleeve-length control)."
+        }
+      }
+    },
+    "editDelta": {
+      "title": "Edit delta",
+      "description": "The requested change. d2p:edge-length-change and d2p:panel-move carry deltaMm; d2p:free-deformation describes an arbitrary surface deformation.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "description": "Kind of edit (extensible vocabulary).",
+          "type": "string",
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "d2p:edge-length-change",
+                "d2p:panel-move",
+                "d2p:free-deformation"
+              ]
+            },
+            {
+              "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+            }
+          ]
+        },
+        "deltaMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/lengthMm",
+          "description": "Signed change in mm, where the kind has one."
+        }
+      }
+    },
+    "editClassification": {
+      "title": "Edit classification",
+      "description": "Explicit back-projection result of one edit (design decision ADR-021 §10 'Inspect3DEdit'): supported (parameterUpdates, min 1), ambiguous (parameterCandidates, min 2, no updates) or forbidden (reasonCode, no updates or candidates). The members by classification are schema-enforced.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "editId",
+        "target",
+        "delta",
+        "classification"
+      ],
+      "properties": {
+        "editId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "ID of the edit within this inspection."
+        },
+        "target": {
+          "description": "What the edit touches.",
+          "$ref": "#/$defs/editTarget"
+        },
+        "delta": {
+          "description": "The requested change.",
+          "$ref": "#/$defs/editDelta"
+        },
+        "classification": {
+          "description": "supported, ambiguous or forbidden.",
+          "type": "string",
+          "enum": [
+            "supported",
+            "ambiguous",
+            "forbidden"
+          ]
+        },
+        "parameterUpdates": {
+          "description": "Parameter updates of a supported edit.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/command/command-envelope.schema.json#/$defs/parameterUpdate"
+          }
+        },
+        "parameterCandidates": {
+          "description": "Parameters an ambiguous edit could map to.",
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+          }
+        },
+        "reasonCode": {
+          "description": "Reason of a forbidden edit.",
+          "$ref": "#/$defs/backProjectionReason"
+        },
+        "message": {
+          "description": "Optional explanation for the user.",
+          "type": "string",
+          "maxLength": 2000
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "classification": {
+                "const": "supported"
+              }
+            },
+            "required": [
+              "classification"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterUpdates": true,
+              "parameterCandidates": false,
+              "reasonCode": false
+            },
+            "required": [
+              "parameterUpdates"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "classification": {
+                "const": "ambiguous"
+              }
+            },
+            "required": [
+              "classification"
+            ]
+          },
+          "then": {
+            "properties": {
+              "parameterCandidates": true,
+              "parameterUpdates": false,
+              "reasonCode": false
+            },
+            "required": [
+              "parameterCandidates"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "classification": {
+                "const": "forbidden"
+              }
+            },
+            "required": [
+              "classification"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reasonCode": true,
+              "parameterUpdates": false,
+              "parameterCandidates": false
+            },
+            "required": [
+              "reasonCode"
+            ]
+          }
+        }
+      ]
+    },
+    "backProjectionReason": {
+      "title": "Back-projection reason code",
+      "description": "Why an edit cannot be back-projected (extensible vocabulary): d2p:free-deformation-not-invertible (no universal lossless inverse from a curved surface to a pattern, design decision ADR-009 §7), d2p:no-parametric-mapping, d2p:changes-seam-identity, d2p:changes-topology, d2p:outside-pinned-revision.",
+      "type": "string",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "d2p:free-deformation-not-invertible",
+            "d2p:no-parametric-mapping",
+            "d2p:changes-seam-identity",
+            "d2p:changes-topology",
+            "d2p:outside-pinned-revision"
+          ]
+        },
+        {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+        }
+      ]
+    }
+  }
+}

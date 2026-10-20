@@ -1,0 +1,122 @@
+{
+  "documentType": "d2p:inspect-3d-edit-result",
+  "schemaVersion": "1.0.0",
+  "inspectionId": "ier_golden-tshirt-3d-r1-size-a-edits",
+  "createdAt": "2026-01-07T00:00:00Z",
+  "sceneSnapshotRef": {
+    "id": "ssn_golden-tshirt-3d-r1-size-a",
+    "digest": "sha256:6eff295f9b7dbba4193aedbfaf78ee6135ca2cf82c9e3d68a6f2ec88dad74336"
+  },
+  "basePatternRef": {
+    "artifactId": "art_golden-tshirt-pattern",
+    "revisionId": "rev_golden-tshirt-pattern-r1"
+  },
+  "edits": [
+    {
+      "editId": "edit-1",
+      "target": {
+        "panelInstanceId": "panel-sleeve-left",
+        "edgeId": "sleeve-underarm-front"
+      },
+      "delta": {
+        "kind": "d2p:edge-length-change",
+        "deltaMm": 30
+      },
+      "classification": "supported",
+      "parameterUpdates": [
+        {
+          "parameterId": "sleeve-length",
+          "expr": {
+            "op": "add",
+            "args": [
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "op": "measurement",
+                    "key": "arm-length"
+                  },
+                  {
+                    "op": "literal",
+                    "value": 0.33,
+                    "unit": "1"
+                  }
+                ]
+              },
+              {
+                "op": "literal",
+                "value": 30,
+                "unit": "mm"
+              }
+            ]
+          }
+        }
+      ],
+      "message": "Maps to sleeve-length (+30 mm); both sleeves change, because they are cut from one piece."
+    },
+    {
+      "editId": "edit-2",
+      "target": {
+        "panelInstanceId": "panel-front",
+        "edgeId": "front-side-left"
+      },
+      "delta": {
+        "kind": "d2p:edge-length-change",
+        "deltaMm": 15
+      },
+      "classification": "ambiguous",
+      "parameterCandidates": [
+        "armhole-depth",
+        "body-length"
+      ],
+      "message": "The side seam length depends on more than one parameter; choose one."
+    },
+    {
+      "editId": "edit-3",
+      "target": {
+        "panelInstanceId": "panel-back"
+      },
+      "delta": {
+        "kind": "d2p:free-deformation"
+      },
+      "classification": "forbidden",
+      "reasonCode": "d2p:free-deformation-not-invertible",
+      "message": "A free surface deformation has no lossless inverse to a pattern; no proposal is made.",
+      "parameterUpdates": [
+        {
+          "parameterId": "sleeve-length",
+          "expr": {
+            "op": "add",
+            "args": [
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "op": "measurement",
+                    "key": "arm-length"
+                  },
+                  {
+                    "op": "literal",
+                    "value": 0.33,
+                    "unit": "1"
+                  }
+                ]
+              },
+              {
+                "op": "literal",
+                "value": 30,
+                "unit": "mm"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "proposalRef": {
+    "id": "ppr_golden-tshirt-3d-r1-size-a-sleeve-length",
+    "digest": "sha256:eea1e39b5228904c0eeb6256115f7e6dc99d53e878b877cb537437bb76fa39b1"
+  },
+  "diagnostics": [],
+  "resultDigest": "sha256:3988483df80ac5f97f80acafb2d2df61fba8b01a7da2634bb35f471c1c6eb56e"
+}

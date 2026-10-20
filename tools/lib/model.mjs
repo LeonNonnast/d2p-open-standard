@@ -9,6 +9,7 @@ export const ARTIFACT_CONTENT_TYPES = new Set([
   "d2p:size-system",
   "d2p:garment-measurement-spec",
   "d2p:fit-profile",
+  "d2p:garment",
 ]);
 
 /** Own ID members per documentType ("Own ID" column of §3.0). */
@@ -47,6 +48,15 @@ export const OWN_ID_MEMBERS = Object.freeze({
   "d2p:tolerance-profile": ["profileId", "version"],
   "d2p:fixture-manifest": ["fixtureId", "fixtureVersion"],
   "d2p:conformance-case": ["caseId"],
+  "d2p:garment": ["artifactId", "revisionId"],
+  "d2p:scene-input": ["sceneInputId"],
+  "d2p:scene-snapshot": ["sceneSnapshotId"],
+  "d2p:panel-mesh-result": ["meshResultId"],
+  "d2p:mesh-profile": ["profileId", "version"],
+  "d2p:sim-report": ["simReportId"],
+  "d2p:pattern-proposal": ["proposalId"],
+  "d2p:inspect-3d-edit-result": ["inspectionId"],
+  "d2p:scene-expectation": ["expectationId"],
 });
 
 /** Documents that are targets of a derivedRef / a global own ID (single member). */
@@ -63,6 +73,13 @@ export const DERIVED_ID_MEMBER = Object.freeze({
   "d2p:quality-evidence-bundle": "bundleId",
   "d2p:evaluation-request": "requestId",
   "d2p:waiver": "waiverId",
+  "d2p:scene-input": "sceneInputId",
+  "d2p:scene-snapshot": "sceneSnapshotId",
+  "d2p:panel-mesh-result": "meshResultId",
+  "d2p:sim-report": "simReportId",
+  "d2p:pattern-proposal": "proposalId",
+  "d2p:inspect-3d-edit-result": "inspectionId",
+  "d2p:scene-expectation": "expectationId",
 });
 
 /** Personal data classifications (§3.1, design decision ADR-013 policy tags). */

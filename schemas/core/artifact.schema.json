@@ -76,7 +76,8 @@
             "d2p:body-measurement-profile",
             "d2p:size-system",
             "d2p:garment-measurement-spec",
-            "d2p:fit-profile"
+            "d2p:fit-profile",
+            "d2p:garment"
           ]
         },
         {

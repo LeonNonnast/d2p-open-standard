@@ -13,7 +13,7 @@
     },
     "inputRole": {
       "title": "Input role",
-      "description": "Role of a pinned input of a derived document. The roles pattern, grading-rule-set, body-measurement-profile, size-system, garment-measurement-spec and fit-profile identify an artifact revision; measurement-definition-registry, tolerance-profile and validation-profile identify a versioned vocabulary or profile; material-assumptions identifies the inline material assumptions of an evaluation request.",
+      "description": "Role of a pinned input of a derived document. The roles pattern, grading-rule-set, body-measurement-profile, size-system, garment-measurement-spec, fit-profile and garment identify an artifact revision; measurement-definition-registry, tolerance-profile, validation-profile and mesh-profile identify a versioned vocabulary or profile; material-assumptions identifies the inline material assumptions of an evaluation request.",
       "type": "string",
       "enum": [
         "pattern",
@@ -25,7 +25,9 @@
         "material-assumptions",
         "measurement-definition-registry",
         "tolerance-profile",
-        "validation-profile"
+        "validation-profile",
+        "garment",
+        "mesh-profile"
       ]
     },
     "inputDigest": {
@@ -47,7 +49,7 @@
           "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
         },
         "id": {
-          "description": "Versioned ID of a vocabulary or profile; required for the roles measurement-definition-registry, tolerance-profile and validation-profile, forbidden otherwise.",
+          "description": "Versioned ID of a vocabulary or profile; required for the roles measurement-definition-registry, tolerance-profile, validation-profile and mesh-profile, forbidden otherwise.",
           "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
         },
         "digest": {
@@ -66,7 +68,8 @@
                   "body-measurement-profile",
                   "size-system",
                   "garment-measurement-spec",
-                  "fit-profile"
+                  "fit-profile",
+                  "garment"
                 ]
               }
             }
@@ -88,7 +91,8 @@
                 "enum": [
                   "measurement-definition-registry",
                   "tolerance-profile",
-                  "validation-profile"
+                  "validation-profile",
+                  "mesh-profile"
                 ]
               }
             }

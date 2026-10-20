@@ -1,0 +1,15 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_golden-tshirt-3d-garment-size-a-r1",
+  "artifactId": "art_golden-tshirt-3d-garment-size-a",
+  "sequence": 1,
+  "parentRevisionIds": [],
+  "contentDigest": "sha256:cd1c6f7d331e57da2a31143795b380882d05f90de4bdb86625e4140daf72cd72",
+  "createdAt": "2026-01-05T00:00:00Z",
+  "author": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  },
+  "message": "Initial garment"
+}

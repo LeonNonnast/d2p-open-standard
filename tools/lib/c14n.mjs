@@ -99,6 +99,9 @@ export const RESULT_DIGEST_TYPES = new Set([
   "d2p:gate-evaluation",
   "d2p:export-scene-2d",
   "d2p:print-job-spec",
+  "d2p:panel-mesh-result",
+  "d2p:sim-report",
+  "d2p:inspect-3d-edit-result",
 ]);
 
 /** Recomputes a document's resultDigest: excludes contentDigest, resultDigest, the own ID and every top-level member ending in At. */
@@ -110,6 +113,29 @@ export function resultDigestOf(doc, ownIdMembers) {
 /** Recomputes a geometry snapshot's geometryDigest. */
 export function geometryDigestOf(snapshot) {
   return digestOf({ units: snapshot.units, pieces: snapshot.pieces, interfaces: snapshot.interfaces, seams: snapshot.seams });
+}
+
+/** Members of a 3D scene snapshot (or scene expectation) covered by bindingsDigest (§1.8). */
+export const SCENE_BINDING_MEMBERS = Object.freeze(["coordinateSystem", "sceneUnit", "unitConversion", "panelBindings", "seamBindings", "controlMeasures"]);
+
+/** Recomputes a scene snapshot's (or scene expectation's) bindingsDigest. */
+export function bindingsDigestOf(doc) {
+  return digestOf(Object.fromEntries(SCENE_BINDING_MEMBERS.map((m) => [m, doc[m]])));
+}
+
+/** Recomputes a scene snapshot's sceneDigest: the binding members plus meshRefs. */
+export function sceneDigestOf(snapshot) {
+  return digestOf(Object.fromEntries([...SCENE_BINDING_MEMBERS, "meshRefs"].map((m) => [m, snapshot[m]])));
+}
+
+/** Recomputes a panel mesh result's meshDigest: the digest of its mesh object. */
+export function meshDigestOf(result) {
+  return digestOf(result.mesh);
+}
+
+/** Recomputes a scene input's evaluationKey: without its own ID, contentDigest, evaluationKey and members ending in At. */
+export function evaluationKeyOf(input) {
+  return digestOf(input, ["sceneInputId", "contentDigest", "evaluationKey", ...Object.keys(input).filter((k) => k.endsWith("At"))]);
 }
 
 /** Recomputes a document's contentDigest (whole document without contentDigest). */

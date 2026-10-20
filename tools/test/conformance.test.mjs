@@ -245,7 +245,7 @@ describe("generate-conformance-cases", () => {
     const generated = (await walk(path.join(out, "conformance"))).map((f) => rel(out, f));
     const committed = (await walk(path.join(REPO_ROOT, "conformance")))
       .map((f) => rel(REPO_ROOT, f))
-      .filter((f) => /^conformance\/(structural|referential|semantic)\//.test(f) && !/\/golden-tshirt\//.test(f));
+      .filter((f) => /^conformance\/(structural|referential|semantic)\//.test(f) && !/\/golden-tshirt(-3d)?\//.test(f));
     assert.deepEqual(generated.sort(), committed.sort());
     for (const f of generated) {
       assert.equal(await readFile(path.join(out, f), "utf8"), await readFile(path.join(REPO_ROOT, f), "utf8"), f);

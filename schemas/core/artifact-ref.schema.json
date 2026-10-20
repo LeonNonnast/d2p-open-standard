@@ -56,7 +56,7 @@
     },
     "derivedRef": {
       "title": "Derived reference",
-      "description": "Reference to a derived document (evaluation, report, snapshot, scene, print job) by its own ID. 'digest' holds the target's resultDigest; for a geometry snapshot its geometryDigest; for a target with neither, its contentDigest (computed whether or not the target writes it out).",
+      "description": "Reference to a derived document (evaluation, report, snapshot, scene, print job, 3D scene snapshot, panel mesh result) or a record with a global own ID by that ID. 'digest' holds the target's resultDigest; for a geometry snapshot its geometryDigest; for a 3D scene snapshot its sceneDigest; for a target with none of these, its contentDigest (computed whether or not the target writes it out).",
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -96,7 +96,12 @@
             "d2p:size-entry",
             "d2p:measurement-target",
             "d2p:ease-rule",
-            "d2p:fit-target"
+            "d2p:fit-target",
+            "d2p:pattern-evaluation-ref",
+            "d2p:panel-instance",
+            "d2p:sewing-binding",
+            "d2p:material-assignment",
+            "d2p:arrangement"
           ]
         },
         {

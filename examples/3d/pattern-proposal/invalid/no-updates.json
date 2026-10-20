@@ -1,0 +1,17 @@
+{
+  "documentType": "d2p:pattern-proposal",
+  "schemaVersion": "1.0.0",
+  "proposalId": "ppr_golden-tshirt-3d-r1-size-a-sleeve-length",
+  "createdAt": "2026-01-07T00:00:00Z",
+  "basePatternRef": {
+    "artifactId": "art_golden-tshirt-pattern",
+    "revisionId": "rev_golden-tshirt-pattern-r1"
+  },
+  "inspectionRef": {
+    "id": "ier_golden-tshirt-3d-r1-size-a-edits"
+  },
+  "origin": "mapped-mesh-edit",
+  "parameterUpdates": [],
+  "rationale": "The left sleeve's underarm edge was lengthened by 30 mm in the 3D view. The edit maps to the sleeve-length parameter; a reviewer accepts the proposal by submitting a d2p:pattern.parameters.update command against pattern r1.",
+  "diagnostics": []
+}

@@ -9,6 +9,7 @@ Entries are versioned and never silently redefined; a changed meaning requires a
 | `measurement-definitions/` | `d2p:measurement-definition-registry` | `schemas/measurement/measurement-definition-registry.schema.json` | `d2p:measurement-definitions` `1.0.0` |
 | `validation/rules/` | `d2p:validation-rule-definition` | `schemas/validation/rule-definition.schema.json` | 25 standard rules, all `1.0.0` |
 | `validation/profiles/` | `d2p:validation-profile` | `schemas/validation/profile.schema.json` | `d2p:draft-edit`, `d2p:sample-cut`, `d2p:print-1to1`, all `1.0.0` |
+| `mesh-profiles/` | `d2p:mesh-profile` | `schemas/3d/mesh-profile.schema.json` | `d2p:golden-tshirt-3d-preview` `1.0.0` (**provisional**; frozen by maintainer decision before any comparison) |
 
 ## `d2p:measurement-definitions` 1.0.0
 

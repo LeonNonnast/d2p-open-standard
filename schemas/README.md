@@ -14,7 +14,8 @@ Canonical JSON Schemas (draft 2020-12) of the D2P Open Standard, one directory p
 | `error` | Error structure |
 | `print` | Export scenes (`export-scene-2d`) and print job specifications (`print-job-spec`) |
 | `benchmark` | Test run reports, benchmark runs, quality evidence bundles, tolerance profiles, fixture manifests, conformance cases |
-| `3d`, `assembly`, `production`, `package`, `import` | No schemas in release 1.0; added by later minor releases |
+| `3d` | Garments (pinned pattern evaluations, panel instances, sewing bindings, materials, arrangements), scene inputs and snapshots (right-handed, Y up, metres), panel mesh results, mesh profiles, simulation reports, 3D edit inspections, pattern proposals, scene expectations (draft `0.2.0`, catalog §3.9) |
+| `assembly`, `production`, `package`, `import` | No schemas in release 1.0; added by later minor releases |
 
 Rules (enforced by `npm run validate`):
 

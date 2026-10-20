@@ -251,6 +251,14 @@ export function contentElementKinds(doc) {
         ...(doc.easeRules ?? []).map((r) => [r.id, "d2p:ease-rule"]),
         ...(doc.fitTargets ?? []).map((t) => [t.id, "d2p:fit-target"]),
       ]);
+    case "d2p:garment":
+      return new Map([
+        ...(doc.patternEvaluations ?? []).map((e) => [e.id, "d2p:pattern-evaluation-ref"]),
+        ...(doc.panelInstances ?? []).map((p) => [p.id, "d2p:panel-instance"]),
+        ...(doc.sewingBindings ?? []).map((b) => [b.id, "d2p:sewing-binding"]),
+        ...(doc.materialAssignments ?? []).map((m) => [m.id, "d2p:material-assignment"]),
+        ...(doc.arrangements ?? []).map((a) => [a.id, "d2p:arrangement"]),
+      ]);
     default:
       return new Map();
   }

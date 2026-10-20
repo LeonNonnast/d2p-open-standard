@@ -73,6 +73,13 @@ export const CODE_SEVERITY = Object.freeze({
   "D2P-SEM-103": "error",
   "D2P-SEM-104": "error",
   "D2P-SEM-110": "error",
+  "D2P-SEM-120": "error",
+  "D2P-SEM-121": "error",
+  "D2P-SEM-122": "error",
+  "D2P-SEM-123": "error",
+  "D2P-SEM-124": "error",
+  "D2P-SEM-125": "error",
+  "D2P-SEM-126": "error",
 });
 
 const LEVEL_OF_PREFIX = { STR: "structural", REF: "referential", SEM: "semantic" };

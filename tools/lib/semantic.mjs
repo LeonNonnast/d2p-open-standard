@@ -18,6 +18,7 @@ import {
   satisfiesKind,
 } from "./pattern.mjs";
 import { compareTimestamps } from "./referential.mjs";
+import { checkGarmentSemantics, checkInspectionSemantics, checkPanelMeshSemantics, checkSceneSemantics } from "./garment.mjs";
 
 const SEVERITY_RANK = { info: 0, warning: 1, error: 2, critical: 3 };
 const UNIT_OF_DIMENSION = { length: "mm", angle: "rad" };
@@ -102,6 +103,24 @@ export function checkSemantic(index) {
         break;
       case "d2p:measurement-definition-registry":
         checkDefinitionUnits(ctx, unit);
+        break;
+      case "d2p:garment":
+        checkGarmentSemantics(ctx, unit);
+        break;
+      case "d2p:scene-snapshot":
+      case "d2p:scene-expectation":
+        checkSceneSemantics(ctx, unit);
+        checkExportPrivacy(ctx, unit);
+        break;
+      case "d2p:panel-mesh-result":
+        checkPanelMeshSemantics(ctx, unit);
+        break;
+      case "d2p:pattern-proposal":
+        checkUpdateExpressions(ctx, unit, unit.value.basePatternRef, [[unit.value.parameterUpdates, ["parameterUpdates"]]]);
+        break;
+      case "d2p:inspect-3d-edit-result":
+        checkInspectionSemantics(ctx, unit);
+        checkUpdateExpressions(ctx, unit, unit.value.basePatternRef, (unit.value.edits ?? []).map((e, i) => [e.parameterUpdates, ["edits", i, "parameterUpdates"]]));
         break;
       default:
         break;
@@ -582,6 +601,19 @@ function checkCommandExpressions(ctx, unit) {
     const expected = idx ? dimensionOfName(idx.parameters.get(u.parameterId)?.parameter.dimension) : null;
     checkExprSlot(ctx, unit, env, u.expr, at(unit, "payload", "updates", i, "expr"), expected);
   });
+}
+
+/** D2P-SEM-002 for the parameter updates of pattern proposals and 3D edit inspections (catalog §3.9). */
+function checkUpdateExpressions(ctx, unit, patternRef, groups) {
+  const pattern = ctx.index.contentOf(patternRef);
+  const idx = pattern ? indexPattern(pattern) : null;
+  const env = idx ? patternEnv(ctx, idx) : { param: () => null, measurement: () => null, featureOutput: () => null };
+  for (const [updates, tokens] of groups) {
+    (updates ?? []).forEach((u, i) => {
+      const expected = idx ? dimensionOfName(idx.parameters.get(u.parameterId)?.parameter.dimension) : null;
+      checkExprSlot(ctx, unit, env, u.expr, at(unit, ...tokens, i, "expr"), expected);
+    });
+  }
 }
 
 // ---------------------------------------------------------------------------

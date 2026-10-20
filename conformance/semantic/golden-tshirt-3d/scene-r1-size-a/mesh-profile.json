@@ -1,0 +1,21 @@
+{
+  "documentType": "d2p:mesh-profile",
+  "schemaVersion": "1.0.0",
+  "profileId": "org.example.conformance:boundary-only",
+  "version": "1.0.0",
+  "status": "provisional",
+  "title": "Boundary-only meshing (conformance kit)",
+  "description": "Conformance-case profile: the mesh boundary samples every edge within maxChordDeviationMm and the interior is triangulated by ear clipping without interior vertices. It is case data, not a quality profile.",
+  "sampling": {
+    "maxChordDeviationMm": 0.05,
+    "minSamplesPerEdge": 2
+  },
+  "triangulation": {
+    "maxEdgeLengthMm": 1000
+  },
+  "maxPlanarDeviationMm": 0.1,
+  "toleranceProfile": {
+    "id": "d2p:golden-tshirt-3d",
+    "version": "1.0.0"
+  }
+}

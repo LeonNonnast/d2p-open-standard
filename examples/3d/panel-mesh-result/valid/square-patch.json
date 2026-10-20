@@ -1,0 +1,119 @@
+{
+  "documentType": "d2p:panel-mesh-result",
+  "schemaVersion": "1.0.0",
+  "meshResultId": "pmr_example-square",
+  "createdAt": "2026-01-07T00:00:00Z",
+  "garmentRef": {
+    "artifactId": "art_example-garment",
+    "revisionId": "rev_example-garment-r1"
+  },
+  "panelInstanceId": "panel-patch",
+  "pieceId": "patch",
+  "cutInstanceKey": "patch",
+  "evaluationRef": {
+    "id": "pev_example-patch",
+    "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "geometryDigest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "meshProfile": {
+    "id": "d2p:golden-tshirt-3d-preview",
+    "version": "1.0.0"
+  },
+  "backend": {
+    "backendId": "example-mesher",
+    "backendVersion": "0.3.1",
+    "adapterVersion": "1.0.0"
+  },
+  "status": "succeeded",
+  "mesh": {
+    "positions": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        100,
+        0,
+        0
+      ],
+      [
+        100,
+        100,
+        0
+      ],
+      [
+        0,
+        100,
+        0
+      ]
+    ],
+    "uvs": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "triangles": [
+      [
+        0,
+        1,
+        2
+      ],
+      [
+        0,
+        2,
+        3
+      ]
+    ]
+  },
+  "vertexUvToPattern2D": {
+    "kind": "affine",
+    "matrix": [
+      100,
+      0,
+      0,
+      0,
+      100,
+      0
+    ]
+  },
+  "edgeBindings": [
+    {
+      "edgeId": "patch-bottom",
+      "sampleCount": 2,
+      "maxDeviationMm": 0
+    },
+    {
+      "edgeId": "patch-left",
+      "sampleCount": 2,
+      "maxDeviationMm": 0
+    },
+    {
+      "edgeId": "patch-right",
+      "sampleCount": 2,
+      "maxDeviationMm": 0
+    },
+    {
+      "edgeId": "patch-top",
+      "sampleCount": 2,
+      "maxDeviationMm": 0
+    }
+  ],
+  "maxApproximationErrorMm": 0,
+  "diagnostics": [],
+  "meshDigest": "sha256:f2ca358f963fea060704d7b494e1348c3c2d2685eb7e51c6a4b770f41a7f771d",
+  "resultDigest": "sha256:2d222bc7079df287f80db6fc9abfffe4d6984d60e041a379214fbb0791666a42"
+}

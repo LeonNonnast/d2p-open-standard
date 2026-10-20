@@ -1,0 +1,513 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/3d/garment.schema.json",
+  "title": "D2P Garment",
+  "description": "Artifact content of a garment revision (artifactType d2p:garment; design decisions ADR-009, ADR-021). The garment is the authoritative 3D aggregate: it pins pattern evaluations and states which panel instances are used, which pattern-owned seam connections and sewing groups bind them, which materials apply and how the panels are arranged in space. The pattern stays the only owner of 2D geometry, seam interfaces, seam connections and sewing groups; meshes, scenes and simulations are derived and never part of the garment. Body references and simulation configurations are not part of this release.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:garment"
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against."
+    },
+    "artifactId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/artifactId",
+      "description": "Artifact this revision belongs to ('art_')."
+    },
+    "revisionId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/revisionId",
+      "description": "Revision this content belongs to ('rev_')."
+    },
+    "name": {
+      "description": "Name of the garment.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "description": "Free-text description.",
+      "type": "string",
+      "maxLength": 4000
+    },
+    "patternEvaluations": {
+      "description": "Pinned pattern evaluations (1..n).",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/patternEvaluationRef"
+      }
+    },
+    "panelInstances": {
+      "description": "Panel instances (1..n).",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/panelInstance"
+      }
+    },
+    "sewingBindings": {
+      "description": "Bindings to pattern-owned seam connections and sewing groups (may be empty).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sewingBinding"
+      }
+    },
+    "materialAssignments": {
+      "description": "Material assignments (may be empty; complete coverage is a release policy, not a schema rule).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/materialAssignment"
+      }
+    },
+    "arrangements": {
+      "description": "Arrangement profiles (1..n).",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/arrangement"
+      }
+    },
+    "contentDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "Optional digest of this document (d2p-digest-v1, excluding contentDigest)."
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks."
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "artifactId",
+    "revisionId",
+    "name",
+    "patternEvaluations",
+    "panelInstances",
+    "sewingBindings",
+    "materialAssignments",
+    "arrangements"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "patternEvaluationRef": {
+      "title": "Pattern evaluation reference",
+      "description": "A pinned pattern evaluation used by the garment (design decision ADR-009 §4 'PatternEvaluationRef'): the pattern revision, the size and configuration, the evaluation (by resultDigest) and its geometry snapshot (by geometryDigest). The evaluation's embedded request MUST pin the same pattern, size system and size, and its snapshotRef digest MUST equal geometryDigest (D2P-REF-007).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "patternRef",
+        "evaluationRef",
+        "geometryDigest"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of this reference within the garment; panel instances and sewing bindings name it."
+        },
+        "patternRef": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef",
+          "description": "Pinned pattern revision that owns the 2D geometry, seam interfaces, seam connections and sewing groups."
+        },
+        "sizeSystemRef": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef",
+          "description": "Size system that resolves sizeKey. Required when sizeKey is present."
+        },
+        "sizeKey": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Size of the evaluation; resolves only together with sizeSystemRef (MEA-003)."
+        },
+        "configurationKey": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Material/fit configuration of the evaluation, when the evaluation request names one."
+        },
+        "evaluationRef": {
+          "description": "The pinned pattern evaluation. 'digest' is required and equals its resultDigest.",
+          "type": "object",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef",
+          "properties": {
+            "digest": true
+          },
+          "required": [
+            "digest"
+          ]
+        },
+        "geometryDigest": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+          "description": "geometryDigest of the geometry snapshot produced by that evaluation."
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional extension blocks."
+        }
+      },
+      "dependentRequired": {
+        "sizeKey": [
+          "sizeSystemRef"
+        ]
+      }
+    },
+    "panelInstance": {
+      "title": "Panel instance",
+      "description": "A physical instance of a pattern piece in the garment (design decision ADR-009 §4). It binds exactly one cut instance of one piece of the pinned pattern; the left and right sleeve cut from one sleeve piece are two panel instances with their own stable IDs. A panel instance ID never changes when the panel is remeshed (GAR-003).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "patternEvaluationId",
+        "pieceId",
+        "cutInstanceKey",
+        "side"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the panel instance."
+        },
+        "patternEvaluationId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "ID of the garment's pattern evaluation reference whose pattern owns the piece."
+        },
+        "pieceId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the piece in the pinned pattern."
+        },
+        "cutInstanceKey": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Cut instance of that piece (declared or implicit, catalog §3.2.2). Its 'mirrored' flag decides whether the panel is mirrored."
+        },
+        "side": {
+          "description": "Side of the wearer the panel belongs to.",
+          "$ref": "#/$defs/panelSide"
+        },
+        "name": {
+          "description": "Optional display name.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional extension blocks."
+        }
+      }
+    },
+    "panelSide": {
+      "title": "Panel side",
+      "description": "Side of the wearer a panel instance belongs to: left, right (the wearer's sides) or center (a panel that is not sided, such as a front or back piece cut once).",
+      "type": "string",
+      "enum": [
+        "left",
+        "right",
+        "center"
+      ]
+    },
+    "sewingBinding": {
+      "title": "Sewing binding",
+      "description": "Reference from the garment to a seam connection or sewing group owned by the pinned pattern (design decision ADR-009 §5). The garment never copies or redefines seam semantics: a seam-connection binding names the connection and binds its two interfaces, in the connection's order (side A, then side B), to panel instances; a sewing-group binding names the group and the seam-connection bindings of exactly its member connections.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "patternEvaluationId"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the binding."
+        },
+        "kind": {
+          "description": "What the binding references.",
+          "type": "string",
+          "enum": [
+            "seam-connection",
+            "sewing-group"
+          ]
+        },
+        "patternEvaluationId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "ID of the garment's pattern evaluation reference whose pattern owns the connection or group."
+        },
+        "seamConnectionId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Seam connection of the pinned pattern (kind seam-connection only)."
+        },
+        "interfaceBindings": {
+          "description": "The connection's two interfaces in its order (interfaceIds[0], interfaceIds[1]) with their panel instances (kind seam-connection only).",
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "$ref": "#/$defs/interfaceBinding"
+          }
+        },
+        "sewingGroupId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Sewing group of the pinned pattern (kind sewing-group only)."
+        },
+        "memberBindingIds": {
+          "description": "IDs of the seam-connection bindings of the group's member connections (kind sewing-group only).",
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+          }
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional extension blocks."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "seam-connection"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "seamConnectionId": true,
+              "interfaceBindings": true,
+              "sewingGroupId": false,
+              "memberBindingIds": false
+            },
+            "required": [
+              "seamConnectionId",
+              "interfaceBindings"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "sewing-group"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "sewingGroupId": true,
+              "memberBindingIds": true,
+              "seamConnectionId": false,
+              "interfaceBindings": false
+            },
+            "required": [
+              "sewingGroupId",
+              "memberBindingIds"
+            ]
+          }
+        }
+      ]
+    },
+    "interfaceBinding": {
+      "title": "Interface binding",
+      "description": "Binds one seam interface of the pinned pattern to the panel instance that carries it. The interface MUST lie on the panel instance's cut instance (D2P-SEM-121).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "seamInterfaceId",
+        "panelInstanceId"
+      ],
+      "properties": {
+        "seamInterfaceId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Element ID of the seam interface in the pinned pattern."
+        },
+        "panelInstanceId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Panel instance that carries the interface."
+        }
+      }
+    },
+    "materialAssignment": {
+      "title": "Material assignment",
+      "description": "Material of a set of panel instances (design decision ADR-009 §4). The material is described inline by its material assumptions, because the standard has no material aggregate yet. Textile properties are kept apart from render appearance: 'appearance' is a display hint only and never a physical property.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "panelInstanceIds",
+        "material"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the assignment."
+        },
+        "panelInstanceIds": {
+          "description": "Panel instances made of this material. A panel instance appears in at most one assignment (D2P-SEM-120).",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+          }
+        },
+        "material": {
+          "$ref": "https://d2p.nonnast.dev/schemas/measurement/fit-profile.schema.json#/$defs/materialAssumptions",
+          "description": "Declared material class and stretch (declared, not tested)."
+        },
+        "appearance": {
+          "description": "Optional render appearance (display only).",
+          "$ref": "#/$defs/renderAppearance"
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional extension blocks."
+        }
+      }
+    },
+    "renderAppearance": {
+      "title": "Render appearance",
+      "description": "Display hint for viewers; it carries no textile physics.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseColor"
+      ],
+      "properties": {
+        "baseColor": {
+          "description": "sRGB base color.",
+          "type": "string",
+          "pattern": "^#[0-9a-f]{6}$"
+        }
+      }
+    },
+    "arrangement": {
+      "title": "Arrangement",
+      "description": "An arrangement profile: the initial position and orientation of every panel instance before any simulation (design decision ADR-009 §4, mode 'arrangement'). It holds exactly one placement per panel instance (D2P-SEM-122).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "coordinateSystem",
+        "placements"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the arrangement."
+        },
+        "name": {
+          "description": "Optional display name.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "coordinateSystem": {
+          "description": "Coordinate system of the placements.",
+          "$ref": "#/$defs/garmentCoordinateSystem"
+        },
+        "placements": {
+          "description": "One placement per panel instance.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/panelPlacement"
+          }
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional extension blocks."
+        }
+      }
+    },
+    "panelPlacement": {
+      "title": "Panel placement",
+      "description": "Initial pose of one panel instance in the garment frame (mm). The panel-local frame is the piece's 2D pattern frame embedded in the plane z = 0: the piece point (x, y) is (x, y, 0) mm and the outer face of the fabric faces +z. A mirrored cut instance first flips x to -x; then the rotation is applied about the panel-local origin; then translationMm. Placements never change seam identities.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "panelInstanceId",
+        "translationMm",
+        "rotation"
+      ],
+      "properties": {
+        "panelInstanceId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Panel instance placed."
+        },
+        "translationMm": {
+          "description": "Translation in mm, applied last.",
+          "$ref": "#/$defs/point3"
+        },
+        "rotation": {
+          "description": "Rotation applied after the mirror and before the translation.",
+          "$ref": "#/$defs/unitQuaternion"
+        }
+      }
+    },
+    "garmentCoordinateSystem": {
+      "title": "Garment coordinate system",
+      "description": "Fixed coordinate system of garment arrangements and 3D scenes (design decisions ADR-009 §14, ADR-021 §5): right-handed, Y up, the front of the garment faces +Z, so the wearer's left is +X. This matches the glTF 2.0 convention.",
+      "type": "object",
+      "const": {
+        "handedness": "right",
+        "up": "+y",
+        "front": "+z"
+      }
+    },
+    "point3": {
+      "title": "3D point",
+      "description": "Point or vector [x, y, z] in a right-handed Cartesian system with Y up. The unit is stated by the member that holds it (a name ending in 'Mm' is in mm, one ending in 'M' in m).",
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "number",
+          "description": "X coordinate."
+        },
+        {
+          "type": "number",
+          "description": "Y coordinate (up)."
+        },
+        {
+          "type": "number",
+          "description": "Z coordinate (towards the front of the garment)."
+        }
+      ],
+      "minItems": 3,
+      "items": false
+    },
+    "unitQuaternion": {
+      "title": "Unit quaternion",
+      "description": "Rotation as a unit quaternion [x, y, z, w] (Hamilton convention, w is the scalar part), applied about the panel-local origin. Its norm MUST differ from 1 by at most 1e-6 (D2P-SEM-122). The identity is [0, 0, 0, 1].",
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "number",
+          "description": "X component of the vector part."
+        },
+        {
+          "type": "number",
+          "description": "Y component of the vector part."
+        },
+        {
+          "type": "number",
+          "description": "Z component of the vector part."
+        },
+        {
+          "type": "number",
+          "description": "Scalar part."
+        }
+      ],
+      "minItems": 4,
+      "items": false
+    }
+  }
+}

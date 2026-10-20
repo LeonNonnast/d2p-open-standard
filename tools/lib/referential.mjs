@@ -7,11 +7,21 @@ import {
   digestOf,
   geometryDigestOf,
   RESULT_DIGEST_TYPES,
+  sceneDigestOf,
   resultDigestOf,
   sha256,
 } from "./c14n.mjs";
 import { diagnostic } from "./diagnostics.mjs";
 import { walkExpr } from "./expression.mjs";
+import {
+  checkGarmentReferences,
+  checkInspectionReferences,
+  checkPanelMeshReferences,
+  checkProposalReferences,
+  checkSceneExpectationReferences,
+  checkSceneInputReferences,
+  checkSceneSnapshotReferences,
+} from "./garment.mjs";
 import { rel, walk } from "./fs.mjs";
 import { parseStrictJsonBytes, pointer } from "./json.mjs";
 import { embeddedDocuments, identityKey, isObject, OPAQUE_MEMBERS, OWN_ID_MEMBERS, refKey, sameRefSet, walkJson } from "./model.mjs";
@@ -32,6 +42,11 @@ const DERIVED_REF_TARGET = {
   reportRefs: ["d2p:validation-report"],
   evidenceRefs: ["d2p:quality-evidence-bundle"],
   validationReportRef: ["d2p:validation-report"],
+  meshResultRef: ["d2p:panel-mesh-result"],
+  sceneInputRef: ["d2p:scene-input"],
+  sceneSnapshotRef: ["d2p:scene-snapshot"],
+  proposalRef: ["d2p:pattern-proposal"],
+  inspectionRef: ["d2p:inspect-3d-edit-result"],
 };
 
 /**
@@ -103,6 +118,27 @@ export async function checkReferential(index, { root }) {
         break;
       case "d2p:command":
         checkCommand(ctx, unit);
+        break;
+      case "d2p:garment":
+        checkGarmentReferences(ctx, unit);
+        break;
+      case "d2p:scene-input":
+        checkSceneInputReferences(ctx, unit);
+        break;
+      case "d2p:scene-snapshot":
+        checkSceneSnapshotReferences(ctx, unit);
+        break;
+      case "d2p:scene-expectation":
+        checkSceneExpectationReferences(ctx, unit);
+        break;
+      case "d2p:panel-mesh-result":
+        checkPanelMeshReferences(ctx, unit);
+        break;
+      case "d2p:pattern-proposal":
+        checkProposalReferences(ctx, unit, resolveExprReferences);
+        break;
+      case "d2p:inspect-3d-edit-result":
+        checkInspectionReferences(ctx, unit, resolveExprReferences);
         break;
       case "d2p:fixture-manifest":
         if (!unit.embedded && unit.role === "manifest") await checkManifest(ctx, unit);
@@ -294,6 +330,7 @@ function resolveElementRef(ctx, unit, ref, ptr, key) {
 export function derivedDigestOf(doc) {
   if (RESULT_DIGEST_TYPES.has(doc.documentType)) return resultDigestOf(doc, OWN_ID_MEMBERS[doc.documentType] ?? []);
   if (doc.documentType === "d2p:geometry-snapshot") return geometryDigestOf(doc);
+  if (doc.documentType === "d2p:scene-snapshot") return sceneDigestOf(doc);
   return contentDigestOf(doc);
 }
 
@@ -331,6 +368,7 @@ function checkInputDigests(ctx, unit) {
         "measurement-definition-registry": "d2p:measurement-definition-registry",
         "tolerance-profile": "d2p:tolerance-profile",
         "validation-profile": "d2p:validation-profile",
+        "mesh-profile": "d2p:mesh-profile",
       }[entry.role];
       if (!type) return;
       const target = ctx.index.vocabDoc(type, entry.id.id, entry.id.version);

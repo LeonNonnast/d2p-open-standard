@@ -1,0 +1,26 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "golden-tshirt-3d.manifest-integrity",
+  "level": "referential",
+  "title": "Golden T-Shirt 3D: manifest integrity and resolution of the whole fixture",
+  "documents": [
+    {
+      "path": "fixtures/golden-tshirt-3d/v1/manifest.json",
+      "role": "manifest"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "T3D-001",
+    "T3D-010",
+    "SIM-004",
+    "GAR-011",
+    "GAR-018",
+    "QEV-011"
+  ],
+  "description": "Every listed file matches its digest, nothing unlisted is in the fixture directory, and every garment, scene input and scene expectation resolves against the pinned 2D evaluations, snapshots and patterns."
+}

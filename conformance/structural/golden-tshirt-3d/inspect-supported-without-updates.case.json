@@ -1,0 +1,27 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "golden-tshirt-3d.inspect-supported-without-updates",
+  "level": "structural",
+  "title": "Golden T-Shirt 3D: supported edit without parameter updates",
+  "documents": [
+    {
+      "path": "conformance/structural/golden-tshirt-3d/inspect-supported-without-updates/inspect-3d-edit-result.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-001",
+        "documentPath": "conformance/structural/golden-tshirt-3d/inspect-supported-without-updates/inspect-3d-edit-result.json"
+      }
+    ]
+  },
+  "testIds": [
+    "T3D-014",
+    "CAD-012"
+  ],
+  "description": "A supported back-projection always states its parameter updates; nothing is applied implicitly."
+}

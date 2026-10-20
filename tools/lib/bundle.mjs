@@ -121,7 +121,7 @@ export class BundleIndex {
         this.vocab.set(`${t}|${versionedKey(v.registryId, v.version)}`, u);
       } else if (t === "d2p:validation-rule-definition") {
         this.vocab.set(`${t}|${versionedKey(v.ruleId, v.version)}`, u);
-      } else if (t === "d2p:validation-profile" || t === "d2p:tolerance-profile") {
+      } else if (t === "d2p:validation-profile" || t === "d2p:tolerance-profile" || t === "d2p:mesh-profile") {
         this.vocab.set(`${t}|${versionedKey(v.profileId, v.version)}`, u);
       } else if (t === "d2p:fixture-manifest") {
         this.manifests.push(u);

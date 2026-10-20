@@ -9,7 +9,7 @@
       "title": "Global ID",
       "description": "Identifier of a document or artifact: '<prefix>_<opaque>' with one of the registered prefixes. Consumers treat the opaque part as opaque and compare IDs byte-wise. Producers SHOULD use a UUIDv7 or ULID as the opaque part; fixtures use readable slugs.",
       "type": "string",
-      "pattern": "^(prj|prd|art|rev|rel|cmd|evt|job|prn|cor|erq|snp|fer|vrp|gte|wvr|xsc|pjs|trr|bmr|qeb|pev)_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+      "pattern": "^(prj|prd|art|rev|rel|cmd|evt|job|prn|cor|erq|snp|fer|vrp|gte|wvr|xsc|pjs|trr|bmr|qeb|pev|sci|ssn|pmr|smr|ppr|ier|sxp)_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
     },
     "projectId": {
       "title": "Project ID",
@@ -142,6 +142,48 @@
       "description": "Global ID of a pattern evaluation (prefix 'pev_').",
       "type": "string",
       "pattern": "^pev_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "sceneInputId": {
+      "title": "Scene input ID",
+      "description": "Global ID of a 3D scene input (prefix 'sci_').",
+      "type": "string",
+      "pattern": "^sci_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "sceneSnapshotId": {
+      "title": "Scene snapshot ID",
+      "description": "Global ID of a 3D scene snapshot (prefix 'ssn_').",
+      "type": "string",
+      "pattern": "^ssn_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "meshResultId": {
+      "title": "Panel mesh result ID",
+      "description": "Global ID of a panel mesh result (prefix 'pmr_').",
+      "type": "string",
+      "pattern": "^pmr_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "simReportId": {
+      "title": "Simulation report ID",
+      "description": "Global ID of a 3D simulation report (prefix 'smr_').",
+      "type": "string",
+      "pattern": "^smr_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "proposalId": {
+      "title": "Pattern proposal ID",
+      "description": "Global ID of a pattern proposal (prefix 'ppr_').",
+      "type": "string",
+      "pattern": "^ppr_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "inspectionId": {
+      "title": "3D edit inspection ID",
+      "description": "Global ID of a 3D edit inspection result (prefix 'ier_').",
+      "type": "string",
+      "pattern": "^ier_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "sceneExpectationId": {
+      "title": "Scene expectation ID",
+      "description": "Global ID of a 3D scene expectation (prefix 'sxp_').",
+      "type": "string",
+      "pattern": "^sxp_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
     },
     "elementId": {
       "title": "Element ID",

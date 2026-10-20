@@ -1,0 +1,17 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_golden-tshirt-3d-garment-size-a-r2",
+  "artifactId": "art_golden-tshirt-3d-garment-size-a",
+  "sequence": 2,
+  "parentRevisionIds": [
+    "rev_golden-tshirt-3d-garment-size-a-r1"
+  ],
+  "contentDigest": "sha256:147cd3057340f708476c4e87d683088860c385de47744451badc1c64e65edd79",
+  "createdAt": "2026-01-06T00:00:00Z",
+  "author": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  },
+  "message": "Rebind to pattern r2 (bust-ease +20 mm, sleeve-length +30 mm); arrangement and all element IDs kept"
+}

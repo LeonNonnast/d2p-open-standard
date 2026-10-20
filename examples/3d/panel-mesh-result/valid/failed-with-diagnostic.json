@@ -1,0 +1,37 @@
+{
+  "documentType": "d2p:panel-mesh-result",
+  "schemaVersion": "1.0.0",
+  "meshResultId": "pmr_example-square-failed",
+  "createdAt": "2026-01-07T00:00:00Z",
+  "garmentRef": {
+    "artifactId": "art_example-garment",
+    "revisionId": "rev_example-garment-r1"
+  },
+  "panelInstanceId": "panel-patch",
+  "pieceId": "patch",
+  "cutInstanceKey": "patch",
+  "evaluationRef": {
+    "id": "pev_example-patch",
+    "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "geometryDigest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "meshProfile": {
+    "id": "d2p:golden-tshirt-3d-preview",
+    "version": "1.0.0"
+  },
+  "backend": {
+    "backendId": "example-mesher",
+    "backendVersion": "0.3.1",
+    "adapterVersion": "1.0.0"
+  },
+  "status": "failed",
+  "diagnostics": [
+    {
+      "code": "D2P-EVL-005",
+      "severity": "error",
+      "message": "Degenerate geometry: the contour of piece patch has a zero-length edge.",
+      "instancePath": "/pieceId"
+    }
+  ],
+  "resultDigest": "sha256:6332bbcb42e04283ae067597b3baa28cc2bf42fe69fc638ebc246d94be8cfc85"
+}

@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/3d/mesh-profile.schema.json",
+  "title": "D2P Mesh Profile",
+  "description": "Versioned vocabulary of panel meshing parameters (design decision ADR-021 §5 rule 3: every meshing output has a versioned sampling profile). A profile is pinned before any comparison run and never adjusted afterwards to fit an implementation; a frozen profile is immutable and a changed value is a new version. A provisional profile holds proposed values only. Files are stored as vocabularies/mesh-profiles/<local>-<version>.json for profileId d2p:<local>.",
+  "type": "object",
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:mesh-profile"
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against."
+    },
+    "profileId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName",
+      "description": "Qualified name of the profile; with version it identifies the profile."
+    },
+    "version": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver",
+      "description": "Version of the profile, independent of the standard version."
+    },
+    "status": {
+      "description": "provisional: proposed values, not to be used for comparing implementations; frozen: adopted and immutable.",
+      "type": "string",
+      "enum": [
+        "provisional",
+        "frozen"
+      ]
+    },
+    "title": {
+      "description": "Title of the profile.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "description": "Free-text description.",
+      "type": "string",
+      "maxLength": 4000
+    },
+    "sampling": {
+      "description": "Boundary sampling.",
+      "$ref": "#/$defs/boundarySampling"
+    },
+    "triangulation": {
+      "description": "Triangulation limits.",
+      "$ref": "#/$defs/triangulation"
+    },
+    "maxPlanarDeviationMm": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/positiveLengthMm",
+      "description": "Largest permitted planar deviation of a mesh boundary from the pattern contour (bounds maxApproximationErrorMm, D2P-SEM-125)."
+    },
+    "toleranceProfile": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+      "description": "Tolerance profile results of this profile are compared with."
+    },
+    "notes": {
+      "description": "Free-text notes on provenance and status of the values.",
+      "type": "string",
+      "maxLength": 4000
+    },
+    "contentDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "Optional digest of this document (d2p-digest-v1, excluding contentDigest). Pins of this profile digest the whole file instead."
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks."
+    }
+  },
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "profileId",
+    "version",
+    "status",
+    "title",
+    "sampling",
+    "triangulation",
+    "maxPlanarDeviationMm",
+    "toleranceProfile"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "boundarySampling": {
+      "title": "Boundary sampling",
+      "description": "How pattern edges are sampled into the mesh boundary.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maxChordDeviationMm",
+        "minSamplesPerEdge"
+      ],
+      "properties": {
+        "maxChordDeviationMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/positiveLengthMm",
+          "description": "Largest permitted distance between a boundary chord and the edge curve."
+        },
+        "minSamplesPerEdge": {
+          "description": "Minimum number of boundary vertices per edge, including both end points.",
+          "type": "integer",
+          "minimum": 2
+        }
+      }
+    },
+    "triangulation": {
+      "title": "Triangulation",
+      "description": "Interior triangulation limits.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maxEdgeLengthMm"
+      ],
+      "properties": {
+        "maxEdgeLengthMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/positiveLengthMm",
+          "description": "Longest permitted triangle edge."
+        },
+        "minAngleRad": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/angleRad",
+          "description": "Optional smallest permitted triangle angle."
+        }
+      }
+    }
+  }
+}

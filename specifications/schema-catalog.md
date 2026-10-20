@@ -1,6 +1,6 @@
 # D2P Schema Catalog — standard 1.0
 
-**Status:** normative draft of the first release, `1.0.0`. Nothing here is stable before the `v1.0.0` tag; until then any part may still change (see §1.11 and [GOVERNANCE.md](../GOVERNANCE.md)).
+**Status:** normative draft of the first release, `1.0.0`. Nothing here is stable before the `v1.0.0` tag; until then any part may still change (see §1.11 and [GOVERNANCE.md](../GOVERNANCE.md)). The draft `0.2.0` adds the module `3d` (§3.9) and the Golden T-Shirt 3D fixture (§4.5) as a minor extension; no document that was valid before becomes invalid.
 **Scope:** every JSON Schema, vocabulary file, fixture and conformance case of standard 1.0, plus the shared conventions they must follow.
 
 The key words MUST, MUST NOT, SHOULD, SHOULD NOT and MAY are used as described in RFC 2119 / RFC 8174.
@@ -39,7 +39,7 @@ This catalog is the single source for schema shapes. A schema that contradicts i
 
 - Member names are `camelCase` ASCII. `$defs` names are `camelCase`. File names are `kebab-case`.
 - A member holding an ID ends in `Id` (`artifactId`), and an array of IDs ends in `Ids`.
-- A member whose schema is `artifactRef` or `elementRef` (§1.5) ends in `Ref`, and an array member whose items are `artifactRef` or `elementRef` ends in `Refs`. Conversely, no other member may use these suffixes except members holding a `derivedRef` (`snapshotRef`, `evaluationRef`, `reportRefs`, `evidenceRefs`, `validationReportRef`, `subjectRef`, `derivedSubjectRefs`). Structural classifier C4 (§2.2) relies on this. The only pinned artifact reference not shaped as `artifactRef` is the polymorphic `relationship.source` (§3.1), whose pinning is enforced by its schema.
+- A member whose schema is `artifactRef` or `elementRef` (§1.5) ends in `Ref`, and an array member whose items are `artifactRef` or `elementRef` ends in `Refs`. Conversely, no other member may use these suffixes except members holding a `derivedRef` (`snapshotRef`, `evaluationRef`, `reportRefs`, `evidenceRefs`, `validationReportRef`, `subjectRef`, `derivedSubjectRefs`, and in module `3d` `sceneInputRef`, `sceneSnapshotRef`, `meshResultRef`, `proposalRef`, `inspectionRef`). Structural classifier C4 (§2.2) relies on this. The only pinned artifact reference not shaped as `artifactRef` is the polymorphic `relationship.source` (§3.1), whose pinning is enforced by its schema.
 - A member referencing a feature of the same pattern ends in `FeatureId` (`FeatureIds` for arrays). The feature-graph dependency extraction (§3.2.3) relies on this.
 - Expressions appear **only** as the value of a member named `expr` (and recursively in `args`). Classifier C3 relies on this.
 - Bare-word enum values (`outer`, `forward`) are **closed**. Values of extensible vocabularies are **qualified names** (`d2p:stitched`).
@@ -63,6 +63,10 @@ All identifier `$defs` live in `core/ids.schema.json`.
 | `prn` | Principal (actor) | `principalId` | `bmr` | Benchmark run | `benchmarkRunId` |
 | `cor` | Correlation | `correlationId` | `qeb` | Quality evidence bundle | `evidenceBundleId` |
 | `erq` | Evaluation request | `evaluationRequestId` | `pev` | Pattern evaluation | `evaluationId` |
+| `sci` | Scene input (3d) | `sceneInputId` | `ssn` | Scene snapshot (3d) | `sceneSnapshotId` |
+| `pmr` | Panel mesh result (3d) | `meshResultId` | `smr` | Simulation report (3d) | `simReportId` |
+| `ppr` | Pattern proposal (3d) | `proposalId` | `ier` | 3D edit inspection (3d) | `inspectionId` |
+| `sxp` | Scene expectation (3d) | `sceneExpectationId` | | | |
 
 `globalId` (the root of `core/ids.schema.json`) accepts any of the prefixes above.
 
@@ -105,15 +109,16 @@ Rules:
 
 1. Every reference that leaves an aggregate is **pinned**: it names a concrete `revisionId`. A branch name, `HEAD`, "latest" or a missing revision is not expressible (D2P-STR-011). A different revision MUST NOT be substituted silently.
 2. Inside one artifact content document, references are plain local element IDs (`edgeId`, `interfaceIds`, `connectionId`, …). Plain element IDs that point into **another** document resolve only through a pinned reference named in §2.6.
-3. `elementType` takes values from the element-type registry: `d2p:feature`, `d2p:parameter`, `d2p:measurement-input`, `d2p:piece`, `d2p:contour`, `d2p:edge`, `d2p:notch`, `d2p:grainline`, `d2p:fold`, `d2p:seam-interface`, `d2p:seam-connection`, `d2p:sewing-group`, `d2p:grading-rule`, `d2p:size-entry`, `d2p:measurement-target`, `d2p:ease-rule`, `d2p:fit-target`. Extension element types use extension names.
+3. `elementType` takes values from the element-type registry: `d2p:feature`, `d2p:parameter`, `d2p:measurement-input`, `d2p:piece`, `d2p:contour`, `d2p:edge`, `d2p:notch`, `d2p:grainline`, `d2p:fold`, `d2p:seam-interface`, `d2p:seam-connection`, `d2p:sewing-group`, `d2p:grading-rule`, `d2p:size-entry`, `d2p:measurement-target`, `d2p:ease-rule`, `d2p:fit-target`, and for garments (§3.9) `d2p:pattern-evaluation-ref`, `d2p:panel-instance`, `d2p:sewing-binding`, `d2p:material-assignment`, `d2p:arrangement`. Extension element types use extension names.
 4. A command `target` (`{artifactId, branch}`) is **not** a reference. It addresses a branch head and is paired with `expectedRevisionId` (§3.6).
-5. **`derivedRef.digest`** holds the target's `resultDigest`. For a `geometry-snapshot` target it holds the `geometryDigest`. For a target that has neither, it holds the target's `contentDigest` as defined in §1.8 (computed whether or not the target writes it out). Where this catalog marks `digest` as required on a particular member, the schema requires it there.
+5. **`derivedRef.digest`** holds the target's `resultDigest`. For a `geometry-snapshot` target it holds the `geometryDigest`, and for a `scene-snapshot` target the `sceneDigest`. For a target that has neither, it holds the target's `contentDigest` as defined in §1.8 (computed whether or not the target writes it out). Where this catalog marks `digest` as required on a particular member, the schema requires it there.
 
 ### 1.6 Units and quantities
 
 Canonical units: **millimetre** for length and **radian** for angle (design decisions ADR-006, ADR-017). The coordinate system is 2D Cartesian with X to the right and Y up, in mm (design decision ADR-007 §5).
 
 - All 1.0 documents use canonical units only. `m` and `deg` stay reserved in `core/units.schema.json` for later import/export boundary schemas. No 1.0 document schema references the root of `core/units.schema.json` or its `unit`, `lengthUnit` or `angleUnit` definitions, so no 1.0 document accepts `m` or `deg`.
+- **Exception: 3D scenes** (§3.9). The scene documents of module `3d` (`scene-snapshot`, `scene-expectation`) are an export boundary: they declare `sceneUnit: "m"` with the fixed conversion `unitConversion` = `{from: "mm", to: "m", factor: 0.001}`, and their members ending in `M` (`translationM`, `lengthM`, `positionM`) are in metres. Everything else in module `3d`, including garment arrangements (`translationMm`) and panel meshes, uses millimetres. No member named `unit` ever holds `m` (classifier C5).
 - **Bare numbers** carry physical values wherever the schema states the dimension (geometry coordinates, tolerances, `…Mm` members). A member whose name ends in `Mm` is in mm and one ending in `Rad` is in rad. Members inside geometry structures (`point2`, segments) are in mm without a suffix.
 - **Quantity objects** `{value, unit}` are used where a value is entered or transported as a measurement (`measurement-value`, ease amounts, targets) and for expression literals.
 - `core/units.schema.json` keeps its root and existing `$defs` unchanged and gains these `$defs`: `lengthMm` (number), `nonNegativeLengthMm` (number, `minimum: 0`), `positiveLengthMm` (`exclusiveMinimum: 0`), `angleRad` (number), `ratio` (number, `minimum: 0`, dimensionless), `dimension` (`enum: ["length", "angle", "dimensionless"]`), `quantityUnit` (`enum: ["mm", "rad", "1"]`, where `"1"` means dimensionless), `quantity` (`{value: number, unit: quantityUnit}`, closed), `lengthQuantity` (`unit` const `mm`), `angleQuantity` (`unit` const `rad`), `unitsDeclaration` (`{length: const "mm", angle: const "rad"}`, closed).
@@ -184,10 +189,14 @@ The quantization step is a **canonicalization parameter, not a tolerance**. Dige
 | `inputDigests[].digest` with `artifactRef` | the referenced artifact revision's `contentDigest` | as for `revision.contentDigest` |
 | `inputDigests[].digest` with `id` (registries, profiles) | the canonical form of the whole vocabulary or profile document that has this `id` and `version` | none |
 | `inputDigests[].digest` of role `material-assumptions` | the canonical form of the request's inline `materialAssumptions` object | none |
+| `scene-snapshot.bindingsDigest`, `scene-expectation.bindingsDigest` (3d) | the object `{"coordinateSystem", "sceneUnit", "unitConversion", "panelBindings", "seamBindings", "controlMeasures"}` taken from the document | not applicable |
+| `scene-snapshot.sceneDigest` (3d) | the object of `bindingsDigest` plus `"meshRefs"` | not applicable |
+| `panel-mesh-result.meshDigest` (3d) | the document's `mesh` object | not applicable |
+| `scene-input.evaluationKey` (3d) | the whole scene input | `sceneInputId`, `contentDigest`, `evaluationKey`, every top-level member ending in `At` |
 
-**`resultDigest` is required on exactly these document types:** `pattern-evaluation`, `fit-evaluation-report`, `validation-report`, `gate-evaluation`, `export-scene-2d` and `print-job-spec`. `geometry-snapshot` carries `geometryDigest` instead. No other document type has a `resultDigest` member.
+**`resultDigest` is required on exactly these document types:** `pattern-evaluation`, `fit-evaluation-report`, `validation-report`, `gate-evaluation`, `export-scene-2d`, `print-job-spec`, and in module `3d` `panel-mesh-result`, `sim-report` and `inspect-3d-edit-result`. `geometry-snapshot` carries `geometryDigest` and `scene-snapshot` carries `bindingsDigest` and `sceneDigest` instead. No other document type has a `resultDigest` member.
 
-`inputDigest` (`$defs`, closed): `{role, artifactRef?: artifactRef, id?: versionedId, digest}`. `role` is a closed enum: `pattern`, `grading-rule-set`, `body-measurement-profile`, `size-system`, `garment-measurement-spec`, `fit-profile`, `material-assumptions`, `measurement-definition-registry`, `tolerance-profile`, `validation-profile`. The first six roles require `artifactRef` and forbid `id`; `measurement-definition-registry`, `tolerance-profile` and `validation-profile` require `id` and forbid `artifactRef`; `material-assumptions` forbids both (schema-enforced, §1.12). Evaluator profiles are identified by `versionedId` only and are **not** digested in 1.0, because the standard defines no evaluator-profile document.
+`inputDigest` (`$defs`, closed): `{role, artifactRef?: artifactRef, id?: versionedId, digest}`. `role` is a closed enum: `pattern`, `grading-rule-set`, `body-measurement-profile`, `size-system`, `garment-measurement-spec`, `fit-profile`, `material-assumptions`, `measurement-definition-registry`, `tolerance-profile`, `validation-profile`, and (module `3d`) `garment`, `mesh-profile`. The first six roles and `garment` require `artifactRef` and forbid `id`; `measurement-definition-registry`, `tolerance-profile`, `validation-profile` and `mesh-profile` require `id` and forbid `artifactRef`; `material-assumptions` forbids both (schema-enforced, §1.12). Evaluator profiles are identified by `versionedId` only and are **not** digested in 1.0, because the standard defines no evaluator-profile document.
 
 **Array order in derived documents.** All string comparisons use UTF-16 code-unit order. Where an order lists several keys, later keys break ties of earlier ones. An absent key sorts **before** any present value. The last tie-breaker is always the canonical form (`d2p-c14n-v1`, no exclusions) of the element, compared as a string.
 
@@ -211,8 +220,15 @@ The quantization step is a **canonicalization parameter, not a tolerance**. Dige
 | `export-scene-2d.layers`, `.pieceInstances`, `.sizeStyles` | `id`, `id`, `sizeKey` |
 | `pieceInstance.paths`, `.markers`, `.labels` | `id` |
 | `export-scene-2d.lineStyles` | `layerId` |
+| `scene-snapshot.panelBindings`, `.meshRefs`; `scene-expectation.panelBindings` (3d) | `panelInstanceId` |
+| `scene-snapshot.seamBindings`, `scene-expectation.seamBindings` (3d) | `id` |
+| `scene-snapshot.controlMeasures`, `scene-expectation.controlMeasures` (3d) | `seamInterfaceId`, `panelInstanceId` |
+| `scene-expectation.anchors` (3d) | `panelInstanceId`, `contourId` |
+| `panel-mesh-result.edgeBindings` (3d) | `edgeId` |
+| `sim-report.metrics` (3d) | `metric` |
+| `inspect-3d-edit-result.edits` (3d) | `editId` |
 
-Arrays whose order carries meaning keep their semantic order and are not re-sorted: `point2`, `contourPath.segments` (contour order), `pathSegment` arrays, `sceneMarker.points`, `dashMm`, and every array inside an embedded document (`request`, `scene`), which is copied verbatim. Any other array in a derived document that this table does not list is sorted by the canonical form of its elements.
+Arrays whose order carries meaning keep their semantic order and are not re-sorted: `point2`, `point3`, `unitQuaternion`, `contourPath.segments` (contour order), `pathSegment` arrays, `sceneMarker.points`, `dashMm`, `interfaceBindings` (side A, side B), panel `mesh` arrays (`positions`, `uvs`, `triangles`) and the `matrix` of `vertexUvToPattern2D`, and every array inside an embedded document (`request`, `scene`), which is copied verbatim. Any other array in a derived document that this table does not list is sorted by the canonical form of its elements.
 
 ### 1.9 Actors, text, timestamps
 
@@ -224,7 +240,7 @@ Arrays whose order carries meaning keep their semantic order and are not re-sort
 
 1. **Closed objects.** Every object schema sets `additionalProperties: false`. The only open containers in 1.0 are: `extensionBlock.data`, extension-feature `params`, `error.details`, `finding.evidence`, `diagnostic.details`, `rule-definition.parametersSchema`, profile rule `parameters` (checked against the rule's `parametersSchema` at semantic level), `feature-capability.paramsSchema`, extension command `payload`s, and `event.payload` for event types without a registered payload schema (§3.6).
 2. **No object composition.** Object shapes are not merged with `allOf`. Reuse happens at field level (`$ref` to a member `$defs`), and every document lists its own `properties`. `if`/`then` discriminators keyed on a `const` member (`type`, `op`, `kind`, `status`, `mode`, …) are allowed.
-3. **`$defs` reuse and module order.** The module dependency order is: (1) `core`; (2) `error`, `event`; (3) `pattern`, `measurement`; (4) `eval`; (5) `validation`, `print`, `command`; (6) `benchmark`. A schema may reference only its own module, and modules in **earlier** groups. Modules in the same group never reference each other. A definition used by more than one module lives in the lowest module that owns the concept, or in `core/*.schema.json`. References across files always use the **absolute `$id`** plus a JSON pointer (`https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId`). References within a file use `#/$defs/…`. Copying a definition is forbidden, and so are `$anchor` and `$dynamicRef`.
+3. **`$defs` reuse and module order.** The module dependency order is: (1) `core`; (2) `error`, `event`; (3) `pattern`, `measurement`; (4) `eval`; (5) `validation`, `print`, `command`; (6) `benchmark`; (7) `3d`. A schema may reference only its own module, and modules in **earlier** groups. Modules in the same group never reference each other. A definition used by more than one module lives in the lowest module that owns the concept, or in `core/*.schema.json`. References across files always use the **absolute `$id`** plus a JSON pointer (`https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId`). References within a file use `#/$defs/…`. Copying a definition is forbidden, and so are `$anchor` and `$dynamicRef`.
 4. **Enums.** Closed bare-word enums use `enum`. An extensible vocabulary is `anyOf: [{"enum": [<d2p terms>]}, {"$ref": ".../core/ids.schema.json#/$defs/extensionName"}]`.
 5. **Sets.** Arrays of IDs that are sets use `uniqueItems: true`. Uniqueness of objects by `id` is a referential check (D2P-REF-005).
 6. **Codegen friendliness.** Every object type is a named `$defs` entry with `title`, using the canonical names of §3.0.1. Avoid anonymous nested `oneOf`, and use `patternProperties` only where this catalog shows a map.
@@ -243,7 +259,7 @@ This section follows design decisions ADR-019 and ADR-022.1, and [GOVERNANCE.md]
   - **minor**: new optional members, new schemas or modules, new values in a closed enum, new `$defs`, new conformance cases, new digest-profile IDs;
   - **patch**: text, examples and tooling fixes that do not change which documents are valid.
 - **Capability versions** (§3.6) follow the same rules per module. `featureSetVersion` (the version of the `d2p:` feature types and expression nodes) equals the release version that introduced the feature set in use (`1.0.0` in this release).
-- **Vocabulary versions** (measurement-definition registry, validation rules and profiles, tolerance profiles) are versioned independently of the standard. Their initial versions in this release are `1.0.0`.
+- **Vocabulary versions** (measurement-definition registry, validation rules and profiles, tolerance profiles, mesh profiles) are versioned independently of the standard. Their initial versions in this release are `1.0.0`.
 - Deprecated members are marked `"deprecated": true`, kept for at least one minor release, and removed in the next major release.
 - Every fixture pins the full `standardVersion`, the tolerance profile version and the digest profile (§4).
 
@@ -269,6 +285,11 @@ A conditional requirement is enforced **either** by the schema **or** by a seman
 | `event` | `eventType = d2p:artifact.revision-committed` requires `revisionId` and the registered payload shape |
 | `print-job-spec.pageLayout.tiling` | `overlapMm` required when `mode = tiled`, forbidden when `none` |
 | `test-run-report` | `resultState = skipped` requires `skipReason`; `subjectKind = evaluator` requires `backend` and `evaluatorProfile` |
+| `garment.patternEvaluations[]` (3d) | `sizeKey` requires `sizeSystemRef` (`dependentRequired`) |
+| `garment.sewingBindings[]` (3d) | `kind = seam-connection` requires `seamConnectionId` and `interfaceBindings` (exactly 2) and forbids `sewingGroupId` and `memberBindingIds`; `kind = sewing-group` the reverse |
+| `scene-snapshot`, `sim-report` (3d) | `qualityStatus = failed` respectively `status = failed` requires at least one diagnostic |
+| `panel-mesh-result` (3d) | `status = succeeded` requires `mesh`, `vertexUvToPattern2D`, `edgeBindings`, `maxApproximationErrorMm` and `meshDigest`; `status = failed` forbids them and requires at least one diagnostic |
+| `inspect-3d-edit-result.edits[]` (3d) | `classification = supported` requires `parameterUpdates`; `ambiguous` requires `parameterCandidates` (min 2); `forbidden` requires `reasonCode`; each forbids the members of the other two classes |
 
 Conditions that are deliberately **not** schema-enforced: `seamInterface.cutInstanceKey` (D2P-SEM-022), grading `baseSizeKey` and `sizeSystemRef` (D2P-SEM-080), size keys in garment targets and ease-rule scopes without a document-level `sizeSystemRef`, and a `geometry-snapshot.sizeKey` without a `size-system` input digest (D2P-REF-009), print `calibration` (D2P-SEM-091), named media dimensions (D2P-SEM-092), multi-size `sizeStyles` (D2P-SEM-094), negative ease (D2P-SEM-073), one capability per extension feature type (D2P-SEM-005) and revision `sequence` (D2P-REF-007).
 
@@ -303,7 +324,7 @@ These classifiers are deterministic and run on the raw instance. They refine sch
 | C2 | Top-level `documentType` missing or not in §3.0 | D2P-STR-002 |
 | C3 | Inside any `expr` value (recursively through `args`): an object whose `op` is missing or not in the closed node list (§3.2.4) | D2P-STR-010 |
 | C4 | The value of a member ending in `Ref`, or an element of an array member ending in `Refs`, is an object that has `artifactId` but no `revisionId` matching `revisionId` | D2P-STR-011 |
-| C5 | A member named `unit` whose value is a string outside the allowed unit set. The set is `{mm, rad, 1, ms, byte, count}` inside documents of type `d2p:test-run-report`, `d2p:benchmark-run` and `d2p:tolerance-profile`, and `{mm, rad, 1}` everywhere else. (A unit inside the set but not allowed for its slot, such as `"1"` in a measurement value, is reported as D2P-STR-001 only.) | D2P-STR-012 |
+| C5 | A member named `unit` whose value is a string outside the allowed unit set. The set is `{mm, rad, 1, ms, byte, count}` inside documents of type `d2p:test-run-report`, `d2p:benchmark-run`, `d2p:tolerance-profile` and `d2p:sim-report`, and `{mm, rad, 1}` everywhere else. (A unit inside the set but not allowed for its slot, such as `"1"` in a measurement value, is reported as D2P-STR-001 only.) | D2P-STR-012 |
 
 C1 and C2 are evaluated before schema validation. C3 to C5 inspect the instance directly, independent of how a JSON Schema validator reports its errors.
 
@@ -347,11 +368,11 @@ The level in a code names the level at which this catalog assigns the check (§1
 | D2P-REF-004 | element-type-mismatch | error | The target exists but has the wrong kind (`elementType`, point vs curve feature, unknown `featureOutput.output`) |
 | D2P-REF-005 | duplicate-id | error | Duplicate element ID, key or vocabulary entry within one document (§1.4), or two bundle documents with the same **identity key** whose `d2p-c14n-v1` canonical forms (no exclusions) differ. The identity key is `(documentType, own ID members)` per the "Own ID" column of §3.0; for artifact content documents it is `(documentType, artifactId, revisionId)`. Documents without an own ID have no identity key. Identical copies are allowed |
 | D2P-REF-006 | stale-revision | error | A revision-bound decision references a revision that is not the one in force: (a) a gate whose referenced reports' or waivers' `targetRefs` differ from the gate's `targetRefs`, compared as sets of `(artifactId, revisionId)`; (b) a gate with a target revision that has a child revision whose revision record in the bundle has `createdAt` ≤ the gate's `evaluatedAt`; (c) a command whose `expectedRevisionId` has a child revision whose revision record in the bundle has no `commandId` or a `commandId` different from the command's |
-| D2P-REF-007 | inconsistent-pinned-inputs | error | Pinned inputs disagree: `grading-rule-set.patternRef` or `garment-measurement-spec.patternRef` ≠ the request's `patternRef`; a snapshot `patternRef` ≠ its evaluation's request `patternRef`; an evaluation's artifact `inputDigests` that are not exactly the artifact revisions its embedded request pins (each of `patternRef`, `gradingRuleSetRef`, `sizeSystemRef`, `bodyMeasurementProfileRef`, `fitProfileRef` and `garmentMeasurementSpecRef` present in the request has exactly one input digest of the matching role (§3.4) with the same `(artifactId, revisionId)`, and no other input digest of an artifact role is present); a snapshot `inputDigests` entry of role `pattern` whose `artifactRef` ≠ the snapshot's `patternRef`; a fit evaluation report `inputDigests` entry with an `artifactRef` whose (`role`, `artifactId`, `revisionId`) is not an input digest of the evaluation named by its `evaluationRef` (§3.3); a scene `source.patternRef` ≠ the `patternRef` of any evaluation in `source.evaluations`, or a scene evaluation's `geometryDigest` ≠ the `geometryDigest` of that evaluation's snapshot; a `pieceInstances[].sizeKey` absent from `source.evaluations`; a `sizeKey` used with two different size systems; a finding `elementRef` or `subjectRef` outside the report's `targetRefs` / `derivedSubjectRefs`; a revision record whose `sequence` is not 1 with no parents, or not max(parent `sequence`) + 1 when the parent records are in the bundle; a create command whose `content` header `artifactId` ≠ `target.artifactId` or `revisionId` ≠ `payload.initialRevisionId`; an evaluation request whose `configurationKey` is declared in a fixture manifest of the bundle but whose `fitProfileRef` or `materialAssumptions` differ from that declaration; a quality evidence bundle named in a gate's `evidenceRefs` whose `gate` ≠ the gate's `profile` or whose `subjectRefs` ≠ the gate's `targetRefs` (as sets) |
+| D2P-REF-007 | inconsistent-pinned-inputs | error | Pinned inputs disagree: `grading-rule-set.patternRef` or `garment-measurement-spec.patternRef` ≠ the request's `patternRef`; a snapshot `patternRef` ≠ its evaluation's request `patternRef`; an evaluation's artifact `inputDigests` that are not exactly the artifact revisions its embedded request pins (each of `patternRef`, `gradingRuleSetRef`, `sizeSystemRef`, `bodyMeasurementProfileRef`, `fitProfileRef` and `garmentMeasurementSpecRef` present in the request has exactly one input digest of the matching role (§3.4) with the same `(artifactId, revisionId)`, and no other input digest of an artifact role is present); a snapshot `inputDigests` entry of role `pattern` whose `artifactRef` ≠ the snapshot's `patternRef`; a fit evaluation report `inputDigests` entry with an `artifactRef` whose (`role`, `artifactId`, `revisionId`) is not an input digest of the evaluation named by its `evaluationRef` (§3.3); a scene `source.patternRef` ≠ the `patternRef` of any evaluation in `source.evaluations`, or a scene evaluation's `geometryDigest` ≠ the `geometryDigest` of that evaluation's snapshot; a `pieceInstances[].sizeKey` absent from `source.evaluations`; a `sizeKey` used with two different size systems; a finding `elementRef` or `subjectRef` outside the report's `targetRefs` / `derivedSubjectRefs`; a revision record whose `sequence` is not 1 with no parents, or not max(parent `sequence`) + 1 when the parent records are in the bundle; a create command whose `content` header `artifactId` ≠ `target.artifactId` or `revisionId` ≠ `payload.initialRevisionId`; an evaluation request whose `configurationKey` is declared in a fixture manifest of the bundle but whose `fitProfileRef` or `materialAssumptions` differ from that declaration; a quality evidence bundle named in a gate's `evidenceRefs` whose `gate` ≠ the gate's `profile` or whose `subjectRefs` ≠ the gate's `targetRefs` (as sets); in module `3d` (§3.9): a garment evaluation reference whose evaluation's request pins another pattern, size system, size or configuration, or whose `geometryDigest` ≠ the evaluation's `snapshotRef.digest`; scene-input `patternEvaluations` that are not exactly the garment's evaluation references; a scene snapshot whose `inputDigests` do not contain exactly one `garment` entry pinning `garmentRef`, a `pattern` entry for every pattern of the garment's evaluation references and exactly one `mesh-profile` entry pinning `meshProfile`, or whose `evaluationKey` or `garmentRef` differ from its scene input's; a scene expectation whose `garmentRef`, `arrangementId`, `mode` or `meshProfile` differ from its scene input's; a panel mesh result whose `pieceId`, `cutInstanceKey`, `evaluationRef` or `geometryDigest` differ from its panel instance and that panel's evaluation reference |
 | D2P-REF-008 | unresolved-measurement-definition | error | `definitionId` not found in the registries declared by `definitionRegistries` (or the registry is not in the bundle) |
 | D2P-REF-009 | unresolved-size-key | error | `sizeKey` not defined in the referenced size system revision, or a `sizeKey` used where the document has no `sizeSystemRef` to resolve it (for a `geometry-snapshot`: no `inputDigests` entry of role `size-system`) |
 | D2P-REF-010 | unresolved-cut-instance | error | `cutInstanceKey` not declared by the pattern's cut instructions |
-| D2P-REF-011 | digest-mismatch | error | A digest in a reference, input digest, revision record, print provenance or manifest differs from the recomputed digest of its target (§1.8, §1.5 rule 5) |
+| D2P-REF-011 | digest-mismatch | error | A digest in a reference, input digest, revision record, print provenance or manifest differs from the recomputed digest of its target (§1.8, §1.5 rule 5), or a 3D digest (`bindingsDigest`, `sceneDigest`, `meshDigest`, `evaluationKey`, a scene's `meshRefs[].meshDigest`) differs from its recomputed value |
 | D2P-REF-012 | unlisted-fixture-file | error | A file inside a fixture directory is not listed in its manifest (`manifest.json` excepted), or a listed file does not exist |
 | D2P-REF-013 | unresolved-configuration-key | error | A bundle containing a fixture manifest with `configurations` has an evaluation request whose `configurationKey` is not declared there |
 | D2P-REF-014 | vocabulary-order-invalid | error | A vocabulary array that this catalog declares sorted is out of order (UTF-16 code-unit order): `measurement-definition-registry.definitions` by `definitionId`, `validation-profile.rules` by `ruleId`, `mapping-profile.entries` by `d2pTerm`, then `externalTerm`. Equal neighbours are duplicates and reported as D2P-REF-005 only |
@@ -386,7 +407,7 @@ The level in a code names the level at which this catalog assigns the check (§1
 | D2P-SEM-034 | sewing-group-unsupported-profile | error | A construction cannot be expressed as binary seam connections plus sewing groups without losing meaning (design decision ADR-007.1 §10). Reported by an importer or editor instead of writing a lossy document; a conforming document is binary by construction, so the conformance runners never report it (§3.2.6) |
 | D2P-SEM-040 | constraint-inconsistent | error | Static constraint conflict (§3.2.3). Evaluators use the same code for status `inconsistent` |
 | D2P-SEM-041 | *retired* | — | Now schema-enforced (§1.12, D2P-STR-001). The number is not reused |
-| D2P-SEM-050 | personal-data-in-export | critical | An export document (`export-scene-2d`, `print-job-spec`) contains a reference to, or measurement values from, an artifact classified `personal` or `sensitive-personal` |
+| D2P-SEM-050 | personal-data-in-export | critical | An export document (`export-scene-2d`, `print-job-spec`, and the 3D scene documents `scene-snapshot` and `scene-expectation`) contains a reference to, or measurement values from, an artifact classified `personal` or `sensitive-personal` |
 | D2P-SEM-051 | classification-inconsistent | error | A body measurement profile with `subject.kind = individual` is not classified `personal` or `sensitive-personal`, or artifact metadata and content disagree on `dataClassification` |
 | D2P-SEM-070 | measurement-unit-mismatch | error | A measurement value, target, fit target or ease amount uses a unit that does not match its definition's dimension, or a measurement definition's `unit` is not the canonical unit of its `dimension` (`mm` for `length`, `rad` for `angle`) |
 | D2P-SEM-071 | implicit-measurement-equivalence | error | An ease rule pairs a body definition and a garment definition whose `path.type` differ (for example girth vs flat width) |
@@ -408,6 +429,13 @@ The level in a code names the level at which this catalog assigns the check (§1
 | D2P-SEM-103 | validation-report-inconsistent | error | A validation report contradicts itself or its profile (§3.5): `result` is not `pass` exactly when `status = completed` and no finding has severity `error` or `critical`; `purpose` ≠ the profile's `purpose`; or a finding's `ruleId` is not in the profile, its `ruleVersion` or `severity` differs from that rule's profile entry, or its `code` is not in the rule definition's `diagnosticCodes` (checked when the profile, respectively the rule definition, is in the bundle) |
 | D2P-SEM-104 | gate-purpose-mismatch | error | A gate's profile, or a report named in its `reportRefs`, has a `purpose` that does not map to the gate's `action` (§3.5 purpose to action mapping), for example an `export-1to1` gate with a `sample-cut` profile |
 | D2P-SEM-110 | evidence-state-inconsistent | error | A quality evidence bundle's `overallState` contradicts §3.8 |
+| D2P-SEM-120 | panel-instance-invalid | error | A garment panel instance binds a cut instance of another piece than its `pieceId`, two panel instances bind the same cut instance of one pattern evaluation reference, or a panel instance appears in more than one material assignment (§3.9) |
+| D2P-SEM-121 | sewing-binding-invalid | error | A seam-connection binding does not bind the connection's interfaces in its order, binds an interface to a panel instance whose cut instance does not carry it or that belongs to another pattern evaluation reference, binds an inactive connection, or binds a connection that another binding already binds; or a sewing-group binding does not name exactly the seam-connection bindings of the group's members (§3.9) |
+| D2P-SEM-122 | arrangement-invalid | error | An arrangement does not hold exactly one placement per panel instance, or a placement rotation's norm differs from 1 by more than 1e-6 (§3.9) |
+| D2P-SEM-123 | scene-unit-conversion-invalid | error | A scene control measure's `lengthM` ≠ `lengthMm` × 0.001, or a panel binding's `translationM` ≠ the placement's `translationMm` × 0.001, compared per §3.4 |
+| D2P-SEM-124 | scene-binding-inconsistent | error | A scene snapshot or scene expectation does not reproduce its garment (§3.9 scene bindings): panel bindings, seam bindings, control measures, evaluation pins or mesh references are missing, duplicated or differ from the garment, its arrangement, the cut instances or the pinned geometry snapshot |
+| D2P-SEM-125 | panel-mesh-invalid | error | A succeeded panel mesh result breaks the panel mesh rules (§3.9): a position with z ≠ 0, unequal `positions` and `uvs`, a triangle index outside `positions`, an edge binding above `maxApproximationErrorMm`, not exactly one edge binding per edge of the piece, or `maxApproximationErrorMm` or `sampleCount` outside the pinned mesh profile |
+| D2P-SEM-126 | edit-inspection-inconsistent | error | A 3D edit inspection names a proposal although no edit is supported, or names none although one is; or its proposal changes another pattern revision or does not hold exactly the parameter updates of the supported edits (§3.9) |
 | D2P-SEM-111 | *retired* | — | Now schema-enforced (§1.12). The number is not reused |
 | D2P-SEM-112 | *retired* | — | Now schema-enforced (§1.12). The number is not reused |
 
@@ -472,8 +500,16 @@ The referential runner resolves exactly the members below. Every member not list
 | `geometry-snapshot.sizeKey` | size entry | the size system named by the snapshot's `size-system` input digest | D2P-REF-009 |
 | `export-scene-2d` `pieceId`, `elementId`, `cutInstanceKey` | element; cut instance | pattern at `source.patternRef` | D2P-REF-003 / D2P-REF-010 |
 | scene `layerId` | layer | the same scene | D2P-SEM-093 (semantic) |
+| `garment` `panelInstances[].patternEvaluationId`, `sewingBindings[].patternEvaluationId`, `interfaceBindings[].panelInstanceId`, `memberBindingIds[]`, `materialAssignments[].panelInstanceIds[]`, `placements[].panelInstanceId` (3d) | pattern evaluation reference; panel instance; sewing binding | the same garment | D2P-REF-003 |
+| `garment` `panelInstances[].pieceId`, `.cutInstanceKey`, `sewingBindings[].seamConnectionId`, `.sewingGroupId`, `interfaceBindings[].seamInterfaceId` (3d) | piece; cut instance; seam connection; sewing group; seam interface | the pattern of the named pattern evaluation reference | D2P-REF-003 / D2P-REF-010 |
+| `garment.patternEvaluations[].sizeKey` (3d) | size entry | `sizeSystemRef` | D2P-REF-009 |
+| `scene-input`, `scene-snapshot`, `scene-expectation` `arrangementId`, `patternEvaluations[].patternEvaluationId`, `panelInstanceId`s (3d) | arrangement; pattern evaluation reference; panel instance | the garment at `garmentRef` | D2P-REF-003 |
+| `scene-snapshot`, `scene-expectation` `controlMeasures[].seamInterfaceId` (3d) | seam interface | the pattern of the panel's evaluation reference | D2P-REF-003 |
+| `panel-mesh-result` `panelInstanceId`; `edgeBindings[].edgeId` (3d) | panel instance; edge | the garment at `garmentRef`; the panel's pattern | D2P-REF-003 |
+| `inspect-3d-edit-result` `edits[].target.panelInstanceId`, `.sewingBindingId`; `.edgeId`, `parameterUpdates[].parameterId`, `parameterCandidates[]`; `pattern-proposal.parameterUpdates[].parameterId` (3d) | panel instance, sewing binding; edge, parameter | the garment of the scene at `sceneSnapshotRef`; the pattern at `basePatternRef` | D2P-REF-003 |
+| `inputDigests[].id` of role `mesh-profile` (3d) | `d2p:mesh-profile` with that `profileId` and `version` | the bundle | D2P-REF-001; D2P-REF-011 |
 
-Informative members include: `geometry-snapshot.evaluationId`, `revision.commandId`, `revision.parentRevisionIds` (used for `sequence` and staleness when present), `command.target`, `command.expectedRevisionId` (used for staleness when present), `command-receipt.commandId`, `event.aggregateId`, every `evaluatorProfile`, `evaluation-request.toleranceProfile` and `validationProfile`, `finding.ruleId`/`ruleVersion` (compared in the gate procedure, §3.5), `fit-evaluation-report.results[].garmentDefinitionId`, `quality-evidence-bundle.reports[].reportId`, every member of `mapping-profile.entries` and every member of `test-run-report` and `benchmark-run`.
+Informative members include: every 3D `meshProfile` and `toleranceProfile` member outside `inputDigests`, `sim-report.solverProfile` and `materialPhysicsProfile`, `geometry-snapshot.evaluationId`, `revision.commandId`, `revision.parentRevisionIds` (used for `sequence` and staleness when present), `command.target`, `command.expectedRevisionId` (used for staleness when present), `command-receipt.commandId`, `event.aggregateId`, every `evaluatorProfile`, `evaluation-request.toleranceProfile` and `validationProfile`, `finding.ruleId`/`ruleVersion` (compared in the gate procedure, §3.5), `fit-evaluation-report.results[].garmentDefinitionId`, `quality-evidence-bundle.reports[].reportId`, every member of `mapping-profile.entries` and every member of `test-run-report` and `benchmark-run`.
 
 ---
 
@@ -527,10 +563,19 @@ Informative members include: `geometry-snapshot.evaluationId`, `revision.command
 | benchmark | `tolerance-profile` | `d2p:tolerance-profile` (vocabulary) | `profileId` + `version` |
 | benchmark | `fixture-manifest` | `d2p:fixture-manifest` | `fixtureId` + `fixtureVersion` |
 | benchmark | `conformance-case` | `d2p:conformance-case` | `caseId` |
+| 3d | `garment` | `d2p:garment` (artifact content) | — (`artifactId` + `revisionId`) |
+| 3d | `scene-input` | `d2p:scene-input` (record) | `sceneInputId` (`sci_`) |
+| 3d | `scene-snapshot` | `d2p:scene-snapshot` (derived) | `sceneSnapshotId` (`ssn_`) |
+| 3d | `panel-mesh-result` | `d2p:panel-mesh-result` (derived) | `meshResultId` (`pmr_`) |
+| 3d | `mesh-profile` | `d2p:mesh-profile` (vocabulary) | `profileId` + `version` |
+| 3d | `sim-report` | `d2p:sim-report` (derived) | `simReportId` (`smr_`) |
+| 3d | `pattern-proposal` | `d2p:pattern-proposal` (record) | `proposalId` (`ppr_`) |
+| 3d | `inspect-3d-edit-result` | `d2p:inspect-3d-edit-result` (derived) | `inspectionId` (`ier_`) |
+| 3d | `scene-expectation` | `d2p:scene-expectation` (record) | `expectationId` (`sxp_`) |
 
-The modules `3d`, `assembly`, `production`, `package` and `import` get no schemas in 1.0.
+The modules `assembly`, `production`, `package` and `import` get no schemas in 1.0; module `3d` is added by the draft `0.2.0` (§3.9).
 
-**Vocabulary and data files.** A vocabulary file whose ID is the qualified name `d2p:<local>` with version `<v>` is stored as `<dir>/<local>-<v>.json`, where `<dir>` is `vocabularies/measurement-definitions/` (registries), `vocabularies/validation/rules/`, `vocabularies/validation/profiles/`, `tolerance-profiles/` or `mappings/` (mapping profiles). Example: `d2p:measurement-definitions` `1.0.0` → `vocabularies/measurement-definitions/measurement-definitions-1.0.0.json`. **Tooling requirement:** `npm run validate` MUST validate every JSON file under `vocabularies/`, `tolerance-profiles/` and `mappings/`, every `manifest.json`, `inputs/**` and `expected/**` file of a fixture, and every `*.case.json` against the schema selected by its `documentType` (§3.0), and fail on an unknown `documentType`. Files under a fixture's `negative/` directory and conformance case data directories are deliberately invalid in places and are checked only by the conformance cases that use them.
+**Vocabulary and data files.** A vocabulary file whose ID is the qualified name `d2p:<local>` with version `<v>` is stored as `<dir>/<local>-<v>.json`, where `<dir>` is `vocabularies/measurement-definitions/` (registries), `vocabularies/validation/rules/`, `vocabularies/validation/profiles/`, `vocabularies/mesh-profiles/` (mesh profiles, §3.9), `tolerance-profiles/` or `mappings/` (mapping profiles). Example: `d2p:measurement-definitions` `1.0.0` → `vocabularies/measurement-definitions/measurement-definitions-1.0.0.json`. **Tooling requirement:** `npm run validate` MUST validate every JSON file under `vocabularies/`, `tolerance-profiles/` and `mappings/`, every `manifest.json`, `inputs/**` and `expected/**` file of a fixture, and every `*.case.json` against the schema selected by its `documentType` (§3.0), and fail on an unknown `documentType`. Files under a fixture's `negative/` directory and conformance case data directories are deliberately invalid in places and are checked only by the conformance cases that use them.
 
 **Specification documents.** Besides this catalog, standard 1.0 includes `specifications/gap-analysis.md` (design decision ADR-022.1 §2 principle 1, test OSS-002). For each module it names the existing standards and formats it reuses or deliberately does not replace (for example SVG, PDF, glTF, ISO 8559-1, ASTM D5219, the AAMA/ASTM DXF pattern exchange format), and the semantic gap the module fills. It is informative; where it and this catalog disagree, this catalog wins. `npm run validate` fails if the file is missing.
 
@@ -590,6 +635,15 @@ Every object type has a named `$defs` entry with exactly the name given here. Fr
 | `benchmark/tolerance-profile` | document | `toleranceEntry`, `toleranceComparison`, `toleranceMetric` |
 | `benchmark/fixture-manifest` | document | `fixtureFile`, `externalFile`, `tolerancePin`, `fixtureReview`, `fixtureConfiguration`, `changeCase`, `parameterDelta`, `relativePath`, `documentTypeName` |
 | `benchmark/conformance-case` | document | `caseDocument`, `caseExpectation`, `expectedDiagnostic` |
+| `3d/garment` | document | `patternEvaluationRef`, `panelInstance`, `panelSide`, `sewingBinding`, `interfaceBinding`, `materialAssignment`, `renderAppearance`, `arrangement`, `panelPlacement`, `garmentCoordinateSystem`, `point3`, `unitQuaternion` |
+| `3d/scene-input` | document | `sceneEvaluationPin`, `sceneMode` |
+| `3d/scene-snapshot` | document | `sceneTransform`, `panelBinding`, `meshRef`, `controlMeasure`, `backendBuild`, `sceneRepresentation` |
+| `3d/panel-mesh-result` | document | `panelMesh`, `triangle`, `uvToPatternMapping`, `edgeBinding` |
+| `3d/mesh-profile` | document | `boundarySampling`, `triangulation` |
+| `3d/sim-report` | document | `simMetric` |
+| `3d/pattern-proposal` | document | — |
+| `3d/inspect-3d-edit-result` | document | `editTarget`, `editDelta`, `editClassification`, `backProjectionReason` |
+| `3d/scene-expectation` | document | `sceneAnchor` |
 
 ### 3.1 core
 
@@ -609,7 +663,7 @@ Every object type has a named `$defs` entry with exactly the name given here. Fr
 | Member | Req. | Type / rule |
 |---|---|---|
 | `artifactId` | yes | `artifactId` |
-| `artifactType` | yes | extensible: `d2p:pattern`, `d2p:grading-rule-set`, `d2p:body-measurement-profile`, `d2p:size-system`, `d2p:garment-measurement-spec`, `d2p:fit-profile` |
+| `artifactType` | yes | extensible: `d2p:pattern`, `d2p:grading-rule-set`, `d2p:body-measurement-profile`, `d2p:size-system`, `d2p:garment-measurement-spec`, `d2p:fit-profile`, `d2p:garment` (§3.9) |
 | `name` | yes | string |
 | `dataClassification` | yes | `dataClassification` (`$defs` here, reused): `public` \| `internal` \| `confidential` \| `personal` \| `sensitive-personal` (policy tags, design decision ADR-013) |
 | `description` | no | string |
@@ -1249,6 +1303,7 @@ This module follows design decisions ADR-017.1 and ADR-025.
 | `d2p:seam-length-deviation-absolute` | mm | absolute-lte | For short seams. **No value proposed yet** |
 | `d2p:control-square-deviation` | mm | absolute-lte | Control-square side in file coordinates vs 100 mm |
 | `d2p:angle-deviation` | rad | absolute-lte | Angular difference. **No value proposed yet** |
+| `d2p:mesh-planar-deviation` | mm | absolute-lte | Largest planar distance between a panel mesh boundary and the pinned pattern contour (§3.9) |
 
 **Golden tolerance profile** `d2p:golden-tshirt-2d` `1.0.0` lives at `tolerance-profiles/golden-tshirt-2d-1.0.0.json` with **`status: "provisional"`**. Its values are the proposals from the design decisions, not adopted product norms:
 
@@ -1257,6 +1312,156 @@ This module follows design decisions ADR-017.1 and ADR-025.
 - `d2p:control-square-deviation` 0.1 mm.
 
 Metrics without a proposal are omitted. The profile is set to `frozen` (as a new version if any value changes) by maintainer decision **before** any implementation is compared against it, and it is never adjusted afterwards to fit an implementation.
+
+**Golden 3D tolerance profile** `d2p:golden-tshirt-3d` `1.0.0` (`tolerance-profiles/golden-tshirt-3d-1.0.0.json`, **`status: "provisional"`**) holds `d2p:mesh-planar-deviation` 0.10 mm, a proposal for the 3D fixture (§4.5), under the same freezing rule.
+
+### 3.9 3d
+
+This module follows design decisions ADR-009 and ADR-021 (with ADR-007 for seam semantics, ADR-016 for findings and ADR-017 for kernel independence). It is added by the draft `0.2.0` as a minor extension of standard 1.0: new schemas, new optional vocabulary terms, new diagnostic codes and new conformance cases; no existing document changes its validity.
+
+**Scope of this release.** The `garment` aggregate with pinned pattern evaluations, panel instances, sewing bindings, material assignments and arrangements; the `arrangement` mode (panels positioned in 3D with deterministic bindings and transforms, no physics); derived panel meshes and scene snapshots with an explicit mm to m conversion; reports of optional simulation runs; and the back path from 3D edits to reviewable pattern proposals. Not part of this release (§5): body bindings and avatars, the modes `kinematic-assembly` and `physical-simulation`, assembly-state views, simulation configurations inside the garment, material aggregates and garment command types.
+
+**Ownership** (design decision ADR-009 §2, §14). The pattern stays the only owner of 2D geometry, piece and cut-instance IDs, seam interfaces, seam connections and sewing groups. A garment references them through pinned evaluations and never copies or redefines them. Meshes, scene snapshots, simulation reports, edit inspections and proposals are derived documents: producing one never creates a garment or pattern revision (GAR-014, SIM-010), and a scene is never an editable master.
+
+**Coordinate system and units** (design decisions ADR-009 §14, ADR-021 §5 rule 1). The panel-local frame of a panel instance is the 2D pattern frame of its piece (§1.6) embedded in the plane z = 0, in mm: the piece point (x, y) is (x, y, 0), and the outer face of the fabric faces +z. Garment arrangements and scenes use one fixed frame, `garmentCoordinateSystem` = `{handedness: "right", up: "+y", front: "+z"}`: right-handed, Y up, the front of the garment faces +Z, so the wearer's left is +X (the glTF 2.0 convention). Arrangements are authored in mm (`translationMm`). Scene documents use the scene unit metre (`sceneUnit: "m"`) with the explicit conversion `unitConversion` = `{from: "mm", to: "m", factor: 0.001}`; a scene value in m is the mm value multiplied by 0.001 in binary64 (D2P-SEM-123). Members ending in `M` (after a lower-case letter: `translationM`, `lengthM`, `positionM`) are in m. Rotations are unit quaternions `[x, y, z, w]` (Hamilton convention, `w` scalar), whose norm differs from 1 by at most 1e-6 (D2P-SEM-122). The pose of a panel point p (panel-local mm) is `R · M · p + t`: `M` flips x to -x when the panel's cut instance is `mirrored`, `R` is the placement rotation about the panel-local origin and `t` the translation; in the scene the result is multiplied by 0.001. Placements never change seam identities.
+
+**`garment`** (artifact content, `artifactType` `d2p:garment`; header per §1.2)
+
+| Member | Req. | Type / rule |
+|---|---|---|
+| `name` | yes | string |
+| `description` | no | string |
+| `patternEvaluations` | yes | `[patternEvaluationRef]`, min 1: `{id, patternRef: artifactRef, sizeSystemRef?, sizeKey?, configurationKey?, evaluationRef: derivedRef (digest required = the evaluation's resultDigest), geometryDigest}` ("PatternEvaluationRef", design decision ADR-009 §4). `sizeKey` requires `sizeSystemRef` (schema). The evaluation's embedded request pins the same `patternRef`, `sizeSystemRef`, `sizeKey` and `configurationKey`, and its `snapshotRef.digest` equals `geometryDigest` (D2P-REF-007); `sizeKey` resolves in `sizeSystemRef` (D2P-REF-009) |
+| `panelInstances` | yes | `[panelInstance: {id, patternEvaluationId, pieceId, cutInstanceKey, side: "left" \| "right" \| "center", name?}]`, min 1. A panel instance is a physical instance of a piece and binds exactly one cut instance (declared or implicit, §3.2.2) of that piece; the cut instance's `mirrored` flag mirrors the panel. A cut instance of one pattern evaluation is bound by at most one panel instance (D2P-SEM-120). Two sleeves cut from one sleeve piece are two panel instances with their own IDs (GAR-001, SIM-001, T3D-002) |
+| `sewingBindings` | yes | `[sewingBinding]` (may be empty), discriminated by `kind` (schema): `seam-connection` `{id, kind, patternEvaluationId, seamConnectionId, interfaceBindings: [interfaceBinding: {seamInterfaceId, panelInstanceId}] (exactly 2)}`; `sewing-group` `{id, kind, patternEvaluationId, sewingGroupId, memberBindingIds: [elementId] (min 2, uniqueItems)}`. Rules in D2P-SEM-121 below |
+| `materialAssignments` | yes | `[materialAssignment: {id, panelInstanceIds (min 1, uniqueItems), material: materialAssumptions (§3.3), appearance?: {baseColor: "^#[0-9a-f]{6}$"}}]` (may be empty). A panel instance appears in at most one assignment (D2P-SEM-120). `appearance` is a display hint only, never a textile property. Complete coverage is a release policy, not a schema rule |
+| `arrangements` | yes | `[arrangement: {id, name?, coordinateSystem: garmentCoordinateSystem, placements: [panelPlacement: {panelInstanceId, translationMm: point3, rotation: unitQuaternion}] (min 1)}]`, min 1. Exactly one placement per panel instance (D2P-SEM-122) |
+
+All `id` members of a garment share one namespace (§1.4). Element types of a garment for `elementRef` are `d2p:pattern-evaluation-ref`, `d2p:panel-instance`, `d2p:sewing-binding`, `d2p:material-assignment` and `d2p:arrangement`. `point3` (`[x, y, z]`, `prefixItems` of 3 numbers), `unitQuaternion` (`[x, y, z, w]`) and `garmentCoordinateSystem` are defined in `garment.schema.json` and reused by the module.
+
+**Sewing bindings** (D2P-SEM-121; design decision ADR-009 §5). A `seam-connection` binding names a seam connection of the pinned pattern and binds its two interfaces in the connection's order: `interfaceBindings[0].seamInterfaceId` = `interfaceIds[0]` (side A) and `interfaceBindings[1].seamInterfaceId` = `interfaceIds[1]` (side B). Each bound interface lies on the cut instance of its panel instance (the interface's `cutInstanceKey`, or the implicit instance of its piece), and the panel belongs to the binding's pattern evaluation reference. A connection is bound at most once per pattern evaluation reference, and an inactive connection is never bound. A `sewing-group` binding names a sewing group and lists the seam-connection bindings of exactly its member connections. A binding whose connection, group or interface does not exist in the pinned pattern is an unresolved reference (D2P-REF-003, GAR-002, T3D-004).
+
+**Impact of a new pattern revision** (design decision ADR-009 §5, §14; TOP-011, GAR-015). A garment never follows a pattern silently: switching to a new pattern revision is a new garment revision whose evaluation references pin the new evaluations ("rebind"), keeping panel, binding and arrangement IDs where the pattern's elements keep theirs. Implementations classify the impact as `compatible`, `requires-rebind`, `requires-resimulation` or `invalid`; the standard defines no impact-report document in this release.
+
+**`scene-input`** (record; own ID `sceneInputId`, `sci_`; design decision ADR-021 §4 "SceneInput")
+
+| Member | Req. | Type / rule |
+|---|---|---|
+| `garmentRef` | yes | `artifactRef` |
+| `arrangementId` | yes | elementId of an arrangement of the garment (D2P-REF-003) |
+| `mode` | yes | `sceneMode`: `arrangement` (the only value in this release) |
+| `meshProfile` | yes | `versionedId` of a `d2p:mesh-profile` |
+| `toleranceProfile` | no | `versionedId` |
+| `patternEvaluations` | yes | `[sceneEvaluationPin: {patternEvaluationId, evaluationRef (digest required), geometryDigest}]`, min 1: exactly the garment's evaluation references (D2P-REF-007) |
+| `evaluationKey` | yes | digest (§1.8): the cache key of the scene. A scene snapshot whose `evaluationKey` differs from the current scene input's key is stale and MUST NOT be served as current (GAR-016, SIM-003, T3D-008) |
+| `createdAt` | no | timestamp |
+
+**`scene-snapshot`** (derived; own ID `sceneSnapshotId`, `ssn_`; "GeometrySnapshot3D" of design decision ADR-009 §14, "SceneSnapshot" of ADR-021 §4)
+
+| Member | Req. | Type / rule |
+|---|---|---|
+| `sceneInputRef` | no | `derivedRef` to the scene input (digest = its `contentDigest`); its `evaluationKey` and `garmentRef` equal the snapshot's (D2P-REF-007) |
+| `garmentRef`, `arrangementId`, `mode`, `evaluationKey`, `meshProfile` | yes | as in the scene input |
+| `coordinateSystem` | yes | `garmentCoordinateSystem` |
+| `sceneUnit` | yes | const `m` |
+| `unitConversion` | yes | const `{from: "mm", to: "m", factor: 0.001}` |
+| `inputDigests` | yes | `[inputDigest]`, min 1: exactly one entry of role `garment` pinning `garmentRef`, one of role `pattern` per pattern of the evaluation pins, and exactly one of role `mesh-profile` pinning `meshProfile` (D2P-REF-007) |
+| `patternEvaluations` | yes | `[sceneEvaluationPin]`, min 1: the garment's evaluation references (D2P-SEM-124) |
+| `backendBuild` | yes | `{sceneBuilder: softwareInfo, mesher: backendPin (§3.8)}` |
+| `panelBindings` | yes | `[panelBinding: {panelInstanceId, patternEvaluationId, pieceId, cutInstanceKey, side, mirrored, transform: sceneTransform {translationM: point3, rotation: unitQuaternion}}]`, min 1 |
+| `seamBindings` | yes | `[sewingBinding]`: the garment's sewing bindings, unchanged |
+| `controlMeasures` | yes | `[controlMeasure: {seamInterfaceId, panelInstanceId, lengthMm, lengthM}]` |
+| `meshRefs` | yes | `[meshRef: {panelInstanceId, meshResultRef: derivedRef (digest required), meshDigest}]` |
+| `qualityStatus` | yes | `preview` \| `validated` \| `unsupported` \| `failed` (design decision ADR-009 §6). `failed` requires at least one diagnostic (schema; T3D-011) |
+| `representations` | no | `[sceneRepresentation: {format: "gltf-2.0", mediaType: "model/gltf+json" \| "model/gltf-binary", path?: relativePath, digest (raw-byte SHA-256)}]`, min 1 |
+| `diagnostics` | yes | `[diagnostic]` |
+| `bindingsDigest`, `sceneDigest` | yes | digests (§1.8) |
+| `createdAt` | no | timestamp |
+
+**Scene bindings** (kernel-free, D2P-SEM-123, D2P-SEM-124; QEV-011, GAR-013, SIM-002, TOP-008). A scene reproduces its garment: exactly one panel binding per panel instance, with the panel instance's `patternEvaluationId`, `pieceId`, `cutInstanceKey` and `side`, `mirrored` equal to the cut instance's flag (false for an implicit instance), `transform.rotation` equal to the placement rotation of the arrangement `arrangementId`, and `transform.translationM` = `translationMm` × 0.001; `seamBindings` equal the garment's sewing bindings (canonical form, as a set by `id`); exactly one control measure per interface binding of every seam-connection binding, whose `lengthMm` is the `lengthMm` of that interface in the geometry snapshot pinned by the panel's evaluation and whose `lengthM` is `lengthMm` × 0.001 (T3D-005, SIM-005). Unless `qualityStatus` is `failed` or `unsupported`, every panel binding has exactly one mesh reference, whose mesh result meshes that panel instance of the same garment revision and has `status: succeeded`. Values are compared per §3.4 (numeric comparison). Transient mesh indices never appear in bindings: meshes are tied to panels by `panelInstanceId` and to pattern edges by `edgeId` (TOP-008, GAR-003, T3D-009).
+
+**Determinism of bindings** (T3D-015, SIM-006). The binding members (`coordinateSystem`, `sceneUnit`, `unitConversion`, `panelBindings`, `seamBindings`, `controlMeasures`) are copies and one exact multiplication, so every conforming producer writes the same values for the same scene input and mesh profile, whatever its mesh backend: `bindingsDigest` is backend-independent. `sceneDigest` also covers `meshRefs` and therefore depends on the mesh backend and profile; meshes are compared across implementations with the tolerance profile only (metric `d2p:mesh-planar-deviation`).
+
+**glTF view** (EXP-013, SIM-012, T3D-006, GAR-017). A `gltf-2.0` representation is a derived transport and rendering file, never the normative garment structure. It has one node per panel binding, named by its `panelInstanceId`; coordinates are in m with Y up and +Z front (the scene frame, which is also the glTF frame); `asset.extras.d2p` holds `{sceneSnapshotId, sceneDigest}`. It contains no access-control data and no body or fit data. A view of a scene that pins a `body-measurement-profile` input is geometry derived from personal data: its `asset.extras.d2p` adds `personalDerived: true` and names neither the profile nor its digest nor any body value (D2P-SEM-050, SIM-009). Producers serve such a view only under the same export rules as the profile. Render materials are display hints, separate from textile properties. A mirrored panel reverses face orientation, so a producer that bakes the mirror into vertex positions also reverses the triangle winding.
+
+**`panel-mesh-result`** (derived; own ID `meshResultId`, `pmr_`; `resultDigest`; design decision ADR-021 §10 "GeneratePanelMesh")
+
+| Member | Req. | Type / rule |
+|---|---|---|
+| `garmentRef`, `panelInstanceId`, `pieceId`, `cutInstanceKey` | yes | the panel instance meshed; `pieceId` and `cutInstanceKey` equal the panel instance's (D2P-REF-007) |
+| `evaluationRef` (digest required), `geometryDigest` | yes | the panel's pinned evaluation and snapshot (D2P-REF-007) |
+| `meshProfile` | yes | `versionedId` |
+| `backend` | yes | `backendPin` (§3.8) |
+| `status` | yes | `succeeded` \| `failed`. `succeeded` requires `mesh`, `vertexUvToPattern2D`, `edgeBindings`, `maxApproximationErrorMm` and `meshDigest`; `failed` forbids them and requires at least one diagnostic (schema; T3D-011) |
+| `mesh` | by status | `panelMesh: {positions: [point3] (min 3, panel-local mm), uvs: [point2] (min 3), triangles: [triangle: [i, j, k], integers ≥ 0] (min 1)}` |
+| `vertexUvToPattern2D` | by status | `{kind: "affine", matrix: [a, b, c, d, e, f]}`: x = a·u + b·v + c, y = d·u + e·v + f (mm), so every vertex references its pattern position (T3D-003) |
+| `edgeBindings` | by status | `[edgeBinding: {edgeId, sampleCount (integer ≥ 2), maxDeviationMm}]`, min 1, sorted by `edgeId` |
+| `maxApproximationErrorMm` | by status | the largest planar deviation of the mesh boundary from the pattern contour (design decision ADR-021 §5 rule 3) |
+| `meshDigest` | by status | digest of `mesh` (§1.8) |
+| `diagnostics`, `resultDigest` | yes | |
+
+**Panel mesh rules** (kernel-free, D2P-SEM-125). A panel mesh is flat in panel-local coordinates (every position has z = 0; the scene places it), `positions` and `uvs` have equal length, every triangle index names a position, no edge binding exceeds `maxApproximationErrorMm`, there is exactly one edge binding per edge of the piece's contours, and, when the mesh profile is in the bundle, `maxApproximationErrorMm` ≤ its `maxPlanarDeviationMm` and every `sampleCount` ≥ its `sampling.minSamplesPerEdge`. Whether the boundary actually lies within the stated deviation, and whether `vertexUvToPattern2D` maps each UV to its position, is geometry and is checked against implementations with the tolerance profile. Triangle indices are transient: no domain binding references them (TOP-008).
+
+**`mesh-profile`** (vocabulary; own ID `profileId` + `version`; files `vocabularies/mesh-profiles/<local>-<version>.json`; design decision ADR-021 §5 rule 3)
+
+| Member | Req. | Type / rule |
+|---|---|---|
+| `profileId`, `version`, `status` (`provisional` \| `frozen`), `title` | yes | as for tolerance profiles (§3.8): a frozen profile is immutable, and a changed value is a new version |
+| `description`, `notes` | no | strings |
+| `sampling` | yes | `{maxChordDeviationMm (> 0), minSamplesPerEdge (integer ≥ 2)}` |
+| `triangulation` | yes | `{maxEdgeLengthMm (> 0), minAngleRad?}` |
+| `maxPlanarDeviationMm` | yes | positive length: the bound of `maxApproximationErrorMm` |
+| `toleranceProfile` | yes | `versionedId` of the tolerance profile results are compared with |
+
+**`sim-report`** (derived; own ID `simReportId`, `smr_`; `resultDigest`; design decision ADR-021 §4 "SimulationReport", §10 "SimulateCloth")
+
+| Member | Req. | Type / rule |
+|---|---|---|
+| `sceneSnapshotRef` | yes | `derivedRef` (digest required = the scene's `sceneDigest`) |
+| `profileKind` | yes | `assembly-preview` \| `kinematic-sewing` \| `fit-approximation` \| `physical-cloth` |
+| `solver` | yes | `backendPin` |
+| `solverProfile`, `toleranceProfile` | yes | `versionedId` |
+| `materialPhysicsProfile` | no | `versionedId` |
+| `inputDigests` | yes | `[inputDigest]`, min 1 |
+| `randomSeed` | no | integer |
+| `status` | yes | `succeeded` \| `failed`; `failed` requires at least one diagnostic (schema; SIM-007) |
+| `convergence` | yes | `converged` \| `nonconvergent` \| `not-applicable` |
+| `durationMs` | yes | number ≥ 0 |
+| `metrics` | yes | `[simMetric: {metric: qualifiedName, value, unit: benchmarkUnit}]`, sorted by `metric` |
+| `attachments` | no | `[attachment]` (§3.8), min 1 |
+| `diagnostics`, `resultDigest` | yes | |
+
+Every diagnostic of a simulation report is attributed to the report's `solver` and `toleranceProfile`, both required (VAL-012); a validation finding derived from it carries both in its `evidence`. Numerical simulation results depend on solver and profile: no bitwise equality is promised, and a preview or simulation never claims a guaranteed fit (design decision ADR-009 §14). Classifier C5 accepts the benchmark units in this document type (§2.2).
+
+**`inspect-3d-edit-result`** (derived; own ID `inspectionId`, `ier_`; `resultDigest`; design decision ADR-021 §10 "Inspect3DEdit")
+
+| Member | Req. | Type / rule |
+|---|---|---|
+| `sceneSnapshotRef` | yes | `derivedRef` (digest required = `sceneDigest`) |
+| `basePatternRef` | yes | `artifactRef` of the pattern revision the edits would change |
+| `edits` | yes | `[editClassification]`, min 1, sorted by `editId`: `{editId, target: editTarget {panelInstanceId, edgeId?, sewingBindingId?, controlId?: qualifiedName}, delta: editDelta {kind: extensible d2p:edge-length-change \| d2p:panel-move \| d2p:free-deformation, deltaMm?}, classification, parameterUpdates?, parameterCandidates?, reasonCode?, message?}` |
+| `proposalRef` | if and only if an edit is `supported` (D2P-SEM-126) | `derivedRef` (digest required = the proposal's `contentDigest`) |
+| `diagnostics`, `resultDigest` | yes | |
+
+**Back-projection classes** (schema-enforced, §1.12): `supported` requires `parameterUpdates` (min 1; `parameterUpdate` of §3.6) and forbids `parameterCandidates` and `reasonCode`; `ambiguous` requires `parameterCandidates` (min 2, uniqueItems) and forbids the others; `forbidden` requires `reasonCode` (extensible: `d2p:free-deformation-not-invertible`, `d2p:no-parametric-mapping`, `d2p:changes-seam-identity`, `d2p:changes-topology`, `d2p:outside-pinned-revision`) and forbids the others. Every edit is classified explicitly; nothing is dropped. The proposal named by `proposalRef` changes `basePatternRef` and holds exactly the parameter updates of the supported edits (D2P-SEM-126). Edit targets are named by domain IDs only (TOP-008). Parameter IDs resolve in the base pattern (D2P-REF-003) and expressions keep the parameter's dimension (D2P-SEM-002).
+
+**`pattern-proposal`** (record; own ID `proposalId`, `ppr_`; design decision ADR-009 §7)
+
+| Member | Req. | Type / rule |
+|---|---|---|
+| `basePatternRef` | yes | `artifactRef` |
+| `inspectionRef` | no | `derivedRef` to the inspection it came from |
+| `origin` | yes | `parametric-control` (a 3D control with an explicit parameter mapping, GAR-009) \| `mapped-mesh-edit` |
+| `parameterUpdates` | yes | `[parameterUpdate]` (§3.6), min 1; IDs resolve in the base pattern (D2P-REF-003), dimensions per D2P-SEM-002 |
+| `rationale` | no | string: assumptions (seam layout, flattening, material) for the reviewer |
+| `diagnostics` | yes | `[diagnostic]` |
+| `createdAt` | no | timestamp |
+
+**A proposal is never a revision** (CAD-012, GAR-008, SIM-008, T3D-014). It carries no revision ID and no pattern content, and nothing applies it automatically. Accepting it is a separate, authorized decision that submits a `d2p:pattern.parameters.update` command (§3.6) with `expectedRevisionId` = `basePatternRef.revisionId` and `payload.updates` = `parameterUpdates`; only that command creates the new pattern revision, which is then validated like any other. Free mesh deformations without a parametric mapping produce no proposal in this release: they are classified `ambiguous` or `forbidden` (design decision ADR-009 §7: no universal lossless inverse from a curved surface to a pattern is claimed).
+
+**`scene-expectation`** (record; own ID `expectationId`, `sxp_`): the machine-readable expected structure of the scene built from one scene input, used by fixtures (§4.5). Members: **`sceneInputRef`** (digest required = the input's `contentDigest`), **`garmentRef`**, **`arrangementId`**, **`mode`**, **`meshProfile`** (all equal to the scene input's, D2P-REF-007), **`toleranceProfile`**, **`coordinateSystem`**, **`sceneUnit`**, **`unitConversion`**, **`panelBindings`**, **`seamBindings`**, **`controlMeasures`** (shapes and rules as in `scene-snapshot`, D2P-SEM-123, D2P-SEM-124), **`anchors`** [`sceneAnchor`: `{panelInstanceId, contourId, positionM}`: the scene position of the contour's `start` from the pinned geometry snapshot; min 1], **`bindingsDigest`** (the expected `bindingsDigest` of every conforming scene snapshot of the input). Meshes are not expected results. Anchors involve rotations and are compared per §3.4.
+
+**Privacy** (D2P-SEM-050; T3D-012, SIM-009). Scene snapshots and scene expectations are export documents: they never reference an artifact classified `personal` or `sensitive-personal`, in any `…Ref`, `…Refs` or input digest. Implementations re-check access rights at job start and before output (design decision ADR-021 §10); access rights themselves are never part of a payload.
 
 ---
 
@@ -1455,6 +1660,65 @@ Case data lives next to the case file: `conformance/<level>/topology/<ID>-<slug>
 | SWG-008 | A `cutInstanceKey` in a group's `layerOrder` (or a seam interface) that the pattern does not declare is a reference error | referential, accept | referential → D2P-REF-010 |
 | SWG-011 | The same interface is used in two connections | — | semantic → D2P-SEM-023 |
 
+### 4.5 Golden T-Shirt 3D v1 fixture
+
+The 3D fixture builds on the Golden T-Shirt v1 (design decisions ADR-009 §8, ADR-021 §7): two sizes, front and back panels and **two sleeve panel instances of the one sleeve piece**, sewing bindings to the existing seam interfaces, connections and sewing groups, a flat-lay arrangement and the change case of §4.2 as a rebind. It is synthetic test data, not a design or norm. It is generated by `tools/oracle/golden-tshirt-3d.mjs` (`npm run oracle:3d`; `npm run oracle:check` fails on drift) from the files of the 2D fixture and the pinned vocabulary files, and the generator asserts the structural expectations below on every run.
+
+```text
+fixtures/golden-tshirt-3d/v1/
+  manifest.json
+  inputs/
+    artifacts/garment-<sizeKey>.json                (2, d2p:artifact, artifactType d2p:garment, public)
+    garment-<sizeKey>-r1.json                       (2, d2p:garment)
+    revisions/garment-<sizeKey>-r1.json             (2, d2p:revision)
+    scene-inputs/r1-<sizeKey>.json                  (2, d2p:scene-input)
+    change/garment-<sizeKey>-r2.json                (2, rebind to pattern r2)
+    change/revisions/garment-<sizeKey>-r2.json      (2)
+    change/scene-inputs/r2-<sizeKey>.json           (2)
+  expected/
+    scenes/<rev>-<sizeKey>.json                     (4, d2p:scene-expectation)
+  negative/<name>/…                                 (changed documents and case.json)
+```
+
+| Item | Identifier(s) / value |
+|---|---|
+| Garment artifacts and revisions | `art_golden-tshirt-3d-garment-<sizeKey>`, `rev_golden-tshirt-3d-garment-<sizeKey>-<rev>` (`<rev>` ∈ {`r1`, `r2`}); the r2 record has `parentRevisionIds: [r1]`, `sequence: 2` |
+| Pattern evaluation reference | `eval-main`: pattern r1 (r2 for garment r2), size system r1, the size, configuration `regular-woven`, the evaluation `pev_golden-tshirt-<rev>-<sizeKey>-regular-woven` and its snapshot digest |
+| Panel instances | `panel-front` (`front`, center), `panel-back` (`back`, center), `panel-sleeve-left` (`sleeve` / `sleeve-left`, left), `panel-sleeve-right` (`sleeve` / `sleeve-right`, right, mirrored by its cut instance) |
+| Sewing bindings | `bind-<seamConnectionId>` for the ten seam connections (interfaces in the connection's order, each bound to the panel of its cut instance) and `bind-<sewingGroupId>` for the two armhole groups |
+| Material assignment | `material-main`: all panels, `materialClass: woven` |
+| Arrangement `flat-lay` | front at z = +120 mm, back turned 180° about +Y at z = -120 mm, both centred on their bounding box; sleeves at z = 0 on either side (left sleeve at +X, the right sleeve mirrored at -X), 80 mm beside the body and 40 mm below its top edge; translations rounded to 0.1 mm and taken from the r1 snapshot of the size (garment r2 keeps them) |
+| Scene inputs, expectations | `sci_golden-tshirt-3d-<rev>-<sizeKey>`, `sxp_golden-tshirt-3d-<rev>-<sizeKey>`; mesh profile `d2p:golden-tshirt-3d-preview` 1.0.0; tolerance profile `d2p:golden-tshirt-3d` 1.0.0 |
+| Timestamps | garment r1 records and scene inputs `2026-01-05T00:00:00Z`, r2 `2026-01-06T00:00:00Z`; derived documents of the cases `2026-01-07T00:00:00Z` |
+| External files | pattern r1 and r2, size system, grading rule set, regular fit profile and garment measurement spec of the 2D fixture, the four regular-woven evaluations and snapshots (r1, r2 × size-a, size-b), the registry, the `d2p:sample-cut` profile and its rules, both Golden tolerance profiles and the mesh profile |
+
+**Expected structure** (asserted by the generator and checked by the conformance cases): panel, binding and arrangement IDs are identical in both sizes and both revisions (GAR-003, GAR-013, T3D-009); two sleeve panel instances reference the same piece with distinct IDs (GAR-001, T3D-002, SIM-001); every seam binding binds the existing interfaces of its connection in order (T3D-004); each scene expectation has four panel bindings, twelve seam bindings, twenty control measures with `lengthM` = `lengthMm` × 0.001 (T3D-005, SIM-005) and anchors with the front at +Z, the back at -Z, the left sleeve at +X and the right sleeve at -X (GAR-017); rebinding to pattern r2 changes the geometry digests, the evaluation keys and the bindings digests while every element ID stays (GAR-004, GAR-015, SIM-003, T3D-008); size A and size B scenes differ. Meshes are not expected results (T3D-015).
+
+**Tolerance and mesh profile** (both `status: provisional`). `d2p:golden-tshirt-3d` 1.0.0 (`tolerance-profiles/golden-tshirt-3d-1.0.0.json`) holds the proposed `d2p:mesh-planar-deviation` of 0.10 mm. `d2p:golden-tshirt-3d-preview` 1.0.0 (`vocabularies/mesh-profiles/golden-tshirt-3d-preview-1.0.0.json`) states `maxPlanarDeviationMm` 0.1, `sampling.maxChordDeviationMm` 0.05, `minSamplesPerEdge` 2 and `triangulation.maxEdgeLengthMm` 10. Both MUST be frozen by maintainer decision (as new versions if a value changes) **before** any implementation is compared against them, and are never adjusted afterwards.
+
+**Cases** (`conformance/<level>/golden-tshirt-3d/`):
+
+| Case | Level | Expected | Test IDs |
+|---|---|---|---|
+| `manifest-integrity` | referential | accept (manifest integrity, resolution of the whole fixture) | T3D-001, T3D-010, SIM-004, GAR-011, GAR-018, QEV-011 |
+| `fixture` | semantic | accept (all rules on the whole fixture) | GAR-001, 003, 004, 013, 015, 017, T3D-002, 004, 005, 008, 009, SIM-001, 002, 003, 005, QEV-011 |
+| `scene-snapshot-preview` | semantic | accept: an arrangement scene snapshot of r1 size A with four panel mesh results (boundary-sampled, ear-clipped, conformance-case mesh profile) and a glTF view `scene.gltf` | SIM-004, SIM-012, T3D-003, 006, 007, 010, 015, TOP-008, EXP-013, GAR-006, GAR-014 |
+| `inspect-3d-edit` | semantic | accept: one supported, one ambiguous and one forbidden edit, one proposal | CAD-012, T3D-014, SIM-008, GAR-008, GAR-009 |
+| `unknown-piece`, `unknown-seam-connection` | referential | D2P-REF-003 | GAR-002, T3D-004 |
+| `unknown-cut-instance` | referential | D2P-REF-010 | GAR-002 |
+| `evaluation-pin-mismatch` | referential | D2P-REF-007 | GAR-011, T3D-001 |
+| `duplicate-cut-instance` | semantic | D2P-SEM-120 | GAR-001, T3D-002, SIM-001 |
+| `binding-wrong-panel`, `binding-swapped-sides` | semantic | D2P-SEM-121 | T3D-004, QEV-011 |
+| `arrangement-incomplete` | semantic | D2P-SEM-122 | GAR-006 |
+| `scene-unit-not-converted` | semantic | D2P-SEM-123 | T3D-005, SIM-005, GAR-017, EXP-013 |
+| `scene-panel-missing` | semantic | D2P-SEM-124 | QEV-011, GAR-013, SIM-002 |
+| `mesh-approximation-exceeded` | semantic | D2P-SEM-125 | T3D-003 |
+| `inspect-proposal-mismatch` | semantic | D2P-SEM-126 | CAD-012, T3D-014 |
+| `personal-body-reference` | semantic | D2P-SEM-050 | T3D-012, SIM-009 |
+| `scene-unit-mm`, `sewing-binding-three-interfaces`, `inspect-supported-without-updates` | structural | D2P-STR-001 | SIM-005, T3D-005, T3D-004, T3D-014, CAD-012 |
+
+Negative fixtures follow the rules of §4.3; each reports exactly its expected code. Test IDs that need an implementation (T3D-011 meshing and solver failures as findings, T3D-013 and SIM-011 identical policies across REST, MCP and WebSocket, GAR-010 portable viewer fallback for unknown 3D extensions, the independent glTF import of T3D-006) are tested against implementations; the cases provide the documents they compare.
+
 ---
 
 ## 5. Open points and deferred items (not decided by this catalog)
@@ -1465,6 +1729,7 @@ Case data lives next to the case file: `conformance/<level>/topology/<ID>-<slug>
 - The `d2p-digest-v1` quantization step (1e-9 of the canonical unit), and with it the two-step bound for comparing derived values (§3.4), is fixed for 1.0 and needs maintainer confirmation before the first stable tag (`v1.0.0`). Pre-release tags (`v0.x`, see [CHANGELOG.md](../CHANGELOG.md)) MAY be cut before that confirmation; they carry no stability promise.
 - Measurement-definition mappings to ISO 8559-1 / ASTM D5219 are informative. Edition and licence must be checked before any mapping is published. The mechanism (`mapping-profile`, §3.1) is part of 1.0; no mapping profile is published yet.
 - The fixture's domain review (`review.status`) stays `pending` until it is performed.
+- The 3D tolerance profile `d2p:golden-tshirt-3d` 1.0.0 and the mesh profile `d2p:golden-tshirt-3d-preview` 1.0.0 are **provisional**; they are frozen by maintainer decision before any implementation is compared against them. The domain review of the Golden T-Shirt 3D arrangement is pending as well.
 
 **Pending deliverables of release 1.0**
 
@@ -1482,6 +1747,8 @@ Case data lives next to the case file: `conformance/<level>/topology/<ID>-<slug>
 - The output-profile properties of `d2p:plotter-1to1` (binding to the configured media) and `d2p:vector-svg` (`viewBox`, physical size, ID preservation, curve approximation) are renderer properties and are not checked by the 1.0 semantic level (§3.7).
 - Mapping profiles (design decision ADR-005): standard 1.0 contains only the mechanism, the `d2p:mapping-profile` document (§3.1) with its version, external edition, provenance and term-level relations, validated by `npm run validate` and checked for entry uniqueness and order (D2P-REF-005, D2P-REF-014). Deferred to later minor releases, and not decided here: (1) every concrete mapping profile, including measurement definitions to ISO 8559-1 / ASTM D5219, seam and stitch types to ISO 4916 / ISO 4915, and any garment or textile ontology, each after an edition and licence check; (2) value-level mappings (unit conversion, formulas, landmark translation) beyond term relations; (3) mapping entries for structured content (pieces, seams, sewing groups) rather than vocabulary terms; (4) resolving references through a mapping, which 1.0 forbids (§3.1). Until then, a mapping is informative and never changes how a document validates.
 - References from a fit profile to material artifacts (design decision ADR-011 §3) are not possible, because the standard has no material aggregate yet. `materialAssumptions` is the inline substitute.
+- Module `3d` (draft `0.2.0`) covers the `arrangement` mode only (design decision ADR-009 §12, MVP 1). Deferred to later minor releases, and not decided here: the modes `kinematic-assembly` (needs a pinned assembly plan and assembly state) and `physical-simulation` with simulation configurations inside the garment; body bindings and avatars (design decision ADR-009 §4 `BodyReference`); material artifacts for `materialAssignments`; a garment impact-report document (`compatible`, `requires-rebind`, `requires-resimulation`, `invalid`); standard command types for garments (garment revisions are created by implementation commands until then, because the `command` module precedes `3d` in the module order); pattern proposals for free mesh deformations (seam layout, flattening and darts estimated from a surface), which are classified `ambiguous` or `forbidden` until then; and a standard 3D extension fallback beyond §1.7 (GAR-010).
+- glTF validity, the independent glTF import, mesh quality and the actual planar deviation of meshes are tested against implementations only.
 
 **Tested against implementations only**
 

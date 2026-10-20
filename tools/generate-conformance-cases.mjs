@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Generates the kit's conformance cases (conformance/<level>/**, except the
-// fixture cases in conformance/<level>/golden-tshirt/, catalog §4.1/§4.3).
+// fixture cases in conformance/<level>/golden-tshirt/ and
+// conformance/<level>/golden-tshirt-3d/, catalog §4.1/§4.3/§4.5).
 // Every digest inside the case data is computed with tools/lib/c14n.mjs, so
 // rerun this script after changing the base documents or the schemas.
 //
@@ -13,8 +14,8 @@ import { fileURLToPath } from "node:url";
 import { contentDigestOf, digestOf, geometryDigestOf, resultDigestOf } from "./lib/c14n.mjs";
 
 const ROOT = path.resolve(process.argv[2] ?? path.join(path.dirname(fileURLToPath(import.meta.url)), ".."));
-/** Case directories owned by the Golden T-Shirt fixture, never touched here. */
-const RESERVED = new Set(["golden-tshirt"]);
+/** Case directories owned by the Golden T-Shirt fixtures (2D oracle, 3D generator), never touched here. */
+const RESERVED = new Set(["golden-tshirt", "golden-tshirt-3d"]);
 
 const V = "1.0.0";
 const REGISTRY = "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json";

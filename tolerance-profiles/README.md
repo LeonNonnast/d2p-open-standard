@@ -13,3 +13,4 @@ Rules:
 | File | Profile | Status |
 |---|---|---|
 | `golden-tshirt-2d-1.0.0.json` | `d2p:golden-tshirt-2d` `1.0.0`, used by the Golden T-Shirt v1 fixture | **provisional**: proposed values only (contour deviation 0.10 mm, relative seam-length deviation 0.005, control square 0.1 mm). `d2p:seam-length-deviation-absolute` and `d2p:angle-deviation` have no proposed value and are omitted. Not yet frozen; no benchmark run may use it until it is. |
+| `golden-tshirt-3d-1.0.0.json` | `d2p:golden-tshirt-3d` `1.0.0`, used by the Golden T-Shirt 3D v1 fixture | **provisional**: proposed mesh planar deviation 0.10 mm (`d2p:mesh-planar-deviation`). Frozen by maintainer decision before any mesh comparison. |

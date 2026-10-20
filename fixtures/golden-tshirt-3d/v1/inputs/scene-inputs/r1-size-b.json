@@ -1,0 +1,31 @@
+{
+  "documentType": "d2p:scene-input",
+  "schemaVersion": "1.0.0",
+  "sceneInputId": "sci_golden-tshirt-3d-r1-size-b",
+  "createdAt": "2026-01-05T00:00:00Z",
+  "garmentRef": {
+    "artifactId": "art_golden-tshirt-3d-garment-size-b",
+    "revisionId": "rev_golden-tshirt-3d-garment-size-b-r1"
+  },
+  "arrangementId": "flat-lay",
+  "mode": "arrangement",
+  "meshProfile": {
+    "id": "d2p:golden-tshirt-3d-preview",
+    "version": "1.0.0"
+  },
+  "toleranceProfile": {
+    "id": "d2p:golden-tshirt-3d",
+    "version": "1.0.0"
+  },
+  "patternEvaluations": [
+    {
+      "patternEvaluationId": "eval-main",
+      "evaluationRef": {
+        "id": "pev_golden-tshirt-r1-size-b-regular-woven",
+        "digest": "sha256:44ad85d43fe7065357e63dd7a7ac29da7f6831f167f731a2795d41541b09505e"
+      },
+      "geometryDigest": "sha256:bba3a59358191aa25bcdd50bc26670a2bee23cef691289ca0968be77624b6c0b"
+    }
+  ],
+  "evaluationKey": "sha256:b6cad3f8ea01bd259f84928826a181618ffacd6636c28e2b9733d1464032c428"
+}

@@ -1,0 +1,83 @@
+{
+  "documentType": "d2p:sim-report",
+  "schemaVersion": "1.0.0",
+  "simReportId": "smr_example-cloth-run",
+  "createdAt": "2026-01-08T00:00:00Z",
+  "sceneSnapshotRef": {
+    "id": "ssn_golden-tshirt-3d-r1-size-a",
+    "digest": "sha256:6eff295f9b7dbba4193aedbfaf78ee6135ca2cf82c9e3d68a6f2ec88dad74336"
+  },
+  "profileKind": "physical-cloth",
+  "solver": {
+    "backendId": "example-cloth-solver",
+    "backendVersion": "2.4.0",
+    "adapterVersion": "0.1.0"
+  },
+  "solverProfile": {
+    "id": "com.example.cloth:implicit-euler",
+    "version": "1.0.0"
+  },
+  "materialPhysicsProfile": {
+    "id": "com.example.cloth:cotton-jersey",
+    "version": "0.1.0"
+  },
+  "toleranceProfile": {
+    "id": "com.example.cloth:preview",
+    "version": "1.0.0"
+  },
+  "inputDigests": [
+    {
+      "role": "garment",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-3d-garment-size-a",
+        "revisionId": "rev_golden-tshirt-3d-garment-size-a-r1"
+      },
+      "digest": "sha256:cd1c6f7d331e57da2a31143795b380882d05f90de4bdb86625e4140daf72cd72"
+    },
+    {
+      "role": "mesh-profile",
+      "id": {
+        "id": "org.example.conformance:boundary-only",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:19bcac4bd8d2b08bc7fa813b86bf6b161f30356483bdc8666677339d655340f7"
+    },
+    {
+      "role": "pattern",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-pattern",
+        "revisionId": "rev_golden-tshirt-pattern-r1"
+      },
+      "digest": "sha256:ef7edb92161d6db884d89db7b16baac1e1432e26e9d9ff1f1a1ce23649eb6949"
+    }
+  ],
+  "randomSeed": 42,
+  "status": "succeeded",
+  "convergence": "converged",
+  "durationMs": 1830,
+  "metrics": [
+    {
+      "metric": "com.example.cloth:body-collisions",
+      "value": 0,
+      "unit": "count"
+    },
+    {
+      "metric": "com.example.cloth:residual-energy",
+      "value": 0.0004,
+      "unit": "1"
+    },
+    {
+      "metric": "com.example.cloth:seam-gap-max",
+      "value": 0.8,
+      "unit": "mm"
+    }
+  ],
+  "diagnostics": [
+    {
+      "code": "com.example.cloth:SEAM-GAP",
+      "severity": "warning",
+      "message": "Largest residual seam gap 0.8 mm at bind-seam-armhole-back-left (solver example-cloth-solver 2.4.0, tolerance profile com.example.cloth:preview 1.0.0)."
+    }
+  ],
+  "resultDigest": "sha256:41652bebe0588a4bd6ff6456b6654af939aa3c96cf66d02b75b336ad24ab62e8"
+}

@@ -2,7 +2,7 @@
 
 An open, vendor-neutral data standard for **digital garment patterns** — pattern pieces, measurements, grading, seams, validation and print-ready 1:1 output — together with a **conformance kit** anyone can run.
 
-> **Status: pre-release `v0.1.0` (draft of standard 1.0).** The schema catalog, 50 JSON Schemas, the measurement-definition registry, the standard validation rules and profiles, the Golden T-Shirt v1 fixture and a conformance kit with three runnable levels exist. Documents already declare `schemaVersion: "1.0.0"`, the release they are drafted for, but nothing is stable before the `v1.0.0` tag. That tag waits for the domain review of the fixture by a pattern maker or seamstress (test QEV-016, pending), the maintainer freeze of the provisional tolerance profile and the maintainer confirmation of the digest quantization step. All fixture and case values are synthetic test data, not size tables or norms. See [CHANGELOG.md](CHANGELOG.md).
+> **Status: pre-release `v0.1.0` (draft of standard 1.0); draft `0.2.0` in progress (unreleased, untagged).** The schema catalog, 59 JSON Schemas (the draft `0.2.0` adds the module `3d`: garment, scene input and snapshot, panel mesh result, mesh profile, simulation report, 3D edit inspection, pattern proposal, scene expectation), the measurement-definition registry, the standard validation rules and profiles, the Golden T-Shirt v1 and Golden T-Shirt 3D v1 fixtures and a conformance kit with three runnable levels exist. Documents already declare `schemaVersion: "1.0.0"`, the release they are drafted for, but nothing is stable before the `v1.0.0` tag. That tag waits for the domain review of the fixture by a pattern maker or seamstress (test QEV-016, pending), the maintainer freeze of the provisional tolerance profile and the maintainer confirmation of the digest quantization step. All fixture and case values are synthetic test data, not size tables or norms. See [CHANGELOG.md](CHANGELOG.md).
 
 ## Why this exists
 
@@ -20,7 +20,7 @@ The standard is published so that it can be **implemented by third parties witho
 |---|---|
 | [`schemas/`](schemas/) | Canonical JSON Schemas (draft 2020-12), one directory per module |
 | [`examples/`](examples/) | Normative valid and invalid examples per schema |
-| [`fixtures/`](fixtures/) | Golden fixtures: the synthetic *Golden T-Shirt* v1 with inputs, expected results, negative cases and a digest manifest |
+| [`fixtures/`](fixtures/) | Golden fixtures: the synthetic *Golden T-Shirt* v1 and *Golden T-Shirt 3D* v1 with inputs, expected results, negative cases and digest manifests |
 | [`tolerance-profiles/`](tolerance-profiles/) | Versioned numeric tolerances used to compare results |
 | [`conformance/`](conformance/) | Conformance cases in three separately runnable levels: structural, referential, semantic |
 | [`specifications/`](specifications/) | Normative prose: the schema catalog (conventions, diagnostics, conformance levels, module catalog, fixture) |
@@ -46,8 +46,8 @@ npm run conformance:structural      # each level runs on its own ...
 npm run conformance:referential
 npm run conformance:semantic
 npm run conformance                 # ... or all three in sequence
-npm run fixture:verify              # verify the Golden T-Shirt manifest before comparing against it
-npm run oracle:check                # regenerate the fixture in a temp dir, byte-compare, schema-check
+npm run fixture:verify              # verify both Golden T-Shirt manifests before comparing against them
+npm run oracle:check                # regenerate both fixtures in a temp dir, byte-compare, schema-check
 npm test                            # unit tests of the tooling, fixture wiring, OSS-001, QEV-001
 npm run check                       # everything above
 ```
@@ -69,6 +69,8 @@ The conformance kit runs each case at its level after all lower levels have pass
 2. Verify the fixture first: `npm run fixture:verify` (or `openFixtureForComparison` in `tools/lib/fixture.mjs`). If any digest, listed file or reference does not match, the fixture is **refused** and no comparison may start (test QEV-001).
 3. Evaluate the inputs in `fixtures/golden-tshirt/v1/inputs/` with your implementation and compare with `expected/` using the pinned tolerance profile (currently **provisional**, so results are not yet a benchmark).
 4. Run your implementation's validator on the negative fixtures; each one names the diagnostic code it must produce.
+
+The Golden T-Shirt 3D v1 (`fixtures/golden-tshirt-3d/v1/`, catalog §4.5) is used the same way: verify it (`node tools/verify-fixture.mjs fixtures/golden-tshirt-3d/v1/manifest.json`), build a scene from each scene input and compare the scene's panel and seam bindings, control measures and anchors with `expected/scenes/` (exact, per catalog §3.4), and the meshes with the pinned 3D tolerance profile (provisional).
 
 Everything needed is in this repository: the schemas, fixtures and kit are read with a generic JSON Schema 2020-12 validator and Node.js only, without any D2P account, service or proprietary code (test OSS-001).
 

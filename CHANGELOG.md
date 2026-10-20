@@ -5,6 +5,38 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-20
+
+Pre-release **0.2.0** (expert review of the 3D arrangement pending): a minor extension of the standard 1.0 draft by the module `3d`. Documents still declare `schemaVersion: "1.0.0"`; nothing that was valid before becomes invalid.
+
+### Added
+
+- **Module `3d`** (catalog §3.9; design decisions ADR-009, ADR-021) with nine schemas, each with valid and invalid examples:
+  - `garment` (artifact content, `artifactType` `d2p:garment`): pinned pattern evaluation references (pattern revision, size, configuration, evaluation and snapshot digests), panel instances that bind one cut instance each (two sleeves of one sleeve piece are two panel instances), sewing bindings to the pattern's seam connections and sewing groups (never copies of them), material assignments and arrangements with placements (mm, unit quaternions);
+  - `scene-input` with its `evaluationKey` (cache key; a scene built for another key is stale) and `scene-snapshot` (right-handed, Y up, front +Z, `sceneUnit: "m"`, explicit `unitConversion` mm to m with factor 0.001, input digests, backend build, mesh references, panel and seam bindings, control measures, quality status, optional glTF representation, `bindingsDigest` and `sceneDigest`);
+  - `panel-mesh-result` (flat panel mesh in panel-local mm, `vertexUvToPattern2D`, edge bindings by edge ID, `maxApproximationErrorMm`, `meshDigest`; failures are results with diagnostics) and the vocabulary `mesh-profile`;
+  - `sim-report` (solver, solver profile and tolerance profile always named, so findings are attributable);
+  - `inspect-3d-edit-result` (every edit classified `supported`, `ambiguous` or `forbidden`, schema-enforced) and `pattern-proposal` (never a revision; accepting it is a separate `d2p:pattern.parameters.update` command);
+  - `scene-expectation` (expected scene structure for fixtures).
+- **glTF view of personal-derived scenes** (catalog §3.9, D2P-SEM-050, SIM-009): a view of a scene pinning a body measurement profile states `personalDerived: true` in `asset.extras.d2p` and never names the profile or a body value.
+- **Core extensions** (minor): global ID prefixes `sci`, `ssn`, `pmr`, `smr`, `ppr`, `ier`, `sxp`; artifact type `d2p:garment`; element types `d2p:pattern-evaluation-ref`, `d2p:panel-instance`, `d2p:sewing-binding`, `d2p:material-assignment`, `d2p:arrangement`; input roles `garment` and `mesh-profile`; tolerance metric `d2p:mesh-planar-deviation`; the 3D document types in `documentTypeName`.
+- **Digest kinds** `bindingsDigest`, `sceneDigest`, `meshDigest` and `evaluationKey`; `resultDigest` on `panel-mesh-result`, `sim-report` and `inspect-3d-edit-result`; array orders of the 3D documents.
+- **Diagnostic codes** D2P-SEM-120 (panel instances), D2P-SEM-121 (sewing bindings), D2P-SEM-122 (arrangements), D2P-SEM-123 (mm to m conversion), D2P-SEM-124 (scene bindings reproduce the garment), D2P-SEM-125 (panel meshes), D2P-SEM-126 (edit inspection and proposal); D2P-REF-007, D2P-REF-011 and D2P-SEM-050 extended to the 3D documents; new referential resolution rows (catalog §2.6). The kit implements them in `tools/lib/garment.mjs`.
+- **Provisional profiles** `d2p:golden-tshirt-3d` 1.0.0 (tolerance profile, `d2p:mesh-planar-deviation` 0.10 mm) and `d2p:golden-tshirt-3d-preview` 1.0.0 (mesh profile, `vocabularies/mesh-profiles/`). Both must be frozen by maintainer decision before any implementation is compared against them.
+- **Golden T-Shirt 3D v1 fixture** (`fixtures/golden-tshirt-3d/v1/`, catalog §4.5): one garment per size with front, back and two sleeve panel instances, bindings to the existing seam interfaces, a flat-lay arrangement, scene inputs, expected scene structures (bindings, control measures in mm and m, anchors, bindings digest) and the rebind to pattern r2 with stable IDs; generated and checked by `tools/oracle/golden-tshirt-3d.mjs` (`npm run oracle:3d`, part of `npm run oracle:check`).
+- **20 conformance cases** in `conformance/<level>/golden-tshirt-3d/` (3 structural, 5 referential, 12 semantic), including an arrangement scene snapshot with four panel meshes and a glTF view, a 3D edit inspection with its proposal, and one negative case per new code; test IDs GAR-, SIM-, T3D-, CAD-012, EXP-013, TOP-008 and QEV-011 are recorded in the cases.
+
+### Changed
+
+- `npm run fixture:verify` verifies both fixtures; `npm run oracle:check` also checks the 3D generator.
+- Classifier C5 accepts the benchmark units in `d2p:sim-report`.
+- Module dependency order gains group (7) `3d`.
+
+### Not yet done
+
+- The 3D tolerance and mesh profiles are provisional; the domain review of the 3D arrangement is pending.
+- Deferred (catalog §5): modes `kinematic-assembly` and `physical-simulation`, body bindings, material artifacts, a garment impact-report document, garment command types and proposals for free mesh deformations.
+
 ## [0.1.0] - 2026-10-19
 
 First pre-release: a complete **draft of standard 1.0** with its conformance kit and the Golden T-Shirt v1 fixture. It is tagged `v0.1.0`, not `v1.0.0`, because the release criteria for 1.0 are not met yet (see *Not yet done* below). Before `1.0.0` the standard is unstable, and later 0.x releases may contain breaking changes (see [GOVERNANCE.md](GOVERNANCE.md)). Documents already declare `schemaVersion: "1.0.0"`, the release they are drafted for, and the fixture declares `fixtureVersion: "1.0.0"`; those values do not mean that 1.0 has been released.

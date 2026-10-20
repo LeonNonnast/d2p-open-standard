@@ -1,0 +1,36 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "golden-tshirt-3d.fixture",
+  "level": "semantic",
+  "title": "Golden T-Shirt 3D: all semantic rules on the whole fixture",
+  "documents": [
+    {
+      "path": "fixtures/golden-tshirt-3d/v1/manifest.json",
+      "role": "manifest"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "GAR-001",
+    "GAR-003",
+    "GAR-004",
+    "GAR-013",
+    "GAR-015",
+    "GAR-017",
+    "T3D-002",
+    "T3D-004",
+    "T3D-005",
+    "T3D-008",
+    "T3D-009",
+    "SIM-001",
+    "SIM-002",
+    "SIM-003",
+    "SIM-005",
+    "QEV-011"
+  ],
+  "description": "Both sizes and both pattern revisions: two sleeve panel instances of one piece, bindings to existing interfaces, exact mm to m conversion, stable IDs across sizes and revisions."
+}

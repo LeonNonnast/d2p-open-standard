@@ -1,0 +1,463 @@
+{
+  "documentType": "d2p:scene-expectation",
+  "schemaVersion": "1.0.0",
+  "expectationId": "sxp_golden-tshirt-3d-r2-size-a",
+  "sceneInputRef": {
+    "id": "sci_golden-tshirt-3d-r2-size-a",
+    "digest": "sha256:e878552e49f1bcad12f882ee27f4f9fd4386df829a3b2a8e5d18d8b759c3f500"
+  },
+  "garmentRef": {
+    "artifactId": "art_golden-tshirt-3d-garment-size-a",
+    "revisionId": "rev_golden-tshirt-3d-garment-size-a-r2"
+  },
+  "arrangementId": "flat-lay",
+  "mode": "arrangement",
+  "meshProfile": {
+    "id": "d2p:golden-tshirt-3d-preview",
+    "version": "1.0.0"
+  },
+  "toleranceProfile": {
+    "id": "d2p:golden-tshirt-3d",
+    "version": "1.0.0"
+  },
+  "coordinateSystem": {
+    "handedness": "right",
+    "up": "+y",
+    "front": "+z"
+  },
+  "sceneUnit": "m",
+  "unitConversion": {
+    "from": "mm",
+    "to": "m",
+    "factor": 0.001
+  },
+  "panelBindings": [
+    {
+      "panelInstanceId": "panel-back",
+      "patternEvaluationId": "eval-main",
+      "pieceId": "back",
+      "cutInstanceKey": "back",
+      "side": "center",
+      "mirrored": false,
+      "transform": {
+        "translationM": [
+          0,
+          -0.34,
+          -0.12
+        ],
+        "rotation": [
+          0,
+          1,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "panelInstanceId": "panel-front",
+      "patternEvaluationId": "eval-main",
+      "pieceId": "front",
+      "cutInstanceKey": "front",
+      "side": "center",
+      "mirrored": false,
+      "transform": {
+        "translationM": [
+          0,
+          -0.34,
+          0.12
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "panelInstanceId": "panel-sleeve-left",
+      "patternEvaluationId": "eval-main",
+      "pieceId": "sleeve",
+      "cutInstanceKey": "sleeve-left",
+      "side": "left",
+      "mirrored": false,
+      "transform": {
+        "translationM": [
+          0.5322,
+          0.102,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "panelInstanceId": "panel-sleeve-right",
+      "patternEvaluationId": "eval-main",
+      "pieceId": "sleeve",
+      "cutInstanceKey": "sleeve-right",
+      "side": "right",
+      "mirrored": true,
+      "transform": {
+        "translationM": [
+          -0.5322,
+          0.102,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ]
+      }
+    }
+  ],
+  "seamBindings": [
+    {
+      "id": "bind-group-armhole-left",
+      "kind": "sewing-group",
+      "patternEvaluationId": "eval-main",
+      "sewingGroupId": "group-armhole-left",
+      "memberBindingIds": [
+        "bind-seam-armhole-back-left",
+        "bind-seam-armhole-front-left"
+      ]
+    },
+    {
+      "id": "bind-group-armhole-right",
+      "kind": "sewing-group",
+      "patternEvaluationId": "eval-main",
+      "sewingGroupId": "group-armhole-right",
+      "memberBindingIds": [
+        "bind-seam-armhole-back-right",
+        "bind-seam-armhole-front-right"
+      ]
+    },
+    {
+      "id": "bind-seam-armhole-back-left",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-armhole-back-left",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-back-armhole-left",
+          "panelInstanceId": "panel-back"
+        },
+        {
+          "seamInterfaceId": "si-sleeve-left-cap-back",
+          "panelInstanceId": "panel-sleeve-left"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-armhole-back-right",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-armhole-back-right",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-back-armhole-right",
+          "panelInstanceId": "panel-back"
+        },
+        {
+          "seamInterfaceId": "si-sleeve-right-cap-back",
+          "panelInstanceId": "panel-sleeve-right"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-armhole-front-left",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-armhole-front-left",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-front-armhole-left",
+          "panelInstanceId": "panel-front"
+        },
+        {
+          "seamInterfaceId": "si-sleeve-left-cap-front",
+          "panelInstanceId": "panel-sleeve-left"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-armhole-front-right",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-armhole-front-right",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-front-armhole-right",
+          "panelInstanceId": "panel-front"
+        },
+        {
+          "seamInterfaceId": "si-sleeve-right-cap-front",
+          "panelInstanceId": "panel-sleeve-right"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-shoulder-left",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-shoulder-left",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-front-shoulder-left",
+          "panelInstanceId": "panel-front"
+        },
+        {
+          "seamInterfaceId": "si-back-shoulder-left",
+          "panelInstanceId": "panel-back"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-shoulder-right",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-shoulder-right",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-front-shoulder-right",
+          "panelInstanceId": "panel-front"
+        },
+        {
+          "seamInterfaceId": "si-back-shoulder-right",
+          "panelInstanceId": "panel-back"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-side-left",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-side-left",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-front-side-left",
+          "panelInstanceId": "panel-front"
+        },
+        {
+          "seamInterfaceId": "si-back-side-left",
+          "panelInstanceId": "panel-back"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-side-right",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-side-right",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-front-side-right",
+          "panelInstanceId": "panel-front"
+        },
+        {
+          "seamInterfaceId": "si-back-side-right",
+          "panelInstanceId": "panel-back"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-underarm-left",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-underarm-left",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-sleeve-left-underarm-front",
+          "panelInstanceId": "panel-sleeve-left"
+        },
+        {
+          "seamInterfaceId": "si-sleeve-left-underarm-back",
+          "panelInstanceId": "panel-sleeve-left"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-underarm-right",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-underarm-right",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-sleeve-right-underarm-front",
+          "panelInstanceId": "panel-sleeve-right"
+        },
+        {
+          "seamInterfaceId": "si-sleeve-right-underarm-back",
+          "panelInstanceId": "panel-sleeve-right"
+        }
+      ]
+    }
+  ],
+  "controlMeasures": [
+    {
+      "seamInterfaceId": "si-back-armhole-left",
+      "panelInstanceId": "panel-back",
+      "lengthMm": 213.917833082,
+      "lengthM": 0.213917833
+    },
+    {
+      "seamInterfaceId": "si-back-armhole-right",
+      "panelInstanceId": "panel-back",
+      "lengthMm": 213.917833082,
+      "lengthM": 0.213917833
+    },
+    {
+      "seamInterfaceId": "si-back-shoulder-left",
+      "panelInstanceId": "panel-back",
+      "lengthMm": 155.008960314,
+      "lengthM": 0.15500896
+    },
+    {
+      "seamInterfaceId": "si-back-shoulder-right",
+      "panelInstanceId": "panel-back",
+      "lengthMm": 155.008960314,
+      "lengthM": 0.15500896
+    },
+    {
+      "seamInterfaceId": "si-back-side-left",
+      "panelInstanceId": "panel-back",
+      "lengthMm": 435,
+      "lengthM": 0.435
+    },
+    {
+      "seamInterfaceId": "si-back-side-right",
+      "panelInstanceId": "panel-back",
+      "lengthMm": 435,
+      "lengthM": 0.435
+    },
+    {
+      "seamInterfaceId": "si-front-armhole-left",
+      "panelInstanceId": "panel-front",
+      "lengthMm": 219.883616154,
+      "lengthM": 0.219883616
+    },
+    {
+      "seamInterfaceId": "si-front-armhole-right",
+      "panelInstanceId": "panel-front",
+      "lengthMm": 219.883616154,
+      "lengthM": 0.219883616
+    },
+    {
+      "seamInterfaceId": "si-front-shoulder-left",
+      "panelInstanceId": "panel-front",
+      "lengthMm": 155.008960314,
+      "lengthM": 0.15500896
+    },
+    {
+      "seamInterfaceId": "si-front-shoulder-right",
+      "panelInstanceId": "panel-front",
+      "lengthMm": 155.008960314,
+      "lengthM": 0.15500896
+    },
+    {
+      "seamInterfaceId": "si-front-side-left",
+      "panelInstanceId": "panel-front",
+      "lengthMm": 435,
+      "lengthM": 0.435
+    },
+    {
+      "seamInterfaceId": "si-front-side-right",
+      "panelInstanceId": "panel-front",
+      "lengthMm": 435,
+      "lengthM": 0.435
+    },
+    {
+      "seamInterfaceId": "si-sleeve-left-cap-back",
+      "panelInstanceId": "panel-sleeve-left",
+      "lengthMm": 221.917833082,
+      "lengthM": 0.221917833
+    },
+    {
+      "seamInterfaceId": "si-sleeve-left-cap-front",
+      "panelInstanceId": "panel-sleeve-left",
+      "lengthMm": 225.883616154,
+      "lengthM": 0.225883616
+    },
+    {
+      "seamInterfaceId": "si-sleeve-left-underarm-back",
+      "panelInstanceId": "panel-sleeve-left",
+      "lengthMm": 128.417891073,
+      "lengthM": 0.128417891
+    },
+    {
+      "seamInterfaceId": "si-sleeve-left-underarm-front",
+      "panelInstanceId": "panel-sleeve-left",
+      "lengthMm": 128.417891073,
+      "lengthM": 0.128417891
+    },
+    {
+      "seamInterfaceId": "si-sleeve-right-cap-back",
+      "panelInstanceId": "panel-sleeve-right",
+      "lengthMm": 221.917833082,
+      "lengthM": 0.221917833
+    },
+    {
+      "seamInterfaceId": "si-sleeve-right-cap-front",
+      "panelInstanceId": "panel-sleeve-right",
+      "lengthMm": 225.883616154,
+      "lengthM": 0.225883616
+    },
+    {
+      "seamInterfaceId": "si-sleeve-right-underarm-back",
+      "panelInstanceId": "panel-sleeve-right",
+      "lengthMm": 128.417891073,
+      "lengthM": 0.128417891
+    },
+    {
+      "seamInterfaceId": "si-sleeve-right-underarm-front",
+      "panelInstanceId": "panel-sleeve-right",
+      "lengthMm": 128.417891073,
+      "lengthM": 0.128417891
+    }
+  ],
+  "anchors": [
+    {
+      "panelInstanceId": "panel-back",
+      "contourId": "back-outer",
+      "positionM": [
+        0.26,
+        -0.34,
+        -0.12
+      ]
+    },
+    {
+      "panelInstanceId": "panel-front",
+      "contourId": "front-outer",
+      "positionM": [
+        -0.26,
+        -0.34,
+        0.12
+      ]
+    },
+    {
+      "panelInstanceId": "panel-sleeve-left",
+      "contourId": "sleeve-outer",
+      "positionM": [
+        0.34107849,
+        0.101065908,
+        0
+      ]
+    },
+    {
+      "panelInstanceId": "panel-sleeve-right",
+      "contourId": "sleeve-outer",
+      "positionM": [
+        -0.34107849,
+        0.101065908,
+        0
+      ]
+    }
+  ],
+  "bindingsDigest": "sha256:4613af33bd2ed53300a3a73bcdf7d9b9bb8579dc8655c04e897945c41bbc0c8c"
+}

@@ -5,7 +5,7 @@ import { CLOSED_OPS, walkExpr } from "./expression.mjs";
 import { embeddedDocuments, isObject, walkJson } from "./model.mjs";
 
 const REVISION_ID_RE = /^rev_[0-9A-Za-z][0-9A-Za-z-]{0,63}$/;
-const BENCHMARK_UNIT_TYPES = new Set(["d2p:test-run-report", "d2p:benchmark-run", "d2p:tolerance-profile"]);
+const BENCHMARK_UNIT_TYPES = new Set(["d2p:test-run-report", "d2p:benchmark-run", "d2p:tolerance-profile", "d2p:sim-report"]);
 const UNITS = new Set(["mm", "rad", "1"]);
 const BENCHMARK_UNITS = new Set(["mm", "rad", "1", "ms", "byte", "count"]);
 const MAX_MESSAGES_PER_PATH = 5;
