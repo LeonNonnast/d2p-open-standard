@@ -1,0 +1,30 @@
+{
+  "documentType": "d2p:command",
+  "schemaVersion": "1.0.0",
+  "commandId": "cmd_conformance-edit-3",
+  "idempotencyKey": "conformance-edit-3",
+  "type": "d2p:pattern.edit",
+  "target": {
+    "artifactId": "art_conformance-square",
+    "branch": "main"
+  },
+  "expectedRevisionId": "rev_conformance-square-r1",
+  "payload": {
+    "operations": [
+      {
+        "op": "remove",
+        "collection": "sewingGroups",
+        "key": "group-sides"
+      },
+      {
+        "op": "remove",
+        "collection": "seamConnections",
+        "key": "seam-shoulder"
+      }
+    ]
+  },
+  "actorContext": {
+    "actorPrincipalId": "prn_conformance-kit"
+  },
+  "issuedAt": "2026-01-02T00:00:00Z"
+}

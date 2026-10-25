@@ -8,7 +8,7 @@
     "revisionId": "rev_golden-tshirt-3d-garment-size-a-r1"
   },
   "arrangementId": "flat-lay",
-  "mode": "physical-simulation",
+  "mode": "kinematic-assembly",
   "meshProfile": {
     "id": "d2p:golden-tshirt-3d-preview",
     "version": "1.0.0"

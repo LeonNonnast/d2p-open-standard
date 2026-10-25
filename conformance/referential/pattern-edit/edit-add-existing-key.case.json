@@ -1,0 +1,34 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "pattern-edit.edit-add-existing-key",
+  "level": "referential",
+  "title": "A pattern edit that adds a piece whose ID already exists in the expected revision is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/pattern-edit/edit-add-existing-key/command.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/pattern-edit/edit-add-existing-key/pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/pattern-edit/edit-add-existing-key/revision-pattern-r1.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-005",
+        "documentPath": "conformance/referential/pattern-edit/edit-add-existing-key/command.json",
+        "instancePath": "/payload/operations/1"
+      }
+    ]
+  },
+  "testIds": [
+    "UX-005"
+  ]
+}

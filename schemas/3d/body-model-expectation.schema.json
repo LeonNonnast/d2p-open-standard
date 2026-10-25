@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/3d/body-model-expectation.schema.json",
+  "title": "D2P Body Model Expectation",
+  "description": "Machine-readable expectation for the body models of one body source and avatar profile, used by fixtures (catalog §4.6): the expected status, every control-measure target with its origin (profile, size table or inferred) and its tolerance. A conforming body model of the source has these targets and stays within these tolerances (AVA-001). Meshes are not expected results.",
+  "$comment": "Schema catalog section 3.9 (draft 0.3.0). Targets are checked against the source and the avatar profile (D2P-SEM-127).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "expectationId",
+    "source",
+    "avatarProfile",
+    "expectedStatus",
+    "controlMeasures",
+    "toleranceProfile"
+  ],
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:body-model-expectation"
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against."
+    },
+    "expectationId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/bodyModelExpectationId",
+      "description": "Own ID ('bmx_')."
+    },
+    "source": {
+      "$ref": "https://d2p.nonnast.dev/schemas/3d/garment.schema.json#/$defs/bodySource",
+      "description": "Pinned measurement source."
+    },
+    "avatarProfile": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+      "description": "Avatar profile."
+    },
+    "expectedStatus": {
+      "description": "Status every conforming body model of this source and profile has: 'failed' when a required definition has no value (AVA-003).",
+      "type": "string",
+      "enum": [
+        "succeeded",
+        "failed"
+      ]
+    },
+    "controlMeasures": {
+      "description": "Expected targets with their origin and tolerance, sorted by definitionId (D2P-SEM-127).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/expectedBodyMeasure"
+      }
+    },
+    "missingDefinitions": {
+      "description": "Required definitions without a value (sorted, unique; omitted when none).",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+      }
+    },
+    "toleranceProfile": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+      "description": "Tolerance profile body models are compared with."
+    },
+    "personalDerived": {
+      "description": "True when the document derives from a body measurement profile classified 'personal' or 'sensitive-personal' (directly or through a pinned body model or scene). Such a document is geometry or data derived from personal data and is served only under the export rules of that profile; a document that derives from such a profile without stating true is reported as D2P-SEM-050. Absent means false.",
+      "type": "boolean"
+    },
+    "contentDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "Optional digest of this document (d2p-digest-v1, excluding contentDigest)."
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks."
+    }
+  },
+  "$defs": {
+    "expectedBodyMeasure": {
+      "title": "Expected body measure",
+      "description": "Expected target of one control measure.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "definitionId",
+        "origin",
+        "targetMm",
+        "maxDeviationMm"
+      ],
+      "properties": {
+        "definitionId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName",
+          "description": "Body definition."
+        },
+        "origin": {
+          "$ref": "https://d2p.nonnast.dev/schemas/3d/body-model-snapshot.schema.json#/$defs/bodyTargetOrigin",
+          "description": "Where the target comes from (body target resolution)."
+        },
+        "targetMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/lengthMm",
+          "description": "Expected target in mm."
+        },
+        "maxDeviationMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/positiveLengthMm",
+          "description": "Tolerance of the avatar profile for this definition."
+        }
+      }
+    }
+  }
+}

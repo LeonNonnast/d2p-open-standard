@@ -1,0 +1,462 @@
+{
+  "documentType": "d2p:avatar-profile",
+  "schemaVersion": "1.0.0",
+  "profileId": "d2p:standard-a-pose",
+  "version": "1.0.0",
+  "status": "provisional",
+  "title": "Standard A-pose body model",
+  "description": "Body model in A-pose (upright, arms lowered about 45 degrees, feet slightly apart) derived from six required body measurements; every other control measure is taken from the body source when present and otherwise inferred by a linear rule of this profile. Used by the Golden T-Shirt drape fixture.",
+  "pose": "d2p:a-pose",
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.1.0"
+    }
+  ],
+  "requiredDefinitions": [
+    "d2p:body.arm-length",
+    "d2p:body.chest-girth",
+    "d2p:body.height",
+    "d2p:body.hip-girth",
+    "d2p:body.shoulder-width",
+    "d2p:body.waist-girth"
+  ],
+  "derivations": [
+    {
+      "definitionId": "d2p:body.ankle-girth",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.height",
+          "coefficient": 0.13
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.back-length",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.height",
+          "coefficient": 0.245
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.back-width",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.shoulder-width",
+          "coefficient": 0.8
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.bust-girth",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.chest-girth",
+          "coefficient": 1
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.bust-height",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.height",
+          "coefficient": 0.72
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.calf-girth",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.hip-girth",
+          "coefficient": 0.37
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.cervicale-height",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.height",
+          "coefficient": 0.845
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.head-girth",
+      "interceptMm": 220,
+      "terms": [
+        {
+          "definitionId": "d2p:body.height",
+          "coefficient": 0.2
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.hip-height",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.height",
+          "coefficient": 0.5
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.inside-leg-length",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.height",
+          "coefficient": 0.46
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.knee-girth",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.hip-girth",
+          "coefficient": 0.36
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.knee-height",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.height",
+          "coefficient": 0.285
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.neck-girth",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.chest-girth",
+          "coefficient": 0.38
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.shoulder-length",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.shoulder-width",
+          "coefficient": 0.3
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.thigh-girth",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.hip-girth",
+          "coefficient": 0.57
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.underbust-girth",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.chest-girth",
+          "coefficient": 0.85
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.upper-arm-girth",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.chest-girth",
+          "coefficient": 0.31
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.waist-height",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.height",
+          "coefficient": 0.63
+        }
+      ]
+    },
+    {
+      "definitionId": "d2p:body.wrist-girth",
+      "interceptMm": 0,
+      "terms": [
+        {
+          "definitionId": "d2p:body.chest-girth",
+          "coefficient": 0.165
+        }
+      ]
+    }
+  ],
+  "tolerances": [
+    {
+      "definitionId": "d2p:body.ankle-girth",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.arm-length",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.back-length",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.back-width",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.bust-girth",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.bust-height",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.calf-girth",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.cervicale-height",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.chest-girth",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.head-girth",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.height",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.hip-girth",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.hip-height",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.inside-leg-length",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.knee-girth",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.knee-height",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.neck-girth",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.shoulder-length",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.shoulder-width",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.thigh-girth",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.underbust-girth",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.upper-arm-girth",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.waist-girth",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.waist-height",
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.wrist-girth",
+      "maxDeviationMm": 5
+    }
+  ],
+  "landmarks": [
+    {
+      "landmarkId": "d2p:landmark.ankle-left",
+      "description": "Left ankle, level of the ankle bones."
+    },
+    {
+      "landmarkId": "d2p:landmark.ankle-right",
+      "description": "Right ankle, level of the ankle bones."
+    },
+    {
+      "landmarkId": "d2p:landmark.armpit-left",
+      "description": "Left armpit (axilla), level of d2p:body.chest-girth."
+    },
+    {
+      "landmarkId": "d2p:landmark.armpit-right",
+      "description": "Right armpit (axilla), level of d2p:body.chest-girth."
+    },
+    {
+      "landmarkId": "d2p:landmark.bust-point-left",
+      "description": "Most prominent point of the left breast."
+    },
+    {
+      "landmarkId": "d2p:landmark.bust-point-right",
+      "description": "Most prominent point of the right breast."
+    },
+    {
+      "landmarkId": "d2p:landmark.crotch",
+      "description": "Crotch point, lowest point of the crotch."
+    },
+    {
+      "landmarkId": "d2p:landmark.elbow-left",
+      "description": "Left elbow point (olecranon)."
+    },
+    {
+      "landmarkId": "d2p:landmark.elbow-right",
+      "description": "Right elbow point (olecranon)."
+    },
+    {
+      "landmarkId": "d2p:landmark.hip-left",
+      "description": "Left side of the body at the level of d2p:body.hip-girth."
+    },
+    {
+      "landmarkId": "d2p:landmark.hip-right",
+      "description": "Right side of the body at the level of d2p:body.hip-girth."
+    },
+    {
+      "landmarkId": "d2p:landmark.knee-left",
+      "description": "Middle of the left kneecap."
+    },
+    {
+      "landmarkId": "d2p:landmark.knee-right",
+      "description": "Middle of the right kneecap."
+    },
+    {
+      "landmarkId": "d2p:landmark.nape",
+      "description": "Nape point (cervicale)."
+    },
+    {
+      "landmarkId": "d2p:landmark.shoulder-point-left",
+      "description": "Left shoulder point (acromion)."
+    },
+    {
+      "landmarkId": "d2p:landmark.shoulder-point-right",
+      "description": "Right shoulder point (acromion)."
+    },
+    {
+      "landmarkId": "d2p:landmark.side-neck-left",
+      "description": "Left side neck point."
+    },
+    {
+      "landmarkId": "d2p:landmark.side-neck-right",
+      "description": "Right side neck point."
+    },
+    {
+      "landmarkId": "d2p:landmark.vertex",
+      "description": "Top of the head."
+    },
+    {
+      "landmarkId": "d2p:landmark.waist-left",
+      "description": "Left side of the body at the natural waist."
+    },
+    {
+      "landmarkId": "d2p:landmark.waist-right",
+      "description": "Right side of the body at the natural waist."
+    },
+    {
+      "landmarkId": "d2p:landmark.wrist-left",
+      "description": "Left wrist point."
+    },
+    {
+      "landmarkId": "d2p:landmark.wrist-right",
+      "description": "Right wrist point."
+    }
+  ],
+  "zones": [
+    {
+      "zone": "d2p:chest",
+      "landmarkIds": [
+        "d2p:landmark.armpit-left",
+        "d2p:landmark.armpit-right",
+        "d2p:landmark.bust-point-left",
+        "d2p:landmark.bust-point-right"
+      ]
+    },
+    {
+      "zone": "d2p:hip",
+      "landmarkIds": [
+        "d2p:landmark.crotch",
+        "d2p:landmark.hip-left",
+        "d2p:landmark.hip-right"
+      ]
+    },
+    {
+      "zone": "d2p:shoulder",
+      "landmarkIds": [
+        "d2p:landmark.nape",
+        "d2p:landmark.shoulder-point-left",
+        "d2p:landmark.shoulder-point-right",
+        "d2p:landmark.side-neck-left",
+        "d2p:landmark.side-neck-right"
+      ]
+    },
+    {
+      "zone": "d2p:upper-arm",
+      "landmarkIds": [
+        "d2p:landmark.armpit-left",
+        "d2p:landmark.armpit-right",
+        "d2p:landmark.elbow-left",
+        "d2p:landmark.elbow-right"
+      ]
+    },
+    {
+      "zone": "d2p:waist",
+      "landmarkIds": [
+        "d2p:landmark.waist-left",
+        "d2p:landmark.waist-right"
+      ]
+    }
+  ],
+  "toleranceProfile": {
+    "id": "d2p:golden-tshirt-drape",
+    "version": "1.0.0"
+  },
+  "notes": "Provisional values proposed for draft 0.3.0 (Implementierungsplan E-22/E-23, design decision ADR-029 §12): not calibrated, not to be used for comparing implementations until frozen by maintainer decision. A changed value is a new version. The derivation coefficients are simple proportional rules written for this profile from general body proportions; they copy no size table or norm and are not calibrated against anthropometric data. Tolerances of 5 mm per control measure are proposals."
+}

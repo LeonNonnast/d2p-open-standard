@@ -2,7 +2,7 @@
 
 An open, vendor-neutral data standard for **digital garment patterns** — pattern pieces, measurements, grading, seams, validation and print-ready 1:1 output — together with a **conformance kit** anyone can run.
 
-> **Status: pre-release `v0.2.1` (draft of standard 1.0).** The schema catalog, 59 JSON Schemas (`0.2.0` added the module `3d`: garment, scene input and snapshot, panel mesh result, mesh profile, simulation report, 3D edit inspection, pattern proposal, scene expectation), the measurement-definition registry, the standard validation rules and profiles, the Golden T-Shirt v1 and Golden T-Shirt 3D v1 fixtures and a conformance kit with three runnable levels exist. Documents already declare `schemaVersion: "1.0.0"`, the release they are drafted for, but nothing is stable before the `v1.0.0` tag. That tag waits for the domain review of the fixture by a pattern maker or seamstress (test QEV-016, pending), and the maintainer confirmation of the digest quantization step. All fixture and case values are synthetic test data, not size tables or norms. See [CHANGELOG.md](CHANGELOG.md).
+> **Status: pre-release draft `0.3.0` (draft of standard 1.0; latest tag `v0.2.1`).** The schema catalog, 67 JSON Schemas (`0.2.0` added the module `3d`: garment, scene input and snapshot, panel mesh result, mesh profile, simulation report, 3D edit inspection, pattern proposal, scene expectation; `0.3.0` adds bodies, drapes and fit maps: avatar, solver and material physics profiles, body model snapshot and expectation, draped panel mesh, fit map, drape expectation, plus the construction command `d2p:pattern.edit`), the measurement-definition registries `1.0.0` and `1.1.0`, the standard validation rules and profiles, the Golden T-Shirt v1, 3D v1 and drape v1 fixtures and a conformance kit with three runnable levels exist. All profiles added by `0.3.0` are provisional: not calibrated and not reviewed. Documents already declare `schemaVersion: "1.0.0"`, the release they are drafted for, but nothing is stable before the `v1.0.0` tag. That tag waits for the domain review of the fixture by a pattern maker or seamstress (test QEV-016, pending), and the maintainer confirmation of the digest quantization step. All fixture and case values are synthetic test data, not size tables or norms; the standard publishes no size table. See [CHANGELOG.md](CHANGELOG.md).
 
 ## Why this exists
 
@@ -20,18 +20,18 @@ The standard is published so that it can be **implemented by third parties witho
 |---|---|
 | [`schemas/`](schemas/) | Canonical JSON Schemas (draft 2020-12), one directory per module |
 | [`examples/`](examples/) | Normative valid and invalid examples per schema |
-| [`fixtures/`](fixtures/) | Golden fixtures: the synthetic *Golden T-Shirt* v1 and *Golden T-Shirt 3D* v1 with inputs, expected results, negative cases and digest manifests |
+| [`fixtures/`](fixtures/) | Golden fixtures: the synthetic *Golden T-Shirt* v1, *Golden T-Shirt 3D* v1 and *Golden T-Shirt drape* v1 with inputs, expected results, negative cases and digest manifests |
 | [`tolerance-profiles/`](tolerance-profiles/) | Versioned numeric tolerances used to compare results |
 | [`conformance/`](conformance/) | Conformance cases in three separately runnable levels: structural, referential, semantic |
 | [`specifications/`](specifications/) | Normative prose: the schema catalog (conventions, diagnostics, conformance levels, module catalog, fixture) |
-| [`vocabularies/`](vocabularies/) | Controlled vocabularies and registries (e.g. measurement definitions) |
+| [`vocabularies/`](vocabularies/) | Controlled vocabularies and registries (measurement definitions, validation rules and profiles, mesh, avatar, solver and material physics profiles) |
 | [`mappings/`](mappings/) | Versioned mappings to external ontologies and industry conventions |
 | [`tools/`](tools/) | The schema and conformance tooling itself |
 
 ### Conventions
 
 - **JSON Schema 2020-12** only. Every schema declares `$schema` and an `$id` derived from its path: `schemas/<module>/<name>.schema.json` → `https://d2p.nonnast.dev/schemas/<module>/<name>.schema.json`.
-- **Units:** canonical domain units are **millimetres** and **radians**. Other units (`m`, `deg`) are allowed only where a schema explicitly permits them at an import/export boundary. See [`schemas/core/units.schema.json`](schemas/core/units.schema.json).
+- **Units:** canonical domain units are **millimetres** and **radians**. Other units (`m`, `deg`) are allowed only where a schema explicitly permits them at an import/export boundary (the 3D scene, body and drape documents use metres with an explicit conversion). See [`schemas/core/units.schema.json`](schemas/core/units.schema.json).
 - **Extensions** are namespaced and must declare provenance and version.
 - **Versioning** follows SemVer: breaking changes only in a major release; every fixture pins full versions.
 
@@ -46,8 +46,8 @@ npm run conformance:structural      # each level runs on its own ...
 npm run conformance:referential
 npm run conformance:semantic
 npm run conformance                 # ... or all three in sequence
-npm run fixture:verify              # verify both Golden T-Shirt manifests before comparing against them
-npm run oracle:check                # regenerate both fixtures in a temp dir, byte-compare, schema-check
+npm run fixture:verify              # verify the Golden T-Shirt manifests (2D, 3D, drape) before comparing against them
+npm run oracle:check                # regenerate all fixtures in a temp dir, byte-compare, schema-check
 npm test                            # unit tests of the tooling, fixture wiring, OSS-001, QEV-001
 npm run check                       # everything above
 ```
@@ -71,6 +71,8 @@ The conformance kit runs each case at its level after all lower levels have pass
 4. Run your implementation's validator on the negative fixtures; each one names the diagnostic code it must produce.
 
 The Golden T-Shirt 3D v1 (`fixtures/golden-tshirt-3d/v1/`, catalog §4.5) is used the same way: verify it (`node tools/verify-fixture.mjs fixtures/golden-tshirt-3d/v1/manifest.json`), build a scene from each scene input and compare the scene's panel and seam bindings, control measures and anchors with `expected/scenes/` (exact, per catalog §3.4), and the meshes with the pinned 3D tolerance profile (`frozen` since `0.2.1`).
+
+The Golden T-Shirt drape v1 (`fixtures/golden-tshirt-drape/v1/`, catalog §4.6, draft `0.3.0`) holds two synthetic bodies (a size entry and a profile with a baseline and two overrides), the two T-shirt sizes with body bindings and simulation configurations, the expected body-model targets and a metamorphic size comparison (size A has less chest and waist clearance than size B on the same body). Verify it with `node tools/verify-fixture.mjs fixtures/golden-tshirt-drape/v1/manifest.json`, derive body models from the bindings and compare their control measures with `expected/body-models/`, and check your fit maps against `expected/drapes/`. Its avatar, solver, material and tolerance profiles are **provisional**: use them to exercise an implementation, not as benchmark evidence.
 
 Everything needed is in this repository: the schemas, fixtures and kit are read with a generic JSON Schema 2020-12 validator and Node.js only, without any D2P account, service or proprietary code (test OSS-001).
 

@@ -1,0 +1,134 @@
+{
+  "documentType": "d2p:fit-map",
+  "schemaVersion": "1.0.0",
+  "fitMapId": "fmp_example-body-m",
+  "createdAt": "2026-03-01T10:06:00Z",
+  "sceneSnapshotRef": {
+    "id": "ssn_example-drape-body-m",
+    "digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  },
+  "bodyModelRef": {
+    "id": "bms_example-body-m",
+    "digest": "sha256:212473ddc39428e84e8b4823576a8e5bd970f0b2cb9480c429a7af5c88203b35"
+  },
+  "avatarProfile": {
+    "id": "d2p:standard-a-pose",
+    "version": "1.0.0"
+  },
+  "solverProfile": {
+    "id": "d2p:fit-approximation",
+    "version": "1.0.0"
+  },
+  "materialStatus": "provisional",
+  "estimate": "model-estimate",
+  "zones": [
+    {
+      "zone": "d2p:chest",
+      "landmarkIds": [
+        "d2p:landmark.armpit-left",
+        "d2p:landmark.armpit-right",
+        "d2p:landmark.bust-point-left",
+        "d2p:landmark.bust-point-right"
+      ],
+      "panelInstanceIds": [
+        "panel-front"
+      ],
+      "meanStrain": 0.01,
+      "maxStrain": 0.03,
+      "meanClearanceMm": 18.5,
+      "minClearanceMm": 2.1,
+      "contactPressureIndex": 0.01
+    },
+    {
+      "zone": "d2p:hip",
+      "landmarkIds": [
+        "d2p:landmark.crotch",
+        "d2p:landmark.hip-left",
+        "d2p:landmark.hip-right"
+      ],
+      "panelInstanceIds": [
+        "panel-front"
+      ],
+      "meanStrain": 0.01,
+      "maxStrain": 0.03,
+      "meanClearanceMm": 18.5,
+      "minClearanceMm": 2.1,
+      "contactPressureIndex": 0.01
+    },
+    {
+      "zone": "d2p:shoulder",
+      "landmarkIds": [
+        "d2p:landmark.nape",
+        "d2p:landmark.shoulder-point-left",
+        "d2p:landmark.shoulder-point-right",
+        "d2p:landmark.side-neck-left",
+        "d2p:landmark.side-neck-right"
+      ],
+      "panelInstanceIds": [
+        "panel-front"
+      ],
+      "meanStrain": 0.01,
+      "maxStrain": 0.03,
+      "meanClearanceMm": 18.5,
+      "minClearanceMm": 2.1,
+      "contactPressureIndex": 0.01
+    },
+    {
+      "zone": "d2p:upper-arm",
+      "landmarkIds": [
+        "d2p:landmark.armpit-left",
+        "d2p:landmark.armpit-right",
+        "d2p:landmark.elbow-left",
+        "d2p:landmark.elbow-right"
+      ],
+      "panelInstanceIds": [
+        "panel-front"
+      ],
+      "meanStrain": 0.01,
+      "maxStrain": 0.03,
+      "meanClearanceMm": 18.5,
+      "minClearanceMm": 2.1,
+      "contactPressureIndex": 0.01
+    },
+    {
+      "zone": "d2p:waist",
+      "landmarkIds": [
+        "d2p:landmark.waist-left",
+        "d2p:landmark.waist-right"
+      ],
+      "panelInstanceIds": [
+        "panel-front"
+      ],
+      "meanStrain": 0.01,
+      "maxStrain": 0.03,
+      "meanClearanceMm": 18.5,
+      "minClearanceMm": 2.1,
+      "contactPressureIndex": 0.01
+    }
+  ],
+  "vertexFields": [
+    {
+      "panelInstanceId": "panel-front",
+      "strain": [
+        0,
+        0.01,
+        0.02,
+        0.01
+      ],
+      "clearanceMm": [
+        20,
+        15,
+        30,
+        25
+      ],
+      "contactPressure": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "resultDigest": "sha256:ea1efdcf5db90a1f5fa863e84a2fb513fede8b98d8748cecbc8eba380c9e7969"
+}

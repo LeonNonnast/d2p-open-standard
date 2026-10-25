@@ -1,0 +1,173 @@
+{
+  "documentType": "d2p:body-model-expectation",
+  "schemaVersion": "1.0.0",
+  "expectationId": "bmx_golden-drape-body-profile",
+  "source": {
+    "kind": "body-measurement-profile",
+    "bodyMeasurementProfileRef": {
+      "artifactId": "art_golden-drape-body-profile",
+      "revisionId": "rev_golden-drape-body-profile-r1"
+    }
+  },
+  "avatarProfile": {
+    "id": "d2p:standard-a-pose",
+    "version": "1.0.0"
+  },
+  "expectedStatus": "succeeded",
+  "controlMeasures": [
+    {
+      "definitionId": "d2p:body.ankle-girth",
+      "origin": "inferred",
+      "targetMm": 228.8,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.arm-length",
+      "origin": "profile",
+      "targetMm": 640,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.back-length",
+      "origin": "inferred",
+      "targetMm": 431.2,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.back-width",
+      "origin": "inferred",
+      "targetMm": 352,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.bust-girth",
+      "origin": "inferred",
+      "targetMm": 960,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.bust-height",
+      "origin": "inferred",
+      "targetMm": 1267.2,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.calf-girth",
+      "origin": "inferred",
+      "targetMm": 377.4,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.cervicale-height",
+      "origin": "inferred",
+      "targetMm": 1487.2,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.chest-girth",
+      "origin": "profile",
+      "targetMm": 960,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.head-girth",
+      "origin": "inferred",
+      "targetMm": 572,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.height",
+      "origin": "size-table",
+      "targetMm": 1760,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.hip-girth",
+      "origin": "size-table",
+      "targetMm": 1020,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.hip-height",
+      "origin": "inferred",
+      "targetMm": 880,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.inside-leg-length",
+      "origin": "inferred",
+      "targetMm": 809.6,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.knee-girth",
+      "origin": "inferred",
+      "targetMm": 367.2,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.knee-height",
+      "origin": "inferred",
+      "targetMm": 501.6,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.neck-girth",
+      "origin": "size-table",
+      "targetMm": 390,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.shoulder-length",
+      "origin": "inferred",
+      "targetMm": 132,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.shoulder-width",
+      "origin": "size-table",
+      "targetMm": 440,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.thigh-girth",
+      "origin": "inferred",
+      "targetMm": 581.4,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.underbust-girth",
+      "origin": "inferred",
+      "targetMm": 816,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.upper-arm-girth",
+      "origin": "inferred",
+      "targetMm": 297.6,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.waist-girth",
+      "origin": "size-table",
+      "targetMm": 840,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.waist-height",
+      "origin": "size-table",
+      "targetMm": 1100,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.wrist-girth",
+      "origin": "inferred",
+      "targetMm": 158.4,
+      "maxDeviationMm": 5
+    }
+  ],
+  "toleranceProfile": {
+    "id": "d2p:golden-tshirt-drape",
+    "version": "1.0.0"
+  }
+}

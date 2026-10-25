@@ -1,0 +1,104 @@
+{
+  "documentType": "d2p:sim-report",
+  "schemaVersion": "1.0.0",
+  "simReportId": "smr_golden-drape-size-a-body-m",
+  "createdAt": "2026-01-09T00:00:00Z",
+  "sceneSnapshotRef": {
+    "id": "ssn_golden-drape-size-a-body-m",
+    "digest": "sha256:8e1ced2f4b841b4ad297e8f050ecd4ea45aee0ed507960b28bd1566d9fc66919"
+  },
+  "profileKind": "fit-approximation",
+  "solver": {
+    "backendId": "conformance-kit-cylinder-drape",
+    "backendVersion": "1.0.0",
+    "adapterVersion": "1.0.0"
+  },
+  "solverProfile": {
+    "id": "d2p:fit-approximation",
+    "version": "1.0.0"
+  },
+  "materialPhysicsProfile": {
+    "id": "d2p:cotton-woven",
+    "version": "1.0.0"
+  },
+  "toleranceProfile": {
+    "id": "d2p:golden-tshirt-drape",
+    "version": "1.0.0"
+  },
+  "inputDigests": [
+    {
+      "role": "avatar-profile",
+      "id": {
+        "id": "d2p:standard-a-pose",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:eb2094d481aa927d2f18cb8773e02dc4efb8ef4ad403d88ccffbabc6992760f9"
+    },
+    {
+      "role": "garment",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-drape-garment-size-a",
+        "revisionId": "rev_golden-tshirt-drape-garment-size-a-r1"
+      },
+      "digest": "sha256:8c5f50df759f3b2b1af3e47f8d0a0ec38216f660491586225d5dd70dfc77f8c4"
+    },
+    {
+      "role": "material-physics-profile",
+      "id": {
+        "id": "d2p:cotton-woven",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:066dcfe5d9ccb96ddaec2316c4ee12dd8785dcfcecd4e1d1e3ed2da09217b8b6"
+    },
+    {
+      "role": "mesh-profile",
+      "id": {
+        "id": "d2p:drape-coarse",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:553399d79156ee0d9e5ab0e59462a5bdcb7391289696260f421ba02b041743fc"
+    },
+    {
+      "role": "pattern",
+      "artifactRef": {
+        "artifactId": "art_golden-tshirt-pattern",
+        "revisionId": "rev_golden-tshirt-pattern-r1"
+      },
+      "digest": "sha256:ef7edb92161d6db884d89db7b16baac1e1432e26e9d9ff1f1a1ce23649eb6949"
+    },
+    {
+      "role": "size-system",
+      "artifactRef": {
+        "artifactId": "art_golden-drape-body-sizes",
+        "revisionId": "rev_golden-drape-body-sizes-r1"
+      },
+      "digest": "sha256:b932325a7d31b22c0b91d73363a2217530001c46beadca222bdf1e2563240cb6"
+    },
+    {
+      "role": "solver-profile",
+      "id": {
+        "id": "d2p:fit-approximation",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:883af366b00929c501f2c325721e8c18a3daab73a53b6f72f119b9eca2761d94"
+    }
+  ],
+  "randomSeed": 1,
+  "status": "succeeded",
+  "convergence": "converged",
+  "durationMs": 1250,
+  "metrics": [
+    {
+      "metric": "d2p:drape-penetration",
+      "value": 0,
+      "unit": "mm"
+    },
+    {
+      "metric": "d2p:drape-seam-gap",
+      "value": 0.8,
+      "unit": "mm"
+    }
+  ],
+  "diagnostics": [],
+  "resultDigest": "sha256:d7cdd292f7b0f2e8a3b40025227e9f8474d6730ba96f03b2fe404b3a66b2d356"
+}

@@ -102,6 +102,9 @@ export const RESULT_DIGEST_TYPES = new Set([
   "d2p:panel-mesh-result",
   "d2p:sim-report",
   "d2p:inspect-3d-edit-result",
+  "d2p:body-model-snapshot",
+  "d2p:draped-panel-mesh",
+  "d2p:fit-map",
 ]);
 
 /** Recomputes a document's resultDigest: excludes contentDigest, resultDigest, the own ID and every top-level member ending in At. */
@@ -123,14 +126,23 @@ export function bindingsDigestOf(doc) {
   return digestOf(Object.fromEntries(SCENE_BINDING_MEMBERS.map((m) => [m, doc[m]])));
 }
 
-/** Recomputes a scene snapshot's sceneDigest: the binding members plus meshRefs. */
+/** Members a drape scene (mode physical-simulation) adds to sceneDigest when present (§1.8). */
+export const DRAPE_SCENE_MEMBERS = Object.freeze(["bodyModelRef", "drapedMeshRefs"]);
+
+/** Recomputes a scene snapshot's sceneDigest: the binding members plus meshRefs, and for a drape bodyModelRef and drapedMeshRefs. */
 export function sceneDigestOf(snapshot) {
-  return digestOf(Object.fromEntries([...SCENE_BINDING_MEMBERS, "meshRefs"].map((m) => [m, snapshot[m]])));
+  const members = [...SCENE_BINDING_MEMBERS, "meshRefs", ...DRAPE_SCENE_MEMBERS.filter((m) => snapshot[m] !== undefined)];
+  return digestOf(Object.fromEntries(members.map((m) => [m, snapshot[m]])));
 }
 
-/** Recomputes a panel mesh result's meshDigest: the digest of its mesh object. */
+/** Recomputes the meshDigest of a panel mesh result or body model snapshot: the digest of its mesh object. */
 export function meshDigestOf(result) {
   return digestOf(result.mesh);
+}
+
+/** Recomputes a draped panel mesh's meshDigest: the digest of {"positionsM"}. */
+export function drapedMeshDigestOf(draped) {
+  return digestOf({ positionsM: draped.positionsM });
 }
 
 /** Recomputes a scene input's evaluationKey: without its own ID, contentDigest, evaluationKey and members ending in At. */

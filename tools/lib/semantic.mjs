@@ -1,10 +1,10 @@
 // Semantic level (catalog §2.1, §2.4 SEM codes, §3.2.3-§3.2.6, §3.3, §3.5,
 // §3.7, §3.8): domain rules that need no geometry kernel.
-import { canonicalize, quantize, scaledInteger } from "./c14n.mjs";
+import { canonicalize, quantize, scaledInteger, withoutMembers } from "./c14n.mjs";
 import { diagnostic } from "./diagnostics.mjs";
 import { evaluateConstant, exprComplexity, inferDimension, MAX_DEPTH, MAX_NODES, slotMismatch } from "./expression.mjs";
 import { pointer } from "./json.mjs";
-import { embeddedDocuments, isObject, OPAQUE_MEMBERS, PERSONAL_CLASSIFICATIONS, sameRefSet, walkJson } from "./model.mjs";
+import { embeddedDocuments, isObject, OPAQUE_MEMBERS, PERSONAL_CLASSIFICATIONS, refKey, sameRefSet, walkJson } from "./model.mjs";
 import {
   dimensionOfName,
   edgeEndpoints,
@@ -19,6 +19,19 @@ import {
 } from "./pattern.mjs";
 import { compareTimestamps } from "./referential.mjs";
 import { checkGarmentSemantics, checkInspectionSemantics, checkPanelMeshSemantics, checkSceneSemantics } from "./garment.mjs";
+import {
+  checkAvatarProfileSemantics,
+  checkBodyModelSemantics,
+  checkDrapeExpectationSemantics,
+  checkDrapeSceneSemantics,
+  checkDrapeSimReportSemantics,
+  checkFitMapSemantics,
+  checkGarmentDrapeSemantics,
+  isPersonalDerived,
+  PERSONAL_DERIVED_TYPES,
+  personalDerivations,
+} from "./drape.mjs";
+import { expectedCommandContent } from "./pattern-edit.mjs";
 
 const SEVERITY_RANK = { info: 0, warning: 1, error: 2, critical: 3 };
 const UNIT_OF_DIMENSION = { length: "mm", angle: "rad" };
@@ -54,6 +67,7 @@ export function checkSemantic(index) {
         break;
       case "d2p:command":
         checkCommandExpressions(ctx, unit);
+        checkCommandResult(ctx, unit);
         break;
       case "d2p:geometry-snapshot":
         checkSnapshot(ctx, unit);
@@ -72,6 +86,7 @@ export function checkSemantic(index) {
       case "d2p:body-measurement-profile":
         checkBodyProfile(ctx, unit);
         checkDefinitionKinds(ctx, unit);
+        checkBaseline(ctx, unit);
         break;
       case "d2p:size-system":
         checkMeasurementUnits(ctx, unit);
@@ -94,6 +109,7 @@ export function checkSemantic(index) {
         break;
       case "d2p:validation-report":
         checkReport(ctx, unit);
+        checkFindingVisibility(ctx, unit);
         break;
       case "d2p:gate-evaluation":
         checkGate(ctx, unit);
@@ -106,14 +122,36 @@ export function checkSemantic(index) {
         break;
       case "d2p:garment":
         checkGarmentSemantics(ctx, unit);
+        checkGarmentDrapeSemantics(ctx, unit);
         break;
       case "d2p:scene-snapshot":
+        checkSceneSemantics(ctx, unit);
+        checkDrapeSceneSemantics(ctx, unit);
+        break;
       case "d2p:scene-expectation":
         checkSceneSemantics(ctx, unit);
         checkExportPrivacy(ctx, unit);
         break;
       case "d2p:panel-mesh-result":
         checkPanelMeshSemantics(ctx, unit);
+        break;
+      case "d2p:avatar-profile":
+        checkAvatarProfileSemantics(ctx, unit);
+        checkDefinitionKinds(ctx, unit);
+        break;
+      case "d2p:body-model-snapshot":
+      case "d2p:body-model-expectation":
+        checkBodyModelSemantics(ctx, unit);
+        checkDefinitionKinds(ctx, unit);
+        break;
+      case "d2p:fit-map":
+        checkFitMapSemantics(ctx, unit);
+        break;
+      case "d2p:sim-report":
+        checkDrapeSimReportSemantics(ctx, unit);
+        break;
+      case "d2p:drape-expectation":
+        checkDrapeExpectationSemantics(ctx, unit);
         break;
       case "d2p:pattern-proposal":
         checkUpdateExpressions(ctx, unit, unit.value.basePatternRef, [[unit.value.parameterUpdates, ["parameterUpdates"]]]);
@@ -125,6 +163,7 @@ export function checkSemantic(index) {
       default:
         break;
     }
+    if (PERSONAL_DERIVED_TYPES.has(unit.value.documentType)) checkPersonalDerived(ctx, unit);
   }
   return out;
 }
@@ -589,6 +628,30 @@ function checkGrading(ctx, unit) {
       (rule.bySize ?? []).forEach((s, j) => checkExprSlot(ctx, unit, env, s.expr, pointer(rp, "bySize", j, "expr"), expected));
     }
   });
+}
+
+/**
+ * D2P-SEM-131 (catalog §3.6): the revision a pattern.edit or
+ * pattern.parameters.update command committed holds exactly the content the
+ * command yields from its base. Applicable when the base content, the revision
+ * record with this commandId and that revision's content are in the bundle.
+ * The diagnostic is reported on the content document.
+ */
+function checkCommandResult(ctx, unit) {
+  const v = unit.value;
+  if (v.type !== "d2p:pattern.edit" && v.type !== "d2p:pattern.parameters.update") return;
+  const base = ctx.index.contentOf({ artifactId: v.target?.artifactId, revisionId: v.expectedRevisionId });
+  if (!base || base.documentType !== "d2p:pattern") return;
+  for (const record of ctx.index.revisions.values()) {
+    const r = record.value;
+    if (r.commandId !== v.commandId || r.artifactId !== v.target?.artifactId) continue;
+    const content = ctx.index.content.get(refKey(r));
+    if (!content) continue;
+    const expected = expectedCommandContent(v, base, r.revisionId);
+    if (canonicalize(expected) !== canonicalize(withoutMembers(content.value, ["contentDigest"]))) {
+      ctx.report("D2P-SEM-131", `this content of revision ${r.revisionId} differs from the result of applying command ${v.commandId} (${v.type}) to base revision ${v.expectedRevisionId}`, content, content.base);
+    }
+  }
 }
 
 function checkCommandExpressions(ctx, unit) {
@@ -1153,6 +1216,35 @@ function checkOutputProfile(ctx, unit) {
   });
 }
 
+/**
+ * D2P-SEM-050 (draft 0.3.0): a scene snapshot, sim-report, body model,
+ * draped mesh, fit map or body model expectation that is personal-derived
+ * (drape.mjs personalDerivations) states `personalDerived: true`.
+ */
+function checkPersonalDerived(ctx, unit) {
+  if (unit.value.personalDerived === true) return;
+  for (const { ptr, message } of personalDerivations(ctx.index, unit.value, unit.base)) {
+    ctx.report("D2P-SEM-050", `${unit.value.documentType} ${message} but does not state personalDerived: true`, unit, ptr);
+  }
+}
+
+/**
+ * D2P-SEM-052: a finding whose subjectRef names a document that states
+ * `personalDerived: true`, or a personal-derived document of module 3d
+ * (drape.mjs PERSONAL_DERIVED_TYPES), has visibility restricted. Findings
+ * about other documents and elementRefs into personal artifacts are not
+ * covered (catalog §2.4: the rule binds only the subjects new in 0.3.0).
+ */
+function checkFindingVisibility(ctx, unit) {
+  const personal = (doc) => isObject(doc) && (doc.personalDerived === true || (PERSONAL_DERIVED_TYPES.has(doc.documentType) && isPersonalDerived(ctx.index, doc)));
+  (unit.value.findings ?? []).forEach((f, i) => {
+    if (f.visibility !== "general" || !isObject(f.subjectRef)) return;
+    if ((ctx.index.derivedById.get(f.subjectRef.id) ?? []).some((s) => personal(s.value))) {
+      ctx.report("D2P-SEM-052", `finding ${f.findingId} has visibility general, but its subject ${f.subjectRef.id} is personal-derived; it must be restricted`, unit, at(unit, "findings", i, "visibility"));
+    }
+  });
+}
+
 /** D2P-SEM-050: export documents never reference personal artifacts. */
 function checkExportPrivacy(ctx, unit) {
   walkUnit(unit, (node, ptr, key) => {
@@ -1180,6 +1272,33 @@ function checkBodyProfile(ctx, unit) {
     ctx.report("D2P-SEM-051", `artifact metadata classifies ${v.artifactId} as ${meta.dataClassification}, the content as ${v.dataClassification}`, unit, at(unit, "dataClassification"));
   }
   checkMeasurementUnits(ctx, unit);
+}
+
+/**
+ * D2P-SEM-076 (catalog §3.3, SZT-001): with a baseline whose size entry is in
+ * the bundle, method 'size-table' and source kind 'size-table' go together,
+ * and such a table value equals the entry's value (definition, value, unit).
+ */
+function checkBaseline(ctx, unit) {
+  const v = unit.value;
+  if (!isObject(v.baseline)) return;
+  const sizes = ctx.index.contentOf(v.baseline.sizeSystemRef);
+  const entry = (sizes?.sizes ?? []).find((s) => s.sizeKey === v.baseline.sizeKey);
+  if (!entry) return;
+  const table = new Map((entry.measurements ?? []).map((m) => [m.definitionId, m]));
+  (v.measurements ?? []).forEach((m, i) => {
+    const mp = at(unit, "measurements", i);
+    const byMethod = m.method === "size-table";
+    const bySource = m.source?.kind === "size-table";
+    if (byMethod !== bySource) {
+      ctx.report("D2P-SEM-076", `value of ${m.definitionId} has method ${m.method} but source kind ${m.source?.kind}; table values carry both 'size-table'`, unit, byMethod ? pointer(mp, "source", "kind") : pointer(mp, "method"));
+      return;
+    }
+    if (!byMethod) return;
+    const t = table.get(m.definitionId);
+    if (!t) ctx.report("D2P-SEM-076", `table value of ${m.definitionId} has no value in baseline size "${v.baseline.sizeKey}"`, unit, pointer(mp, "definitionId"));
+    else if (t.unit !== m.unit || !closeQuantized(t.value, m.value)) ctx.report("D2P-SEM-076", `table value of ${m.definitionId} differs from the value of baseline size "${v.baseline.sizeKey}"`, unit, pointer(mp, "value"));
+  });
 }
 
 /**
@@ -1223,11 +1342,17 @@ function checkMeasurementUnits(ctx, unit) {
  * D2P-SEM-075: body and garment definitions are never used on the other side
  * (catalog §3.3). Size-entry and body-profile values and ease-rule body
  * definitions are kind body; garment targets, fit targets and ease-rule
- * garment definitions are kind garment.
+ * garment definitions are kind garment. The definitions of an avatar profile
+ * (required, derived, derivation terms, tolerances) and the control measures
+ * of body models (resolved in their avatar profile's registries) are kind body.
  */
 function checkDefinitionKinds(ctx, unit) {
   const v = unit.value;
-  const defs = ctx.index.definitionsOf(v);
+  // Body model definitions resolve in the registries of their avatar profile.
+  const owner = v.documentType === "d2p:body-model-snapshot" || v.documentType === "d2p:body-model-expectation"
+    ? ctx.index.vocabDoc("d2p:avatar-profile", v.avatarProfile?.id, v.avatarProfile?.version)?.value
+    : v;
+  const defs = ctx.index.definitionsOf(owner);
   const expect = (definitionId, kind, ptr, what) => {
     const def = defs.get(definitionId);
     if (def && def.kind !== kind) ctx.report("D2P-SEM-075", `${what} uses ${definitionId}, a ${def.kind} definition, where a ${kind} definition is required`, unit, ptr);
@@ -1250,6 +1375,18 @@ function checkDefinitionKinds(ctx, unit) {
         expect(r.garmentDefinitionId, "garment", at(unit, "easeRules", i, "garmentDefinitionId"), `ease rule "${r.id}"`);
       });
       (v.fitTargets ?? []).forEach((t, i) => expect(t.garmentDefinitionId, "garment", at(unit, "fitTargets", i, "garmentDefinitionId"), `fit target "${t.id}"`));
+      break;
+    case "d2p:avatar-profile":
+      (v.requiredDefinitions ?? []).forEach((d, i) => expect(d, "body", at(unit, "requiredDefinitions", i), "required definition"));
+      (v.derivations ?? []).forEach((d, i) => {
+        expect(d.definitionId, "body", at(unit, "derivations", i, "definitionId"), "derivation");
+        (d.terms ?? []).forEach((t, j) => expect(t.definitionId, "body", at(unit, "derivations", i, "terms", j, "definitionId"), `derivation of ${d.definitionId}`));
+      });
+      (v.tolerances ?? []).forEach((t, i) => expect(t.definitionId, "body", at(unit, "tolerances", i, "definitionId"), "tolerance"));
+      break;
+    case "d2p:body-model-snapshot":
+    case "d2p:body-model-expectation":
+      (v.controlMeasures ?? []).forEach((m, i) => expect(m.definitionId, "body", at(unit, "controlMeasures", i, "definitionId"), "control measure"));
       break;
     default:
       break;

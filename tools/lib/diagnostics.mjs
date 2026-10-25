@@ -53,12 +53,14 @@ export const CODE_SEVERITY = Object.freeze({
   "D2P-SEM-040": "error",
   "D2P-SEM-050": "critical",
   "D2P-SEM-051": "error",
+  "D2P-SEM-052": "error",
   "D2P-SEM-070": "error",
   "D2P-SEM-071": "error",
   "D2P-SEM-072": "error",
   "D2P-SEM-073": "warning",
   "D2P-SEM-074": "warning",
   "D2P-SEM-075": "error",
+  "D2P-SEM-076": "error",
   "D2P-SEM-080": "error",
   "D2P-SEM-090": "error",
   "D2P-SEM-091": "critical",
@@ -80,6 +82,11 @@ export const CODE_SEVERITY = Object.freeze({
   "D2P-SEM-124": "error",
   "D2P-SEM-125": "error",
   "D2P-SEM-126": "error",
+  "D2P-SEM-127": "error",
+  "D2P-SEM-128": "error",
+  "D2P-SEM-129": "error",
+  "D2P-SEM-130": "error",
+  "D2P-SEM-131": "error",
 });
 
 const LEVEL_OF_PREFIX = { STR: "structural", REF: "referential", SEM: "semantic" };

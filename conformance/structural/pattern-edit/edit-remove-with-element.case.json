@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "pattern-edit.edit-remove-with-element",
+  "level": "structural",
+  "title": "A remove operation that also carries an element is rejected",
+  "documents": [
+    {
+      "path": "conformance/structural/pattern-edit/edit-remove-with-element/command.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-001",
+        "documentPath": "conformance/structural/pattern-edit/edit-remove-with-element/command.json"
+      }
+    ]
+  },
+  "description": "The members of an operation depend on 'op' (schema-enforced): 'remove' takes 'collection' and 'key' only."
+}

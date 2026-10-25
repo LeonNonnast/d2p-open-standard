@@ -1,8 +1,14 @@
 import assert from "node:assert/strict";
+import path from "node:path";
 import { describe, it } from "node:test";
-import { canonicalize, digestOf, quantize, scaledInteger } from "../lib/c14n.mjs";
+import { fileURLToPath } from "node:url";
+import { canonicalize, digestOf, drapedMeshDigestOf, quantize, scaledInteger, sceneDigestOf } from "../lib/c14n.mjs";
 import { compareSemver, diagnostic, isCompatibleVersion, levelOfCode, sortDiagnostics } from "../lib/diagnostics.mjs";
 import { parseStrictJson, parseStrictJsonBytes } from "../lib/json.mjs";
+import { DERIVED_ID_MEMBER, OWN_ID_MEMBERS } from "../lib/model.mjs";
+import { loadSchemaSet } from "../lib/schemas.mjs";
+
+const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
 
 describe("d2p-c14n-v1 / d2p-digest-v1", () => {
   // Test vectors of the schema catalog, section 1.8.
@@ -41,6 +47,14 @@ describe("d2p-c14n-v1 / d2p-digest-v1", () => {
   it("excludes top-level members only", () => {
     assert.equal(digestOf({ a: 1, contentDigest: "x" }, ["contentDigest"]), digestOf({ a: 1 }));
     assert.notEqual(digestOf({ a: { contentDigest: "x" } }, ["contentDigest"]), digestOf({ a: {} }));
+  });
+
+  it("adds the drape members to sceneDigest only when present (draft 0.3.0)", () => {
+    const scene = { coordinateSystem: {}, sceneUnit: "m", unitConversion: {}, panelBindings: [], seamBindings: [], controlMeasures: [], meshRefs: [] };
+    assert.equal(sceneDigestOf(scene), digestOf(scene));
+    const drape = { ...scene, bodyModelRef: { id: "bms_x" }, drapedMeshRefs: [], mode: "physical-simulation" };
+    assert.equal(sceneDigestOf(drape), digestOf({ ...scene, bodyModelRef: { id: "bms_x" }, drapedMeshRefs: [] }));
+    assert.equal(drapedMeshDigestOf({ positionsM: [[0, 1, 2]], meshDigest: "x" }), digestOf({ positionsM: [[0, 1, 2]] }));
   });
 
   it("sorts members by UTF-16 code units", () => {
@@ -104,5 +118,20 @@ describe("version gate and diagnostics", () => {
     assert.equal(levelOfCode("D2P-EVL-001"), "evaluator");
     const sorted = sortDiagnostics([diagnostic("D2P-SEM-010", "b"), diagnostic("D2P-REF-001", "a"), diagnostic("D2P-SEM-010", "a", { documentPath: "a" })]);
     assert.deepEqual(sorted.map((d) => `${d.code}|${d.documentPath ?? ""}`), ["D2P-REF-001|", "D2P-SEM-010|", "D2P-SEM-010|a"]);
+  });
+
+  it("registers the draft 0.3.0 codes as errors", () => {
+    for (const code of ["D2P-SEM-052", "D2P-SEM-076", "D2P-SEM-127", "D2P-SEM-128", "D2P-SEM-129", "D2P-SEM-130", "D2P-SEM-131"]) {
+      assert.equal(diagnostic(code, "x").severity, "error", code);
+    }
+  });
+});
+
+describe("document model", () => {
+  it("knows the own ID of every document type a schema declares", async () => {
+    const schemas = await loadSchemaSet(REPO_ROOT);
+    const missing = [...schemas.byDocumentType.keys()].filter((t) => !(t in OWN_ID_MEMBERS));
+    assert.deepEqual(missing, []);
+    for (const [type, member] of Object.entries(DERIVED_ID_MEMBER)) assert.deepEqual(OWN_ID_MEMBERS[type], [member], type);
   });
 });

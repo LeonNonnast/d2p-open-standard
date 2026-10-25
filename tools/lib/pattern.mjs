@@ -258,6 +258,8 @@ export function contentElementKinds(doc) {
         ...(doc.sewingBindings ?? []).map((b) => [b.id, "d2p:sewing-binding"]),
         ...(doc.materialAssignments ?? []).map((m) => [m.id, "d2p:material-assignment"]),
         ...(doc.arrangements ?? []).map((a) => [a.id, "d2p:arrangement"]),
+        ...(doc.bodyBindings ?? []).map((b) => [b.id, "d2p:body-binding"]),
+        ...(doc.simulationConfigurations ?? []).map((c) => [c.id, "d2p:simulation-configuration"]),
       ]);
     default:
       return new Map();

@@ -1,0 +1,15 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_golden-drape-body-profile-r1",
+  "artifactId": "art_golden-drape-body-profile",
+  "sequence": 1,
+  "parentRevisionIds": [],
+  "contentDigest": "sha256:92bb27b14a8206aea860f17b3c7cd159bda7af068453d693d82ae18de8fef614",
+  "createdAt": "2026-01-08T00:00:00Z",
+  "author": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  },
+  "message": "Initial synthetic body profile (baseline body-l, chest girth and arm length measured)"
+}

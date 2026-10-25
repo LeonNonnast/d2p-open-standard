@@ -1,0 +1,35 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "golden-tshirt-drape.avatar-profile-derivation-invalid",
+  "level": "semantic",
+  "title": "Golden T-Shirt drape: avatar profile derives neck girth from a derived definition",
+  "documents": [
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/avatar-profile-derivation-invalid/avatar-profile.json",
+      "role": "subject"
+    },
+    {
+      "path": "tolerance-profiles/golden-tshirt-drape-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.1.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-127",
+        "documentPath": "conformance/semantic/golden-tshirt-drape/avatar-profile-derivation-invalid/avatar-profile.json"
+      }
+    ]
+  },
+  "testIds": [
+    "AVA-001",
+    "AVA-003"
+  ],
+  "description": "Derivations use required definitions only, so every inferred target depends on measured or table values and never on another inference."
+}

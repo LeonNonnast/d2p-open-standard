@@ -1,0 +1,34 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "pattern-edit.edit-remove-missing-key",
+  "level": "referential",
+  "title": "A pattern edit that removes a seam connection the expected revision does not contain is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/pattern-edit/edit-remove-missing-key/command.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/pattern-edit/edit-remove-missing-key/pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/pattern-edit/edit-remove-missing-key/revision-pattern-r1.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-003",
+        "documentPath": "conformance/referential/pattern-edit/edit-remove-missing-key/command.json",
+        "instancePath": "/payload/operations/1"
+      }
+    ]
+  },
+  "testIds": [
+    "UX-005"
+  ]
+}

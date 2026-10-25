@@ -12,6 +12,16 @@ import {
   sha256,
 } from "./c14n.mjs";
 import { diagnostic } from "./diagnostics.mjs";
+import {
+  checkBodyModelExpectationReferences,
+  checkBodyModelReferences,
+  checkBodySourceSizeKey,
+  checkDrapedMeshReferences,
+  checkDrapeExpectationReferences,
+  checkDrapeSceneReferences,
+  checkFitMapReferences,
+  checkGarmentDrapeReferences,
+} from "./drape.mjs";
 import { walkExpr } from "./expression.mjs";
 import {
   checkGarmentReferences,
@@ -25,6 +35,7 @@ import {
 import { rel, walk } from "./fs.mjs";
 import { parseStrictJsonBytes, pointer } from "./json.mjs";
 import { embeddedDocuments, identityKey, isObject, OPAQUE_MEMBERS, OWN_ID_MEMBERS, refKey, sameRefSet, walkJson } from "./model.mjs";
+import { applyPatternEdit } from "./pattern-edit.mjs";
 import {
   contentElementKinds,
   featureOutputs,
@@ -47,6 +58,9 @@ const DERIVED_REF_TARGET = {
   sceneSnapshotRef: ["d2p:scene-snapshot"],
   proposalRef: ["d2p:pattern-proposal"],
   inspectionRef: ["d2p:inspect-3d-edit-result"],
+  bodyModelRef: ["d2p:body-model-snapshot"],
+  drapedMeshRef: ["d2p:draped-panel-mesh"],
+  restMeshRef: ["d2p:panel-mesh-result"],
 };
 
 /**
@@ -121,12 +135,15 @@ export async function checkReferential(index, { root }) {
         break;
       case "d2p:garment":
         checkGarmentReferences(ctx, unit);
+        checkGarmentDrapeReferences(ctx, unit);
         break;
       case "d2p:scene-input":
         checkSceneInputReferences(ctx, unit);
+        checkDrapeSceneReferences(ctx, unit);
         break;
       case "d2p:scene-snapshot":
         checkSceneSnapshotReferences(ctx, unit);
+        checkDrapeSceneReferences(ctx, unit);
         break;
       case "d2p:scene-expectation":
         checkSceneExpectationReferences(ctx, unit);
@@ -139,6 +156,21 @@ export async function checkReferential(index, { root }) {
         break;
       case "d2p:inspect-3d-edit-result":
         checkInspectionReferences(ctx, unit, resolveExprReferences);
+        break;
+      case "d2p:body-model-snapshot":
+        checkBodyModelReferences(ctx, unit);
+        break;
+      case "d2p:body-model-expectation":
+        checkBodyModelExpectationReferences(ctx, unit);
+        break;
+      case "d2p:draped-panel-mesh":
+        checkDrapedMeshReferences(ctx, unit);
+        break;
+      case "d2p:fit-map":
+        checkFitMapReferences(ctx, unit);
+        break;
+      case "d2p:drape-expectation":
+        checkDrapeExpectationReferences(ctx, unit);
         break;
       case "d2p:fixture-manifest":
         if (!unit.embedded && unit.role === "manifest") await checkManifest(ctx, unit);
@@ -186,15 +218,30 @@ function checkIdentity(ctx) {
   }
 }
 
-function checkDuplicateIds(ctx, unit) {
+/** Visitor reporting element IDs declared twice within one scope (D2P-REF-005). */
+function duplicateIdVisitor(ctx, unit, scope, skip = null) {
   const seen = new Map();
-  walkUnit(unit, (node, ptr, key) => {
+  return (node, ptr, key) => {
+    if (ptr === skip) return false;
     if (key === "id" && typeof node === "string" && ELEMENT_ID_RE.test(node)) {
-      if (seen.has(node)) ctx.report("D2P-REF-005", `element ID "${node}" is declared more than once in this document (first at ${seen.get(node)})`, unit, ptr);
+      if (seen.has(node)) ctx.report("D2P-REF-005", `element ID "${node}" is declared more than once in ${scope} (first at ${seen.get(node)})`, unit, ptr);
       else seen.set(node, ptr);
     }
     return true;
-  });
+  };
+}
+
+function checkDuplicateIds(ctx, unit) {
+  // The elements of pattern.edit operations belong to the edited pattern, not to the command:
+  // one element ID may be added and then replaced (catalog §3.6), so each operation's element is
+  // its own scope; keys across operations are checked by checkPatternEditKeys, the result as a revision.
+  const operations = unit.value.type === "d2p:pattern.edit" ? at(unit, "payload", "operations") : null;
+  walkUnit(unit, duplicateIdVisitor(ctx, unit, "this document", operations));
+  if (operations) {
+    (Array.isArray(unit.value.payload?.operations) ? unit.value.payload.operations : []).forEach((op, i) => {
+      if (isObject(op?.element)) walkJson(op.element, duplicateIdVisitor(ctx, unit, `the element of operation ${i}`), pointer(operations, i, "element"));
+    });
+  }
   const v = unit.value;
   const keyed = [];
   if (v.documentType === "d2p:pattern") {
@@ -228,6 +275,13 @@ function checkDuplicateIds(ctx, unit) {
   if (v.documentType === "d2p:mapping-profile") {
     keyed.push(["mapping entry", (v.entries ?? []).map((e, i) => [`${e.d2pTerm} -> ${e.externalTerm}`, at(unit, "entries", i)])]);
   }
+  // One entry per key in the sorted arrays of an avatar profile (catalog §3.9, D2P-REF-014).
+  if (v.documentType === "d2p:avatar-profile") {
+    for (const [member, keys] of SORTED_VOCABULARY_ARRAYS["d2p:avatar-profile"]) {
+      if (!keys || member.includes("[]")) continue;
+      keyed.push([`${member} ${keys[0]}`, (v[member] ?? []).map((x, i) => [x?.[keys[0]], at(unit, member, i, keys[0])])]);
+    }
+  }
   if (v.documentType === "d2p:fixture-manifest") {
     keyed.push(["configurationKey", (v.configurations ?? []).map((c, i) => [c.configurationKey, at(unit, "configurations", i, "configurationKey")])]);
   }
@@ -242,35 +296,64 @@ function checkDuplicateIds(ctx, unit) {
   checkVocabularyOrder(ctx, unit);
 }
 
-/** Vocabulary arrays that the catalog declares sorted, with their sort keys (D2P-REF-014). */
+/**
+ * Vocabulary arrays that the catalog declares sorted, with their sort keys
+ * (D2P-REF-014). A null key list sorts an array of strings by value. A member
+ * written `outer[].inner` is the array `inner` of every element of `outer`.
+ */
 const SORTED_VOCABULARY_ARRAYS = Object.freeze({
-  "d2p:measurement-definition-registry": ["definitions", ["definitionId"]],
-  "d2p:validation-profile": ["rules", ["ruleId"]],
-  "d2p:mapping-profile": ["entries", ["d2pTerm", "externalTerm"]],
+  "d2p:measurement-definition-registry": [["definitions", ["definitionId"]]],
+  "d2p:validation-profile": [["rules", ["ruleId"]]],
+  "d2p:mapping-profile": [["entries", ["d2pTerm", "externalTerm"]]],
+  "d2p:avatar-profile": [
+    ["requiredDefinitions", null],
+    ["derivations", ["definitionId"]],
+    ["tolerances", ["definitionId"]],
+    ["landmarks", ["landmarkId"]],
+    ["zones", ["zone"]],
+    ["zones[].landmarkIds", null],
+  ],
 });
+
+/** The arrays named by a SORTED_VOCABULARY_ARRAYS member: `[{ list, tokens }]` with the pointer tokens of each array. */
+function sortedArraysOf(value, member) {
+  const [outer, inner] = member.split("[].");
+  const outerList = Array.isArray(value?.[outer]) ? value[outer] : [];
+  if (inner === undefined) return [{ list: outerList, tokens: [outer] }];
+  return outerList.map((x, i) => ({ list: Array.isArray(x?.[inner]) ? x[inner] : [], tokens: [outer, i, inner] }));
+}
 
 /**
  * D2P-REF-014: `measurement-definition-registry.definitions` (by definitionId),
- * `validation-profile.rules` (by ruleId) and `mapping-profile.entries` (by
- * d2pTerm, externalTerm) are in ascending UTF-16 order. Equal neighbours are
- * duplicates and reported as D2P-REF-005 only.
+ * `validation-profile.rules` (by ruleId), `mapping-profile.entries` (by
+ * d2pTerm, externalTerm) and the avatar-profile arrays `requiredDefinitions`
+ * (by value), `derivations` and `tolerances` (by definitionId), `landmarks`
+ * (by landmarkId), `zones` (by zone) and the `landmarkIds` of every zone (by
+ * value) are in ascending UTF-16 order. Equal neighbours are duplicates and
+ * reported as D2P-REF-005 only (or, for sets, D2P-STR-001 by the schema).
  */
 function checkVocabularyOrder(ctx, unit) {
-  const spec = SORTED_VOCABULARY_ARRAYS[unit.value.documentType];
-  if (!spec) return;
-  const [member, keys] = spec;
-  const list = Array.isArray(unit.value[member]) ? unit.value[member] : [];
+  for (const [member, keys] of SORTED_VOCABULARY_ARRAYS[unit.value.documentType] ?? []) {
+    for (const { list, tokens } of sortedArraysOf(unit.value, member)) checkSortedArray(ctx, unit, list, tokens, keys);
+  }
+}
+
+/** D2P-REF-014 for one sorted array at the pointer tokens `tokens`. */
+function checkSortedArray(ctx, unit, list, tokens, keys) {
+  const fields = (x) => (keys ? keys.map((k) => x?.[k]) : [x]);
   const compare = (a, b) => {
-    for (const k of keys) {
-      if (typeof a?.[k] !== "string" || typeof b?.[k] !== "string") return 0;
-      if (a[k] !== b[k]) return a[k] < b[k] ? -1 : 1;
+    const fa = fields(a);
+    const fb = fields(b);
+    for (let k = 0; k < fa.length; k += 1) {
+      if (typeof fa[k] !== "string" || typeof fb[k] !== "string") return 0;
+      if (fa[k] !== fb[k]) return fa[k] < fb[k] ? -1 : 1;
     }
     return 0;
   };
   for (let i = 1; i < list.length; i += 1) {
     if (compare(list[i - 1], list[i]) > 0) {
-      const show = (x) => keys.map((k) => x?.[k]).join(" / ");
-      ctx.report("D2P-REF-014", `${member} must be sorted by ${keys.join(", ")}: "${show(list[i])}" follows "${show(list[i - 1])}"`, unit, at(unit, member, i));
+      const show = (x) => fields(x).join(" / ");
+      ctx.report("D2P-REF-014", `${tokens.join("/")} must be sorted by ${keys ? keys.join(", ") : "value"}: "${show(list[i])}" follows "${show(list[i - 1])}"`, unit, at(unit, ...tokens, i));
     }
   }
 }
@@ -369,6 +452,9 @@ function checkInputDigests(ctx, unit) {
         "tolerance-profile": "d2p:tolerance-profile",
         "validation-profile": "d2p:validation-profile",
         "mesh-profile": "d2p:mesh-profile",
+        "avatar-profile": "d2p:avatar-profile",
+        "solver-profile": "d2p:solver-profile",
+        "material-physics-profile": "d2p:material-physics-profile",
       }[entry.role];
       if (!type) return;
       const target = ctx.index.vocabDoc(type, entry.id.id, entry.id.version);
@@ -425,6 +511,21 @@ function checkDefinitions(ctx, unit) {
     case "d2p:pattern-evaluation":
       owner = ctx.index.contentOf(v.request?.patternRef);
       (v.measurements ?? []).forEach((m, i) => m.definitionId !== undefined && sites.push([m.definitionId, at(unit, "measurements", i, "definitionId")]));
+      break;
+    case "d2p:avatar-profile":
+      (v.requiredDefinitions ?? []).forEach((d, i) => sites.push([d, at(unit, "requiredDefinitions", i)]));
+      (v.derivations ?? []).forEach((d, i) => {
+        sites.push([d.definitionId, at(unit, "derivations", i, "definitionId")]);
+        (d.terms ?? []).forEach((t, j) => sites.push([t.definitionId, at(unit, "derivations", i, "terms", j, "definitionId")]));
+      });
+      (v.tolerances ?? []).forEach((t, i) => sites.push([t.definitionId, at(unit, "tolerances", i, "definitionId")]));
+      break;
+    case "d2p:body-model-snapshot":
+    case "d2p:body-model-expectation":
+      // Body model definitions resolve in the registries of their avatar profile.
+      owner = ctx.index.vocabDoc("d2p:avatar-profile", v.avatarProfile?.id, v.avatarProfile?.version)?.value;
+      (v.controlMeasures ?? []).forEach((m, i) => sites.push([m.definitionId, at(unit, "controlMeasures", i, "definitionId")]));
+      (v.missingDefinitions ?? []).forEach((d, i) => sites.push([d, at(unit, "missingDefinitions", i)]));
       break;
     default:
       return;
@@ -517,6 +618,10 @@ function checkSizeKeys(ctx, unit) {
     for (const member of ["easeRules", "fitTargets"]) {
       (v[member] ?? []).forEach((r, i) => (r.scope?.sizeKeys ?? []).forEach((k, j) => uses.push([k, at(unit, member, i, "scope", "sizeKeys", j)])));
     }
+  }
+  // A baseline size resolves in its own size system (catalog §3.3, SZT-001).
+  if (v.documentType === "d2p:body-measurement-profile" && isObject(v.baseline)) {
+    checkBodySourceSizeKey(ctx, unit, { kind: "size-entry", ...v.baseline }, at(unit, "baseline"));
   }
   if (!uses.length) return;
   if (!isObject(v.sizeSystemRef)) {
@@ -1010,12 +1115,28 @@ function checkCommand(ctx, unit) {
       ctx.report("D2P-REF-007", `content revisionId ${c.revisionId} differs from payload.initialRevisionId ${v.payload.initialRevisionId}`, unit, at(unit, "payload", "content", "revisionId"));
     }
   }
+  if (v.type === "d2p:pattern.edit") checkPatternEditKeys(ctx, unit);
   if (typeof v.expectedRevisionId === "string") {
     for (const child of ctx.index.children.get(v.expectedRevisionId) ?? []) {
       if (child.value.commandId !== v.commandId) {
         ctx.report("D2P-REF-006", `expectedRevisionId ${v.expectedRevisionId} already has the child revision ${child.value.revisionId}, which this command did not produce`, unit, at(unit, "expectedRevisionId"));
       }
     }
+  }
+}
+
+/**
+ * D2P-REF-005 / D2P-REF-003 for 'd2p:pattern.edit' (catalog §3.6): applied in
+ * order to the content of the expected revision (when in the bundle), an add
+ * must not find its key and a replace or remove must find it.
+ */
+function checkPatternEditKeys(ctx, unit) {
+  const v = unit.value;
+  const base = ctx.index.contentOf({ artifactId: v.target?.artifactId, revisionId: v.expectedRevisionId });
+  if (!base || base.documentType !== "d2p:pattern") return;
+  const operations = v.payload?.operations ?? [];
+  for (const p of applyPatternEdit(base, operations).problems) {
+    ctx.report(p.code, `operation ${p.op} (${operations[p.op].op}): ${p.message} after the preceding operations on base revision ${v.expectedRevisionId}`, unit, at(unit, "payload", "operations", p.op));
   }
 }
 

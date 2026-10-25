@@ -1,0 +1,116 @@
+{
+  "documentType": "d2p:command",
+  "schemaVersion": "1.0.0",
+  "commandId": "cmd_example-edit-1",
+  "idempotencyKey": "example-edit-1",
+  "type": "d2p:pattern.edit",
+  "target": {
+    "artifactId": "art_example-pattern",
+    "branch": "main"
+  },
+  "expectedRevisionId": "rev_example-pattern-r2",
+  "payload": {
+    "operations": [
+      {
+        "op": "add",
+        "collection": "parameters",
+        "element": {
+          "id": "pocket-a",
+          "type": "d2p:point.absolute",
+          "params": {
+            "x": {
+              "expr": {
+                "op": "literal",
+                "value": 60,
+                "unit": "mm"
+              }
+            },
+            "y": {
+              "expr": {
+                "op": "literal",
+                "value": 300,
+                "unit": "mm"
+              }
+            }
+          }
+        }
+      },
+      {
+        "op": "add",
+        "collection": "features",
+        "element": {
+          "id": "pocket-a",
+          "type": "d2p:point.absolute",
+          "params": {
+            "x": {
+              "expr": {
+                "op": "literal",
+                "value": 60,
+                "unit": "mm"
+              }
+            },
+            "y": {
+              "expr": {
+                "op": "literal",
+                "value": 300,
+                "unit": "mm"
+              }
+            }
+          }
+        }
+      },
+      {
+        "op": "add",
+        "collection": "features",
+        "element": {
+          "id": "pocket-b",
+          "type": "d2p:point.offset",
+          "params": {
+            "baseFeatureId": "pocket-a",
+            "dx": {
+              "expr": {
+                "op": "param",
+                "parameterId": "pocket-width"
+              }
+            },
+            "dy": {
+              "expr": {
+                "op": "literal",
+                "value": 0,
+                "unit": "mm"
+              }
+            }
+          }
+        }
+      },
+      {
+        "op": "add",
+        "collection": "features",
+        "element": {
+          "id": "pocket-top",
+          "type": "d2p:line",
+          "params": {
+            "startFeatureId": "pocket-a",
+            "endFeatureId": "pocket-b"
+          }
+        }
+      },
+      {
+        "op": "remove",
+        "collection": "sewingGroups",
+        "key": "group-armhole-left"
+      },
+      {
+        "op": "set-name",
+        "name": "Example shirt with pocket"
+      }
+    ]
+  },
+  "actorContext": {
+    "actorPrincipalId": "prn_example-agent",
+    "onBehalfOfPrincipalId": "prn_example-user",
+    "clientId": "example-cad-client"
+  },
+  "correlationId": "cor_example-request-1",
+  "issuedAt": "2026-01-03T00:00:00Z"
+}

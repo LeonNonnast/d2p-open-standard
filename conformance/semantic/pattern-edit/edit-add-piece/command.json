@@ -1,0 +1,252 @@
+{
+  "documentType": "d2p:command",
+  "schemaVersion": "1.0.0",
+  "commandId": "cmd_conformance-edit-1",
+  "idempotencyKey": "conformance-edit-1",
+  "type": "d2p:pattern.edit",
+  "target": {
+    "artifactId": "art_conformance-square",
+    "branch": "main"
+  },
+  "expectedRevisionId": "rev_conformance-square-r1",
+  "payload": {
+    "operations": [
+      {
+        "op": "add",
+        "collection": "parameters",
+        "element": {
+          "id": "pocket-width",
+          "dimension": "length",
+          "expr": {
+            "op": "literal",
+            "value": 120,
+            "unit": "mm"
+          }
+        }
+      },
+      {
+        "op": "add",
+        "collection": "parameters",
+        "element": {
+          "id": "pocket-height",
+          "dimension": "length",
+          "expr": {
+            "op": "literal",
+            "value": 140,
+            "unit": "mm"
+          }
+        }
+      },
+      {
+        "op": "add",
+        "collection": "features",
+        "element": {
+          "id": "p-bl",
+          "type": "d2p:point.absolute",
+          "params": {
+            "x": {
+              "expr": {
+                "op": "literal",
+                "value": 1200,
+                "unit": "mm"
+              }
+            },
+            "y": {
+              "expr": {
+                "op": "literal",
+                "value": 0,
+                "unit": "mm"
+              }
+            }
+          }
+        }
+      },
+      {
+        "op": "add",
+        "collection": "features",
+        "element": {
+          "id": "p-br",
+          "type": "d2p:point.offset",
+          "params": {
+            "baseFeatureId": "p-bl",
+            "dx": {
+              "expr": {
+                "op": "param",
+                "parameterId": "pocket-width"
+              }
+            },
+            "dy": {
+              "expr": {
+                "op": "literal",
+                "value": 0,
+                "unit": "mm"
+              }
+            }
+          }
+        }
+      },
+      {
+        "op": "add",
+        "collection": "features",
+        "element": {
+          "id": "p-tr",
+          "type": "d2p:point.offset",
+          "params": {
+            "baseFeatureId": "p-br",
+            "dx": {
+              "expr": {
+                "op": "literal",
+                "value": 0,
+                "unit": "mm"
+              }
+            },
+            "dy": {
+              "expr": {
+                "op": "param",
+                "parameterId": "pocket-height"
+              }
+            }
+          }
+        }
+      },
+      {
+        "op": "add",
+        "collection": "features",
+        "element": {
+          "id": "p-tl",
+          "type": "d2p:point.offset",
+          "params": {
+            "baseFeatureId": "p-bl",
+            "dx": {
+              "expr": {
+                "op": "literal",
+                "value": 0,
+                "unit": "mm"
+              }
+            },
+            "dy": {
+              "expr": {
+                "op": "param",
+                "parameterId": "pocket-height"
+              }
+            }
+          }
+        }
+      },
+      {
+        "op": "add",
+        "collection": "features",
+        "element": {
+          "id": "p-bottom-curve",
+          "type": "d2p:line",
+          "params": {
+            "startFeatureId": "p-bl",
+            "endFeatureId": "p-br"
+          }
+        }
+      },
+      {
+        "op": "add",
+        "collection": "features",
+        "element": {
+          "id": "p-right-curve",
+          "type": "d2p:line",
+          "params": {
+            "startFeatureId": "p-br",
+            "endFeatureId": "p-tr"
+          }
+        }
+      },
+      {
+        "op": "add",
+        "collection": "features",
+        "element": {
+          "id": "p-top-curve",
+          "type": "d2p:line",
+          "params": {
+            "startFeatureId": "p-tr",
+            "endFeatureId": "p-tl"
+          }
+        }
+      },
+      {
+        "op": "add",
+        "collection": "features",
+        "element": {
+          "id": "p-left-curve",
+          "type": "d2p:line",
+          "params": {
+            "startFeatureId": "p-tl",
+            "endFeatureId": "p-bl"
+          }
+        }
+      },
+      {
+        "op": "add",
+        "collection": "pieces",
+        "element": {
+          "id": "pocket",
+          "name": "Pocket (synthetic)",
+          "contours": [
+            {
+              "id": "pocket-outer",
+              "role": "outer",
+              "edges": [
+                {
+                  "id": "pocket-hem",
+                  "curveFeatureId": "p-bottom-curve",
+                  "reversed": false
+                },
+                {
+                  "id": "pocket-side-right",
+                  "curveFeatureId": "p-right-curve",
+                  "reversed": false
+                },
+                {
+                  "id": "pocket-top",
+                  "curveFeatureId": "p-top-curve",
+                  "reversed": false
+                },
+                {
+                  "id": "pocket-side-left",
+                  "curveFeatureId": "p-left-curve",
+                  "reversed": false
+                }
+              ]
+            }
+          ],
+          "grainlines": [
+            {
+              "id": "pocket-grainline",
+              "startFeatureId": "p-bl",
+              "endFeatureId": "p-tl"
+            }
+          ]
+        }
+      },
+      {
+        "op": "add",
+        "collection": "seamInterfaces",
+        "element": {
+          "id": "si-pocket-top",
+          "segments": [
+            {
+              "edgeId": "pocket-top",
+              "from": 0,
+              "to": 1,
+              "direction": "forward"
+            }
+          ]
+        }
+      },
+      {
+        "op": "set-name",
+        "name": "Conformance kit base pattern with pocket (synthetic)"
+      }
+    ]
+  },
+  "actorContext": {
+    "actorPrincipalId": "prn_conformance-kit"
+  },
+  "issuedAt": "2026-01-02T00:00:00Z"
+}

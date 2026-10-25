@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Generates the kit's conformance cases (conformance/<level>/**, except the
-// fixture cases in conformance/<level>/golden-tshirt/ and
-// conformance/<level>/golden-tshirt-3d/, catalog §4.1/§4.3/§4.5).
+// fixture cases in conformance/<level>/golden-tshirt/,
+// conformance/<level>/golden-tshirt-3d/ and
+// conformance/<level>/golden-tshirt-drape/, catalog §4.1/§4.3/§4.5/§4.6).
 // Every digest inside the case data is computed with tools/lib/c14n.mjs, so
 // rerun this script after changing the base documents or the schemas.
 //
@@ -12,10 +13,16 @@ import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { contentDigestOf, digestOf, geometryDigestOf, resultDigestOf } from "./lib/c14n.mjs";
+import { applyPatternEdit, expectedCommandContent } from "./lib/pattern-edit.mjs";
 
+if (process.argv[2]?.startsWith("-")) {
+  // No options: the committed cases are checked by `npm test` (test/conformance.test.mjs).
+  console.error(`generate-conformance-cases: unknown option ${process.argv[2]}; usage: node tools/generate-conformance-cases.mjs [output root]`);
+  process.exit(2);
+}
 const ROOT = path.resolve(process.argv[2] ?? path.join(path.dirname(fileURLToPath(import.meta.url)), ".."));
-/** Case directories owned by the Golden T-Shirt fixtures (2D oracle, 3D generator), never touched here. */
-const RESERVED = new Set(["golden-tshirt", "golden-tshirt-3d"]);
+/** Case directories owned by the Golden T-Shirt fixtures (2D oracle, 3D and drape generators), never touched here. */
+const RESERVED = new Set(["golden-tshirt", "golden-tshirt-3d", "golden-tshirt-drape"]);
 
 const V = "1.0.0";
 const REGISTRY = "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json";
@@ -245,8 +252,9 @@ async function writeJson(rel, value) {
 /**
  * @param {object} c
  * @param {string} c.level
- * @param {string} [c.group] topology | sewing-groups
+ * @param {string} [c.group] topology | sewing-groups | pattern-edit
  * @param {string} c.slug
+ * @param {string} [c.caseId] defaults to the slug in a group, else <level>.<slug>
  * @param {string} c.title
  * @param {Record<string, object|string>} c.subjects file name -> document
  * @param {Record<string, object|string>} [c.context] file name -> document
@@ -279,7 +287,7 @@ async function writeCase(c) {
   const testCase = {
     documentType: "d2p:conformance-case",
     schemaVersion: V,
-    caseId: c.group ? c.slug : `${c.level}.${c.slug}`,
+    caseId: c.caseId ?? (c.group ? c.slug : `${c.level}.${c.slug}`),
     level: c.level,
     title: c.title,
     documents,
@@ -2536,6 +2544,183 @@ await writeCase({
     subjects: { "measurement-definition-registry.json": registryWith([definition("body.chest-girth", "length", "rad"), definition("body.shoulder-slope", "angle", "rad")]) },
     expect: { outcome: "reject", diagnostics: [{ code: "D2P-SEM-070", doc: "measurement-definition-registry.json", at: "/definitions/0/unit" }] },
   });
+}
+
+// Construction commands (catalog §3.6, draft 0.3.0): a 'd2p:pattern.edit' or
+// 'd2p:pattern.parameters.update' applied to the base pattern r1. The committed
+// r2 content is computed with tools/lib/pattern-edit.mjs; a committed content
+// that differs from it is D2P-SEM-131, operation keys are checked against r1.
+{
+  const POCKET = { id: "pocket", prefix: "p", x0: 1200, w: "pocket-width", h: "pocket-height" };
+  const editCommand = (n, type, payload) => ({
+    documentType: "d2p:command",
+    schemaVersion: V,
+    commandId: `cmd_conformance-edit-${n}`,
+    idempotencyKey: `conformance-edit-${n}`,
+    type,
+    target: { artifactId: pattern.artifactId, branch: "main" },
+    expectedRevisionId: pattern.revisionId,
+    payload,
+    actorContext: { actorPrincipalId: "prn_conformance-kit" },
+    issuedAt: T2,
+  });
+  const r2Id = "rev_conformance-square-r2";
+  /** Bundle of a committed command: r1 and its record as context, the command, r2 and its record as subjects. */
+  const committed = (command, r2) => ({
+    subjects: {
+      "command.json": command,
+      "pattern-r2.json": r2,
+      "revision-pattern-r2.json": revisionOf(r2, { sequence: 2, parents: [pattern.revisionId], createdAt: T2, commandId: command.commandId }),
+    },
+    context: { "pattern-r1.json": pattern, "revision-pattern-r1.json": revisionOf(pattern) },
+  });
+  /** Instance path of the single operation that applyPatternEdit rejects with `code`. */
+  const failedOp = (command, code) => {
+    const { problems } = applyPatternEdit(pattern, command.payload.operations);
+    if (problems.length !== 1 || problems[0].code !== code) throw new Error(`${command.commandId}: expected exactly one ${code}`);
+    return `/payload/operations/${problems[0].op}`;
+  };
+
+  const addPocket = editCommand("1", "d2p:pattern.edit", {
+    operations: [
+      ...[
+        ["pocket-width", 120],
+        ["pocket-height", 140],
+      ].map(([id, value]) => ({ op: "add", collection: "parameters", element: { id, dimension: "length", expr: lit(value) } })),
+      ...rectFeatures(POCKET).map((element) => ({ op: "add", collection: "features", element })),
+      { op: "add", collection: "pieces", element: rectPiece(POCKET) },
+      { op: "add", collection: "seamInterfaces", element: { id: "si-pocket-top", segments: [full("pocket-top")] } },
+      { op: "set-name", name: "Conformance kit base pattern with pocket (synthetic)" },
+    ],
+  });
+  const pocketR2 = expectedCommandContent(addPocket, pattern, r2Id);
+  await writeCase({
+    level: "semantic",
+    group: "pattern-edit",
+    caseId: "pattern-edit.edit-add-piece",
+    slug: "edit-add-piece",
+    title: "A pattern edit that adds a rectangular piece, committed with the content its operations yield, is accepted",
+    description:
+      "The command adds two parameters, the eight point and line features of a pocket, the pocket piece with its closed outer contour and a seam interface on its top edge, and sets the name. The r2 content is the result of applying the operations in order to r1 (added elements appended), with the revisionId of r2.",
+    testIds: ["CAD-001", "TOP-001", "UX-005"],
+    ...committed(addPocket, pocketR2),
+    expect: { outcome: "accept" },
+  });
+  {
+    // Same elements, but the pocket is inserted before the other pieces: authoring order is digest-relevant.
+    const r2 = clone(pocketR2);
+    r2.pieces.unshift(r2.pieces.pop());
+    await writeCase({
+      level: "semantic",
+      group: "pattern-edit",
+      caseId: "pattern-edit.edit-result-mismatch",
+      slug: "edit-result-mismatch",
+      title: "A pattern edit committed with a content other than its operations yield is rejected",
+      description:
+        "The r2 content holds the same elements as the result of the operations, but the added pocket piece stands first instead of last. 'add' appends, and the order of a collection is part of the content (catalog §1.8), so r2 is not the result of the command.",
+      testIds: ["CAD-001"],
+      ...committed(addPocket, r2),
+      expect: { outcome: "reject", diagnostics: [{ code: "D2P-SEM-131", doc: "pattern-r2.json" }] },
+    });
+  }
+  {
+    const command = editCommand("2", "d2p:pattern.edit", {
+      operations: [
+        { op: "add", collection: "parameters", element: { id: "pocket-width", dimension: "length", expr: lit(120) } },
+        { op: "add", collection: "pieces", element: rectPiece(PIECES[0]) },
+      ],
+    });
+    await writeCase({
+      level: "referential",
+      group: "pattern-edit",
+      caseId: "pattern-edit.edit-add-existing-key",
+      slug: "edit-add-existing-key",
+      title: "A pattern edit that adds a piece whose ID already exists in the expected revision is rejected",
+      testIds: ["UX-005"],
+      subjects: { "command.json": command },
+      context: { "pattern-r1.json": pattern, "revision-pattern-r1.json": revisionOf(pattern) },
+      expect: { outcome: "reject", diagnostics: [{ code: "D2P-REF-005", doc: "command.json", at: failedOp(command, "D2P-REF-005") }] },
+    });
+  }
+  {
+    const command = editCommand("3", "d2p:pattern.edit", {
+      operations: [
+        { op: "remove", collection: "sewingGroups", key: "group-sides" },
+        { op: "remove", collection: "seamConnections", key: "seam-shoulder" },
+      ],
+    });
+    await writeCase({
+      level: "referential",
+      group: "pattern-edit",
+      caseId: "pattern-edit.edit-remove-missing-key",
+      slug: "edit-remove-missing-key",
+      title: "A pattern edit that removes a seam connection the expected revision does not contain is rejected",
+      testIds: ["UX-005"],
+      subjects: { "command.json": command },
+      context: { "pattern-r1.json": pattern, "revision-pattern-r1.json": revisionOf(pattern) },
+      expect: { outcome: "reject", diagnostics: [{ code: "D2P-REF-003", doc: "command.json", at: failedOp(command, "D2P-REF-003") }] },
+    });
+  }
+  {
+    // Removing a bound interface yields a consistent result whose seam connection no longer resolves.
+    const command = editCommand("4", "d2p:pattern.edit", { operations: [{ op: "remove", collection: "seamInterfaces", key: "si-front-side-left" }] });
+    const r2 = expectedCommandContent(command, pattern, r2Id);
+    const at = r2.seamConnections.findIndex((c) => c.interfaceIds.includes("si-front-side-left"));
+    await writeCase({
+      level: "referential",
+      group: "pattern-edit",
+      caseId: "pattern-edit.edit-remove-bound-interface",
+      slug: "edit-remove-bound-interface",
+      title: "A pattern edit that removes a seam interface still bound by a seam connection yields a revision that is rejected",
+      description:
+        "The committed r2 is exactly the result of the operation, but seam connection 'seam-side-left' still names the removed interface. A change of the seam topology needs a valid rebinding in the same command (design decision ADR-020); without it the result does not resolve.",
+      testIds: ["COL-004", "UX-005"],
+      ...committed(command, r2),
+      expect: { outcome: "reject", diagnostics: [{ code: "D2P-REF-003", doc: "pattern-r2.json", at: `/seamConnections/${at}/interfaceIds/0` }] },
+    });
+  }
+  await writeCase({
+    level: "structural",
+    group: "pattern-edit",
+    caseId: "pattern-edit.edit-remove-with-element",
+    slug: "edit-remove-with-element",
+    title: "A remove operation that also carries an element is rejected",
+    description: "The members of an operation depend on 'op' (schema-enforced): 'remove' takes 'collection' and 'key' only.",
+    subjects: {
+      "command.json": editCommand("5", "d2p:pattern.edit", {
+        operations: [{ op: "remove", collection: "pieces", key: "sleeve", element: rectPiece(PIECES[2]) }],
+      }),
+    },
+    expect: { outcome: "reject", diagnostics: [{ code: "D2P-STR-001", doc: "command.json" }] },
+  });
+
+  const update = editCommand("6", "d2p:pattern.parameters.update", { updates: [{ parameterId: "front-width", expr: lit(210) }] });
+  const updateR2 = expectedCommandContent(update, pattern, r2Id);
+  await writeCase({
+    level: "semantic",
+    group: "pattern-edit",
+    caseId: "pattern-edit.parameter-update-result",
+    slug: "parameter-update-result",
+    title: "A parameter update committed with the content its updates yield is accepted",
+    testIds: ["CAD-001"],
+    ...committed(update, updateR2),
+    expect: { outcome: "accept" },
+  });
+  {
+    const r2 = clone(updateR2);
+    r2.parameters.find((x) => x.id === "front-width").expr = lit(220);
+    await writeCase({
+      level: "semantic",
+      group: "pattern-edit",
+      caseId: "pattern-edit.parameter-update-result-mismatch",
+      slug: "parameter-update-result-mismatch",
+      title: "A parameter update committed with another expression than the command sets is rejected",
+      description: "The command sets front-width to 210 mm, the committed r2 holds 220 mm.",
+      testIds: ["CAD-001"],
+      ...committed(update, r2),
+      expect: { outcome: "reject", diagnostics: [{ code: "D2P-SEM-131", doc: "pattern-r2.json" }] },
+    });
+  }
 }
 
 console.log(`generate-conformance-cases: wrote ${written.length} file(s) below ${path.relative(process.cwd(), ROOT) || "."}/conformance`);

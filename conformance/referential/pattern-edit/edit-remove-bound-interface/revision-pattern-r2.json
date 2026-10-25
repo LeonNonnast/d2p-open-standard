@@ -1,0 +1,17 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_conformance-square-r2",
+  "artifactId": "art_conformance-square",
+  "sequence": 2,
+  "parentRevisionIds": [
+    "rev_conformance-square-r1"
+  ],
+  "contentDigest": "sha256:1c08648dacc29306a4779536433a141c7620cd135b02984bcc6ea7c7d3b94efc",
+  "createdAt": "2026-01-02T00:00:00Z",
+  "author": {
+    "kind": "system",
+    "principalId": "prn_conformance-kit"
+  },
+  "commandId": "cmd_conformance-edit-4"
+}

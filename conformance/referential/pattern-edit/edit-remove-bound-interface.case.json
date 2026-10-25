@@ -1,0 +1,44 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "pattern-edit.edit-remove-bound-interface",
+  "level": "referential",
+  "title": "A pattern edit that removes a seam interface still bound by a seam connection yields a revision that is rejected",
+  "documents": [
+    {
+      "path": "conformance/referential/pattern-edit/edit-remove-bound-interface/command.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/pattern-edit/edit-remove-bound-interface/pattern-r2.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/pattern-edit/edit-remove-bound-interface/revision-pattern-r2.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/referential/pattern-edit/edit-remove-bound-interface/pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/referential/pattern-edit/edit-remove-bound-interface/revision-pattern-r1.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-REF-003",
+        "documentPath": "conformance/referential/pattern-edit/edit-remove-bound-interface/pattern-r2.json",
+        "instancePath": "/seamConnections/0/interfaceIds/0"
+      }
+    ]
+  },
+  "testIds": [
+    "COL-004",
+    "UX-005"
+  ],
+  "description": "The committed r2 is exactly the result of the operation, but seam connection 'seam-side-left' still names the removed interface. A change of the seam topology needs a valid rebinding in the same command (design decision ADR-020); without it the result does not resolve."
+}

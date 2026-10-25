@@ -173,26 +173,12 @@
           }
         },
         "zones": {
-          "description": "Body zones the rule or target applies to. Extensible vocabulary: 'd2p:chest', 'd2p:waist', 'd2p:hip', 'd2p:shoulder', 'd2p:upper-arm', or extension names.",
+          "description": "Body zones the rule or target applies to (bodyZone vocabulary).",
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
           "items": {
-            "anyOf": [
-              {
-                "type": "string",
-                "enum": [
-                  "d2p:chest",
-                  "d2p:waist",
-                  "d2p:hip",
-                  "d2p:shoulder",
-                  "d2p:upper-arm"
-                ]
-              },
-              {
-                "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
-              }
-            ]
+            "$ref": "#/$defs/bodyZone"
           }
         }
       }
@@ -391,6 +377,26 @@
               "max"
             ]
           }
+        }
+      ]
+    },
+    "bodyZone": {
+      "title": "Body zone",
+      "description": "Extensible vocabulary of body zones: 'd2p:chest', 'd2p:waist', 'd2p:hip', 'd2p:shoulder', 'd2p:upper-arm', or extension names. Used by ease scopes and, in module 3d, by avatar profiles and fit maps.",
+      "type": "string",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "d2p:chest",
+            "d2p:waist",
+            "d2p:hip",
+            "d2p:shoulder",
+            "d2p:upper-arm"
+          ]
+        },
+        {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
         }
       ]
     }

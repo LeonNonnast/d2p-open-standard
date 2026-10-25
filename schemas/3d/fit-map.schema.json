@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/3d/fit-map.schema.json",
+  "title": "D2P Fit Map",
+  "description": "Derived fit map of one drape (design decision ADR-029 §3 'FitMap', §6): strain, clearance and a contact pressure approximation per landmark-defined body zone and optionally per vertex. It is always labelled a model estimate with its solver profile and material status, and never replaces a fitting (ADR-011 §7, FIT-004). Findings derived from a personal-derived fit map are restricted (D2P-SEM-052, FMP-002).",
+  "$comment": "Schema catalog section 3.9 (draft 0.3.0).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "fitMapId",
+    "sceneSnapshotRef",
+    "bodyModelRef",
+    "avatarProfile",
+    "solverProfile",
+    "materialStatus",
+    "estimate",
+    "zones",
+    "diagnostics",
+    "resultDigest"
+  ],
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:fit-map"
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against."
+    },
+    "fitMapId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/fitMapId",
+      "description": "Own ID ('fmp_')."
+    },
+    "createdAt": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp",
+      "description": "When the document was produced (UTC). Excluded from the resultDigest."
+    },
+    "sceneSnapshotRef": {
+      "description": "The drape scene (mode 'physical-simulation') the map is computed on; 'digest' is its sceneDigest.",
+      "type": "object",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef",
+      "properties": {
+        "digest": true
+      },
+      "required": [
+        "digest"
+      ]
+    },
+    "bodyModelRef": {
+      "description": "The body model of that scene; 'digest' is its resultDigest.",
+      "type": "object",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef",
+      "properties": {
+        "digest": true
+      },
+      "required": [
+        "digest"
+      ]
+    },
+    "avatarProfile": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+      "description": "Avatar profile whose zones the map uses."
+    },
+    "solverProfile": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+      "description": "Solver profile of the drape."
+    },
+    "materialStatus": {
+      "description": "'provisional' when any material physics profile of the drape is provisional, else 'frozen'. Shown with the map.",
+      "type": "string",
+      "enum": [
+        "provisional",
+        "frozen"
+      ]
+    },
+    "estimate": {
+      "description": "Always 'model-estimate': a fit map is a model estimate, never a fit promise, and is never combined with analytical ease results (design decision ADR-029 §6, FIT-004, FMP-003).",
+      "type": "string",
+      "const": "model-estimate"
+    },
+    "zones": {
+      "description": "Zone summaries, one per zone of the avatar profile, sorted by zone (FMP-001).",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/fitZone"
+      }
+    },
+    "vertexFields": {
+      "description": "Optional per-vertex values, one entry per draped panel, sorted by panelInstanceId; each array has one value per vertex of that panel's draped mesh (D2P-SEM-129).",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/panelFitField"
+      }
+    },
+    "personalDerived": {
+      "description": "True when the document derives from a body measurement profile classified 'personal' or 'sensitive-personal' (directly or through a pinned body model or scene). Such a document is geometry or data derived from personal data and is served only under the export rules of that profile; a document that derives from such a profile without stating true is reported as D2P-SEM-050. Absent means false.",
+      "type": "boolean"
+    },
+    "diagnostics": {
+      "description": "Diagnostics, sorted per catalog §1.8.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/diagnostic.schema.json#/$defs/diagnostic"
+      }
+    },
+    "resultDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "resultDigest of this document (catalog §1.8)."
+    },
+    "contentDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "Optional digest of this document (d2p-digest-v1, excluding contentDigest)."
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks."
+    }
+  },
+  "$defs": {
+    "fitZone": {
+      "title": "Fit zone",
+      "description": "Summary of one body zone. Strain is dimensionless (draped edge length / rest edge length − 1); clearance is the signed distance from the body surface to the cloth in mm (negative inside the body); the contact pressure index approximates contact pressure as the mean positive strain of the zone's cloth vertices in contact with the body (0 when none).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "zone",
+        "landmarkIds",
+        "panelInstanceIds",
+        "meanStrain",
+        "maxStrain",
+        "meanClearanceMm",
+        "minClearanceMm",
+        "contactPressureIndex"
+      ],
+      "properties": {
+        "zone": {
+          "$ref": "https://d2p.nonnast.dev/schemas/measurement/fit-profile.schema.json#/$defs/bodyZone",
+          "description": "Body zone of the avatar profile."
+        },
+        "landmarkIds": {
+          "description": "The zone's landmarks, as defined by the avatar profile.",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+          }
+        },
+        "panelInstanceIds": {
+          "description": "Panel instances with cloth vertices in the zone (sorted, unique).",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId"
+          }
+        },
+        "meanStrain": {
+          "description": "Mean strain.",
+          "type": "number"
+        },
+        "maxStrain": {
+          "description": "Largest strain.",
+          "type": "number"
+        },
+        "meanClearanceMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/lengthMm",
+          "description": "Mean clearance."
+        },
+        "minClearanceMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/lengthMm",
+          "description": "Smallest clearance."
+        },
+        "contactPressureIndex": {
+          "description": "Contact pressure approximation (dimensionless).",
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "panelFitField": {
+      "title": "Panel fit field",
+      "description": "Per-vertex values of one draped panel.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "panelInstanceId",
+        "strain",
+        "clearanceMm",
+        "contactPressure"
+      ],
+      "properties": {
+        "panelInstanceId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Panel instance."
+        },
+        "strain": {
+          "description": "Strain per vertex.",
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "number"
+          }
+        },
+        "clearanceMm": {
+          "description": "Clearance per vertex in mm.",
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "number"
+          }
+        },
+        "contactPressure": {
+          "description": "Contact pressure approximation per vertex (dimensionless).",
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "documentType": "d2p:body-model-snapshot",
+  "schemaVersion": "1.0.0",
+  "bodyModelId": "bms_example-body-m",
+  "createdAt": "2026-03-01T10:00:00Z",
+  "source": {
+    "kind": "size-entry",
+    "sizeSystemRef": {
+      "artifactId": "art_example-body-sizes",
+      "revisionId": "rev_example-body-sizes-r1"
+    },
+    "sizeKey": "body-m"
+  },
+  "avatarProfile": {
+    "id": "d2p:standard-a-pose",
+    "version": "1.0.0"
+  },
+  "pose": "d2p:a-pose",
+  "backend": {
+    "backendId": "org.example.body",
+    "backendVersion": "1.0.0",
+    "adapterVersion": "1.0.0"
+  },
+  "inputDigests": [
+    {
+      "role": "avatar-profile",
+      "id": {
+        "id": "d2p:standard-a-pose",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "role": "measurement-definition-registry",
+      "id": {
+        "id": "d2p:measurement-definitions",
+        "version": "1.1.0"
+      },
+      "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "role": "size-system",
+      "artifactRef": {
+        "artifactId": "art_example-body-sizes",
+        "revisionId": "rev_example-body-sizes-r1"
+      },
+      "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }
+  ],
+  "status": "succeeded",
+  "coordinateSystem": {
+    "handedness": "right",
+    "up": "+y",
+    "front": "+z"
+  },
+  "sceneUnit": "m",
+  "unitConversion": {
+    "from": "mm",
+    "to": "m",
+    "factor": 0.001
+  },
+  "mesh": {
+    "positionsM": [
+      [
+        0,
+        0,
+        0.1
+      ],
+      [
+        0.1,
+        0,
+        -0.05
+      ],
+      [
+        -0.1,
+        0,
+        -0.05
+      ],
+      [
+        0,
+        1.7,
+        0
+      ]
+    ],
+    "triangles": [
+      [
+        0,
+        2,
+        1
+      ],
+      [
+        0,
+        1,
+        3
+      ],
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        2,
+        0,
+        3
+      ]
+    ]
+  },
+  "controlMeasures": [
+    {
+      "definitionId": "d2p:body.chest-girth",
+      "origin": "size-table",
+      "targetMm": 960,
+      "measuredMm": 961.2,
+      "deviationMm": 1.2
+    },
+    {
+      "definitionId": "d2p:body.height",
+      "origin": "size-table",
+      "targetMm": 1700,
+      "measuredMm": 1699,
+      "deviationMm": -1
+    },
+    {
+      "definitionId": "d2p:body.neck-girth",
+      "origin": "inferred",
+      "targetMm": 364.8,
+      "measuredMm": 365.5,
+      "deviationMm": 0.7
+    }
+  ],
+  "diagnostics": [],
+  "meshDigest": "sha256:7c4f8fa883d089e5fc0c2fe0c40a2e626dc482cad7c94300071fc4b2e1ee374a",
+  "resultDigest": "sha256:212473ddc39428e84e8b4823576a8e5bd970f0b2cb9480c429a7af5c88203b35"
+}

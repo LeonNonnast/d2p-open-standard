@@ -1,0 +1,35 @@
+{
+  "documentType": "d2p:tolerance-profile",
+  "schemaVersion": "1.0.0",
+  "profileId": "d2p:golden-tshirt-drape",
+  "version": "1.0.0",
+  "status": "provisional",
+  "scope": "Golden T-Shirt drape fixture (fixtures/golden-tshirt-drape/v1): control measures of body models against their targets, cloth penetration and seam gaps of drapes, and the planar deviation of drape rest meshes. Fit-map relations are metamorphic expectations, not tolerances.",
+  "tolerances": [
+    {
+      "metric": "d2p:avatar-measurement-deviation",
+      "limit": 5,
+      "unit": "mm",
+      "comparison": "absolute-lte"
+    },
+    {
+      "metric": "d2p:drape-penetration",
+      "limit": 3,
+      "unit": "mm",
+      "comparison": "absolute-lte"
+    },
+    {
+      "metric": "d2p:drape-seam-gap",
+      "limit": 2,
+      "unit": "mm",
+      "comparison": "absolute-lte"
+    },
+    {
+      "metric": "d2p:mesh-planar-deviation",
+      "limit": 0.5,
+      "unit": "mm",
+      "comparison": "absolute-lte"
+    }
+  ],
+  "notes": "Provisional values proposed for draft 0.3.0 (Implementierungsplan E-22/E-23, design decision ADR-029 §12): not calibrated, not to be used for comparing implementations until frozen by maintainer decision. A changed value is a new version."
+}

@@ -1,0 +1,338 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "golden-tshirt-drape.drape-expectation-violated",
+  "level": "semantic",
+  "title": "Golden T-Shirt drape: size comparison expects less chest clearance for the larger size",
+  "documents": [
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-expectation-violated/drape-expectation.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-scene/fit-map.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-expectation-met/fit-map.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-expectation-met/draped-mesh-back.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-expectation-met/draped-mesh-front.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-expectation-met/draped-mesh-sleeve-left.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-expectation-met/draped-mesh-sleeve-right.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-expectation-met/rest-mesh-back.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-expectation-met/rest-mesh-front.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-expectation-met/rest-mesh-sleeve-left.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-expectation-met/rest-mesh-sleeve-right.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-expectation-met/scene-input.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-expectation-met/scene-snapshot.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-expectation-met/sim-report.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-scene/body-model-snapshot.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-scene/draped-mesh-back.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-scene/draped-mesh-front.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-scene/draped-mesh-sleeve-left.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-scene/draped-mesh-sleeve-right.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-scene/rest-mesh-back.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-scene/rest-mesh-front.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-scene/rest-mesh-sleeve-left.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-scene/rest-mesh-sleeve-right.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-scene/scene-input.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-scene/scene-snapshot.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/golden-tshirt-drape/drape-scene/sim-report.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt-drape/v1/inputs/artifacts/body-profile.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt-drape/v1/inputs/artifacts/body-sizes.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt-drape/v1/inputs/artifacts/garment-size-a.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt-drape/v1/inputs/artifacts/garment-size-b.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt-drape/v1/inputs/body-profile-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt-drape/v1/inputs/body-sizes-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt-drape/v1/inputs/garment-size-a-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt-drape/v1/inputs/garment-size-b-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt-drape/v1/inputs/revisions/body-profile-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt-drape/v1/inputs/revisions/body-sizes-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt-drape/v1/inputs/revisions/garment-size-a-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt-drape/v1/inputs/revisions/garment-size-b-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/expected/evaluations/r1-size-a-regular-woven.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/expected/evaluations/r1-size-b-regular-woven.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/expected/snapshots/r1-size-a-regular-woven.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/expected/snapshots/r1-size-b-regular-woven.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/fit-profile-regular-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/garment-measurement-spec-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/grading-rule-set-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "fixtures/golden-tshirt/v1/inputs/size-system-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "tolerance-profiles/golden-tshirt-2d-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "tolerance-profiles/golden-tshirt-drape-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/avatar-profiles/standard-a-pose-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/material-physics-profiles/cotton-jersey-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/material-physics-profiles/cotton-woven-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/measurement-definitions/measurement-definitions-1.1.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/mesh-profiles/drape-coarse-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/solver-profiles/fit-approximation-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/profiles/sample-cut-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/constraints-consistent-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/constraints-solved-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/contour-closed-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/contour-orientation-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/contour-simple-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/data-classification-consistent-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/ease-material-compatible-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/evaluation-succeeded-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/expression-dimensions-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/extensions-supported-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/feature-graph-acyclic-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/grading-consistent-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/measurement-equivalence-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/measurement-fallback-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/measurements-complete-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/references-resolve-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/schema-valid-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/seam-interface-continuous-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/seam-interface-single-connection-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/seam-length-match-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/sewing-group-integrity-1.0.0.json",
+      "role": "context"
+    },
+    {
+      "path": "vocabularies/validation/rules/snapshot-consistent-1.0.0.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-130",
+        "documentPath": "conformance/semantic/golden-tshirt-drape/drape-expectation-violated/drape-expectation.json"
+      }
+    ]
+  },
+  "testIds": [
+    "DRP-004"
+  ],
+  "description": "On the same body, the fit maps show more chest clearance for size B than for size A; an expectation stating the opposite is violated."
+}

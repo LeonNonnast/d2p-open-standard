@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:material-physics-profile",
+  "schemaVersion": "1.0.0",
+  "profileId": "d2p:cotton-woven",
+  "version": "1.0.0",
+  "status": "provisional",
+  "title": "Light cotton woven",
+  "description": "Light plain-weave cotton (shirting).",
+  "materialClass": "woven",
+  "arealDensityGPerM2": 140,
+  "thicknessMm": 0.3,
+  "stretch": {
+    "warpNPerM": 8000,
+    "weftNPerM": 6000
+  },
+  "shearNPerM": 300,
+  "bending": {
+    "warpMicroNm": 15,
+    "weftMicroNm": 10
+  },
+  "friction": 0.35,
+  "notes": "Provisional values proposed for draft 0.3.0 (Implementierungsplan E-22/E-23, design decision ADR-029 §12): not calibrated, not to be used for comparing implementations until frozen by maintainer decision. A changed value is a new version. Order-of-magnitude values for the material family; no measurement procedure or fabric sample stands behind them."
+}

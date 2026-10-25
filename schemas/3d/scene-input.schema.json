@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://d2p.nonnast.dev/schemas/3d/scene-input.schema.json",
   "title": "D2P Scene Input",
-  "description": "Pinned input of a 3D scene build (design decision ADR-021 §4 'SceneInput', §10 'BuildScene'). It names the garment revision, the arrangement, the mode and the mesh profile, and repeats the garment's evaluation pins. 'evaluationKey' is the digest of everything that determines the scene: when any pinned input changes, the key changes and every scene snapshot built for the old key is stale (design decision ADR-009 §14, GAR-016). A scene input never changes the garment.",
+  "description": "Pinned input of a 3D scene build (design decision ADR-021 §4 'SceneInput', §10 'BuildScene'). It names the garment revision, the arrangement, the mode and the mesh profile, and repeats the garment's evaluation pins. 'evaluationKey' is the digest of everything that determines the scene: when any pinned input changes, the key changes and every scene snapshot built for the old key is stale (design decision ADR-009 §14, GAR-016). A scene input never changes the garment. In mode 'physical-simulation' (draft 0.3.0, design decision ADR-029 §5) it also names the garment's simulation configuration and the pinned body model; the evaluation key then covers the body, the solver profile and the material physics as well.",
   "type": "object",
   "properties": {
     "documentType": {
@@ -48,6 +48,21 @@
       "items": {
         "$ref": "#/$defs/sceneEvaluationPin"
       }
+    },
+    "simulationConfigurationId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+      "description": "Simulation configuration of the garment (mode 'physical-simulation' only, schema-enforced; D2P-REF-003)."
+    },
+    "bodyModelRef": {
+      "description": "The pinned body model snapshot the garment is draped on (mode 'physical-simulation' only, schema-enforced); 'digest' is its resultDigest. Its body source and avatar profile are those of the configuration's body binding (D2P-REF-007).",
+      "type": "object",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef",
+      "properties": {
+        "digest": true
+      },
+      "required": [
+        "digest"
+      ]
     },
     "evaluationKey": {
       "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
@@ -109,11 +124,54 @@
     },
     "sceneMode": {
       "title": "Scene mode",
-      "description": "3D evaluation mode (design decision ADR-009 §6). This release defines 'arrangement' only: panels positioned by the arrangement, with deterministic bindings and transforms and no physics. 'kinematic-assembly' and 'physical-simulation' arrive by minor release.",
+      "description": "3D evaluation mode (design decision ADR-009 §6). 'arrangement': panels positioned by the arrangement, with deterministic bindings and transforms and no physics. 'physical-simulation' (draft 0.3.0, design decision ADR-029 §5): the panels are pre-positioned around a body model, sewn by their seam bindings and draped under gravity with collision. 'kinematic-assembly' arrives by minor release.",
       "type": "string",
       "enum": [
-        "arrangement"
+        "arrangement",
+        "physical-simulation"
       ]
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "arrangement"
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "simulationConfigurationId": false,
+          "bodyModelRef": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "physical-simulation"
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "simulationConfigurationId": true,
+          "bodyModelRef": true
+        },
+        "required": [
+          "simulationConfigurationId",
+          "bodyModelRef"
+        ]
+      }
+    }
+  ]
 }

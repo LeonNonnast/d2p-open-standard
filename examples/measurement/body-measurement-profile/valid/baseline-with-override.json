@@ -1,0 +1,53 @@
+{
+  "documentType": "d2p:body-measurement-profile",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_example-profile-from-size",
+  "revisionId": "rev_example-profile-from-size-r1",
+  "subject": {
+    "kind": "individual"
+  },
+  "dataClassification": "personal",
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.1.0"
+    }
+  ],
+  "baseline": {
+    "sizeSystemRef": {
+      "artifactId": "art_example-size-system",
+      "revisionId": "rev_example-size-system-r1"
+    },
+    "sizeKey": "size-38"
+  },
+  "measurements": [
+    {
+      "definitionId": "d2p:body.chest-girth",
+      "value": 880,
+      "unit": "mm",
+      "method": "size-table",
+      "source": {
+        "kind": "size-table"
+      }
+    },
+    {
+      "definitionId": "d2p:body.hip-girth",
+      "value": 1010,
+      "unit": "mm",
+      "method": "manual",
+      "source": {
+        "kind": "self-measured"
+      },
+      "measuredAt": "2026-03-01T10:00:00Z"
+    },
+    {
+      "definitionId": "d2p:body.waist-girth",
+      "value": 700,
+      "unit": "mm",
+      "method": "size-table",
+      "source": {
+        "kind": "size-table"
+      }
+    }
+  ]
+}

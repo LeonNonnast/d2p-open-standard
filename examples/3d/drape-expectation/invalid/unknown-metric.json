@@ -1,0 +1,30 @@
+{
+  "documentType": "d2p:drape-expectation",
+  "schemaVersion": "1.0.0",
+  "expectationId": "drx_example-size-comparison",
+  "comparisons": [
+    {
+      "id": "chest-clearance",
+      "zone": "d2p:chest",
+      "metric": "pixelDifference",
+      "lower": {
+        "garmentRef": {
+          "artifactId": "art_example-drape-garment-size-a",
+          "revisionId": "rev_example-drape-garment-size-a-r1"
+        },
+        "simulationConfigurationId": "drape-body-m"
+      },
+      "higher": {
+        "garmentRef": {
+          "artifactId": "art_example-drape-garment-size-b",
+          "revisionId": "rev_example-drape-garment-size-b-r1"
+        },
+        "simulationConfigurationId": "drape-body-m"
+      }
+    }
+  ],
+  "toleranceProfile": {
+    "id": "d2p:golden-tshirt-drape",
+    "version": "1.0.0"
+  }
+}

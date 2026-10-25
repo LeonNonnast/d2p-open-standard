@@ -1,0 +1,22 @@
+{
+  "documentType": "d2p:command",
+  "schemaVersion": "1.0.0",
+  "commandId": "cmd_example-edit-1",
+  "idempotencyKey": "example-edit-1",
+  "type": "d2p:pattern.edit",
+  "target": {
+    "artifactId": "art_example-pattern",
+    "branch": "main"
+  },
+  "expectedRevisionId": "rev_example-pattern-r2",
+  "payload": {
+    "operations": []
+  },
+  "actorContext": {
+    "actorPrincipalId": "prn_example-agent",
+    "onBehalfOfPrincipalId": "prn_example-user",
+    "clientId": "example-cad-client"
+  },
+  "correlationId": "cor_example-request-1",
+  "issuedAt": "2026-01-03T00:00:00Z"
+}

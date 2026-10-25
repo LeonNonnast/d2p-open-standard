@@ -1,0 +1,26 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "golden-tshirt-drape.physical-scene-without-body-model",
+  "level": "structural",
+  "title": "Golden T-Shirt drape: physical-simulation scene input without a body model",
+  "documents": [
+    {
+      "path": "conformance/structural/golden-tshirt-drape/physical-scene-without-body-model/scene-input.json",
+      "role": "subject"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-STR-001",
+        "documentPath": "conformance/structural/golden-tshirt-drape/physical-scene-without-body-model/scene-input.json"
+      }
+    ]
+  },
+  "testIds": [
+    "DRP-001"
+  ],
+  "description": "A drape scene always pins the body model it is draped on."
+}

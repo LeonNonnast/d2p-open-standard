@@ -9,7 +9,7 @@
       "title": "Global ID",
       "description": "Identifier of a document or artifact: '<prefix>_<opaque>' with one of the registered prefixes. Consumers treat the opaque part as opaque and compare IDs byte-wise. Producers SHOULD use a UUIDv7 or ULID as the opaque part; fixtures use readable slugs.",
       "type": "string",
-      "pattern": "^(prj|prd|art|rev|rel|cmd|evt|job|prn|cor|erq|snp|fer|vrp|gte|wvr|xsc|pjs|trr|bmr|qeb|pev|sci|ssn|pmr|smr|ppr|ier|sxp)_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+      "pattern": "^(prj|prd|art|rev|rel|cmd|evt|job|prn|cor|erq|snp|fer|vrp|gte|wvr|xsc|pjs|trr|bmr|qeb|pev|sci|ssn|pmr|smr|ppr|ier|sxp|bms|bmx|dpm|fmp|drx)_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
     },
     "projectId": {
       "title": "Project ID",
@@ -184,6 +184,36 @@
       "description": "Global ID of a 3D scene expectation (prefix 'sxp_').",
       "type": "string",
       "pattern": "^sxp_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "bodyModelId": {
+      "title": "Body model snapshot ID",
+      "description": "Global ID of a body model snapshot (avatar) (prefix 'bms_').",
+      "type": "string",
+      "pattern": "^bms_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "bodyModelExpectationId": {
+      "title": "Body model expectation ID",
+      "description": "Global ID of a body model expectation (prefix 'bmx_').",
+      "type": "string",
+      "pattern": "^bmx_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "drapedMeshId": {
+      "title": "Draped panel mesh ID",
+      "description": "Global ID of a draped panel mesh (prefix 'dpm_').",
+      "type": "string",
+      "pattern": "^dpm_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "fitMapId": {
+      "title": "Fit map ID",
+      "description": "Global ID of a fit map (prefix 'fmp_').",
+      "type": "string",
+      "pattern": "^fmp_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
+    },
+    "drapeExpectationId": {
+      "title": "Drape expectation ID",
+      "description": "Global ID of a drape expectation (prefix 'drx_').",
+      "type": "string",
+      "pattern": "^drx_[0-9A-Za-z][0-9A-Za-z-]{0,63}$"
     },
     "elementId": {
       "title": "Element ID",

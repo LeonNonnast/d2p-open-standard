@@ -1,0 +1,403 @@
+{
+  "documentType": "d2p:garment",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_golden-tshirt-drape-garment-size-a",
+  "revisionId": "rev_golden-tshirt-drape-garment-size-a-r1",
+  "name": "Golden T-Shirt drape, size A",
+  "description": "Synthetic garment of the Golden T-Shirt drape fixture: the Golden T-Shirt 3D garment r1 of size A (same panels, sewing bindings, material and flat-lay arrangement) with two body bindings, the reference body M of the synthetic body sizes and the synthetic body profile P, and one fit-approximation drape configuration per binding. Test data, not a design or norm.",
+  "patternEvaluations": [
+    {
+      "id": "eval-main",
+      "patternRef": {
+        "artifactId": "art_golden-tshirt-pattern",
+        "revisionId": "rev_golden-tshirt-pattern-r1"
+      },
+      "sizeSystemRef": {
+        "artifactId": "art_golden-tshirt-size-system",
+        "revisionId": "rev_golden-tshirt-size-system-r1"
+      },
+      "sizeKey": "size-a",
+      "configurationKey": "regular-woven",
+      "evaluationRef": {
+        "id": "pev_golden-tshirt-r1-size-a-regular-woven",
+        "digest": "sha256:387f0d96525a8aa6cf143051b2b4d168811db52e6256f120fd4ea4c1c14cac7e"
+      },
+      "geometryDigest": "sha256:ac0f22fabde5d2155632e430ba4e019d15b06766fc3231838100c376f49dbd72"
+    }
+  ],
+  "panelInstances": [
+    {
+      "id": "panel-back",
+      "patternEvaluationId": "eval-main",
+      "pieceId": "back",
+      "cutInstanceKey": "back",
+      "side": "center"
+    },
+    {
+      "id": "panel-front",
+      "patternEvaluationId": "eval-main",
+      "pieceId": "front",
+      "cutInstanceKey": "front",
+      "side": "center"
+    },
+    {
+      "id": "panel-sleeve-left",
+      "patternEvaluationId": "eval-main",
+      "pieceId": "sleeve",
+      "cutInstanceKey": "sleeve-left",
+      "side": "left"
+    },
+    {
+      "id": "panel-sleeve-right",
+      "patternEvaluationId": "eval-main",
+      "pieceId": "sleeve",
+      "cutInstanceKey": "sleeve-right",
+      "side": "right"
+    }
+  ],
+  "sewingBindings": [
+    {
+      "id": "bind-seam-shoulder-left",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-shoulder-left",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-front-shoulder-left",
+          "panelInstanceId": "panel-front"
+        },
+        {
+          "seamInterfaceId": "si-back-shoulder-left",
+          "panelInstanceId": "panel-back"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-side-left",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-side-left",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-front-side-left",
+          "panelInstanceId": "panel-front"
+        },
+        {
+          "seamInterfaceId": "si-back-side-left",
+          "panelInstanceId": "panel-back"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-armhole-front-left",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-armhole-front-left",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-front-armhole-left",
+          "panelInstanceId": "panel-front"
+        },
+        {
+          "seamInterfaceId": "si-sleeve-left-cap-front",
+          "panelInstanceId": "panel-sleeve-left"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-armhole-back-left",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-armhole-back-left",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-back-armhole-left",
+          "panelInstanceId": "panel-back"
+        },
+        {
+          "seamInterfaceId": "si-sleeve-left-cap-back",
+          "panelInstanceId": "panel-sleeve-left"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-underarm-left",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-underarm-left",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-sleeve-left-underarm-front",
+          "panelInstanceId": "panel-sleeve-left"
+        },
+        {
+          "seamInterfaceId": "si-sleeve-left-underarm-back",
+          "panelInstanceId": "panel-sleeve-left"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-shoulder-right",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-shoulder-right",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-front-shoulder-right",
+          "panelInstanceId": "panel-front"
+        },
+        {
+          "seamInterfaceId": "si-back-shoulder-right",
+          "panelInstanceId": "panel-back"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-side-right",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-side-right",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-front-side-right",
+          "panelInstanceId": "panel-front"
+        },
+        {
+          "seamInterfaceId": "si-back-side-right",
+          "panelInstanceId": "panel-back"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-armhole-front-right",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-armhole-front-right",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-front-armhole-right",
+          "panelInstanceId": "panel-front"
+        },
+        {
+          "seamInterfaceId": "si-sleeve-right-cap-front",
+          "panelInstanceId": "panel-sleeve-right"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-armhole-back-right",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-armhole-back-right",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-back-armhole-right",
+          "panelInstanceId": "panel-back"
+        },
+        {
+          "seamInterfaceId": "si-sleeve-right-cap-back",
+          "panelInstanceId": "panel-sleeve-right"
+        }
+      ]
+    },
+    {
+      "id": "bind-seam-underarm-right",
+      "kind": "seam-connection",
+      "patternEvaluationId": "eval-main",
+      "seamConnectionId": "seam-underarm-right",
+      "interfaceBindings": [
+        {
+          "seamInterfaceId": "si-sleeve-right-underarm-front",
+          "panelInstanceId": "panel-sleeve-right"
+        },
+        {
+          "seamInterfaceId": "si-sleeve-right-underarm-back",
+          "panelInstanceId": "panel-sleeve-right"
+        }
+      ]
+    },
+    {
+      "id": "bind-group-armhole-left",
+      "kind": "sewing-group",
+      "patternEvaluationId": "eval-main",
+      "sewingGroupId": "group-armhole-left",
+      "memberBindingIds": [
+        "bind-seam-armhole-back-left",
+        "bind-seam-armhole-front-left"
+      ]
+    },
+    {
+      "id": "bind-group-armhole-right",
+      "kind": "sewing-group",
+      "patternEvaluationId": "eval-main",
+      "sewingGroupId": "group-armhole-right",
+      "memberBindingIds": [
+        "bind-seam-armhole-back-right",
+        "bind-seam-armhole-front-right"
+      ]
+    }
+  ],
+  "materialAssignments": [
+    {
+      "id": "material-main",
+      "panelInstanceIds": [
+        "panel-back",
+        "panel-front",
+        "panel-sleeve-left",
+        "panel-sleeve-right"
+      ],
+      "material": {
+        "materialClass": "woven"
+      },
+      "appearance": {
+        "baseColor": "#5b7fa6"
+      }
+    }
+  ],
+  "arrangements": [
+    {
+      "id": "flat-lay",
+      "name": "Flat lay",
+      "coordinateSystem": {
+        "handedness": "right",
+        "up": "+y",
+        "front": "+z"
+      },
+      "placements": [
+        {
+          "panelInstanceId": "panel-back",
+          "translationMm": [
+            0,
+            -340,
+            -120
+          ],
+          "rotation": [
+            0,
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "panelInstanceId": "panel-front",
+          "translationMm": [
+            0,
+            -340,
+            120
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "panelInstanceId": "panel-sleeve-left",
+          "translationMm": [
+            532.2,
+            102,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "panelInstanceId": "panel-sleeve-right",
+          "translationMm": [
+            -532.2,
+            102,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "bodyBindings": [
+    {
+      "id": "body-m",
+      "name": "Synthetic body M",
+      "source": {
+        "kind": "size-entry",
+        "sizeSystemRef": {
+          "artifactId": "art_golden-drape-body-sizes",
+          "revisionId": "rev_golden-drape-body-sizes-r1"
+        },
+        "sizeKey": "body-m"
+      },
+      "avatarProfile": {
+        "id": "d2p:standard-a-pose",
+        "version": "1.0.0"
+      },
+      "pose": "d2p:a-pose"
+    },
+    {
+      "id": "body-profile",
+      "name": "Synthetic figure P",
+      "source": {
+        "kind": "body-measurement-profile",
+        "bodyMeasurementProfileRef": {
+          "artifactId": "art_golden-drape-body-profile",
+          "revisionId": "rev_golden-drape-body-profile-r1"
+        }
+      },
+      "avatarProfile": {
+        "id": "d2p:standard-a-pose",
+        "version": "1.0.0"
+      },
+      "pose": "d2p:a-pose"
+    }
+  ],
+  "simulationConfigurations": [
+    {
+      "id": "drape-body-m",
+      "bodyBindingId": "body-m",
+      "patternEvaluationId": "eval-main",
+      "arrangementId": "flat-lay",
+      "solverProfile": {
+        "id": "d2p:fit-approximation",
+        "version": "1.0.0"
+      },
+      "materials": [
+        {
+          "materialAssignmentId": "material-main",
+          "materialPhysicsProfile": {
+            "id": "d2p:cotton-jersey",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "randomSeed": 1
+    },
+    {
+      "id": "drape-body-profile",
+      "bodyBindingId": "body-profile",
+      "patternEvaluationId": "eval-main",
+      "arrangementId": "flat-lay",
+      "solverProfile": {
+        "id": "d2p:fit-approximation",
+        "version": "1.0.0"
+      },
+      "materials": [
+        {
+          "materialAssignmentId": "material-main",
+          "materialPhysicsProfile": {
+            "id": "d2p:cotton-woven",
+            "version": "1.0.0"
+          }
+        }
+      ],
+      "randomSeed": 1
+    }
+  ]
+}

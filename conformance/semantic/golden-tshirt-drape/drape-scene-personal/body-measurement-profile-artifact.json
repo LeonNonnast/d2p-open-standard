@@ -1,0 +1,13 @@
+{
+  "documentType": "d2p:artifact",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_golden-drape-individual-profile",
+  "artifactType": "d2p:body-measurement-profile",
+  "name": "Individual body measurement profile (synthetic test data)",
+  "dataClassification": "sensitive-personal",
+  "createdAt": "2026-01-08T00:00:00Z",
+  "createdBy": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  }
+}

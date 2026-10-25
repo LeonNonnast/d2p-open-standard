@@ -1,0 +1,39 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "pattern-edit.edit-add-piece",
+  "level": "semantic",
+  "title": "A pattern edit that adds a rectangular piece, committed with the content its operations yield, is accepted",
+  "documents": [
+    {
+      "path": "conformance/semantic/pattern-edit/edit-add-piece/command.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/pattern-edit/edit-add-piece/pattern-r2.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/pattern-edit/edit-add-piece/revision-pattern-r2.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/pattern-edit/edit-add-piece/pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/pattern-edit/edit-add-piece/revision-pattern-r1.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "CAD-001",
+    "TOP-001",
+    "UX-005"
+  ],
+  "description": "The command adds two parameters, the eight point and line features of a pocket, the pocket piece with its closed outer contour and a seam interface on its top edge, and sets the name. The r2 content is the result of applying the operations in order to r1 (added elements appended), with the revisionId of r2."
+}

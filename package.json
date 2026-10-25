@@ -1,6 +1,6 @@
 {
   "name": "@d2p/open-standard-tooling",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "private": true,
   "description": "Validation and conformance tooling for the D2P Open Standard (JSON Schema 2020-12).",
   "license": "Apache-2.0",
@@ -14,12 +14,13 @@
     "conformance:referential": "node tools/conformance.mjs referential",
     "conformance:semantic": "node tools/conformance.mjs semantic",
     "conformance": "npm run conformance:structural && npm run conformance:referential && npm run conformance:semantic",
-    "fixture:verify": "node tools/verify-fixture.mjs && node tools/verify-fixture.mjs fixtures/golden-tshirt-3d/v1/manifest.json",
+    "fixture:verify": "node tools/verify-fixture.mjs && node tools/verify-fixture.mjs fixtures/golden-tshirt-3d/v1/manifest.json && node tools/verify-fixture.mjs fixtures/golden-tshirt-drape/v1/manifest.json",
     "test": "node --test \"tools/test/**/*.test.mjs\"",
     "oracle": "node tools/oracle/golden-tshirt.mjs",
-    "oracle:check": "node tools/oracle/golden-tshirt.mjs --check && node tools/oracle/golden-tshirt-3d.mjs --check && node tools/oracle/schema-check.mjs",
+    "oracle:check": "node tools/oracle/golden-tshirt.mjs --check && node tools/oracle/golden-tshirt-3d.mjs --check && node tools/oracle/golden-tshirt-drape.mjs --check && node tools/oracle/schema-check.mjs",
     "check": "npm run validate && npm run conformance && npm run fixture:verify && npm run oracle:check && npm test",
-    "oracle:3d": "node tools/oracle/golden-tshirt-3d.mjs"
+    "oracle:3d": "node tools/oracle/golden-tshirt-3d.mjs",
+    "oracle:drape": "node tools/oracle/golden-tshirt-drape.mjs"
   },
   "devDependencies": {
     "ajv": "8.20.0",

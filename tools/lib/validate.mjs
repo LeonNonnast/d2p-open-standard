@@ -220,6 +220,9 @@ const VOCABULARY_ID_MEMBERS = {
   "d2p:validation-profile": "profileId",
   "d2p:tolerance-profile": "profileId",
   "d2p:mesh-profile": "profileId",
+  "d2p:avatar-profile": "profileId",
+  "d2p:solver-profile": "profileId",
+  "d2p:material-physics-profile": "profileId",
   "d2p:mapping-profile": "mappingId",
 };
 

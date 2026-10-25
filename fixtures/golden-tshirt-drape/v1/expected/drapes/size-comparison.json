@@ -1,0 +1,87 @@
+{
+  "documentType": "d2p:drape-expectation",
+  "schemaVersion": "1.0.0",
+  "expectationId": "drx_golden-drape-size-comparison",
+  "comparisons": [
+    {
+      "id": "body-m-chest",
+      "zone": "d2p:chest",
+      "metric": "meanClearanceMm",
+      "lower": {
+        "garmentRef": {
+          "artifactId": "art_golden-tshirt-drape-garment-size-a",
+          "revisionId": "rev_golden-tshirt-drape-garment-size-a-r1"
+        },
+        "simulationConfigurationId": "drape-body-m"
+      },
+      "higher": {
+        "garmentRef": {
+          "artifactId": "art_golden-tshirt-drape-garment-size-b",
+          "revisionId": "rev_golden-tshirt-drape-garment-size-b-r1"
+        },
+        "simulationConfigurationId": "drape-body-m"
+      }
+    },
+    {
+      "id": "body-m-waist",
+      "zone": "d2p:waist",
+      "metric": "meanClearanceMm",
+      "lower": {
+        "garmentRef": {
+          "artifactId": "art_golden-tshirt-drape-garment-size-a",
+          "revisionId": "rev_golden-tshirt-drape-garment-size-a-r1"
+        },
+        "simulationConfigurationId": "drape-body-m"
+      },
+      "higher": {
+        "garmentRef": {
+          "artifactId": "art_golden-tshirt-drape-garment-size-b",
+          "revisionId": "rev_golden-tshirt-drape-garment-size-b-r1"
+        },
+        "simulationConfigurationId": "drape-body-m"
+      }
+    },
+    {
+      "id": "body-profile-chest",
+      "zone": "d2p:chest",
+      "metric": "meanClearanceMm",
+      "lower": {
+        "garmentRef": {
+          "artifactId": "art_golden-tshirt-drape-garment-size-a",
+          "revisionId": "rev_golden-tshirt-drape-garment-size-a-r1"
+        },
+        "simulationConfigurationId": "drape-body-profile"
+      },
+      "higher": {
+        "garmentRef": {
+          "artifactId": "art_golden-tshirt-drape-garment-size-b",
+          "revisionId": "rev_golden-tshirt-drape-garment-size-b-r1"
+        },
+        "simulationConfigurationId": "drape-body-profile"
+      }
+    },
+    {
+      "id": "body-profile-waist",
+      "zone": "d2p:waist",
+      "metric": "meanClearanceMm",
+      "lower": {
+        "garmentRef": {
+          "artifactId": "art_golden-tshirt-drape-garment-size-a",
+          "revisionId": "rev_golden-tshirt-drape-garment-size-a-r1"
+        },
+        "simulationConfigurationId": "drape-body-profile"
+      },
+      "higher": {
+        "garmentRef": {
+          "artifactId": "art_golden-tshirt-drape-garment-size-b",
+          "revisionId": "rev_golden-tshirt-drape-garment-size-b-r1"
+        },
+        "simulationConfigurationId": "drape-body-profile"
+      }
+    }
+  ],
+  "toleranceProfile": {
+    "id": "d2p:golden-tshirt-drape",
+    "version": "1.0.0"
+  }
+}

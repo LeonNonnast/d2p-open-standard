@@ -1,0 +1,524 @@
+{
+  "documentType": "d2p:measurement-definition-registry",
+  "schemaVersion": "1.0.0",
+  "registryId": "d2p:measurement-definitions",
+  "version": "1.1.0",
+  "definitions": [
+    {
+      "definitionId": "d2p:body.ankle-girth",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Closed horizontal path around the lower leg just above the ankle bones, at its narrowest level."
+      },
+      "landmarks": [
+        "narrowest level of the lower leg above the medial and lateral ankle bones (malleoli)"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body ankle girth: minimal horizontal girth of the lower leg just above the ankle bones. The subject stands upright and relaxed with weight evenly on both feet, heels together, arms hanging at the sides, head held so that the line from the ear opening to the lower edge of the eye socket is horizontal, breathing normally. Measured on the right leg; the tape lies on the skin without compressing it.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.arm-length",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "length",
+        "description": "Along the outside of the arm from the shoulder point over the elbow to the wrist point, following the surface of the slightly bent arm."
+      },
+      "landmarks": [
+        "shoulder point (acromion, lateral edge of the shoulder)",
+        "elbow point (olecranon)",
+        "wrist point (ulnar styloid process)"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body arm length: surface length from the shoulder point over the elbow point to the wrist point. The subject stands upright and relaxed with weight on both feet, arms hanging at the sides, breathing normally; the tape lies on the skin without compressing it. The arm is held with the elbow slightly bent so that the path passes over the elbow point.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.back-length",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "length",
+        "description": "Along the centre back from the nape point down to the waist level, following the contour of the spine."
+      },
+      "landmarks": [
+        "nape point (cervicale, spinous process of the 7th cervical vertebra)",
+        "centre back at waist level"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body back length (nape to waist): surface length along the centre back from the nape point to the waist level as defined for d2p:body.waist-girth. The subject stands upright and relaxed with weight on both feet, arms hanging at the sides, breathing normally; the tape lies on the skin without compressing it.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.back-width",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "arc",
+        "description": "Open horizontal path across the back from the left posterior armpit fold to the right posterior armpit fold, following the surface of the shoulder blades."
+      },
+      "landmarks": [
+        "left posterior armpit fold (upper end)",
+        "right posterior armpit fold (upper end)"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body back width: surface distance across the back between the upper ends of the two posterior armpit folds. The subject stands upright and relaxed with weight evenly on both feet, heels together, arms hanging at the sides, head held so that the line from the ear opening to the lower edge of the eye socket is horizontal, breathing normally. The tape follows the surface and the tape lies on the skin without compressing it. Distinct from d2p:body.shoulder-width, which is taken between the shoulder points through the nape point.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.bust-girth",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Closed horizontal path around the torso passing over the bust points, across the back at the same level."
+      },
+      "landmarks": [
+        "left bust point",
+        "right bust point"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body bust girth: horizontal girth of the torso at the level of the most prominent points of the breasts (bust points). The subject stands upright and relaxed with weight on both feet, arms hanging at the sides, breathing normally; the tape lies on the skin without compressing it. Distinct from d2p:body.chest-girth, which is taken at armpit level; the two are never interchangeable.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.bust-height",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "height",
+        "description": "Vertical distance from the floor to the most prominent point of the right breast (bust point)."
+      },
+      "landmarks": [
+        "bust point (most prominent point of the breast)",
+        "floor"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body bust height: vertical distance from the floor to the bust point. The subject stands upright and relaxed with weight evenly on both feet, heels together, arms hanging at the sides, head held so that the line from the ear opening to the lower edge of the eye socket is horizontal, breathing normally. Measured vertically with an anthropometer or a height rod; the result is the vertical distance, not a surface length.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.calf-girth",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Closed horizontal path around the lower leg at the level of maximum calf prominence."
+      },
+      "landmarks": [
+        "maximum prominence of the calf"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body calf girth: maximum horizontal girth of the lower leg. The subject stands upright and relaxed with weight evenly on both feet, heels together, arms hanging at the sides, head held so that the line from the ear opening to the lower edge of the eye socket is horizontal, breathing normally. Measured on the right leg; the tape lies on the skin without compressing it.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.cervicale-height",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "height",
+        "description": "Vertical distance from the floor to the nape point."
+      },
+      "landmarks": [
+        "nape point (cervicale, spinous process of the 7th cervical vertebra)",
+        "floor"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body cervicale height: vertical distance from the floor to the nape point. The subject stands upright and relaxed with weight evenly on both feet, heels together, arms hanging at the sides, head held so that the line from the ear opening to the lower edge of the eye socket is horizontal, breathing normally. Measured vertically with an anthropometer or a height rod; the result is the vertical distance, not a surface length.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.chest-girth",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Closed horizontal path around the torso at armpit level, under the arms and across the shoulder blades."
+      },
+      "landmarks": [
+        "left armpit (axilla)",
+        "right armpit (axilla)",
+        "shoulder blades (scapulae)"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body chest girth: horizontal girth of the torso at the level of the armpits, passing under both arms and across the shoulder blades. The subject stands upright and relaxed with weight on both feet, arms hanging at the sides, breathing normally; the tape lies on the skin without compressing it. Distinct from d2p:body.bust-girth.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.head-girth",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Closed path around the head passing just above the eyebrow ridges and over the most prominent point at the back of the head."
+      },
+      "landmarks": [
+        "just above the eyebrow ridges (glabella level)",
+        "most prominent point at the back of the head (opisthocranion)"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body head girth: maximum girth of the head above the eyebrow ridges. The subject stands upright and relaxed with weight evenly on both feet, heels together, arms hanging at the sides, head held so that the line from the ear opening to the lower edge of the eye socket is horizontal, breathing normally. The tape is pulled snugly over the hair and its value includes the hair as worn flat.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.height",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "height",
+        "description": "Vertical distance from the floor to the highest point of the head."
+      },
+      "landmarks": [
+        "top of the head (vertex)",
+        "floor"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body height (stature): vertical distance from the floor to the top of the head, without footwear. The subject stands upright and relaxed with weight evenly on both feet, heels together, arms hanging at the sides, head held so that the line from the ear opening to the lower edge of the eye socket is horizontal, breathing normally. Measured vertically with an anthropometer or a height rod; the result is the vertical distance, not a surface length.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.hip-girth",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Closed horizontal path around the hips and buttocks at the level of maximum buttock prominence."
+      },
+      "landmarks": [
+        "most prominent point of the buttocks"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body hip girth: horizontal girth around the hips at the level of the greatest posterior prominence of the buttocks. The subject stands upright and relaxed with weight on both feet, arms hanging at the sides, breathing normally; the tape lies on the skin without compressing it. The feet are placed together.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.hip-height",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "height",
+        "description": "Vertical distance from the floor to the hip level used by d2p:body.hip-girth."
+      },
+      "landmarks": [
+        "most prominent point of the buttocks (level of d2p:body.hip-girth)",
+        "floor"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body hip height: vertical distance from the floor to the level at which d2p:body.hip-girth is taken. The subject stands upright and relaxed with weight evenly on both feet, heels together, arms hanging at the sides, head held so that the line from the ear opening to the lower edge of the eye socket is horizontal, breathing normally. Measured vertically with an anthropometer or a height rod; the result is the vertical distance, not a surface length.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.inside-leg-length",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "height",
+        "description": "Vertical distance from the crotch point to the floor along the inside of the leg."
+      },
+      "landmarks": [
+        "crotch point (lowest point of the crotch)",
+        "floor"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body inside leg length (crotch height): vertical distance from the crotch point to the floor. The subject stands upright and relaxed with the feet about 100 mm apart and weight evenly on both feet, arms hanging at the sides, breathing normally. Measured vertically with an anthropometer or a height rod; the result is the vertical distance, not a surface length.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.knee-girth",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Closed horizontal path around the knee at the level of the middle of the kneecap."
+      },
+      "landmarks": [
+        "middle of the kneecap (patella)"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body knee girth: horizontal girth of the knee at the middle of the kneecap. The subject stands upright and relaxed with weight evenly on both feet, heels together, arms hanging at the sides, head held so that the line from the ear opening to the lower edge of the eye socket is horizontal, breathing normally. Measured on the right leg; the tape lies on the skin without compressing it.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.knee-height",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "height",
+        "description": "Vertical distance from the floor to the middle of the kneecap."
+      },
+      "landmarks": [
+        "middle of the kneecap (patella)",
+        "floor"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body knee height: vertical distance from the floor to the middle of the kneecap. The subject stands upright and relaxed with weight evenly on both feet, heels together, arms hanging at the sides, head held so that the line from the ear opening to the lower edge of the eye socket is horizontal, breathing normally. Measured vertically with an anthropometer or a height rod; the result is the vertical distance, not a surface length.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.neck-girth",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Closed path around the neck just below the laryngeal prominence, perpendicular to the long axis of the neck."
+      },
+      "landmarks": [
+        "laryngeal prominence (Adam's apple)",
+        "back of the neck at the same level"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body neck girth: girth of the neck just below the laryngeal prominence, with the tape perpendicular to the neck axis. The subject stands upright and relaxed with weight on both feet, arms hanging at the sides, breathing normally; the tape lies on the skin without compressing it. The head is held upright, looking straight ahead.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.shoulder-length",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "length",
+        "description": "Along the top of the shoulder from the side neck point to the shoulder point."
+      },
+      "landmarks": [
+        "side neck point (junction of neck and shoulder line)",
+        "shoulder point (acromion, lateral edge of the shoulder)"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body shoulder length: surface length along the top of the shoulder from the side neck point to the shoulder point. The subject stands upright and relaxed with weight evenly on both feet, heels together, arms hanging at the sides, head held so that the line from the ear opening to the lower edge of the eye socket is horizontal, breathing normally. Measured on the right side; the tape lies on the skin without compressing it.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.shoulder-width",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "arc",
+        "description": "Open path over the back surface from the left shoulder point through the nape point to the right shoulder point."
+      },
+      "landmarks": [
+        "left shoulder point (acromion)",
+        "nape point (cervicale)",
+        "right shoulder point (acromion)"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body shoulder width: surface arc across the back from the left shoulder point via the nape point to the right shoulder point. The subject stands upright and relaxed with weight on both feet, arms hanging at the sides, breathing normally; the tape lies on the skin without compressing it. Not a straight-line (caliper) breadth; a straight biacromial breadth would be a different definition.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.thigh-girth",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Closed horizontal path around the thigh just below the gluteal fold, at its fullest level."
+      },
+      "landmarks": [
+        "just below the gluteal fold (highest level of the thigh)"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body thigh girth: maximum horizontal girth of the thigh just below the gluteal fold. The subject stands upright and relaxed with the feet about 100 mm apart and weight evenly on both feet. Measured on the right leg; the tape lies on the skin without compressing it.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.underbust-girth",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Closed horizontal path around the torso directly below the breasts, across the back at the same level."
+      },
+      "landmarks": [
+        "inframammary fold (directly below the breasts)"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body underbust girth: horizontal girth of the torso directly below the breasts. The subject stands upright and relaxed with weight evenly on both feet, heels together, arms hanging at the sides, head held so that the line from the ear opening to the lower edge of the eye socket is horizontal, breathing normally. Taken after a normal exhalation; the tape lies on the skin without compressing it. Distinct from d2p:body.bust-girth and d2p:body.chest-girth.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.upper-arm-girth",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Closed path around the upper arm at its fullest part between armpit and elbow, perpendicular to the arm axis."
+      },
+      "landmarks": [
+        "fullest part of the upper arm (biceps region)"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body upper arm girth: girth of the upper arm at its fullest part between the armpit and the elbow, perpendicular to the long axis of the arm, with the arm hanging relaxed and the muscles not tensed. The subject stands upright and relaxed with weight on both feet, arms hanging at the sides, breathing normally; the tape lies on the skin without compressing it.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.waist-girth",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Closed horizontal path around the torso at the natural waist, the narrowest level between the lowest rib and the top of the hip bone."
+      },
+      "landmarks": [
+        "natural waist (narrowest level between lowest rib and iliac crest)"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body waist girth: horizontal girth of the torso at the natural waist, the narrowest level between the lowest rib and the iliac crest. The subject stands upright and relaxed with weight on both feet, arms hanging at the sides, breathing normally; the tape lies on the skin without compressing it. The abdomen is relaxed, not drawn in.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.waist-height",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "height",
+        "description": "Vertical distance from the floor to the natural waist level used by d2p:body.waist-girth, at the side of the body."
+      },
+      "landmarks": [
+        "natural waist at the side of the body (level of d2p:body.waist-girth)",
+        "floor"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body waist height: vertical distance from the floor to the natural waist at the side of the body. The subject stands upright and relaxed with weight evenly on both feet, heels together, arms hanging at the sides, head held so that the line from the ear opening to the lower edge of the eye socket is horizontal, breathing normally. Measured vertically with an anthropometer or a height rod; the result is the vertical distance, not a surface length.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:body.wrist-girth",
+      "kind": "body",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Closed path around the wrist passing over the wrist bone, perpendicular to the forearm axis."
+      },
+      "landmarks": [
+        "wrist point (ulnar styloid process)"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:minimal-clothing",
+      "description": "Body wrist girth: girth of the wrist passing over the wrist point (ulnar styloid process), perpendicular to the forearm axis. The subject stands upright and relaxed with weight on both feet, arms hanging at the sides, breathing normally; the tape lies on the skin without compressing it.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:garment.body-length",
+      "kind": "garment",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "length",
+        "description": "Straight vertical line from the high point shoulder down to the hem edge, parallel to the centre front."
+      },
+      "landmarks": [
+        "high point shoulder (junction of shoulder seam and neckline)",
+        "hem edge"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:flat-relaxed",
+      "description": "Garment body length: distance from the high point shoulder to the finished hem edge, measured parallel to the centre front. The garment is laid flat on a smooth surface, closed, without tension or stretch; for analytical evaluation the value is computed from the evaluated pattern pieces joined at their seam lines, without seam allowance.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:garment.chest-girth",
+      "kind": "garment",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "girth",
+        "description": "Complete circumference of the garment body at underarm level, across the front and the back."
+      },
+      "landmarks": [
+        "left underarm point (junction of armhole and side seam)",
+        "right underarm point (junction of armhole and side seam)"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:flat-relaxed",
+      "description": "Garment chest girth: full circumference of the garment body at the level of the underarm points, i.e. front width plus back width between the side seams at that level. The garment is laid flat on a smooth surface, closed, without tension or stretch; for analytical evaluation the value is computed from the evaluated pattern pieces joined at their seam lines, without seam allowance. A girth, comparable with d2p:body.chest-girth by ease; never equated with d2p:garment.chest-width-flat.",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:garment.chest-width-flat",
+      "kind": "garment",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "flat-width",
+        "description": "Straight line across one layer of the garment laid flat, from side edge to side edge at underarm level."
+      },
+      "landmarks": [
+        "left underarm point (junction of armhole and side seam)",
+        "right underarm point (junction of armhole and side seam)"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:flat-relaxed",
+      "description": "Garment chest width (flat): straight distance across the garment laid flat, one layer, between the side edges at the level of the underarm points. The garment is laid flat on a smooth surface, closed, without tension or stretch; for analytical evaluation the value is computed from the evaluated pattern pieces joined at their seam lines, without seam allowance. A flat width, not a girth; it is never implicitly doubled or equated with a girth (D2P-SEM-071).",
+      "status": "active"
+    },
+    {
+      "definitionId": "d2p:garment.sleeve-length",
+      "kind": "garment",
+      "dimension": "length",
+      "unit": "mm",
+      "path": {
+        "type": "length",
+        "description": "Along the top line of the sleeve from the shoulder point of the sleeve cap to the sleeve hem edge."
+      },
+      "landmarks": [
+        "sleeve cap top (junction of armhole seam and shoulder seam)",
+        "sleeve hem edge"
+      ],
+      "posture": "d2p:standing-relaxed",
+      "state": "d2p:flat-relaxed",
+      "description": "Garment sleeve length: length along the top line of the sleeve from the top of the sleeve cap (where the armhole seam meets the shoulder seam) to the finished sleeve hem edge. The garment is laid flat on a smooth surface, closed, without tension or stretch; for analytical evaluation the value is computed from the evaluated pattern pieces joined at their seam lines, without seam allowance.",
+      "status": "active"
+    }
+  ]
+}

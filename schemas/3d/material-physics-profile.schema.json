@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/3d/material-physics-profile.schema.json",
+  "title": "D2P Material Physics Profile",
+  "description": "Versioned vocabulary of cloth physics parameters for one material (design decision ADR-029 §5 rule 7, ADR-021 §9): material class, areal density, thickness, stretch, shear and bending stiffness and friction. The values are coarse and 'provisional' until a measurement procedure and calibration against real fabric samples are defined; user interfaces label them as such. Files are stored as vocabularies/material-physics-profiles/<local>-<version>.json for profileId d2p:<local>.",
+  "$comment": "Schema catalog section 3.9 (draft 0.3.0).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "profileId",
+    "version",
+    "status",
+    "title",
+    "materialClass",
+    "arealDensityGPerM2",
+    "thicknessMm",
+    "stretch",
+    "shearNPerM",
+    "bending",
+    "friction"
+  ],
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:material-physics-profile"
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against."
+    },
+    "profileId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName",
+      "description": "Qualified name of the profile; with version it identifies the profile."
+    },
+    "version": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver",
+      "description": "Version of the profile, independent of the standard version."
+    },
+    "status": {
+      "description": "provisional: proposed values, not to be used for comparing implementations; frozen: adopted and immutable (a changed value is a new version).",
+      "type": "string",
+      "enum": [
+        "provisional",
+        "frozen"
+      ]
+    },
+    "title": {
+      "description": "Title of the profile.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "description": "Free-text description.",
+      "type": "string",
+      "maxLength": 4000
+    },
+    "materialClass": {
+      "$ref": "https://d2p.nonnast.dev/schemas/measurement/fit-profile.schema.json#/$defs/materialClass",
+      "description": "Material class the profile describes; it equals the declared class of every material assignment it is used for (D2P-SEM-128)."
+    },
+    "arealDensityGPerM2": {
+      "description": "Areal density in g/m².",
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "thicknessMm": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/positiveLengthMm",
+      "description": "Fabric thickness."
+    },
+    "stretch": {
+      "description": "In-plane stretch stiffness.",
+      "$ref": "#/$defs/materialStretchStiffness"
+    },
+    "shearNPerM": {
+      "description": "In-plane shear stiffness in N/m.",
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "bending": {
+      "description": "Bending stiffness.",
+      "$ref": "#/$defs/materialBendingStiffness"
+    },
+    "friction": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/ratio",
+      "description": "Dynamic friction coefficient against the body (dimensionless)."
+    },
+    "notes": {
+      "description": "Free-text notes on provenance, measurement method and status of the values.",
+      "type": "string",
+      "maxLength": 4000
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks."
+    }
+  },
+  "$defs": {
+    "materialStretchStiffness": {
+      "title": "Material stretch stiffness",
+      "description": "Stretch stiffness along warp (lengthwise) and weft (crosswise) in N/m.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "warpNPerM",
+        "weftNPerM"
+      ],
+      "properties": {
+        "warpNPerM": {
+          "description": "Warp (lengthwise) stiffness in N/m.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "weftNPerM": {
+          "description": "Weft (crosswise) stiffness in N/m.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "materialBendingStiffness": {
+      "title": "Material bending stiffness",
+      "description": "Bending stiffness along warp and weft in µN·m.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "warpMicroNm",
+        "weftMicroNm"
+      ],
+      "properties": {
+        "warpMicroNm": {
+          "description": "Warp bending stiffness in µN·m.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "weftMicroNm": {
+          "description": "Weft bending stiffness in µN·m.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    }
+  }
+}

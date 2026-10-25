@@ -1,0 +1,66 @@
+{
+  "documentType": "d2p:body-model-snapshot",
+  "schemaVersion": "1.0.0",
+  "bodyModelId": "bms_example-body-incomplete",
+  "createdAt": "2026-03-01T10:00:00Z",
+  "source": {
+    "kind": "size-entry",
+    "sizeSystemRef": {
+      "artifactId": "art_example-body-sizes",
+      "revisionId": "rev_example-body-sizes-r1"
+    },
+    "sizeKey": "body-m"
+  },
+  "avatarProfile": {
+    "id": "d2p:standard-a-pose",
+    "version": "1.0.0"
+  },
+  "pose": "d2p:a-pose",
+  "backend": {
+    "backendId": "org.example.body",
+    "backendVersion": "1.0.0",
+    "adapterVersion": "1.0.0"
+  },
+  "inputDigests": [
+    {
+      "role": "avatar-profile",
+      "id": {
+        "id": "d2p:standard-a-pose",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "role": "measurement-definition-registry",
+      "id": {
+        "id": "d2p:measurement-definitions",
+        "version": "1.1.0"
+      },
+      "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "role": "size-system",
+      "artifactRef": {
+        "artifactId": "art_example-body-sizes",
+        "revisionId": "rev_example-body-sizes-r1"
+      },
+      "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }
+  ],
+  "status": "failed",
+  "controlMeasures": [
+    {
+      "definitionId": "d2p:body.chest-girth",
+      "origin": "size-table",
+      "targetMm": 960
+    }
+  ],
+  "diagnostics": [
+    {
+      "code": "D2P-SEM-127",
+      "severity": "error",
+      "message": "required body definition d2p:body.height has no value in the body source and no derivation"
+    }
+  ],
+  "resultDigest": "sha256:60caf7f5d1ae097083d2f2059e231c8a8e7ba1ab9afde99790e4209cbf9a0292"
+}

@@ -1,0 +1,24 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "golden-tshirt-drape.fixture",
+  "level": "semantic",
+  "title": "Golden T-Shirt drape: all semantic rules on the whole fixture",
+  "documents": [
+    {
+      "path": "fixtures/golden-tshirt-drape/v1/manifest.json",
+      "role": "manifest"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "AVA-005",
+    "SZT-001",
+    "DRP-004",
+    "GAR-007"
+  ],
+  "description": "The body profile agrees with its baseline except for its two measured overrides, the body-model expectations hold the targets of the body target resolution with the avatar profile's tolerances, and both drape configurations name a woven material physics profile for the woven assignment."
+}

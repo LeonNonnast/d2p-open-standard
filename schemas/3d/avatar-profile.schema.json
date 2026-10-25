@@ -1,0 +1,246 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/3d/avatar-profile.schema.json",
+  "title": "D2P Avatar Profile",
+  "description": "Versioned vocabulary describing how body models (avatars) are derived from body measurements (design decision ADR-029 §3, §4): pose, required body definitions, linear derivations of optional definitions, the tolerance of each control measure, landmarks and the landmark-defined body zones of fit maps. A profile is pinned before any comparison run and never adjusted afterwards; a frozen profile is immutable. Files are stored as vocabularies/avatar-profiles/<local>-<version>.json for profileId d2p:<local>.",
+  "$comment": "Schema catalog section 3.9 (draft 0.3.0). Not schema-enforced: definitions resolve via definitionRegistries and are body lengths (D2P-REF-008, D2P-SEM-075, D2P-SEM-070); derivations name non-required definitions and use required ones only, tolerances cover exactly the required and derived definitions, zones name declared landmarks (D2P-SEM-127); sorted arrays (D2P-REF-014).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "profileId",
+    "version",
+    "status",
+    "title",
+    "pose",
+    "definitionRegistries",
+    "requiredDefinitions",
+    "tolerances",
+    "landmarks",
+    "zones",
+    "toleranceProfile"
+  ],
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:avatar-profile"
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against."
+    },
+    "profileId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName",
+      "description": "Qualified name of the profile; with version it identifies the profile."
+    },
+    "version": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver",
+      "description": "Version of the profile, independent of the standard version."
+    },
+    "status": {
+      "description": "provisional: proposed values, not to be used for comparing implementations; frozen: adopted and immutable (a changed value is a new version).",
+      "type": "string",
+      "enum": [
+        "provisional",
+        "frozen"
+      ]
+    },
+    "title": {
+      "description": "Title of the profile.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "description": "Free-text description.",
+      "type": "string",
+      "maxLength": 4000
+    },
+    "pose": {
+      "$ref": "https://d2p.nonnast.dev/schemas/3d/garment.schema.json#/$defs/bodyPose",
+      "description": "Pose of body models derived with this profile."
+    },
+    "definitionRegistries": {
+      "description": "Measurement-definition registries against which every definitionId of this profile resolves (D2P-REF-008).",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+      }
+    },
+    "requiredDefinitions": {
+      "description": "Body definitions a body source MUST provide as its own values (values a body measurement profile copied from its baseline count; the baseline size entry itself is not read). Without one of them no body model is derived (D2P-SEM-127, AVA-003). Sorted, unique.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+      }
+    },
+    "derivations": {
+      "description": "Versioned rules for body definitions that the body source may leave out: such a value is derived linearly from required definitions and marked 'inferred' (design decision ADR-029 §4 rule 3). Sorted by definitionId. Omitted when the profile derives nothing.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/avatarDerivation"
+      }
+    },
+    "tolerances": {
+      "description": "Permitted deviation of each control measure taken on the body model from its target: exactly one entry per required or derived definition, sorted by definitionId (D2P-SEM-127). A body model outside a tolerance is a finding, not a valid result (AVA-001).",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/avatarTolerance"
+      }
+    },
+    "landmarks": {
+      "description": "Landmarks every body model of this profile places, sorted by landmarkId.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/avatarLandmark"
+      }
+    },
+    "zones": {
+      "description": "Body zones of fit maps, each defined by landmarks of this profile (FMP-001). Sorted by zone.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/avatarZone"
+      }
+    },
+    "toleranceProfile": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+      "description": "Tolerance profile body models of this profile are compared with across implementations."
+    },
+    "notes": {
+      "description": "Free-text notes on provenance and status of the values.",
+      "type": "string",
+      "maxLength": 4000
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks."
+    }
+  },
+  "$defs": {
+    "avatarDerivation": {
+      "title": "Avatar derivation",
+      "description": "Linear rule for one body definition: value (mm) = interceptMm + Σ coefficient × value of a required definition. A derivation never uses another derived definition.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "definitionId",
+        "interceptMm",
+        "terms"
+      ],
+      "properties": {
+        "definitionId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName",
+          "description": "Derived body definition; not a required definition."
+        },
+        "interceptMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/lengthMm",
+          "description": "Constant term in mm."
+        },
+        "terms": {
+          "description": "Terms; each names a required definition of the profile.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/derivationTerm"
+          }
+        }
+      }
+    },
+    "derivationTerm": {
+      "title": "Derivation term",
+      "description": "One linear term of a derivation.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "definitionId",
+        "coefficient"
+      ],
+      "properties": {
+        "definitionId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName",
+          "description": "A required definition of the profile."
+        },
+        "coefficient": {
+          "description": "Dimensionless coefficient.",
+          "type": "number"
+        }
+      }
+    },
+    "avatarTolerance": {
+      "title": "Avatar tolerance",
+      "description": "Permitted absolute deviation of one control measure.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "definitionId",
+        "maxDeviationMm"
+      ],
+      "properties": {
+        "definitionId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName",
+          "description": "Required or derived definition."
+        },
+        "maxDeviationMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/positiveLengthMm",
+          "description": "Largest permitted |measured − target| in mm."
+        }
+      }
+    },
+    "avatarLandmark": {
+      "title": "Avatar landmark",
+      "description": "A named point every body model of the profile places.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "landmarkId",
+        "description"
+      ],
+      "properties": {
+        "landmarkId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName",
+          "description": "Identifier of the landmark (e.g. 'd2p:landmark.nape')."
+        },
+        "description": {
+          "description": "Anatomical description.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        }
+      }
+    },
+    "avatarZone": {
+      "title": "Avatar zone",
+      "description": "A body zone of fit maps and the landmarks that delimit it.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "zone",
+        "landmarkIds"
+      ],
+      "properties": {
+        "zone": {
+          "$ref": "https://d2p.nonnast.dev/schemas/measurement/fit-profile.schema.json#/$defs/bodyZone",
+          "description": "Body zone."
+        },
+        "landmarkIds": {
+          "description": "Landmarks of this profile that delimit the zone (sorted, unique).",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName"
+          }
+        }
+      }
+    }
+  }
+}

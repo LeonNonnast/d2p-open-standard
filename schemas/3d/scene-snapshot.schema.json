@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://d2p.nonnast.dev/schemas/3d/scene-snapshot.schema.json",
   "title": "D2P Scene Snapshot",
-  "description": "Derived 3D scene of a garment revision (design decisions ADR-009 §14 'GeometrySnapshot3D', ADR-021 §4 'SceneSnapshot'). It is never an editable master and never a garment revision (GAR-014). The scene uses a right-handed coordinate system with Y up and metres as scene unit, converted explicitly from the pattern's millimetres by the factor 0.001. It pins every consumed input (inputDigests, the evaluation pins and the evaluation key), the scene builder and mesh backend, the mesh results and the bindings of panels and seams to pattern elements. 'bindingsDigest' covers the semantic bindings only and is equal for every mesh backend given the same input (T3D-015, SIM-006); 'sceneDigest' also covers the mesh references. A snapshot whose evaluation key differs from the current scene input's key is stale and MUST NOT be served as current (GAR-016). Access rights are not part of the payload; personal body or fit data never appear (D2P-SEM-050).",
+  "description": "Derived 3D scene of a garment revision (design decisions ADR-009 §14 'GeometrySnapshot3D', ADR-021 §4 'SceneSnapshot'). It is never an editable master and never a garment revision (GAR-014). The scene uses a right-handed coordinate system with Y up and metres as scene unit, converted explicitly from the pattern's millimetres by the factor 0.001. It pins every consumed input (inputDigests, the evaluation pins and the evaluation key), the scene builder and mesh backend, the mesh results and the bindings of panels and seams to pattern elements. 'bindingsDigest' covers the semantic bindings only and is equal for every mesh backend given the same input (T3D-015, SIM-006); 'sceneDigest' also covers the mesh references. A snapshot whose evaluation key differs from the current scene input's key is stale and MUST NOT be served as current (GAR-016). Access rights are not part of the payload. In mode 'physical-simulation' (draft 0.3.0, design decision ADR-029 §5) the scene is a drape: it also pins the simulation configuration and the body model, and references one draped panel mesh per panel; 'sceneDigest' then covers the body model and the draped meshes too. A scene that pins a body measurement profile classified personal is personal-derived and states 'personalDerived: true' (D2P-SEM-050); otherwise no personal data appear.",
   "type": "object",
   "properties": {
     "documentType": {
@@ -113,6 +113,32 @@
         "$ref": "#/$defs/meshRef"
       }
     },
+    "simulationConfigurationId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+      "description": "Simulation configuration of the garment (mode 'physical-simulation' only, schema-enforced)."
+    },
+    "bodyModelRef": {
+      "description": "The body model snapshot the garment is draped on (mode 'physical-simulation' only, schema-enforced); 'digest' is its resultDigest.",
+      "type": "object",
+      "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef",
+      "properties": {
+        "digest": true
+      },
+      "required": [
+        "digest"
+      ]
+    },
+    "drapedMeshRefs": {
+      "description": "Draped panel meshes, sorted by panelInstanceId (mode 'physical-simulation' only, schema-enforced; written as [] for a failed drape). Unless qualityStatus is 'failed' or 'unsupported', exactly one per panel binding, draping the rest mesh of that panel's mesh reference (D2P-SEM-129).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/drapedMeshRefEntry"
+      }
+    },
+    "personalDerived": {
+      "description": "True when the scene pins a body measurement profile classified 'personal' or 'sensitive-personal' (directly or through its body model). Such a scene is geometry derived from personal data: it is served only under the export rules of that profile, and a scene that pins such a profile without stating true is reported as D2P-SEM-050. Absent means false.",
+      "type": "boolean"
+    },
     "qualityStatus": {
       "description": "Quality status of the result (design decision ADR-009 §6): preview, validated, unsupported or failed. A failed scene carries at least one diagnostic (T3D-011).",
       "type": "string",
@@ -201,6 +227,49 @@
         },
         "required": [
           "diagnostics"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "arrangement"
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "simulationConfigurationId": false,
+          "bodyModelRef": false,
+          "drapedMeshRefs": false
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "physical-simulation"
+          }
+        },
+        "required": [
+          "mode"
+        ]
+      },
+      "then": {
+        "properties": {
+          "simulationConfigurationId": true,
+          "bodyModelRef": true,
+          "drapedMeshRefs": true
+        },
+        "required": [
+          "simulationConfigurationId",
+          "bodyModelRef",
+          "drapedMeshRefs"
         ]
       }
     }
@@ -387,6 +456,38 @@
         "digest": {
           "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
           "description": "Raw-byte SHA-256 of the file."
+        }
+      }
+    },
+    "drapedMeshRefEntry": {
+      "title": "Draped mesh reference",
+      "description": "The draped panel mesh of one panel instance (mode 'physical-simulation').",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "panelInstanceId",
+        "drapedMeshRef",
+        "meshDigest"
+      ],
+      "properties": {
+        "panelInstanceId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Panel instance the draped mesh belongs to."
+        },
+        "drapedMeshRef": {
+          "description": "The d2p:draped-panel-mesh; 'digest' is required and equals its resultDigest.",
+          "type": "object",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/derivedRef",
+          "properties": {
+            "digest": true
+          },
+          "required": [
+            "digest"
+          ]
+        },
+        "meshDigest": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+          "description": "meshDigest of that draped mesh (solver-, profile- and platform-dependent; compared across implementations with the tolerance profile only)."
         }
       }
     }

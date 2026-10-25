@@ -1,0 +1,48 @@
+{
+  "documentType": "d2p:solver-profile",
+  "schemaVersion": "1.0.0",
+  "profileId": "d2p:fit-approximation",
+  "version": "1.0.0",
+  "status": "provisional",
+  "title": "Fit approximation",
+  "description": "Fast drape on coarse rest meshes without self-collision: a fit impression within seconds.",
+  "profileKind": "fit-approximation",
+  "meshProfile": {
+    "id": "d2p:drape-coarse",
+    "version": "1.0.0"
+  },
+  "toleranceProfile": {
+    "id": "d2p:golden-tshirt-drape",
+    "version": "1.0.0"
+  },
+  "integration": {
+    "timeStepMs": 0,
+    "substeps": 4,
+    "iterations": 8,
+    "maxSteps": 600
+  },
+  "gravityMmPerS2": 9810,
+  "damping": 0.02,
+  "prepositioning": {
+    "method": "d2p:around-body",
+    "clearanceMm": 30
+  },
+  "collision": {
+    "bodyOffsetMm": 2,
+    "clothThicknessMm": 1,
+    "selfCollision": false
+  },
+  "convergence": {
+    "maxVelocityMmPerS": 5,
+    "minSteps": 100
+  },
+  "failureLimits": {
+    "maxPenetrationMm": 3,
+    "maxSeamGapMm": 2
+  },
+  "budget": {
+    "maxDurationMs": 30000,
+    "maxMemoryBytes": 536870912
+  },
+  "notes": "Provisional values proposed for draft 0.3.0 (Implementierungsplan E-22/E-23, design decision ADR-029 §12): not calibrated, not to be used for comparing implementations until frozen by maintainer decision. A changed value is a new version."
+}

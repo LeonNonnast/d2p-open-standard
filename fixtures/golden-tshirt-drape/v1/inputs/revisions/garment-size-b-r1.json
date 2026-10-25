@@ -1,0 +1,15 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_golden-tshirt-drape-garment-size-b-r1",
+  "artifactId": "art_golden-tshirt-drape-garment-size-b",
+  "sequence": 1,
+  "parentRevisionIds": [],
+  "contentDigest": "sha256:4d16ee4f0a04c025a9153376142085927cd881ebadb7d85a429f8e205cb761c0",
+  "createdAt": "2026-01-08T00:00:00Z",
+  "author": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  },
+  "message": "Initial drape garment"
+}

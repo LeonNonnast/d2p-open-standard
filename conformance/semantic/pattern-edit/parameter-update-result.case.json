@@ -1,0 +1,36 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "pattern-edit.parameter-update-result",
+  "level": "semantic",
+  "title": "A parameter update committed with the content its updates yield is accepted",
+  "documents": [
+    {
+      "path": "conformance/semantic/pattern-edit/parameter-update-result/command.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/pattern-edit/parameter-update-result/pattern-r2.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/pattern-edit/parameter-update-result/revision-pattern-r2.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/pattern-edit/parameter-update-result/pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/pattern-edit/parameter-update-result/revision-pattern-r1.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "CAD-001"
+  ]
+}

@@ -15,10 +15,13 @@ Deterministic reference oracle for the Golden T-Shirt v1 fixture (`fixtures/gold
 | `lib/negative.mjs` | Negative fixtures of catalog §4.3 with their `case.json` |
 | `lib/ids.mjs`, `lib/expr.mjs` | Normative identifiers and expression-node builders |
 | `golden-tshirt-3d.mjs`, `lib/garment3d.mjs` | Golden T-Shirt 3D v1 generator (catalog §4.5): garments, scene inputs and expected scene structures from the 2D fixture, the 3D negative fixtures and the cases in `conformance/<level>/golden-tshirt-3d/` (including boundary-sampled panel meshes and a glTF view for the scene-snapshot case). It uses the kit's `lib/c14n.mjs` and asserts stable IDs, sides, the mm to m conversion and the rebind to pattern r2 on every run (`npm run oracle:3d`; `--check` is part of `npm run oracle:check`) |
+| `golden-tshirt-drape.mjs` | Golden T-Shirt drape v1 generator (catalog §4.6, draft `0.3.0`): the synthetic body size system, the body profile with baseline and overrides, the two garments with body bindings and simulation configurations (copied from the 3D fixture garments r1), the body model and drape expectations, the drape negative fixtures and the cases in `conformance/<level>/golden-tshirt-drape/` (including a synthetic body mesh, boundary-sampled rest meshes with the 3D mesher of `lib/garment3d.mjs`, deterministically deformed draped meshes and fit maps). It computes the body targets with its own implementation of the body target resolution (catalog §3.9.1), independent of the kit's `lib/drape.mjs`, and asserts the fixture's expectations on every run (`npm run oracle:drape`; `--check` is part of `npm run oracle:check`) |
 
 ```bash
 npm run oracle         # node tools/oracle/golden-tshirt.mjs
-npm run oracle:check   # node tools/oracle/golden-tshirt.mjs --check && node tools/oracle/schema-check.mjs
+npm run oracle:check   # all generators with --check (2D, 3D, drape), then node tools/oracle/schema-check.mjs
+npm run oracle:3d      # node tools/oracle/golden-tshirt-3d.mjs
+npm run oracle:drape   # node tools/oracle/golden-tshirt-drape.mjs
 ```
 
 The oracle reads the external files the fixture pins (measurement-definition registry, tolerance profile, the `d2p:sample-cut` and `d2p:print-1to1` profiles and their rule files) and digests them into the expected documents and the manifest, so a change to one of them shows up as drift.

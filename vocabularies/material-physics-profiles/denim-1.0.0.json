@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:material-physics-profile",
+  "schemaVersion": "1.0.0",
+  "profileId": "d2p:denim",
+  "version": "1.0.0",
+  "status": "provisional",
+  "title": "Denim",
+  "description": "Heavy twill-weave cotton denim without elastane.",
+  "materialClass": "woven",
+  "arealDensityGPerM2": 400,
+  "thicknessMm": 0.8,
+  "stretch": {
+    "warpNPerM": 20000,
+    "weftNPerM": 15000
+  },
+  "shearNPerM": 800,
+  "bending": {
+    "warpMicroNm": 120,
+    "weftMicroNm": 90
+  },
+  "friction": 0.45,
+  "notes": "Provisional values proposed for draft 0.3.0 (Implementierungsplan E-22/E-23, design decision ADR-029 §12): not calibrated, not to be used for comparing implementations until frozen by maintainer decision. A changed value is a new version. Order-of-magnitude values for the material family; no measurement procedure or fabric sample stands behind them."
+}

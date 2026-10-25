@@ -1,0 +1,287 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/3d/body-model-snapshot.schema.json",
+  "title": "D2P Body Model Snapshot",
+  "description": "Derived body model (avatar) of one pinned body source (design decision ADR-029 §3 'BodyModelSnapshot', §4): the body mesh with its landmarks, and per body definition the target value, its origin and the value measured on the mesh. It is a derivation, never a revision: a new profile revision makes every body model of the old one stale. A body model outside a tolerance of its avatar profile is failed, not a valid result (AVA-001); a missing required measurement is a diagnostic, never an invented value (AVA-003). A body model of a personal profile is personal-derived even without raw values in its mesh (ADR-029 §4 rule 5).",
+  "$comment": "Schema catalog section 3.9 (draft 0.3.0). Not schema-enforced: pinned inputs (D2P-REF-007), targets and tolerances (D2P-SEM-127), personalDerived (D2P-SEM-050).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "bodyModelId",
+    "source",
+    "avatarProfile",
+    "pose",
+    "backend",
+    "inputDigests",
+    "status",
+    "controlMeasures",
+    "diagnostics",
+    "resultDigest"
+  ],
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:body-model-snapshot"
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against."
+    },
+    "bodyModelId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/bodyModelId",
+      "description": "Own ID ('bms_')."
+    },
+    "createdAt": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/timestamp",
+      "description": "When the document was produced (UTC). Excluded from the resultDigest."
+    },
+    "source": {
+      "$ref": "https://d2p.nonnast.dev/schemas/3d/garment.schema.json#/$defs/bodySource",
+      "description": "Pinned measurement source of the body."
+    },
+    "avatarProfile": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+      "description": "Avatar profile the body model was derived with."
+    },
+    "pose": {
+      "$ref": "https://d2p.nonnast.dev/schemas/3d/garment.schema.json#/$defs/bodyPose",
+      "description": "Pose of the body model (the avatar profile's pose)."
+    },
+    "backend": {
+      "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/backendPin",
+      "description": "Body model backend and adapter versions (e.g. the reference backend 'd2p-goref-body')."
+    },
+    "inputDigests": {
+      "description": "Pinned inputs: exactly one entry for the body source (role body-measurement-profile or size-system), one of role avatar-profile and one of role measurement-definition-registry per registry of the avatar profile (D2P-REF-007). Order per catalog §1.8.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/inputDigest"
+      }
+    },
+    "status": {
+      "description": "'succeeded' (a body model that meets every tolerance of the avatar profile) or 'failed' (no body model; at least one diagnostic). Schema-enforced members by status.",
+      "type": "string",
+      "enum": [
+        "succeeded",
+        "failed"
+      ]
+    },
+    "coordinateSystem": {
+      "$ref": "https://d2p.nonnast.dev/schemas/3d/garment.schema.json#/$defs/garmentCoordinateSystem",
+      "description": "Scene frame: right-handed, Y up, +Z front (catalog §3.9)."
+    },
+    "sceneUnit": {
+      "description": "Scene unit; always metres.",
+      "type": "string",
+      "const": "m"
+    },
+    "unitConversion": {
+      "description": "Explicit conversion from the pattern and body unit to the scene unit.",
+      "type": "object",
+      "const": {
+        "from": "mm",
+        "to": "m",
+        "factor": 0.001
+      }
+    },
+    "mesh": {
+      "description": "Body surface in the scene frame (m), standing on the plane y = 0, facing +Z (status succeeded only).",
+      "$ref": "#/$defs/bodyMesh"
+    },
+    "landmarks": {
+      "description": "Landmark positions in m, one per landmark of the avatar profile, sorted by landmarkId (status succeeded only).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/bodyLandmark"
+      }
+    },
+    "controlMeasures": {
+      "description": "One control measure per required or derived definition of the avatar profile that has a target, sorted by definitionId (D2P-SEM-127).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/bodyControlMeasure"
+      }
+    },
+    "meshDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "Digest of 'mesh' (catalog §1.8; backend- and platform-dependent, status succeeded only)."
+    },
+    "personalDerived": {
+      "description": "True when the document derives from a body measurement profile classified 'personal' or 'sensitive-personal' (directly or through a pinned body model or scene). Such a document is geometry or data derived from personal data and is served only under the export rules of that profile; a document that derives from such a profile without stating true is reported as D2P-SEM-050. Absent means false.",
+      "type": "boolean"
+    },
+    "diagnostics": {
+      "description": "Diagnostics, sorted per catalog §1.8.",
+      "type": "array",
+      "items": {
+        "$ref": "https://d2p.nonnast.dev/schemas/core/diagnostic.schema.json#/$defs/diagnostic"
+      }
+    },
+    "resultDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "resultDigest of this document (catalog §1.8)."
+    },
+    "contentDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "Optional digest of this document (d2p-digest-v1, excluding contentDigest)."
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "succeeded"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "coordinateSystem": true,
+          "sceneUnit": true,
+          "unitConversion": true,
+          "mesh": true,
+          "landmarks": true,
+          "meshDigest": true
+        },
+        "required": [
+          "coordinateSystem",
+          "sceneUnit",
+          "unitConversion",
+          "mesh",
+          "landmarks",
+          "meshDigest"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "failed"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "mesh": false,
+          "landmarks": false,
+          "meshDigest": false,
+          "diagnostics": {
+            "type": "array",
+            "minItems": 1
+          }
+        },
+        "required": [
+          "diagnostics"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "bodyMesh": {
+      "title": "Body mesh",
+      "description": "Triangle mesh of the body surface in the scene frame (m).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "positionsM",
+        "triangles"
+      ],
+      "properties": {
+        "positionsM": {
+          "description": "Vertex positions in m.",
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/3d/garment.schema.json#/$defs/point3"
+          }
+        },
+        "triangles": {
+          "description": "Triangles (counter-clockwise seen from outside the body). Indices are transient.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "https://d2p.nonnast.dev/schemas/3d/panel-mesh-result.schema.json#/$defs/triangle"
+          }
+        }
+      }
+    },
+    "bodyLandmark": {
+      "title": "Body landmark",
+      "description": "Position of one landmark of the avatar profile.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "landmarkId",
+        "positionM"
+      ],
+      "properties": {
+        "landmarkId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName",
+          "description": "Landmark of the avatar profile."
+        },
+        "positionM": {
+          "$ref": "https://d2p.nonnast.dev/schemas/3d/garment.schema.json#/$defs/point3",
+          "description": "Position in m."
+        }
+      }
+    },
+    "bodyControlMeasure": {
+      "title": "Body control measure",
+      "description": "Target of one body definition and, for a derived body model, the value measured on its mesh according to the definition's path and landmarks (design decision ADR-029 §4 rule 2). measuredMm and deviationMm are present exactly when the snapshot succeeded (D2P-SEM-127).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "definitionId",
+        "origin",
+        "targetMm"
+      ],
+      "properties": {
+        "definitionId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName",
+          "description": "Body definition."
+        },
+        "origin": {
+          "$ref": "#/$defs/bodyTargetOrigin",
+          "description": "Where the target comes from (body target resolution)."
+        },
+        "targetMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/lengthMm",
+          "description": "Target value in mm."
+        },
+        "measuredMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/lengthMm",
+          "description": "Value measured on the body mesh in mm."
+        },
+        "deviationMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/lengthMm",
+          "description": "measuredMm − targetMm."
+        }
+      }
+    },
+    "bodyTargetOrigin": {
+      "title": "Body target origin",
+      "description": "Where the target comes from: 'profile' (a value of the body measurement profile that is not a table value), 'size-table' (a value of the size entry, or a profile value with method 'size-table' taken from its baseline), 'inferred' (derived by a rule of the avatar profile because the source has no value).",
+      "type": "string",
+      "enum": [
+        "profile",
+        "size-table",
+        "inferred"
+      ]
+    }
+  }
+}

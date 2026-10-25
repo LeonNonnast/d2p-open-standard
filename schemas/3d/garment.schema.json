@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://d2p.nonnast.dev/schemas/3d/garment.schema.json",
   "title": "D2P Garment",
-  "description": "Artifact content of a garment revision (artifactType d2p:garment; design decisions ADR-009, ADR-021). The garment is the authoritative 3D aggregate: it pins pattern evaluations and states which panel instances are used, which pattern-owned seam connections and sewing groups bind them, which materials apply and how the panels are arranged in space. The pattern stays the only owner of 2D geometry, seam interfaces, seam connections and sewing groups; meshes, scenes and simulations are derived and never part of the garment. Body references and simulation configurations are not part of this release.",
+  "description": "Artifact content of a garment revision (artifactType d2p:garment; design decisions ADR-009, ADR-021). The garment is the authoritative 3D aggregate: it pins pattern evaluations and states which panel instances are used, which pattern-owned seam connections and sewing groups bind them, which materials apply and how the panels are arranged in space. The pattern stays the only owner of 2D geometry, seam interfaces, seam connections and sewing groups; meshes, scenes and simulations are derived and never part of the garment. Since draft 0.3.0 a garment may also hold body bindings (which body a simulation uses) and simulation configurations (design decision ADR-029 §3).",
   "type": "object",
   "properties": {
     "documentType": {
@@ -68,6 +68,22 @@
       "minItems": 1,
       "items": {
         "$ref": "#/$defs/arrangement"
+      }
+    },
+    "bodyBindings": {
+      "description": "Optional body bindings (design decision ADR-009 §14, ADR-029 §3): which body, avatar profile and pose a simulation configuration uses. Omitted when the garment has none.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/bodyBinding"
+      }
+    },
+    "simulationConfigurations": {
+      "description": "Optional simulation configurations (design decision ADR-029 §3): body binding, pattern evaluation (size), start arrangement, solver profile and material physics per material assignment. Omitted when the garment has none.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/simulationConfiguration"
       }
     },
     "contentDigest": {
@@ -508,6 +524,220 @@
       ],
       "minItems": 4,
       "items": false
+    },
+    "bodySource": {
+      "title": "Body source",
+      "description": "The pinned measurement source of a body (design decision ADR-029 §3): a body measurement profile revision, or a size entry of a size-system revision (an anonymous reference figure). Members by kind are schema-enforced.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "description": "'body-measurement-profile' (the values of one profile) or 'size-entry' (the values of one size of a size system).",
+          "type": "string",
+          "enum": [
+            "body-measurement-profile",
+            "size-entry"
+          ]
+        },
+        "bodyMeasurementProfileRef": {
+          "description": "Pinned body measurement profile (kind body-measurement-profile only).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+        },
+        "sizeSystemRef": {
+          "description": "Pinned size system (kind size-entry only).",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+        },
+        "sizeKey": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Size key resolved in sizeSystemRef (kind size-entry only, D2P-REF-009)."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "body-measurement-profile"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "bodyMeasurementProfileRef": true,
+              "sizeSystemRef": false,
+              "sizeKey": false
+            },
+            "required": [
+              "bodyMeasurementProfileRef"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "size-entry"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "sizeSystemRef": true,
+              "sizeKey": true,
+              "bodyMeasurementProfileRef": false
+            },
+            "required": [
+              "sizeSystemRef",
+              "sizeKey"
+            ]
+          }
+        }
+      ]
+    },
+    "bodyPose": {
+      "title": "Body pose",
+      "description": "Pose of a body model, its avatar profile and a body binding. Extensible vocabulary: 'd2p:a-pose' (upright, arms lowered about 45 degrees from the body, feet slightly apart), or extension names.",
+      "type": "string",
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "d2p:a-pose"
+          ]
+        },
+        {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+        }
+      ]
+    },
+    "bodyBinding": {
+      "title": "Body binding",
+      "description": "Which body a simulation uses (\"BodyBinding\", design decisions ADR-009 §14, ADR-029 §3): a pinned body source, the avatar profile the body model is derived with, and the pose. A body binding to a personal profile makes every avatar, scene and fit map derived from it personal-derived (D2P-SEM-050).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "source",
+        "avatarProfile",
+        "pose"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the body binding."
+        },
+        "name": {
+          "description": "Optional display name. MUST NOT be a real name.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "source": {
+          "description": "Pinned measurement source.",
+          "$ref": "#/$defs/bodySource"
+        },
+        "avatarProfile": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+          "description": "Avatar profile (d2p:avatar-profile vocabulary) the body model is derived with."
+        },
+        "pose": {
+          "$ref": "https://d2p.nonnast.dev/schemas/3d/garment.schema.json#/$defs/bodyPose",
+          "description": "Pose of the body model; equals the avatar profile's pose (D2P-SEM-128)."
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional extension blocks."
+        }
+      }
+    },
+    "simulationConfiguration": {
+      "title": "Simulation configuration",
+      "description": "One drape setup (\"SimulationConfiguration\", design decisions ADR-009 §14, ADR-029 §3): the body binding, the pattern evaluation reference whose panels are draped (the size), the start arrangement, the solver profile, one material physics profile per material assignment of those panels, and the random seed. Changing any of them is a garment revision; every drape of the old revision then requires resimulation.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "bodyBindingId",
+        "patternEvaluationId",
+        "arrangementId",
+        "solverProfile",
+        "materials",
+        "randomSeed"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the configuration."
+        },
+        "name": {
+          "description": "Optional display name.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "bodyBindingId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Body binding of this garment (D2P-REF-003)."
+        },
+        "patternEvaluationId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Pattern evaluation reference of this garment whose panel instances are draped (D2P-REF-003)."
+        },
+        "arrangementId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Arrangement of this garment that orders and orients the panels before they are pre-positioned around the body (D2P-REF-003)."
+        },
+        "solverProfile": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+          "description": "Solver profile (d2p:solver-profile vocabulary)."
+        },
+        "materials": {
+          "description": "Material physics per material assignment: exactly one entry for every material assignment that contains a panel instance of patternEvaluationId (D2P-SEM-128).",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/materialPhysicsAssignment"
+          }
+        },
+        "randomSeed": {
+          "description": "Pinned seed of every pseudo-random choice of the solver (design decision ADR-029 §5 rule 5).",
+          "type": "integer",
+          "minimum": 0
+        },
+        "extensions": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+          "description": "Optional extension blocks."
+        }
+      }
+    },
+    "materialPhysicsAssignment": {
+      "title": "Material physics assignment",
+      "description": "The material physics profile used for the panels of one material assignment. The profile's material class equals the assignment's declared material class (D2P-SEM-128).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "materialAssignmentId",
+        "materialPhysicsProfile"
+      ],
+      "properties": {
+        "materialAssignmentId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Material assignment of this garment (D2P-REF-003)."
+        },
+        "materialPhysicsProfile": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+          "description": "Material physics profile (d2p:material-physics-profile vocabulary)."
+        }
+      }
     }
   }
 }

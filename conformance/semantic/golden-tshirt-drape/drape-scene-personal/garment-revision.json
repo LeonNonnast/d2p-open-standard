@@ -1,0 +1,15 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_golden-drape-individual-garment-r1",
+  "artifactId": "art_golden-drape-individual-garment",
+  "sequence": 1,
+  "parentRevisionIds": [],
+  "contentDigest": "sha256:8dc6998f8bd92f575ddd2da0d8ed645f76b62b3f03e7a94d36780080e2097236",
+  "createdAt": "2026-01-08T00:00:00Z",
+  "author": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  },
+  "message": "Initial drape garment for an individual body"
+}

@@ -1,0 +1,36 @@
+{
+  "documentType": "d2p:scene-input",
+  "schemaVersion": "1.0.0",
+  "sceneInputId": "sci_example-drape-body-m",
+  "createdAt": "2026-01-05T00:00:00Z",
+  "garmentRef": {
+    "artifactId": "art_golden-tshirt-3d-garment-size-a",
+    "revisionId": "rev_golden-tshirt-3d-garment-size-a-r1"
+  },
+  "arrangementId": "flat-lay",
+  "mode": "physical-simulation",
+  "meshProfile": {
+    "id": "d2p:drape-coarse",
+    "version": "1.0.0"
+  },
+  "toleranceProfile": {
+    "id": "d2p:golden-tshirt-drape",
+    "version": "1.0.0"
+  },
+  "patternEvaluations": [
+    {
+      "patternEvaluationId": "eval-main",
+      "evaluationRef": {
+        "id": "pev_golden-tshirt-r1-size-a-regular-woven",
+        "digest": "sha256:65cc6b15185217cf5345273362d37851a7884dbfd20d534256e03d985e06b161"
+      },
+      "geometryDigest": "sha256:ac0f22fabde5d2155632e430ba4e019d15b06766fc3231838100c376f49dbd72"
+    }
+  ],
+  "evaluationKey": "sha256:46253f4aa5e803a06c03bab151a46d22a5ad2b514a364ac663087e8753aac1ba",
+  "simulationConfigurationId": "drape-body-m",
+  "bodyModelRef": {
+    "id": "bms_example-body-m",
+    "digest": "sha256:212473ddc39428e84e8b4823576a8e5bd970f0b2cb9480c429a7af5c88203b35"
+  }
+}

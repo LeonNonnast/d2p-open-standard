@@ -1,0 +1,50 @@
+{
+  "documentType": "d2p:fit-map",
+  "schemaVersion": "1.0.0",
+  "fitMapId": "fmp_example-body-m",
+  "createdAt": "2026-03-01T10:06:00Z",
+  "sceneSnapshotRef": {
+    "id": "ssn_example-drape-body-m",
+    "digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+  },
+  "bodyModelRef": {
+    "id": "bms_example-body-m",
+    "digest": "sha256:212473ddc39428e84e8b4823576a8e5bd970f0b2cb9480c429a7af5c88203b35"
+  },
+  "avatarProfile": {
+    "id": "d2p:standard-a-pose",
+    "version": "1.0.0"
+  },
+  "solverProfile": {
+    "id": "d2p:fit-approximation",
+    "version": "1.0.0"
+  },
+  "materialStatus": "provisional",
+  "estimate": "model-estimate",
+  "zones": [],
+  "vertexFields": [
+    {
+      "panelInstanceId": "panel-front",
+      "strain": [
+        0,
+        0.01,
+        0.02,
+        0.01
+      ],
+      "clearanceMm": [
+        20,
+        15,
+        30,
+        25
+      ],
+      "contactPressure": [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "resultDigest": "sha256:ea1efdcf5db90a1f5fa863e84a2fb513fede8b98d8748cecbc8eba380c9e7969"
+}

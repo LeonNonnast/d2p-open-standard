@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:material-physics-profile",
+  "schemaVersion": "1.0.0",
+  "profileId": "d2p:cotton-jersey",
+  "version": "1.0.0",
+  "status": "provisional",
+  "title": "Cotton jersey",
+  "description": "Single jersey knit of cotton, medium weight.",
+  "materialClass": "knit",
+  "arealDensityGPerM2": -10,
+  "thicknessMm": 0.6,
+  "stretch": {
+    "warpNPerM": 400,
+    "weftNPerM": 150
+  },
+  "shearNPerM": 20,
+  "bending": {
+    "warpMicroNm": 5,
+    "weftMicroNm": 3
+  },
+  "friction": 0.4,
+  "notes": "Provisional values proposed for draft 0.3.0 (Implementierungsplan E-22/E-23, design decision ADR-029 §12): not calibrated, not to be used for comparing implementations until frozen by maintainer decision. A changed value is a new version. Order-of-magnitude values for the material family; no measurement procedure or fabric sample stands behind them."
+}

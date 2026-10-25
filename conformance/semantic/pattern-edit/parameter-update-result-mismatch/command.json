@@ -1,0 +1,28 @@
+{
+  "documentType": "d2p:command",
+  "schemaVersion": "1.0.0",
+  "commandId": "cmd_conformance-edit-6",
+  "idempotencyKey": "conformance-edit-6",
+  "type": "d2p:pattern.parameters.update",
+  "target": {
+    "artifactId": "art_conformance-square",
+    "branch": "main"
+  },
+  "expectedRevisionId": "rev_conformance-square-r1",
+  "payload": {
+    "updates": [
+      {
+        "parameterId": "front-width",
+        "expr": {
+          "op": "literal",
+          "value": 210,
+          "unit": "mm"
+        }
+      }
+    ]
+  },
+  "actorContext": {
+    "actorPrincipalId": "prn_conformance-kit"
+  },
+  "issuedAt": "2026-01-02T00:00:00Z"
+}

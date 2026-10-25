@@ -1,0 +1,22 @@
+{
+  "documentType": "d2p:mesh-profile",
+  "schemaVersion": "1.0.0",
+  "profileId": "d2p:drape-fine",
+  "version": "1.0.0",
+  "status": "provisional",
+  "title": "Fine drape rest meshes",
+  "description": "Rest meshes of the solver profile d2p:physical-cloth.",
+  "sampling": {
+    "maxChordDeviationMm": 0.1,
+    "minSamplesPerEdge": 2
+  },
+  "triangulation": {
+    "maxEdgeLengthMm": 10
+  },
+  "maxPlanarDeviationMm": 0.1,
+  "toleranceProfile": {
+    "id": "d2p:golden-tshirt-drape",
+    "version": "1.0.0"
+  },
+  "notes": "Provisional values proposed for draft 0.3.0 (Implementierungsplan E-22/E-23, design decision ADR-029 §12): not calibrated, not to be used for comparing implementations until frozen by maintainer decision. A changed value is a new version."
+}

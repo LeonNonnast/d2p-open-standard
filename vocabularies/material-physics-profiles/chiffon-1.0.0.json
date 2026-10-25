@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:material-physics-profile",
+  "schemaVersion": "1.0.0",
+  "profileId": "d2p:chiffon",
+  "version": "1.0.0",
+  "status": "provisional",
+  "title": "Chiffon",
+  "description": "Sheer, light plain-weave chiffon.",
+  "materialClass": "woven",
+  "arealDensityGPerM2": 40,
+  "thicknessMm": 0.12,
+  "stretch": {
+    "warpNPerM": 2000,
+    "weftNPerM": 1800
+  },
+  "shearNPerM": 50,
+  "bending": {
+    "warpMicroNm": 0.5,
+    "weftMicroNm": 0.4
+  },
+  "friction": 0.3,
+  "notes": "Provisional values proposed for draft 0.3.0 (Implementierungsplan E-22/E-23, design decision ADR-029 §12): not calibrated, not to be used for comparing implementations until frozen by maintainer decision. A changed value is a new version. Order-of-magnitude values for the material family; no measurement procedure or fabric sample stands behind them."
+}

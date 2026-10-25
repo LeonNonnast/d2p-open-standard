@@ -1,0 +1,36 @@
+{
+  "documentType": "d2p:body-model-expectation",
+  "schemaVersion": "1.0.0",
+  "expectationId": "bmx_example-body-m",
+  "source": {
+    "kind": "size-entry",
+    "sizeSystemRef": {
+      "artifactId": "art_example-body-sizes",
+      "revisionId": "rev_example-body-sizes-r1"
+    },
+    "sizeKey": "body-m"
+  },
+  "avatarProfile": {
+    "id": "d2p:standard-a-pose",
+    "version": "1.0.0"
+  },
+  "expectedStatus": "succeeded",
+  "controlMeasures": [
+    {
+      "definitionId": "d2p:body.chest-girth",
+      "origin": "size-table",
+      "targetMm": 960,
+      "maxDeviationMm": 5
+    },
+    {
+      "definitionId": "d2p:body.neck-girth",
+      "origin": "inferred",
+      "targetMm": 364.8,
+      "maxDeviationMm": 5
+    }
+  ],
+  "toleranceProfile": {
+    "id": "d2p:golden-tshirt-drape",
+    "version": "1.0.0"
+  }
+}

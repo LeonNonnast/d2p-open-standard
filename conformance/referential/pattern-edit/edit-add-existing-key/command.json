@@ -1,0 +1,76 @@
+{
+  "documentType": "d2p:command",
+  "schemaVersion": "1.0.0",
+  "commandId": "cmd_conformance-edit-2",
+  "idempotencyKey": "conformance-edit-2",
+  "type": "d2p:pattern.edit",
+  "target": {
+    "artifactId": "art_conformance-square",
+    "branch": "main"
+  },
+  "expectedRevisionId": "rev_conformance-square-r1",
+  "payload": {
+    "operations": [
+      {
+        "op": "add",
+        "collection": "parameters",
+        "element": {
+          "id": "pocket-width",
+          "dimension": "length",
+          "expr": {
+            "op": "literal",
+            "value": 120,
+            "unit": "mm"
+          }
+        }
+      },
+      {
+        "op": "add",
+        "collection": "pieces",
+        "element": {
+          "id": "front",
+          "name": "Front (synthetic)",
+          "contours": [
+            {
+              "id": "front-outer",
+              "role": "outer",
+              "edges": [
+                {
+                  "id": "front-hem",
+                  "curveFeatureId": "f-bottom-curve",
+                  "reversed": false
+                },
+                {
+                  "id": "front-side-right",
+                  "curveFeatureId": "f-right-curve",
+                  "reversed": false
+                },
+                {
+                  "id": "front-top",
+                  "curveFeatureId": "f-top-curve",
+                  "reversed": false
+                },
+                {
+                  "id": "front-side-left",
+                  "curveFeatureId": "f-left-curve",
+                  "reversed": false
+                }
+              ]
+            }
+          ],
+          "grainlines": [
+            {
+              "id": "front-grainline",
+              "startFeatureId": "f-bl",
+              "endFeatureId": "f-tl"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "actorContext": {
+    "actorPrincipalId": "prn_conformance-kit"
+  },
+  "issuedAt": "2026-01-02T00:00:00Z"
+}

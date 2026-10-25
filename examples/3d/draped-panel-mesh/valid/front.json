@@ -1,0 +1,42 @@
+{
+  "documentType": "d2p:draped-panel-mesh",
+  "schemaVersion": "1.0.0",
+  "drapedMeshId": "dpm_example-front",
+  "createdAt": "2026-03-01T10:05:00Z",
+  "garmentRef": {
+    "artifactId": "art_example-drape-garment",
+    "revisionId": "rev_example-drape-garment-r1"
+  },
+  "simulationConfigurationId": "drape-body-m",
+  "panelInstanceId": "panel-front",
+  "restMeshRef": {
+    "id": "pmr_example-front-rest",
+    "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  },
+  "restMeshDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "positionsM": [
+    [
+      -0.2,
+      1.2,
+      0.13
+    ],
+    [
+      0.2,
+      1.2,
+      0.13
+    ],
+    [
+      0.2,
+      0.8,
+      0.14
+    ],
+    [
+      -0.2,
+      0.8,
+      0.14
+    ]
+  ],
+  "diagnostics": [],
+  "meshDigest": "sha256:b88723faf28ab01be5a1ad91e5d2f03e29e1e1e8247cb510395c909acb1d6b51",
+  "resultDigest": "sha256:a5b8ca15b92d8b6baa3f1535aa24f709843839dcdd1ed5f2a83cee7e2409e058"
+}

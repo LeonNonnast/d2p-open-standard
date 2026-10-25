@@ -1,0 +1,23 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "golden-tshirt-drape.manifest-integrity",
+  "level": "referential",
+  "title": "Golden T-Shirt drape: manifest integrity and resolution of the whole fixture",
+  "documents": [
+    {
+      "path": "fixtures/golden-tshirt-drape/v1/manifest.json",
+      "role": "manifest"
+    }
+  ],
+  "expect": {
+    "outcome": "accept",
+    "diagnostics": []
+  },
+  "testIds": [
+    "DRP-001",
+    "GAR-007",
+    "SIM-004"
+  ],
+  "description": "Every listed file matches its digest, nothing unlisted is in the fixture directory, and the garments, body sources, baselines, expectations and pinned vocabulary files resolve."
+}

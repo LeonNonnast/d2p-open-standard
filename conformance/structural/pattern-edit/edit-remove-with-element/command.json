@@ -1,0 +1,77 @@
+{
+  "documentType": "d2p:command",
+  "schemaVersion": "1.0.0",
+  "commandId": "cmd_conformance-edit-5",
+  "idempotencyKey": "conformance-edit-5",
+  "type": "d2p:pattern.edit",
+  "target": {
+    "artifactId": "art_conformance-square",
+    "branch": "main"
+  },
+  "expectedRevisionId": "rev_conformance-square-r1",
+  "payload": {
+    "operations": [
+      {
+        "op": "remove",
+        "collection": "pieces",
+        "key": "sleeve",
+        "element": {
+          "id": "sleeve",
+          "name": "Sleeve (synthetic)",
+          "contours": [
+            {
+              "id": "sleeve-outer",
+              "role": "outer",
+              "edges": [
+                {
+                  "id": "sleeve-hem",
+                  "curveFeatureId": "s-bottom-curve",
+                  "reversed": false
+                },
+                {
+                  "id": "sleeve-side-right",
+                  "curveFeatureId": "s-right-curve",
+                  "reversed": false
+                },
+                {
+                  "id": "sleeve-top",
+                  "curveFeatureId": "s-top-curve",
+                  "reversed": false
+                },
+                {
+                  "id": "sleeve-side-left",
+                  "curveFeatureId": "s-left-curve",
+                  "reversed": false
+                }
+              ]
+            }
+          ],
+          "grainlines": [
+            {
+              "id": "sleeve-grainline",
+              "startFeatureId": "s-bl",
+              "endFeatureId": "s-tl"
+            }
+          ],
+          "cutInstruction": {
+            "instances": [
+              {
+                "cutInstanceKey": "sleeve-left",
+                "mirrored": false
+              },
+              {
+                "cutInstanceKey": "sleeve-right",
+                "mirrored": true
+              }
+            ],
+            "materialRole": "d2p:main"
+          }
+        }
+      }
+    ]
+  },
+  "actorContext": {
+    "actorPrincipalId": "prn_conformance-kit"
+  },
+  "issuedAt": "2026-01-02T00:00:00Z"
+}

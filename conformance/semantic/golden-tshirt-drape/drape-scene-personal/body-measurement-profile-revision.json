@@ -1,0 +1,15 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_golden-drape-individual-profile-r1",
+  "artifactId": "art_golden-drape-individual-profile",
+  "sequence": 1,
+  "parentRevisionIds": [],
+  "contentDigest": "sha256:4beed1dacabf1b2c2d02235620c49cb3a6505d9b8942a385a260bb6da29c0c67",
+  "createdAt": "2026-01-08T00:00:00Z",
+  "author": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  },
+  "message": "Initial individual profile"
+}

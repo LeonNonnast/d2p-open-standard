@@ -80,6 +80,16 @@ async function loadDocument(root, relPath, role) {
   return parsed.ok ? { path: relPath, role, value: parsed.value } : { path: relPath, role, parseError: parsed.error };
 }
 
+/** Vocabulary document types identified by (profileId, version). */
+const PROFILE_VOCABULARY_TYPES = new Set([
+  "d2p:validation-profile",
+  "d2p:tolerance-profile",
+  "d2p:mesh-profile",
+  "d2p:avatar-profile",
+  "d2p:solver-profile",
+  "d2p:material-physics-profile",
+]);
+
 /**
  * Lookup index over the documents of a bundle. Only top-level documents are
  * resolution targets; embedded documents are checked but never resolved to.
@@ -121,7 +131,7 @@ export class BundleIndex {
         this.vocab.set(`${t}|${versionedKey(v.registryId, v.version)}`, u);
       } else if (t === "d2p:validation-rule-definition") {
         this.vocab.set(`${t}|${versionedKey(v.ruleId, v.version)}`, u);
-      } else if (t === "d2p:validation-profile" || t === "d2p:tolerance-profile" || t === "d2p:mesh-profile") {
+      } else if (PROFILE_VOCABULARY_TYPES.has(t)) {
         this.vocab.set(`${t}|${versionedKey(v.profileId, v.version)}`, u);
       } else if (t === "d2p:fixture-manifest") {
         this.manifests.push(u);

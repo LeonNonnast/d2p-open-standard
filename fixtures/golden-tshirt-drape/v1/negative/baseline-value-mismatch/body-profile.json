@@ -1,0 +1,134 @@
+{
+  "documentType": "d2p:body-measurement-profile",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_golden-drape-body-profile",
+  "revisionId": "rev_golden-drape-body-profile-r1",
+  "subject": {
+    "kind": "synthetic",
+    "pseudonym": "Synthetic figure P"
+  },
+  "dataClassification": "public",
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.1.0"
+    }
+  ],
+  "baseline": {
+    "sizeSystemRef": {
+      "artifactId": "art_golden-drape-body-sizes",
+      "revisionId": "rev_golden-drape-body-sizes-r1"
+    },
+    "sizeKey": "body-l"
+  },
+  "measurements": [
+    {
+      "definitionId": "d2p:body.arm-length",
+      "value": 640,
+      "unit": "mm",
+      "method": "manual",
+      "source": {
+        "kind": "self-measured",
+        "description": "Synthetic override of the baseline value (test data)."
+      },
+      "measuredAt": "2026-01-08T00:00:00Z",
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 10
+      }
+    },
+    {
+      "definitionId": "d2p:body.chest-girth",
+      "value": 960,
+      "unit": "mm",
+      "method": "manual",
+      "source": {
+        "kind": "self-measured",
+        "description": "Synthetic override of the baseline value (test data)."
+      },
+      "measuredAt": "2026-01-08T00:00:00Z",
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 10
+      }
+    },
+    {
+      "definitionId": "d2p:body.height",
+      "value": 1760,
+      "unit": "mm",
+      "method": "size-table",
+      "source": {
+        "kind": "size-table"
+      },
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 5
+      }
+    },
+    {
+      "definitionId": "d2p:body.hip-girth",
+      "value": 1020,
+      "unit": "mm",
+      "method": "size-table",
+      "source": {
+        "kind": "size-table"
+      },
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 5
+      }
+    },
+    {
+      "definitionId": "d2p:body.neck-girth",
+      "value": 390,
+      "unit": "mm",
+      "method": "size-table",
+      "source": {
+        "kind": "size-table"
+      },
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 5
+      }
+    },
+    {
+      "definitionId": "d2p:body.shoulder-width",
+      "value": 440,
+      "unit": "mm",
+      "method": "size-table",
+      "source": {
+        "kind": "size-table"
+      },
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 5
+      }
+    },
+    {
+      "definitionId": "d2p:body.waist-girth",
+      "value": 845,
+      "unit": "mm",
+      "method": "size-table",
+      "source": {
+        "kind": "size-table"
+      },
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 5
+      }
+    },
+    {
+      "definitionId": "d2p:body.waist-height",
+      "value": 1100,
+      "unit": "mm",
+      "method": "size-table",
+      "source": {
+        "kind": "size-table"
+      },
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 5
+      }
+    }
+  ]
+}

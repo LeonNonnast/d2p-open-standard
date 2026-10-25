@@ -101,7 +101,9 @@
             "d2p:panel-instance",
             "d2p:sewing-binding",
             "d2p:material-assignment",
-            "d2p:arrangement"
+            "d2p:arrangement",
+            "d2p:body-binding",
+            "d2p:simulation-configuration"
           ]
         },
         {

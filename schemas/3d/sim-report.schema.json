@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://d2p.nonnast.dev/schemas/3d/sim-report.schema.json",
   "title": "D2P Simulation Report",
-  "description": "Report of one 3D simulation or preview run on a scene snapshot (design decision ADR-021 §4 'SimulationReport', §10 'SimulateCloth'). It names the solver with its version, the solver profile and the tolerance profile, so every diagnostic of the report is attributed to that solver and tolerance profile (VAL-012). A solver failure is a report with status 'failed' and at least one diagnostic, never a released simulation (SIM-007). Numerical results are profile- and solver-dependent; no bitwise equality is promised. Physical simulation is optional and not part of the arrangement mode.",
+  "description": "Report of one 3D simulation or preview run on a scene snapshot (design decision ADR-021 §4 'SimulationReport', §10 'SimulateCloth'). It names the solver with its version, the solver profile and the tolerance profile, so every diagnostic of the report is attributed to that solver and tolerance profile (VAL-012). A solver failure is a report with status 'failed' and at least one diagnostic, never a released simulation (SIM-007). Numerical results are profile- and solver-dependent; no bitwise equality is promised. For a drape (scene mode 'physical-simulation', draft 0.3.0) the report is about the drape scene: solverProfile and randomSeed are those of the scene's simulation configuration (D2P-SEM-129), and a report about a scene that pins a personal body states 'personalDerived: true' (D2P-SEM-050).",
   "type": "object",
   "properties": {
     "documentType": {
@@ -106,6 +106,10 @@
       "items": {
         "$ref": "https://d2p.nonnast.dev/schemas/benchmark/test-run-report.schema.json#/$defs/attachment"
       }
+    },
+    "personalDerived": {
+      "description": "True when the simulated scene is personal-derived (it pins a body measurement profile classified 'personal' or 'sensitive-personal'). Absent means false.",
+      "type": "boolean"
     },
     "diagnostics": {
       "description": "Diagnostics, sorted per catalog §1.8.",

@@ -38,6 +38,8 @@ export function indexGarment(g) {
     bindings: byId(g.sewingBindings),
     assignments: byId(g.materialAssignments),
     arrangements: byId(g.arrangements),
+    bodyBindings: byId(g.bodyBindings),
+    configurations: byId(g.simulationConfigurations),
   };
 }
 

@@ -5,6 +5,48 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-25
+
+Pre-release **0.3.0**: a minor extension of the standard 1.0 draft by bodies, drapes and fit maps in the module `3d` (design decision ADR-029), the baseline size of a body measurement profile and the construction command `d2p:pattern.edit`. Documents still declare `schemaVersion: "1.0.0"`; nothing that was valid before becomes invalid, except for the `relativePath` fix and D2P-SEM-131 on `d2p:pattern.parameters.update` (both below, catalog §1.11). Every profile added by this release is **provisional**.
+
+### Added
+
+- **Bodies, drapes and fit maps** (catalog §3.9.1; design decisions ADR-029, ADR-009 §14) with eight new schemas in module `3d`, each with valid and invalid examples:
+  - vocabularies `avatar-profile` (pose, required definitions, linear derivations, per-measure tolerances, landmarks, landmark-defined zones), `solver-profile` (profile kind, rest-mesh profile, fixed time stepping, gravity, damping, pre-positioning, collision, equilibrium, failure limits, budget) and `material-physics-profile` (material class, areal density, thickness, stretch, shear and bending stiffness, friction);
+  - derived documents `body-model-snapshot` (`bms_`; body mesh in m, landmarks, control measures with target, origin `profile`/`size-table`/`inferred`, measured value and deviation; `failed` instead of an invented value), `draped-panel-mesh` (`dpm_`; draped positions of a rest mesh, vertex i of the rest mesh, so pattern positions and edge bindings stay) and `fit-map` (`fmp_`; strain, clearance and a contact-pressure approximation per zone and optionally per vertex, always `estimate: "model-estimate"` with solver profile and material status);
+  - records `body-model-expectation` (`bmx_`) and `drape-expectation` (`drx_`; metamorphic comparisons of fit-map zone metrics between two drapes on the same body).
+- **Garment body bindings and simulation configurations** (optional `garment.bodyBindings`, `garment.simulationConfigurations`; `$defs` `bodySource`, `bodyBinding`, `simulationConfiguration`, `materialPhysicsAssignment`): a pinned body source (body measurement profile or size entry), avatar profile and pose `d2p:a-pose`; per configuration the body binding, size, start arrangement, solver profile, one material physics profile per material assignment and the random seed.
+- **Scene mode `physical-simulation`** (drapes): `scene-input` and `scene-snapshot` with `simulationConfigurationId` and `bodyModelRef`, the snapshot also with `drapedMeshRefs` (`$defs/drapedMeshRefEntry`); `personalDerived` on scene snapshots, simulation reports and the new derived documents. `sceneDigest` covers `bodyModelRef` and `drapedMeshRefs` only when present, so arrangement scene digests are unchanged.
+- **Baseline size** of a body measurement profile (`body-measurement-profile.baseline`, `$defs/measurementBaseline`; catalog §3.3): table values carry `method` and `source.kind` `size-table` and equal the baseline entry, every other value overrides the table.
+- **Measurement-definition registry `d2p:measurement-definitions` 1.1.0**: every 1.0.0 definition unchanged plus 15 body definitions (ankle, calf, head, knee, thigh and underbust girths, back width, shoulder length, height, bust, cervicale, hip, knee and waist heights, inside-leg length). 1.0.0 stays published.
+- **Construction command `d2p:pattern.edit`** (catalog §3.6; `$defs` `editPatternPayload`, `patternOperation`): ordered `add`, `replace`, `remove` and `set-name` operations on the pattern's collections; the result of applying them to the expected revision is the only content the new revision may have.
+- **Core extensions** (minor): global ID prefixes `bms`, `bmx`, `dpm`, `fmp`, `drx`; input roles `avatar-profile`, `solver-profile`, `material-physics-profile`; element types `d2p:body-binding`, `d2p:simulation-configuration`; tolerance metrics `d2p:avatar-measurement-deviation`, `d2p:drape-penetration`, `d2p:drape-seam-gap`; the eight new document types in `documentTypeName`; the body-zone vocabulary as the named `$defs/bodyZone` of `fit-profile` (same terms).
+- **Digest kinds and orders**: `meshDigest` of body models (over `mesh`) and of draped meshes (over `{positionsM}`); `resultDigest` on `body-model-snapshot`, `draped-panel-mesh` and `fit-map`; array orders of the new documents; sorted avatar-profile arrays (D2P-REF-014).
+- **Diagnostic codes** D2P-SEM-052 (findings about personal-derived documents of module `3d`, or documents stating `personalDerived: true`, are restricted), D2P-SEM-076 (baseline values), D2P-SEM-127 (avatar profiles and body models; body target resolution), D2P-SEM-128 (simulation configurations), D2P-SEM-129 (drape consistency), D2P-SEM-130 (drape expectations), D2P-SEM-131 (the committed content of a pattern command equals the result of applying it); D2P-SEM-050 extended to personal-derived documents, D2P-SEM-075 to avatar profiles and body models, and D2P-REF-001, -003, -005, -007, -008, -009, -011 and -014 extended; new referential resolution rows and schema-enforced conditions (catalog §1.12, §2.6). The new codes are assigned to no validation rule in this release.
+- **Provisional profiles** (not calibrated, not to be used for comparing implementations): avatar profile `d2p:standard-a-pose` 1.0.0, solver profiles `d2p:fit-approximation` and `d2p:physical-cloth` 1.0.0, material physics profiles `d2p:cotton-jersey`, `d2p:cotton-woven`, `d2p:denim` and `d2p:chiffon` 1.0.0, mesh profiles `d2p:drape-coarse` and `d2p:drape-fine` 1.0.0, tolerance profile `d2p:golden-tshirt-drape` 1.0.0.
+- **Golden T-Shirt drape v1 fixture** (`fixtures/golden-tshirt-drape/v1/`, catalog §4.6): a synthetic size system with two bodies, a synthetic profile with a baseline and two overrides, the two T-shirt sizes as garments with body bindings and simulation configurations, expected body models and a size comparison; generated and checked by `tools/oracle/golden-tshirt-drape.mjs`, with six negative fixtures.
+- **Conformance cases** in `conformance/<level>/golden-tshirt-drape/` (manifest integrity, the whole fixture, a complete drape chain on a synthetic and on a personal body, a met drape expectation, and negative cases for D2P-REF-003, -007, -009, -011, D2P-SEM-050, -052, -076, -127 to -130 and D2P-STR-001) and in `conformance/<level>/pattern-edit/` (D2P-SEM-131, D2P-REF-003, D2P-REF-005, D2P-STR-001 and two accepted results).
+- **Kit**: `tools/lib/drape.mjs` (body target resolution and the checks of the new documents) and `tools/lib/pattern-edit.mjs` (applying `d2p:pattern.edit` and `d2p:pattern.parameters.update` to a base content).
+
+### Changed
+
+- **Validity change: D2P-SEM-131 on `d2p:pattern.parameters.update`** (catalog §1.11, §3.6). The committed revision of a parameter update must equal the base content with the `expr` of every named parameter replaced. A bundle with such a command, its base, the revision record carrying its `commandId` and a revision content that differs (for example a pattern also renamed in the same revision) was accepted by `0.2.1` and is rejected now. This is deliberate: the result of a command is defined, and a different committed content is an implementation error.
+- **Scoped so that `0.2.1` documents stay valid**: D2P-SEM-052 binds only findings whose `subjectRef` names a personal-derived document of module `3d` or a document stating `personalDerived: true`; findings about other documents (for example a 2D evaluation that pins a personal profile) and findings whose `elementRefs` point into personal artifacts are not checked (`restricted` is recommended for them, catalog §3.5). The extended D2P-SEM-050 treats a simulation report as personal-derived only through its scene, never through its own references, which `0.2.1` left unconstrained.
+- `specifications/gap-analysis.md` covers the module `3d` (glTF reused; ISO 8559-1 terminology for body definitions; ISO 20685 scanning not used; no garment-simulation standard known) instead of listing it as a module without schemas.
+- The 1.0.0 validation rules and profiles are unchanged (fixtures pin their digests); the catalog states that their "all" targets name the document types before module `3d`, and that the 3D codes are assigned to no rule yet.
+- `npm run fixture:verify` and `npm run oracle:check` cover the drape fixture.
+
+### Fixed
+
+- **`relativePath` without look-around** (`schemas/benchmark/fixture-manifest.schema.json`): the pattern is now RE2-compatible, so validators in Go and Rust compile it (the P8 MCP issue). It accepts exactly the paths of its rule; the previous look-ahead pattern also accepted some paths that break the rule after a line break, which are now rejected.
+
+### Not yet done
+
+- Every profile of this release is provisional: values are proposals without calibration (anthropometric data, fabric samples), domain review or legal review of any source (E-23); freezing them is a maintainer decision.
+- The domain reviews of the Golden T-Shirt v1, 3D v1 and drape v1 fixtures are pending (QEV-016 blocks `v1.0.0`).
+- Size tables are **not** part of the standard (E-24): D2P size tables are size-system artifacts of implementations; the fixture's size system is synthetic test data.
+- Deferred (catalog §5): a realistic avatar backend (E-22), poses other than `d2p:a-pose` and motion, the mode `kinematic-assembly`, material artifacts, garment command types, validation rules and a drape profile for the new codes, mappings of the new body definitions to ISO 8559-1.
+
 ## [0.2.1] - 2026-10-25
 
 Patch release: maintainer freeze of the Golden T-Shirt profiles. No rule about which documents are valid changes.

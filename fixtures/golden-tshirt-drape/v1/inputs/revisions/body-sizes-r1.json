@@ -1,0 +1,15 @@
+{
+  "documentType": "d2p:revision",
+  "schemaVersion": "1.0.0",
+  "revisionId": "rev_golden-drape-body-sizes-r1",
+  "artifactId": "art_golden-drape-body-sizes",
+  "sequence": 1,
+  "parentRevisionIds": [],
+  "contentDigest": "sha256:b932325a7d31b22c0b91d73363a2217530001c46beadca222bdf1e2563240cb6",
+  "createdAt": "2026-01-08T00:00:00Z",
+  "author": {
+    "kind": "system",
+    "principalId": "prn_golden-fixture"
+  },
+  "message": "Initial synthetic body sizes"
+}

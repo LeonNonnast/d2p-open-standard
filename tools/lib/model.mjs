@@ -57,6 +57,14 @@ export const OWN_ID_MEMBERS = Object.freeze({
   "d2p:pattern-proposal": ["proposalId"],
   "d2p:inspect-3d-edit-result": ["inspectionId"],
   "d2p:scene-expectation": ["expectationId"],
+  "d2p:avatar-profile": ["profileId", "version"],
+  "d2p:solver-profile": ["profileId", "version"],
+  "d2p:material-physics-profile": ["profileId", "version"],
+  "d2p:body-model-snapshot": ["bodyModelId"],
+  "d2p:draped-panel-mesh": ["drapedMeshId"],
+  "d2p:fit-map": ["fitMapId"],
+  "d2p:body-model-expectation": ["expectationId"],
+  "d2p:drape-expectation": ["expectationId"],
 });
 
 /** Documents that are targets of a derivedRef / a global own ID (single member). */
@@ -80,6 +88,11 @@ export const DERIVED_ID_MEMBER = Object.freeze({
   "d2p:pattern-proposal": "proposalId",
   "d2p:inspect-3d-edit-result": "inspectionId",
   "d2p:scene-expectation": "expectationId",
+  "d2p:body-model-snapshot": "bodyModelId",
+  "d2p:draped-panel-mesh": "drapedMeshId",
+  "d2p:fit-map": "fitMapId",
+  "d2p:body-model-expectation": "expectationId",
+  "d2p:drape-expectation": "expectationId",
 });
 
 /** Personal data classifications (§3.1, design decision ADR-013 policy tags). */

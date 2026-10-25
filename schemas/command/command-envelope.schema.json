@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://d2p.nonnast.dev/schemas/command/command-envelope.schema.json",
   "title": "D2P Command",
-  "description": "Protocol-independent command envelope (documentType 'd2p:command', design decision ADR-019). A command addresses the head of a branch of one artifact ('target') and, except for artifact creation, names the revision it expects to be the current head ('expectedRevisionId', optimistic concurrency). Schema-enforced: 'd2p:artifact.create' forbids 'expectedRevisionId', every other 'd2p:' type requires it; the payload shape depends on 'type'; the content schema of a create command depends on 'payload.artifactType'. Payloads of extension command types are open objects, and their payload specification decides about 'expectedRevisionId'.",
+  "description": "Protocol-independent command envelope (documentType 'd2p:command', design decision ADR-019). A command addresses the head of a branch of one artifact ('target') and, except for artifact creation, names the revision it expects to be the current head ('expectedRevisionId', optimistic concurrency). Schema-enforced: 'd2p:artifact.create' forbids 'expectedRevisionId', every other 'd2p:' type requires it; the payload shape depends on 'type' ('d2p:pattern.edit', draft 0.3.0, carries construction operations); the content schema of a create command depends on 'payload.artifactType'. Payloads of extension command types are open objects, and their payload specification decides about 'expectedRevisionId'.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -46,7 +46,7 @@
     },
     "payload": {
       "type": "object",
-      "description": "Command data. 'd2p:artifact.create' uses 'createArtifactPayload', 'd2p:pattern.parameters.update' uses 'updateParametersPayload'; payloads of extension command types are open objects."
+      "description": "Command data. 'd2p:artifact.create' uses 'createArtifactPayload', 'd2p:pattern.parameters.update' uses 'updateParametersPayload', 'd2p:pattern.edit' uses 'editPatternPayload'; payloads of extension command types are open objects."
     },
     "actorContext": {
       "$ref": "#/$defs/actorContext",
@@ -133,6 +133,25 @@
           }
         }
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "d2p:pattern.edit"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/editPatternPayload"
+          }
+        }
+      }
     }
   ],
   "$defs": {
@@ -145,7 +164,8 @@
           "description": "Command types defined by this standard.",
           "enum": [
             "d2p:artifact.create",
-            "d2p:pattern.parameters.update"
+            "d2p:pattern.parameters.update",
+            "d2p:pattern.edit"
           ]
         },
         {
@@ -406,6 +426,345 @@
           "description": "New expression of the parameter (typed AST, closed node list)."
         }
       }
+    },
+    "editPatternPayload": {
+      "title": "Edit pattern payload",
+      "description": "Payload of 'd2p:pattern.edit' (draft 0.3.0, construction commands): an ordered list of operations applied one after the other to the content of the expected revision. The whole list is one atomic change and yields exactly one new revision, whose content is the result of the operations (D2P-SEM-131). An operation that adds an existing key is D2P-REF-005; one that replaces or removes a missing key is D2P-REF-003.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operations"
+      ],
+      "properties": {
+        "operations": {
+          "description": "Operations in application order (at least one).",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/patternOperation"
+          }
+        }
+      }
+    },
+    "patternOperation": {
+      "title": "Pattern operation",
+      "description": "One construction operation of 'd2p:pattern.edit' (design decisions ADR-003, ADR-006, ADR-007): add, replace or remove one element of a pattern collection, or set the name. Members by 'op' and the element schema by 'collection' are schema-enforced. Element IDs are chosen by the client and stay stable (catalog §1.4).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "op"
+      ],
+      "properties": {
+        "op": {
+          "description": "'add' appends 'element' to 'collection' (its key must not exist); 'replace' puts 'element' in place of the element with the same key (which must exist); 'remove' deletes the element with 'key' (which must exist); 'set-name' sets the pattern name.",
+          "type": "string",
+          "enum": [
+            "add",
+            "replace",
+            "remove",
+            "set-name"
+          ]
+        },
+        "collection": {
+          "description": "Pattern member the operation edits. Elements are identified by 'id', measurement inputs by 'key', feature capabilities by 'featureType' and definition registries by 'id' (the registry ID, so a version change is a 'replace'). When the collection holds the key more than once (several versions of one registry), the operation acts on the first in array order.",
+          "type": "string",
+          "enum": [
+            "parameters",
+            "measurementInputs",
+            "features",
+            "pieces",
+            "seamInterfaces",
+            "seamConnections",
+            "sewingGroups",
+            "featureCapabilities",
+            "definitionRegistries"
+          ]
+        },
+        "element": {
+          "description": "The complete element (add, replace); its schema is selected by 'collection'.",
+          "type": "object"
+        },
+        "key": {
+          "description": "Key of the element to remove.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "name": {
+          "description": "New pattern name (set-name).",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "add"
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "properties": {
+              "collection": true,
+              "element": true,
+              "key": false,
+              "name": false
+            },
+            "required": [
+              "collection",
+              "element"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "replace"
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "properties": {
+              "collection": true,
+              "element": true,
+              "key": false,
+              "name": false
+            },
+            "required": [
+              "collection",
+              "element"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "remove"
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "properties": {
+              "collection": true,
+              "key": true,
+              "element": false,
+              "name": false
+            },
+            "required": [
+              "collection",
+              "key"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "set-name"
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "properties": {
+              "name": true,
+              "collection": false,
+              "element": false,
+              "key": false
+            },
+            "required": [
+              "name"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "collection": {
+                "const": "parameters"
+              }
+            },
+            "required": [
+              "collection"
+            ]
+          },
+          "then": {
+            "properties": {
+              "element": {
+                "$ref": "https://d2p.nonnast.dev/schemas/pattern/pattern.schema.json#/$defs/parameter"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "collection": {
+                "const": "measurementInputs"
+              }
+            },
+            "required": [
+              "collection"
+            ]
+          },
+          "then": {
+            "properties": {
+              "element": {
+                "$ref": "https://d2p.nonnast.dev/schemas/pattern/pattern.schema.json#/$defs/measurementInput"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "collection": {
+                "const": "features"
+              }
+            },
+            "required": [
+              "collection"
+            ]
+          },
+          "then": {
+            "properties": {
+              "element": {
+                "$ref": "https://d2p.nonnast.dev/schemas/pattern/feature-graph.schema.json#/$defs/feature"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "collection": {
+                "const": "pieces"
+              }
+            },
+            "required": [
+              "collection"
+            ]
+          },
+          "then": {
+            "properties": {
+              "element": {
+                "$ref": "https://d2p.nonnast.dev/schemas/pattern/piece.schema.json#/$defs/piece"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "collection": {
+                "const": "seamInterfaces"
+              }
+            },
+            "required": [
+              "collection"
+            ]
+          },
+          "then": {
+            "properties": {
+              "element": {
+                "$ref": "https://d2p.nonnast.dev/schemas/pattern/seam-interface.schema.json#/$defs/seamInterface"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "collection": {
+                "const": "seamConnections"
+              }
+            },
+            "required": [
+              "collection"
+            ]
+          },
+          "then": {
+            "properties": {
+              "element": {
+                "$ref": "https://d2p.nonnast.dev/schemas/pattern/seam-connection.schema.json#/$defs/seamConnection"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "collection": {
+                "const": "sewingGroups"
+              }
+            },
+            "required": [
+              "collection"
+            ]
+          },
+          "then": {
+            "properties": {
+              "element": {
+                "$ref": "https://d2p.nonnast.dev/schemas/pattern/sewing-group.schema.json#/$defs/sewingGroup"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "collection": {
+                "const": "featureCapabilities"
+              }
+            },
+            "required": [
+              "collection"
+            ]
+          },
+          "then": {
+            "properties": {
+              "element": {
+                "$ref": "https://d2p.nonnast.dev/schemas/pattern/feature-capability.schema.json#/$defs/featureCapability"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "collection": {
+                "const": "definitionRegistries"
+              }
+            },
+            "required": [
+              "collection"
+            ]
+          },
+          "then": {
+            "properties": {
+              "element": {
+                "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId"
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

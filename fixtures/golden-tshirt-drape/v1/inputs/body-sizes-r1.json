@@ -1,0 +1,257 @@
+{
+  "documentType": "d2p:size-system",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_golden-drape-body-sizes",
+  "revisionId": "rev_golden-drape-body-sizes-r1",
+  "name": "Golden drape synthetic bodies M and L",
+  "issuer": {
+    "kind": "synthetic",
+    "name": "Golden drape bodies"
+  },
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.1.0"
+    }
+  ],
+  "sizes": [
+    {
+      "sizeKey": "body-m",
+      "label": "M",
+      "ordinal": 1,
+      "measurements": [
+        {
+          "definitionId": "d2p:body.arm-length",
+          "value": 600,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt drape fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.chest-girth",
+          "value": 920,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt drape fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.height",
+          "value": 1700,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt drape fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.hip-girth",
+          "value": 960,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt drape fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.neck-girth",
+          "value": 370,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt drape fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.shoulder-width",
+          "value": 420,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt drape fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.waist-girth",
+          "value": 780,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt drape fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.waist-height",
+          "value": 1060,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt drape fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        }
+      ]
+    },
+    {
+      "sizeKey": "body-l",
+      "label": "L",
+      "ordinal": 2,
+      "measurements": [
+        {
+          "definitionId": "d2p:body.arm-length",
+          "value": 620,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt drape fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.chest-girth",
+          "value": 980,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt drape fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.height",
+          "value": 1760,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt drape fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.hip-girth",
+          "value": 1020,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt drape fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.neck-girth",
+          "value": 390,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt drape fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.shoulder-width",
+          "value": 440,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt drape fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.waist-girth",
+          "value": 840,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt drape fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        },
+        {
+          "definitionId": "d2p:body.waist-height",
+          "value": 1100,
+          "unit": "mm",
+          "method": "size-table",
+          "source": {
+            "kind": "synthetic",
+            "description": "Synthetic, non-normative test value of the Golden T-Shirt drape fixture; not taken from a size table, a norm or a measured person."
+          },
+          "uncertainty": {
+            "type": "symmetric",
+            "plusMinus": 5
+          }
+        }
+      ]
+    }
+  ]
+}

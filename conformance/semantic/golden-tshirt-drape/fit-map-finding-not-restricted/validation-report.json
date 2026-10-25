@@ -1,0 +1,61 @@
+{
+  "documentType": "d2p:validation-report",
+  "schemaVersion": "1.0.0",
+  "reportId": "vrp_golden-drape-size-a-individual-fit",
+  "createdAt": "2026-01-09T00:00:00Z",
+  "targetRefs": [
+    {
+      "artifactId": "art_golden-drape-individual-garment",
+      "revisionId": "rev_golden-drape-individual-garment-r1"
+    }
+  ],
+  "derivedSubjectRefs": [
+    {
+      "id": "fmp_golden-drape-size-a-individual",
+      "digest": "sha256:67b39b06d7e49bf89a65a21f4e83a56360b2aca029e99e780ee4954a58a4941a"
+    }
+  ],
+  "purpose": "sample-cut",
+  "profile": {
+    "id": "d2p:sample-cut",
+    "version": "1.0.0"
+  },
+  "inputDigests": [
+    {
+      "role": "garment",
+      "artifactRef": {
+        "artifactId": "art_golden-drape-individual-garment",
+        "revisionId": "rev_golden-drape-individual-garment-r1"
+      },
+      "digest": "sha256:8dc6998f8bd92f575ddd2da0d8ed645f76b62b3f03e7a94d36780080e2097236"
+    },
+    {
+      "role": "validation-profile",
+      "id": {
+        "id": "d2p:sample-cut",
+        "version": "1.0.0"
+      },
+      "digest": "sha256:abddc6507c20c4ce8d28e6ba4582ab409d9966055ab16c3739993264dc313e51"
+    }
+  ],
+  "status": "completed",
+  "result": "pass",
+  "findings": [
+    {
+      "findingId": "f-1",
+      "ruleId": "d2p:ease-material-compatible",
+      "ruleVersion": "1.0.0",
+      "code": "D2P-SEM-073",
+      "severity": "warning",
+      "message": "Model estimate: the cloth rests on the body in the shoulder zone (minimum clearance at the solver's body offset) while the woven material declares no stretch. Check the shoulder ease in a fitting; a fit map never replaces one.",
+      "elementRefs": [],
+      "subjectRef": {
+        "id": "fmp_golden-drape-size-a-individual",
+        "digest": "sha256:67b39b06d7e49bf89a65a21f4e83a56360b2aca029e99e780ee4954a58a4941a"
+      },
+      "instancePath": "/zones/2/minClearanceMm",
+      "visibility": "general"
+    }
+  ],
+  "resultDigest": "sha256:edf57abdb95edd74116908b9942f17bdff1945cf591fa1e7dae3af1eb1ab077d"
+}

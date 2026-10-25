@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/3d/drape-expectation.schema.json",
+  "title": "D2P Drape Expectation",
+  "description": "Machine-readable metamorphic expectations about drapes, used by fixtures (catalog §4.6): relations between fit-map zone metrics of two drapes on the same body that every credible solver reproduces, without exact expected values (design decision ADR-029 §11 DRP-004). Pixel or vertex comparisons are never expectations.",
+  "$comment": "Schema catalog section 3.9 (draft 0.3.0).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "expectationId",
+    "comparisons",
+    "toleranceProfile"
+  ],
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:drape-expectation"
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against."
+    },
+    "expectationId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/drapeExpectationId",
+      "description": "Own ID ('drx_')."
+    },
+    "comparisons": {
+      "description": "Metamorphic expectations, sorted by id (D2P-SEM-130).",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/drapeComparison"
+      }
+    },
+    "toleranceProfile": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+      "description": "Tolerance profile drapes are compared with."
+    },
+    "contentDigest": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/digest.schema.json#/$defs/digest",
+      "description": "Optional digest of this document (d2p-digest-v1, excluding contentDigest)."
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks."
+    }
+  },
+  "$defs": {
+    "drapeComparison": {
+      "title": "Drape comparison",
+      "description": "The zone metric of the 'lower' drape is less than the zone metric of the 'higher' drape (for example: a larger pattern size on the same body has more clearance at the chest, DRP-004). Both drapes use the same body source and avatar profile (D2P-SEM-130).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "zone",
+        "metric",
+        "lower",
+        "higher"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Stable element ID of the comparison."
+        },
+        "zone": {
+          "$ref": "https://d2p.nonnast.dev/schemas/measurement/fit-profile.schema.json#/$defs/bodyZone",
+          "description": "Body zone compared."
+        },
+        "metric": {
+          "description": "Fit zone member compared.",
+          "type": "string",
+          "enum": [
+            "meanClearanceMm",
+            "minClearanceMm",
+            "meanStrain",
+            "maxStrain",
+            "contactPressureIndex"
+          ]
+        },
+        "lower": {
+          "$ref": "#/$defs/drapeSubject",
+          "description": "Drape with the lower value."
+        },
+        "higher": {
+          "$ref": "#/$defs/drapeSubject",
+          "description": "Drape with the higher value."
+        }
+      }
+    },
+    "drapeSubject": {
+      "title": "Drape subject",
+      "description": "A drape named by its garment revision and simulation configuration.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "garmentRef",
+        "simulationConfigurationId"
+      ],
+      "properties": {
+        "garmentRef": {
+          "description": "Pinned garment revision.",
+          "$ref": "https://d2p.nonnast.dev/schemas/core/artifact-ref.schema.json#/$defs/artifactRef"
+        },
+        "simulationConfigurationId": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/elementId",
+          "description": "Simulation configuration of that garment (D2P-REF-003)."
+        }
+      }
+    }
+  }
+}

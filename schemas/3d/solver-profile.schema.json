@@ -1,0 +1,281 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://d2p.nonnast.dev/schemas/3d/solver-profile.schema.json",
+  "title": "D2P Solver Profile",
+  "description": "Versioned vocabulary of drape solver parameters (design decision ADR-029 §5, ADR-021 §4): profile kind, rest-mesh profile, fixed time stepping, gravity, damping, pre-positioning, collision, equilibrium criterion, failure limits and budget. Any conforming solver may implement a profile; the parameters describe the required behaviour, not one algorithm. Files are stored as vocabularies/solver-profiles/<local>-<version>.json for profileId d2p:<local>.",
+  "$comment": "Schema catalog section 3.9 (draft 0.3.0).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "documentType",
+    "schemaVersion",
+    "profileId",
+    "version",
+    "status",
+    "title",
+    "profileKind",
+    "meshProfile",
+    "toleranceProfile",
+    "integration",
+    "gravityMmPerS2",
+    "damping",
+    "prepositioning",
+    "collision",
+    "convergence",
+    "failureLimits",
+    "budget"
+  ],
+  "properties": {
+    "documentType": {
+      "description": "Document type discriminator.",
+      "const": "d2p:solver-profile"
+    },
+    "schemaVersion": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/schemaVersion",
+      "description": "Full SemVer of the standard release this document was written against."
+    },
+    "profileId": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/qualifiedName",
+      "description": "Qualified name of the profile; with version it identifies the profile."
+    },
+    "version": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/semver",
+      "description": "Version of the profile, independent of the standard version."
+    },
+    "status": {
+      "description": "provisional: proposed values, not to be used for comparing implementations; frozen: adopted and immutable (a changed value is a new version).",
+      "type": "string",
+      "enum": [
+        "provisional",
+        "frozen"
+      ]
+    },
+    "title": {
+      "description": "Title of the profile.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "description": {
+      "description": "Free-text description.",
+      "type": "string",
+      "maxLength": 4000
+    },
+    "profileKind": {
+      "description": "Profile family (design decision ADR-021 §4, ADR-029 §5 rule 3): 'fit-approximation' (fast, coarse mesh, fit impression in seconds) or 'physical-cloth' (finer mesh, material physics, credible drape).",
+      "type": "string",
+      "enum": [
+        "fit-approximation",
+        "physical-cloth"
+      ]
+    },
+    "meshProfile": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+      "description": "Mesh profile (d2p:mesh-profile) the rest meshes of the panels are built with."
+    },
+    "toleranceProfile": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/versionedId",
+      "description": "Tolerance profile drapes of this profile are compared with across implementations."
+    },
+    "integration": {
+      "description": "Time integration.",
+      "$ref": "#/$defs/solverIntegration"
+    },
+    "gravityMmPerS2": {
+      "description": "Gravity along -Y in mm/s².",
+      "type": "number",
+      "minimum": 0
+    },
+    "damping": {
+      "description": "Velocity damping per step (dimensionless, 0 = none, 1 = full).",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "prepositioning": {
+      "description": "How panels are placed around the body before sewing.",
+      "$ref": "#/$defs/solverPrepositioning"
+    },
+    "collision": {
+      "description": "Collision handling.",
+      "$ref": "#/$defs/solverCollision"
+    },
+    "convergence": {
+      "description": "Equilibrium criterion.",
+      "$ref": "#/$defs/solverConvergence"
+    },
+    "failureLimits": {
+      "description": "Limits beyond which a drape is failed with diagnostics, never a released result (SIM-007, DRP-002).",
+      "$ref": "#/$defs/solverFailureLimits"
+    },
+    "budget": {
+      "description": "Run-time and memory budget of one drape job (DRP-007).",
+      "$ref": "#/$defs/solverBudget"
+    },
+    "notes": {
+      "description": "Free-text notes on provenance and status of the values.",
+      "type": "string",
+      "maxLength": 4000
+    },
+    "extensions": {
+      "$ref": "https://d2p.nonnast.dev/schemas/core/extension.schema.json#/$defs/extensions",
+      "description": "Optional extension blocks."
+    }
+  },
+  "$defs": {
+    "solverIntegration": {
+      "title": "Solver integration",
+      "description": "Fixed time stepping: every run of the same profile uses the same step, substeps and iterations (deterministic order, design decision ADR-029 §5 rule 2).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timeStepMs",
+        "substeps",
+        "iterations",
+        "maxSteps"
+      ],
+      "properties": {
+        "timeStepMs": {
+          "description": "Time step in ms.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "substeps": {
+          "description": "Substeps per step.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "iterations": {
+          "description": "Constraint iterations per substep.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxSteps": {
+          "description": "Largest number of steps before the run stops as nonconvergent.",
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "solverPrepositioning": {
+      "title": "Solver pre-positioning",
+      "description": "Placement of the panels around the body model before the seams are closed.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "clearanceMm"
+      ],
+      "properties": {
+        "method": {
+          "description": "Extensible vocabulary: 'd2p:around-body' (panels wrapped around the body at the landmark heights of their seams, front panels in front, back panels behind, sleeves around the arms), or extension names.",
+          "type": "string",
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "d2p:around-body"
+              ]
+            },
+            {
+              "$ref": "https://d2p.nonnast.dev/schemas/core/ids.schema.json#/$defs/extensionName"
+            }
+          ]
+        },
+        "clearanceMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/nonNegativeLengthMm",
+          "description": "Distance between body surface and pre-positioned panel."
+        }
+      }
+    },
+    "solverCollision": {
+      "title": "Solver collision",
+      "description": "Cloth-body and cloth-cloth collision.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bodyOffsetMm",
+        "clothThicknessMm",
+        "selfCollision"
+      ],
+      "properties": {
+        "bodyOffsetMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/nonNegativeLengthMm",
+          "description": "Collision offset added to the body surface."
+        },
+        "clothThicknessMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/positiveLengthMm",
+          "description": "Collision thickness of the cloth."
+        },
+        "selfCollision": {
+          "description": "Whether cloth-cloth collision is resolved.",
+          "type": "boolean"
+        }
+      }
+    },
+    "solverConvergence": {
+      "title": "Solver convergence",
+      "description": "The drape is in equilibrium when, after at least minSteps steps, no vertex moves faster than maxVelocityMmPerS.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maxVelocityMmPerS",
+        "minSteps"
+      ],
+      "properties": {
+        "maxVelocityMmPerS": {
+          "description": "Largest vertex speed in equilibrium, mm/s.",
+          "type": "number",
+          "minimum": 0
+        },
+        "minSteps": {
+          "description": "Smallest number of steps before equilibrium is tested.",
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "solverFailureLimits": {
+      "title": "Solver failure limits",
+      "description": "Result limits: a drape beyond one of them is failed (DRP-002).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maxPenetrationMm",
+        "maxSeamGapMm"
+      ],
+      "properties": {
+        "maxPenetrationMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/nonNegativeLengthMm",
+          "description": "Largest permitted depth of a cloth vertex inside the body."
+        },
+        "maxSeamGapMm": {
+          "$ref": "https://d2p.nonnast.dev/schemas/core/units.schema.json#/$defs/nonNegativeLengthMm",
+          "description": "Largest permitted distance between the two sewn edges of a seam after draping."
+        }
+      }
+    },
+    "solverBudget": {
+      "title": "Solver budget",
+      "description": "Budget of one drape job; a job beyond it is cancelled with a diagnostic (DRP-007).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maxDurationMs",
+        "maxMemoryBytes"
+      ],
+      "properties": {
+        "maxDurationMs": {
+          "description": "Largest wall-clock duration in ms.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "maxMemoryBytes": {
+          "description": "Largest resident memory in bytes.",
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

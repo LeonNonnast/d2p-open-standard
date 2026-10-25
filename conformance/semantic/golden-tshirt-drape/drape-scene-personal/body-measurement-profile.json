@@ -1,0 +1,109 @@
+{
+  "documentType": "d2p:body-measurement-profile",
+  "schemaVersion": "1.0.0",
+  "artifactId": "art_golden-drape-individual-profile",
+  "revisionId": "rev_golden-drape-individual-profile-r1",
+  "subject": {
+    "kind": "individual",
+    "pseudonym": "subject-0002"
+  },
+  "dataClassification": "sensitive-personal",
+  "definitionRegistries": [
+    {
+      "id": "d2p:measurement-definitions",
+      "version": "1.1.0"
+    }
+  ],
+  "measurements": [
+    {
+      "definitionId": "d2p:body.arm-length",
+      "value": 590,
+      "unit": "mm",
+      "method": "manual",
+      "source": {
+        "kind": "professional",
+        "description": "Synthetic value standing in for a personal measurement (test data)."
+      },
+      "measuredAt": "2026-01-08T00:00:00Z",
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 5
+      }
+    },
+    {
+      "definitionId": "d2p:body.chest-girth",
+      "value": 935,
+      "unit": "mm",
+      "method": "manual",
+      "source": {
+        "kind": "professional",
+        "description": "Synthetic value standing in for a personal measurement (test data)."
+      },
+      "measuredAt": "2026-01-08T00:00:00Z",
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 5
+      }
+    },
+    {
+      "definitionId": "d2p:body.height",
+      "value": 1680,
+      "unit": "mm",
+      "method": "manual",
+      "source": {
+        "kind": "professional",
+        "description": "Synthetic value standing in for a personal measurement (test data)."
+      },
+      "measuredAt": "2026-01-08T00:00:00Z",
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 5
+      }
+    },
+    {
+      "definitionId": "d2p:body.hip-girth",
+      "value": 975,
+      "unit": "mm",
+      "method": "manual",
+      "source": {
+        "kind": "professional",
+        "description": "Synthetic value standing in for a personal measurement (test data)."
+      },
+      "measuredAt": "2026-01-08T00:00:00Z",
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 5
+      }
+    },
+    {
+      "definitionId": "d2p:body.shoulder-width",
+      "value": 415,
+      "unit": "mm",
+      "method": "manual",
+      "source": {
+        "kind": "professional",
+        "description": "Synthetic value standing in for a personal measurement (test data)."
+      },
+      "measuredAt": "2026-01-08T00:00:00Z",
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 5
+      }
+    },
+    {
+      "definitionId": "d2p:body.waist-girth",
+      "value": 812,
+      "unit": "mm",
+      "method": "manual",
+      "source": {
+        "kind": "professional",
+        "description": "Synthetic value standing in for a personal measurement (test data)."
+      },
+      "measuredAt": "2026-01-08T00:00:00Z",
+      "uncertainty": {
+        "type": "symmetric",
+        "plusMinus": 5
+      }
+    }
+  ]
+}

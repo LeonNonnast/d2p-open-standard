@@ -1,0 +1,42 @@
+{
+  "documentType": "d2p:conformance-case",
+  "schemaVersion": "1.0.0",
+  "caseId": "pattern-edit.parameter-update-result-mismatch",
+  "level": "semantic",
+  "title": "A parameter update committed with another expression than the command sets is rejected",
+  "documents": [
+    {
+      "path": "conformance/semantic/pattern-edit/parameter-update-result-mismatch/command.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/pattern-edit/parameter-update-result-mismatch/pattern-r2.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/pattern-edit/parameter-update-result-mismatch/revision-pattern-r2.json",
+      "role": "subject"
+    },
+    {
+      "path": "conformance/semantic/pattern-edit/parameter-update-result-mismatch/pattern-r1.json",
+      "role": "context"
+    },
+    {
+      "path": "conformance/semantic/pattern-edit/parameter-update-result-mismatch/revision-pattern-r1.json",
+      "role": "context"
+    }
+  ],
+  "expect": {
+    "outcome": "reject",
+    "diagnostics": [
+      {
+        "code": "D2P-SEM-131",
+        "documentPath": "conformance/semantic/pattern-edit/parameter-update-result-mismatch/pattern-r2.json"
+      }
+    ]
+  },
+  "testIds": [
+    "CAD-001"
+  ],
+  "description": "The command sets front-width to 210 mm, the committed r2 holds 220 mm."
+}
