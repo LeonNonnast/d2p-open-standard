@@ -28,7 +28,7 @@
   "derivedSubjectRefs": [
     {
       "id": "pev_golden-tshirt-r1-size-a-relaxed-knit",
-      "digest": "sha256:a93d73ca65157695e8f3cb0781e6e4bb92112d83086d69d7d0e3b45636231f15"
+      "digest": "sha256:d597caa9f489203a4eda292c3f5ff2144db9e3abc32d6b70290e163ba22c51cc"
     },
     {
       "id": "snp_golden-tshirt-r1-size-a-relaxed-knit",
@@ -99,7 +99,7 @@
         "id": "d2p:golden-tshirt-2d",
         "version": "1.0.0"
       },
-      "digest": "sha256:0f0a4b144bf0c71acda4b07a65b72355aa1e4c078a0598c181c9869565a7fd8d"
+      "digest": "sha256:8a6da5f9232d68927dfaa99d5ea23219df6bb4d7a311f77947a497c1ad1564e9"
     },
     {
       "role": "validation-profile",
@@ -122,5 +122,5 @@
       "version": "1.0.0"
     }
   },
-  "resultDigest": "sha256:86b4b0d6d00996e547c4ca416fbce3303ae2d6c97f814f4157bb7b5364d2c44d"
+  "resultDigest": "sha256:14681d9c252bf397736f2597b97337a28ffd2e2649192151338d037a92d7add1"
 }

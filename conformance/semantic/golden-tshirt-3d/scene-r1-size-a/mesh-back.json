@@ -12,7 +12,7 @@
   "cutInstanceKey": "back",
   "evaluationRef": {
     "id": "pev_golden-tshirt-r1-size-a-regular-woven",
-    "digest": "sha256:65cc6b15185217cf5345273362d37851a7884dbfd20d534256e03d985e06b161"
+    "digest": "sha256:387f0d96525a8aa6cf143051b2b4d168811db52e6256f120fd4ea4c1c14cac7e"
   },
   "geometryDigest": "sha256:ac0f22fabde5d2155632e430ba4e019d15b06766fc3231838100c376f49dbd72",
   "meshProfile": {
@@ -1689,5 +1689,5 @@
   "maxApproximationErrorMm": 0.049091075,
   "diagnostics": [],
   "meshDigest": "sha256:7d27d7d31ce5245134a4282e316c22cb0f935929e3c4222f33f7c6a9b524ec0a",
-  "resultDigest": "sha256:0a19492baabce57950c20a3d1b7bcad2e935a067379ad95b92ee741cddada537"
+  "resultDigest": "sha256:b42d1e6e9288bca0d9284ef31e90226481e8c4520d10373ba56a06ecec77cf51"
 }

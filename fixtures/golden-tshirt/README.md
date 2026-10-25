@@ -4,7 +4,7 @@
 > Every measurement, proportion, ease value and tolerance used here was invented for this fixture.
 > The domain review by a pattern maker or seamstress (test QEV-016) is **pending** (`v1/manifest.json` → `review.status: "pending"`), and nothing in this fixture claims that it has been done.
 
-The Golden T-Shirt is the reference object of the standard: one simple, sewable T-shirt in two sizes and two material/fit configurations, with a change case. Paths in this README are relative to `v1/` unless stated otherwise. Implementations are compared with the expected results in `expected/` using the pinned tolerance profile `d2p:golden-tshirt-2d` `1.0.0` (status **provisional**, see `tolerance-profiles/`). The layout and the normative identifiers follow [`specifications/schema-catalog.md`](../../specifications/schema-catalog.md) §4.
+The Golden T-Shirt is the reference object of the standard: one simple, sewable T-shirt in two sizes and two material/fit configurations, with a change case. Paths in this README are relative to `v1/` unless stated otherwise. Implementations are compared with the expected results in `expected/` using the pinned tolerance profile `d2p:golden-tshirt-2d` `1.0.0` (status **frozen**, see `tolerance-profiles/`). The layout and the normative identifiers follow [`specifications/schema-catalog.md`](../../specifications/schema-catalog.md) §4.
 
 ## How the files are produced
 
@@ -136,7 +136,7 @@ The armhole seam connections pair these notches as `matchPoints`; the cap ease i
 | `seam-armhole-back-<side>` (back armhole ↔ cap back) | `eased`, amount −`cap-ease-back` = −8 mm | A − B = −8 mm |
 | `seam-underarm-<side>` (underarm front ↔ underarm back) | none | A = B (same polar distance) |
 
-`ease.amount` is the expected length of side A minus side B, so a cap that is longer than its armhole has a negative amount. All seam deviations (`lengthA − lengthB − declaredEase`) are 0 within the numeric precision below, well inside the provisional relative tolerance of 0.5 %. The sewing groups `group-armhole-<side>` (`d2p:composite-assembly`, connected) join the front and back armhole seams of each side.
+`ease.amount` is the expected length of side A minus side B, so a cap that is longer than its armhole has a negative amount. All seam deviations (`lengthA − lengthB − declaredEase`) are 0 within the numeric precision below, well inside the relative tolerance of 0.5 %. The sewing groups `group-armhole-<side>` (`d2p:composite-assembly`, connected) join the front and back armhole seams of each side.
 
 Selected expected lengths (left side; the right side is identical), in mm:
 
@@ -198,7 +198,7 @@ The self-intersection snapshot writes the front contour as line segments only (a
 - **Sleeve underarm corners are not squared.** At the sleeve's underarm corners the cap meets the underarm seam at 96.2° (front) and 94.9° (back) in size A and at 96.1° and 94.8° in size B (r2: 96.1° / 94.8° in size A, 96.0° / 94.7° in size B), measured between the end tangents of the curves in the snapshots. The joined sleeve underarm therefore has a peak of about 11° where the body's underarm corners are 90° and meet without a kink. Drafting practice squares these corners as well.
 - **Front armhole longer than back armhole.** Front and back have identical widths and end points and differ only in the armhole scoop (0.18 versus 0.12 × `quarter-chest`). As a consequence the front armhole is longer than the back armhole in every case (size A 218.46 versus 212.52 mm, size B 237.00 versus 230.60 mm), and so is the front sleeve cap (size A 224.46 versus 220.52 mm). In common drafting the back armhole and the back cap are the longer ones.
 - Changing any of these simplifications changes generated geometry and therefore requires a new fixture version (catalog §4).
-- The tolerance profile is provisional; its values are proposals, not adopted product norms. The fixture is built so that its own seam deviations are 0, independent of the tolerance values.
+- The tolerance profile is `frozen` (maintainer decision 2026-10-25, values unchanged from the proposal). The fixture is built so that its own seam deviations are 0, independent of the tolerance values.
 - Seam allowances are declared (10 mm) but their offsets are not part of the v1 expected results (catalog §5, known deviation).
 - Material/fit configurations do not change the geometry under standard 1.0 (see above).
 - Notch markers in the export scenes carry two points (on the cut line and 6 mm inwards); the mark count is in the pattern, not in the scene.

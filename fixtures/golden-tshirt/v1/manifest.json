@@ -12,7 +12,7 @@
     "profileId": "d2p:golden-tshirt-2d",
     "version": "1.0.0",
     "path": "tolerance-profiles/golden-tshirt-2d-1.0.0.json",
-    "digest": "sha256:0f0a4b144bf0c71acda4b07a65b72355aa1e4c078a0598c181c9869565a7fd8d"
+    "digest": "sha256:8a6da5f9232d68927dfaa99d5ea23219df6bb4d7a311f77947a497c1ad1564e9"
   },
   "configurations": [
     {
@@ -72,37 +72,37 @@
       "path": "expected/evaluations/r1-size-a-regular-woven.json",
       "role": "expected",
       "documentType": "d2p:pattern-evaluation",
-      "digest": "sha256:9d4736090938be49ff41da3b23d5ab9ee0f6692b567cc37ec18c7fe3ed25bc04"
+      "digest": "sha256:b55934e20a61bc22e6aea1116b2911e121cc878fa1a986b57e38472258eaa7a3"
     },
     {
       "path": "expected/evaluations/r1-size-a-relaxed-knit.json",
       "role": "expected",
       "documentType": "d2p:pattern-evaluation",
-      "digest": "sha256:421ea97bc45ab6830b8a62b2ffb06062b36ffaa58b722b077d1bfc37235929b9"
+      "digest": "sha256:81661465b49a769298524518da2175a0fd739b916365a02e2a6b013fdb921b0e"
     },
     {
       "path": "expected/evaluations/r1-size-b-regular-woven.json",
       "role": "expected",
       "documentType": "d2p:pattern-evaluation",
-      "digest": "sha256:e3e38c37e65863e6755c95bebf348b48d44e0f999a7945396a11112e23286e27"
+      "digest": "sha256:35c881c2cfe5ed28dfbbf545261fda6936fca7ec6e2c6bbddc25bf3ac9e87f70"
     },
     {
       "path": "expected/evaluations/r1-size-b-relaxed-knit.json",
       "role": "expected",
       "documentType": "d2p:pattern-evaluation",
-      "digest": "sha256:e7383a2b9a3104fe215546ac5fa8157d6166aeea4828ba388e42c9d6529cad37"
+      "digest": "sha256:e40cfba33d3b3bb982f4c34c15dc27235513b10c02cd6ff3194cc5c78fd121ae"
     },
     {
       "path": "expected/evaluations/r2-size-a-regular-woven.json",
       "role": "expected",
       "documentType": "d2p:pattern-evaluation",
-      "digest": "sha256:ad89255f92e55f53edbbcbd0218e6f65c363f988bae72c6badb66ab86a97b54d"
+      "digest": "sha256:6c270baf876057b3929a3638e9382d82f1e6006b031ba4447358206acdc9523f"
     },
     {
       "path": "expected/evaluations/r2-size-b-regular-woven.json",
       "role": "expected",
       "documentType": "d2p:pattern-evaluation",
-      "digest": "sha256:6c64a5c87001e28b5d9d35266406d51c087deade325a81700c61feb184b4b471"
+      "digest": "sha256:f6edf273c00bb74189176192b6725e1eb6a95a9b04b45dc27a2df4b544b39be2"
     },
     {
       "path": "expected/export/print-r1-size-a-regular-woven-a4.json",
@@ -132,109 +132,109 @@
       "path": "expected/fit/r1-size-a-regular-woven.json",
       "role": "expected",
       "documentType": "d2p:fit-evaluation-report",
-      "digest": "sha256:63f597a60b26913ab3bc6720663f8d709d5c80a977e946eb469b53e076bbbebf"
+      "digest": "sha256:08c15dedd94bcc2b0257ae5eb9e14c1e86dc3238da2331cc960c1fea0da8c87d"
     },
     {
       "path": "expected/fit/r1-size-a-relaxed-knit.json",
       "role": "expected",
       "documentType": "d2p:fit-evaluation-report",
-      "digest": "sha256:06293a3c14ea4910b610d03bc129dcd6ec7c0245fb353ef6ded0044e2a92eae1"
+      "digest": "sha256:e2655f5409ddfcbd384009145e4a92c882f03997d7708e72a93fc23a63e4567e"
     },
     {
       "path": "expected/fit/r1-size-b-regular-woven.json",
       "role": "expected",
       "documentType": "d2p:fit-evaluation-report",
-      "digest": "sha256:b46e02c357ee3a530258569979d91b528829f19f0294169046671fe9282aa97e"
+      "digest": "sha256:1d5437854e61cc80abd5c85f29dac95941bb4e9f4bda162fc5fbb3f4dc0a395d"
     },
     {
       "path": "expected/fit/r1-size-b-relaxed-knit.json",
       "role": "expected",
       "documentType": "d2p:fit-evaluation-report",
-      "digest": "sha256:556cef0b47630b225d0e9cd5bc666bea665b2f4a1564f5172e206514d253aab0"
+      "digest": "sha256:79455993f26fb0ea117ad937c486cbf9a659481677959983a3342219901a6915"
     },
     {
       "path": "expected/snapshots/r1-size-a-regular-woven.json",
       "role": "expected",
       "documentType": "d2p:geometry-snapshot",
-      "digest": "sha256:aa0ba34d73589dfa7c5ee17fd479cfc1780154ef3184fc25147da68e42dcb4eb"
+      "digest": "sha256:81a4c28bd82635714873df2fe01265940b36b5806f0f765c834ad7df945a734c"
     },
     {
       "path": "expected/snapshots/r1-size-a-relaxed-knit.json",
       "role": "expected",
       "documentType": "d2p:geometry-snapshot",
-      "digest": "sha256:4d7588398cd1363f3b8d28f3a60758b6e3b45f344dfd0ab91f669a77bfa7abf3"
+      "digest": "sha256:5985721495e712ba77a5180f43b1a31923431a3f545974d1256051a0026fa8f2"
     },
     {
       "path": "expected/snapshots/r1-size-b-regular-woven.json",
       "role": "expected",
       "documentType": "d2p:geometry-snapshot",
-      "digest": "sha256:ef00d7ec8b91eda3fc05dc9045658c553392c7460ad976f86a04ab8d832c27a7"
+      "digest": "sha256:18944dfd339b87635ba38d9ca6d0d02d4a795965b874555b4b05994d62ff89c3"
     },
     {
       "path": "expected/snapshots/r1-size-b-relaxed-knit.json",
       "role": "expected",
       "documentType": "d2p:geometry-snapshot",
-      "digest": "sha256:92b031ae09647f8aab93865ebe41efffad54b5b70df5b826d979d3c15fdd0c27"
+      "digest": "sha256:cbfdb3837678fa4ec8191592be0273645f974f085b85aa04be858c005221869d"
     },
     {
       "path": "expected/snapshots/r2-size-a-regular-woven.json",
       "role": "expected",
       "documentType": "d2p:geometry-snapshot",
-      "digest": "sha256:0b0c57c2da4fcca25496cba45a346de9c4f52c3c0ec72a2aeef37fb5bf3b2d0f"
+      "digest": "sha256:dac7d6c242630c4f04150a28a2bd78ba1e1d3cddf4af61cb9a58d8d076ebdcbe"
     },
     {
       "path": "expected/snapshots/r2-size-b-regular-woven.json",
       "role": "expected",
       "documentType": "d2p:geometry-snapshot",
-      "digest": "sha256:b90f9a32c310643b3ae0f94c7d3e771bedd763ca6fabbffa3ee4cd17b4169f79"
+      "digest": "sha256:94f7161bf71822c2720e432c0a1d24e0804ae3bbdba64c8cdc6d54d92fd76a35"
     },
     {
       "path": "expected/validation/gate-r1-size-a-regular-woven.export-1to1.json",
       "role": "expected",
       "documentType": "d2p:gate-evaluation",
-      "digest": "sha256:9baa5a0fdababa369804893e6820019a93ece1b4fc49dbcc994973891bbd1633"
+      "digest": "sha256:9ba17ebd8989ad445a3dca2d3aea9f082926d93f2f6cfb2e64b214a06334ae58"
     },
     {
       "path": "expected/validation/gate-r1-size-b-regular-woven.export-1to1.json",
       "role": "expected",
       "documentType": "d2p:gate-evaluation",
-      "digest": "sha256:b2d09185c52857eb0a80b265ac3a1b6c01abec0a4e10ff21984501b7242a076a"
+      "digest": "sha256:312712d72d9e10cd693b9bf6c3a221cacef87811a894c4f89824e9a92d8c4776"
     },
     {
       "path": "expected/validation/r1-size-a-regular-woven.1to1-print.json",
       "role": "expected",
       "documentType": "d2p:validation-report",
-      "digest": "sha256:eabbf715ca6b4f6a94292805c2d153d30a4918fbb51b8bf93e5fd8047d2b1530"
+      "digest": "sha256:9bce13e9c292cea88985afc31b8d298d33096913b6fc754356d5b06081f2bc91"
     },
     {
       "path": "expected/validation/r1-size-a-regular-woven.sample-cut.json",
       "role": "expected",
       "documentType": "d2p:validation-report",
-      "digest": "sha256:618ca6c931bd3cdde9ae5a6eb546f6147841c193da875aea2c387bac7da3acaf"
+      "digest": "sha256:85d1731703ac1c8342988e476838b87a4ceae9db46e5b5239c348f242cb63e8f"
     },
     {
       "path": "expected/validation/r1-size-a-relaxed-knit.sample-cut.json",
       "role": "expected",
       "documentType": "d2p:validation-report",
-      "digest": "sha256:89e6a2791e45e4de61cf5e7cb97f3d743c22ad4f1d8267ba2e1572c7e4575dc1"
+      "digest": "sha256:e3c3f7d5e99b871883f45b267f57b93ab7d9fab191bd3761985ead75ba62e2b1"
     },
     {
       "path": "expected/validation/r1-size-b-regular-woven.1to1-print.json",
       "role": "expected",
       "documentType": "d2p:validation-report",
-      "digest": "sha256:97e40c2fcc02b06b8910eb8b26da1ea742dc57246d125970bf3379a47ca1e07d"
+      "digest": "sha256:07aef2eb0ebf14add2152f79453528288ca4223e612aed1362c861521e943c19"
     },
     {
       "path": "expected/validation/r1-size-b-regular-woven.sample-cut.json",
       "role": "expected",
       "documentType": "d2p:validation-report",
-      "digest": "sha256:42f2d11c0a3f13efee564e89ccf1eab2ec3e33294c5098b5c667de7288a7b7f3"
+      "digest": "sha256:7a8124475055141542ea6af6798128b60d7ad9e68612007aaa9a238fef58e55b"
     },
     {
       "path": "expected/validation/r1-size-b-relaxed-knit.sample-cut.json",
       "role": "expected",
       "documentType": "d2p:validation-report",
-      "digest": "sha256:e13d4b5547c8d420b57e1fac5017c7b2cbc75a6c381beeb78e6174e8f3fbd615"
+      "digest": "sha256:1031fa8776858d07aa151111cd0ee1641af72dd86ecf2fb9254c0b1663f2bd89"
     },
     {
       "path": "inputs/artifacts/fit-profile-regular.json",
@@ -522,7 +522,7 @@
       "path": "negative/self-intersection/geometry-snapshot.json",
       "role": "negative",
       "documentType": "d2p:geometry-snapshot",
-      "digest": "sha256:9f6069f5a59eae8977ad7632c37cf842cf198476b6ec1736760b478cfecb6201"
+      "digest": "sha256:1a25d834926e775395f12bbef866a1dae818dd425435425ee628e8610af607a1"
     },
     {
       "path": "negative/stale-revision/case.json",
@@ -534,13 +534,13 @@
       "path": "negative/stale-revision/gate-evaluation.json",
       "role": "negative",
       "documentType": "d2p:gate-evaluation",
-      "digest": "sha256:8578f95b356706cdb317aa5ac0dfd6cf76f52c5081327911b15134c138b10014"
+      "digest": "sha256:42bda80fd41385ba54ad21b64f883035facc92911c1cb447024224d2cb7ba9ac"
     },
     {
       "path": "negative/stale-revision/validation-report.json",
       "role": "negative",
       "documentType": "d2p:validation-report",
-      "digest": "sha256:eabbf715ca6b4f6a94292805c2d153d30a4918fbb51b8bf93e5fd8047d2b1530"
+      "digest": "sha256:9bce13e9c292cea88985afc31b8d298d33096913b6fc754356d5b06081f2bc91"
     },
     {
       "path": "negative/unit-mismatch/case.json",
@@ -564,7 +564,7 @@
       "path": "negative/unknown-extension-feature/geometry-snapshot.json",
       "role": "negative",
       "documentType": "d2p:geometry-snapshot",
-      "digest": "sha256:79b895d80a14f8156760014be3ed901f6892e97c190ea1e56f5e26e2a878708b"
+      "digest": "sha256:a07f75f69b12a6777bf8114f7bc293484beeb22522c667ac43044561e89f430f"
     },
     {
       "path": "negative/unknown-extension-feature/pattern.json",
@@ -601,7 +601,7 @@
     {
       "path": "tolerance-profiles/golden-tshirt-2d-1.0.0.json",
       "documentType": "d2p:tolerance-profile",
-      "digest": "sha256:0f0a4b144bf0c71acda4b07a65b72355aa1e4c078a0598c181c9869565a7fd8d"
+      "digest": "sha256:8a6da5f9232d68927dfaa99d5ea23219df6bb4d7a311f77947a497c1ad1564e9"
     },
     {
       "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
@@ -748,5 +748,5 @@
     "status": "pending",
     "notes": "Domain review by a pattern maker or seamstress (QEV-016) has not been performed. All proportions, ease values and measurements are synthetic."
   },
-  "fixtureDigest": "sha256:ac6ca4a07b14653c0551410b35febb2b5b3805e9e147e676e69ea6a1ea2f30e9"
+  "fixtureDigest": "sha256:fd0755dde0e59635c46e528bab54e23f9f8c49c5c8e99a3dbe0aba0e33c0819f"
 }

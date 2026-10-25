@@ -22,10 +22,10 @@
       "patternEvaluationId": "eval-main",
       "evaluationRef": {
         "id": "pev_golden-tshirt-r2-size-b-regular-woven",
-        "digest": "sha256:0cb593fbf210bfdcef678bfea11405cd108a8cd43bd1f8f51fd52f4341f0fdf0"
+        "digest": "sha256:674e4522dc73fd4105faceaa827bd2419c4877c58b8b8dbabedbc1e48922446b"
       },
       "geometryDigest": "sha256:fdbbc8cadd969e3feedef3617cc3efb173afbbe2a63932410030fc8c74285b97"
     }
   ],
-  "evaluationKey": "sha256:42b070cacbdeee578d0721971cd27b2ca477a0eac706de17a2edba5a0dfbba2d"
+  "evaluationKey": "sha256:777f1732cc3e259ac783668ca7abcea516852223797816b544ce7c0a672e5e14"
 }

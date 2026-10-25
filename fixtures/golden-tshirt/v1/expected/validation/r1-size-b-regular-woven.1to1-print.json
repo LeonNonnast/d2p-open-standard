@@ -28,7 +28,7 @@
   "derivedSubjectRefs": [
     {
       "id": "pev_golden-tshirt-r1-size-b-regular-woven",
-      "digest": "sha256:44ad85d43fe7065357e63dd7a7ac29da7f6831f167f731a2795d41541b09505e"
+      "digest": "sha256:06cd386f4acac03c692c8e73e6ae8660641409e10089e9f1f445e69d8438ac47"
     },
     {
       "id": "pjs_golden-tshirt-r1-size-b-regular-woven-a4",
@@ -107,7 +107,7 @@
         "id": "d2p:golden-tshirt-2d",
         "version": "1.0.0"
       },
-      "digest": "sha256:0f0a4b144bf0c71acda4b07a65b72355aa1e4c078a0598c181c9869565a7fd8d"
+      "digest": "sha256:8a6da5f9232d68927dfaa99d5ea23219df6bb4d7a311f77947a497c1ad1564e9"
     },
     {
       "role": "validation-profile",
@@ -130,5 +130,5 @@
       "version": "1.0.0"
     }
   },
-  "resultDigest": "sha256:167bb935a10e6345caaa4b8fe36655b09051ea250cf04e21f17e161a4d380829"
+  "resultDigest": "sha256:b6b8baf14cfd2ac0886e538fa8690ce08cdde38baa2c07e6b6fd8db75de13c80"
 }

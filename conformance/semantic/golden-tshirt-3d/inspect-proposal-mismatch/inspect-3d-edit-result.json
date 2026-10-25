@@ -5,7 +5,7 @@
   "createdAt": "2026-01-07T00:00:00Z",
   "sceneSnapshotRef": {
     "id": "ssn_golden-tshirt-3d-r1-size-a",
-    "digest": "sha256:6eff295f9b7dbba4193aedbfaf78ee6135ca2cf82c9e3d68a6f2ec88dad74336"
+    "digest": "sha256:181351cc6ac1181b42d99aa200c014be7a8c53399542a9c6260e239e916032fa"
   },
   "basePatternRef": {
     "artifactId": "art_golden-tshirt-pattern",
@@ -89,5 +89,5 @@
     "digest": "sha256:f051f4cc1211bc828e9052ae2e2c946a1a2ae1cbe1bc99bbc8b026cf6ad8661d"
   },
   "diagnostics": [],
-  "resultDigest": "sha256:dd12a1b5ab4be7ac78ef512d89f30e79a84cb892a3bee4ebef81a3d715f80b48"
+  "resultDigest": "sha256:8be5c1cd3ce2731d92f40cc5d22adfaf9dd4dd1c9ac28649ccb89ab442efb36d"
 }

@@ -5,7 +5,7 @@
   "createdAt": "2026-01-07T00:00:00Z",
   "sceneInputRef": {
     "id": "sci_golden-tshirt-3d-r1-size-a",
-    "digest": "sha256:7ba432f543ca98b9fb3b68b0c035e2c0672b2ba89c29002aba82cb00bb7b5730"
+    "digest": "sha256:37126d487f53ba02427fcbd3da74b43daccec615800998b0ad128f899b025a0f"
   },
   "garmentRef": {
     "artifactId": "art_golden-tshirt-3d-garment-size-a",
@@ -13,7 +13,7 @@
   },
   "arrangementId": "flat-lay",
   "mode": "arrangement",
-  "evaluationKey": "sha256:c8e942ab7c6560b76785e0f48567716ad879598600966aaf01c93a9a24394d40",
+  "evaluationKey": "sha256:fd7a521abdb65bbd7e221eeb92f6ae381b58532308b36335d7a25fb431bde130",
   "coordinateSystem": {
     "handedness": "right",
     "up": "+y",
@@ -40,7 +40,7 @@
         "artifactId": "art_golden-tshirt-3d-garment-size-a",
         "revisionId": "rev_golden-tshirt-3d-garment-size-a-r1"
       },
-      "digest": "sha256:cd1c6f7d331e57da2a31143795b380882d05f90de4bdb86625e4140daf72cd72"
+      "digest": "sha256:c2f3385527b24453a744892e68cf795f081cc0451874b18d9344ab8f10948c38"
     },
     {
       "role": "mesh-profile",
@@ -48,7 +48,7 @@
         "id": "d2p:golden-tshirt-3d-preview",
         "version": "1.0.0"
       },
-      "digest": "sha256:6441f5cc06f90eaeba3a9a4a1d4b4f8dff5b79344c5f706c438ced7f9e894204"
+      "digest": "sha256:6aec4a8113714056f180d416c624132b454234a9ee8d7a297df31ce0829f59ab"
     },
     {
       "role": "pattern",
@@ -64,7 +64,7 @@
       "patternEvaluationId": "eval-main",
       "evaluationRef": {
         "id": "pev_golden-tshirt-r1-size-a-regular-woven",
-        "digest": "sha256:65cc6b15185217cf5345273362d37851a7884dbfd20d534256e03d985e06b161"
+        "digest": "sha256:387f0d96525a8aa6cf143051b2b4d168811db52e6256f120fd4ea4c1c14cac7e"
       },
       "geometryDigest": "sha256:ac0f22fabde5d2155632e430ba4e019d15b06766fc3231838100c376f49dbd72"
     }

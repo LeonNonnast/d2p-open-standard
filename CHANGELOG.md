@@ -5,6 +5,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-10-25
+
+Patch release: maintainer freeze of the Golden T-Shirt profiles. No rule about which documents are valid changes.
+
+### Changed
+
+- **Profiles frozen** by maintainer decision with all values unchanged from the provisional proposals (same profile versions, catalog §3.8: only a changed value is a new version): tolerance profile `d2p:golden-tshirt-2d` 1.0.0 (contour 0.10 mm, relative seam length 0.005, control square 0.1 mm), tolerance profile `d2p:golden-tshirt-3d` 1.0.0 (mesh planar deviation 0.10 mm) and mesh profile `d2p:golden-tshirt-3d-preview` 1.0.0. Results compared against them can now count as benchmark evidence.
+- **Fixtures regenerated** (`npm run oracle`, `npm run oracle:3d`): the profile digests changed, and with them the pins, evaluation keys and digests that depend on them in the Golden T-Shirt v1 and 3D v1 fixtures and the 3D conformance case data. Geometry and expected values are unchanged; implementations must re-pin the new fixture digests.
+
 ## [0.2.0] - 2026-10-20
 
 Pre-release **0.2.0** (expert review of the 3D arrangement pending): a minor extension of the standard 1.0 draft by the module `3d`. Documents still declare `schemaVersion: "1.0.0"`; nothing that was valid before becomes invalid.

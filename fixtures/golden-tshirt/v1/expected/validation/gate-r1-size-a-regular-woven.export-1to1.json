@@ -33,12 +33,12 @@
   "reportRefs": [
     {
       "id": "vrp_golden-tshirt-r1-size-a-regular-woven-print-1to1",
-      "digest": "sha256:09ede3828924ac96ec2457c0bdb5bfaa228538789d558324a05759b70be6a7c6"
+      "digest": "sha256:eaefc6b2357554eb74c2c47387307c21302dd9408511e539e512f3204bd97b9f"
     }
   ],
   "waiverIds": [],
   "decision": "allow",
   "reasonCodes": [],
   "addressedFindings": [],
-  "resultDigest": "sha256:96e28dee5a14bf8027b8600930ca2e8e282dba9daeb2fe7ad0f4ca1c48aa655e"
+  "resultDigest": "sha256:14c0dd6116f376a521694b58b77061853af692e71ff4fd501a30d81560b7a6b7"
 }

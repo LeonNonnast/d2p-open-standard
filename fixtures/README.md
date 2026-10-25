@@ -24,4 +24,4 @@ The *Golden T-Shirt* (two sizes, two material/fit configurations, front and back
 - **Every negative fixture is detected.** Each `negative/<name>/` has a conformance case in `conformance/<level>/golden-tshirt/<name>.case.json`; the runner must report exactly its expected diagnostic code (catalog §4.3).
 - **Independent parsing (test OSS-001).** All fixture documents are readable with a generic JSON Schema 2020-12 validator and the published schemas, without any implementation of the standard.
 
-Expected results are compared using the pinned profile from `tolerance-profiles/` (currently provisional). Tolerances are never adjusted after the fact to match an implementation.
+Expected results are compared using the pinned profile from `tolerance-profiles/` (the Golden T-Shirt profiles are `frozen`). Tolerances are never adjusted after the fact to match an implementation.

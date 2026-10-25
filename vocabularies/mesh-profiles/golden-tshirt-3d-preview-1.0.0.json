@@ -3,7 +3,7 @@
   "schemaVersion": "1.0.0",
   "profileId": "d2p:golden-tshirt-3d-preview",
   "version": "1.0.0",
-  "status": "provisional",
+  "status": "frozen",
   "title": "Golden T-Shirt 3D preview meshing",
   "description": "Panel meshing for the arrangement preview of the Golden T-Shirt 3D fixture: flat panel meshes in panel-local millimetres whose boundary follows the pinned pattern contour.",
   "sampling": {
@@ -18,5 +18,5 @@
     "id": "d2p:golden-tshirt-3d",
     "version": "1.0.0"
   },
-  "notes": "Provisional. maxPlanarDeviationMm repeats the proposed 0.10 mm of the tolerance profile d2p:golden-tshirt-3d 1.0.0; the sampling and triangulation values are proposals for a preview-quality mesh. The profile MUST be frozen by maintainer decision before any implementation is compared against it."
+  "notes": "Frozen by maintainer decision on 2026-10-25 with the values unchanged from the provisional proposal. maxPlanarDeviationMm repeats the 0.10 mm of the tolerance profile d2p:golden-tshirt-3d 1.0.0; the sampling and triangulation values define a preview-quality mesh. This profile is immutable: a changed value is a new version."
 }

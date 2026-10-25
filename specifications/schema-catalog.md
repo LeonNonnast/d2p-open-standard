@@ -1305,15 +1305,15 @@ This module follows design decisions ADR-017.1 and ADR-025.
 | `d2p:angle-deviation` | rad | absolute-lte | Angular difference. **No value proposed yet** |
 | `d2p:mesh-planar-deviation` | mm | absolute-lte | Largest planar distance between a panel mesh boundary and the pinned pattern contour (§3.9) |
 
-**Golden tolerance profile** `d2p:golden-tshirt-2d` `1.0.0` lives at `tolerance-profiles/golden-tshirt-2d-1.0.0.json` with **`status: "provisional"`**. Its values are the proposals from the design decisions, not adopted product norms:
+**Golden tolerance profile** `d2p:golden-tshirt-2d` `1.0.0` lives at `tolerance-profiles/golden-tshirt-2d-1.0.0.json` with **`status: "frozen"`** (maintainer decision 2026-10-25, release `0.2.1`; the values are the unchanged proposals from the design decisions):
 
 - `d2p:contour-deviation` 0.10 mm;
 - `d2p:seam-length-deviation-relative` 0.005;
 - `d2p:control-square-deviation` 0.1 mm.
 
-Metrics without a proposal are omitted. The profile is set to `frozen` (as a new version if any value changes) by maintainer decision **before** any implementation is compared against it, and it is never adjusted afterwards to fit an implementation.
+Metrics without an adopted value are omitted. The profile is immutable: a changed limit is a new version, and it is never adjusted to fit an implementation.
 
-**Golden 3D tolerance profile** `d2p:golden-tshirt-3d` `1.0.0` (`tolerance-profiles/golden-tshirt-3d-1.0.0.json`, **`status: "provisional"`**) holds `d2p:mesh-planar-deviation` 0.10 mm, a proposal for the 3D fixture (§4.5), under the same freezing rule.
+**Golden 3D tolerance profile** `d2p:golden-tshirt-3d` `1.0.0` (`tolerance-profiles/golden-tshirt-3d-1.0.0.json`, **`status: "frozen"`** since `0.2.1`) holds `d2p:mesh-planar-deviation` 0.10 mm for the 3D fixture (§4.5), under the same immutability rule.
 
 ### 3.9 3d
 
@@ -1694,7 +1694,7 @@ fixtures/golden-tshirt-3d/v1/
 
 **Expected structure** (asserted by the generator and checked by the conformance cases): panel, binding and arrangement IDs are identical in both sizes and both revisions (GAR-003, GAR-013, T3D-009); two sleeve panel instances reference the same piece with distinct IDs (GAR-001, T3D-002, SIM-001); every seam binding binds the existing interfaces of its connection in order (T3D-004); each scene expectation has four panel bindings, twelve seam bindings, twenty control measures with `lengthM` = `lengthMm` × 0.001 (T3D-005, SIM-005) and anchors with the front at +Z, the back at -Z, the left sleeve at +X and the right sleeve at -X (GAR-017); rebinding to pattern r2 changes the geometry digests, the evaluation keys and the bindings digests while every element ID stays (GAR-004, GAR-015, SIM-003, T3D-008); size A and size B scenes differ. Meshes are not expected results (T3D-015).
 
-**Tolerance and mesh profile** (both `status: provisional`). `d2p:golden-tshirt-3d` 1.0.0 (`tolerance-profiles/golden-tshirt-3d-1.0.0.json`) holds the proposed `d2p:mesh-planar-deviation` of 0.10 mm. `d2p:golden-tshirt-3d-preview` 1.0.0 (`vocabularies/mesh-profiles/golden-tshirt-3d-preview-1.0.0.json`) states `maxPlanarDeviationMm` 0.1, `sampling.maxChordDeviationMm` 0.05, `minSamplesPerEdge` 2 and `triangulation.maxEdgeLengthMm` 10. Both MUST be frozen by maintainer decision (as new versions if a value changes) **before** any implementation is compared against them, and are never adjusted afterwards.
+**Tolerance and mesh profile** (both `status: frozen` since `0.2.1`, maintainer decision 2026-10-25, values unchanged). `d2p:golden-tshirt-3d` 1.0.0 (`tolerance-profiles/golden-tshirt-3d-1.0.0.json`) holds `d2p:mesh-planar-deviation` 0.10 mm. `d2p:golden-tshirt-3d-preview` 1.0.0 (`vocabularies/mesh-profiles/golden-tshirt-3d-preview-1.0.0.json`) states `maxPlanarDeviationMm` 0.1, `sampling.maxChordDeviationMm` 0.05, `minSamplesPerEdge` 2 and `triangulation.maxEdgeLengthMm` 10. Both are immutable: a changed value is a new version, and neither is adjusted to fit an implementation.
 
 **Cases** (`conformance/<level>/golden-tshirt-3d/`):
 
@@ -1725,11 +1725,11 @@ Negative fixtures follow the rules of §4.3; each reports exactly its expected c
 
 **Maintainer decisions pending**
 
-- The tolerance values in `d2p:golden-tshirt-2d` are **provisional** until the maintainers freeze them. `d2p:seam-length-deviation-absolute` and `d2p:angle-deviation` have no proposed values.
+- `d2p:seam-length-deviation-absolute` and `d2p:angle-deviation` have no adopted values (the profile `d2p:golden-tshirt-2d` 1.0.0 is frozen without them).
 - The `d2p-digest-v1` quantization step (1e-9 of the canonical unit), and with it the two-step bound for comparing derived values (§3.4), is fixed for 1.0 and needs maintainer confirmation before the first stable tag (`v1.0.0`). Pre-release tags (`v0.x`, see [CHANGELOG.md](../CHANGELOG.md)) MAY be cut before that confirmation; they carry no stability promise.
 - Measurement-definition mappings to ISO 8559-1 / ASTM D5219 are informative. Edition and licence must be checked before any mapping is published. The mechanism (`mapping-profile`, §3.1) is part of 1.0; no mapping profile is published yet.
 - The fixture's domain review (`review.status`) stays `pending` until it is performed.
-- The 3D tolerance profile `d2p:golden-tshirt-3d` 1.0.0 and the mesh profile `d2p:golden-tshirt-3d-preview` 1.0.0 are **provisional**; they are frozen by maintainer decision before any implementation is compared against them. The domain review of the Golden T-Shirt 3D arrangement is pending as well.
+- The domain review of the Golden T-Shirt 3D arrangement is pending.
 
 **Pending deliverables of release 1.0**
 

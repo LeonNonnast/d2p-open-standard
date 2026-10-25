@@ -4,7 +4,7 @@
   "expectationId": "sxp_golden-tshirt-3d-r1-size-b",
   "sceneInputRef": {
     "id": "sci_golden-tshirt-3d-r1-size-b",
-    "digest": "sha256:d030c0860ca59fd908281aad9703c60591908da18768adfa4e279c4ed08b39bc"
+    "digest": "sha256:803fbe0f4971dde570d39ed837b209986fddb2d091d9e9cc308014759758bef9"
   },
   "garmentRef": {
     "artifactId": "art_golden-tshirt-3d-garment-size-b",

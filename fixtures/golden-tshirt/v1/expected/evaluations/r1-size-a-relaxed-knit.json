@@ -120,7 +120,7 @@
         "id": "d2p:golden-tshirt-2d",
         "version": "1.0.0"
       },
-      "digest": "sha256:0f0a4b144bf0c71acda4b07a65b72355aa1e4c078a0598c181c9869565a7fd8d"
+      "digest": "sha256:8a6da5f9232d68927dfaa99d5ea23219df6bb4d7a311f77947a497c1ad1564e9"
     },
     {
       "role": "validation-profile",
@@ -152,5 +152,5 @@
     }
   ],
   "diagnostics": [],
-  "resultDigest": "sha256:a93d73ca65157695e8f3cb0781e6e4bb92112d83086d69d7d0e3b45636231f15"
+  "resultDigest": "sha256:d597caa9f489203a4eda292c3f5ff2144db9e3abc32d6b70290e163ba22c51cc"
 }

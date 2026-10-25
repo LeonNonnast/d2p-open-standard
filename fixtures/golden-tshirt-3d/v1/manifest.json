@@ -12,32 +12,32 @@
     "profileId": "d2p:golden-tshirt-3d",
     "version": "1.0.0",
     "path": "tolerance-profiles/golden-tshirt-3d-1.0.0.json",
-    "digest": "sha256:f7cb3ed4eca217162d7f84ecf7eaf942debb7b2c1a74748974f0cb57d605b504"
+    "digest": "sha256:65dbca912a49c34598c6fddfd5d75b5c939b94a25cb5526eb1b377758ba9de6c"
   },
   "files": [
     {
       "path": "expected/scenes/r1-size-a.json",
       "role": "expected",
       "documentType": "d2p:scene-expectation",
-      "digest": "sha256:237422ba44ab55d3270dc32fbb1e2cc2caff4eb3b52d851040a2feec8c44a85d"
+      "digest": "sha256:2c6073d80984beea80524c0edd3a95cbae71d7925053f686df835d1e10348bb3"
     },
     {
       "path": "expected/scenes/r1-size-b.json",
       "role": "expected",
       "documentType": "d2p:scene-expectation",
-      "digest": "sha256:2d665d51cf45b0d715be4e93311bcf4d5d8d150638843a3c9b12380092532223"
+      "digest": "sha256:598feb8a7ae7a85ef4797cc809eed6721fc5f65dcaf87d3227822e963edd051a"
     },
     {
       "path": "expected/scenes/r2-size-a.json",
       "role": "expected",
       "documentType": "d2p:scene-expectation",
-      "digest": "sha256:d062c6df543085eba58acc84fed4af203727db075f8d2aea30631baf69fbf505"
+      "digest": "sha256:3b9d8e572d2bbf5de493caa7ec40f042b175b945d1db46e236c952842ade9b8c"
     },
     {
       "path": "expected/scenes/r2-size-b.json",
       "role": "expected",
       "documentType": "d2p:scene-expectation",
-      "digest": "sha256:52d3f92c0c3d93cd35198686d1f1c2847cfd853350a56ed8209547956fe2869e"
+      "digest": "sha256:597c238786bfcf41dffd0244956408c4a02ed5ce7de3e5b2c24d0f2f19f9559f"
     },
     {
       "path": "inputs/artifacts/garment-size-a.json",
@@ -55,73 +55,73 @@
       "path": "inputs/change/garment-size-a-r2.json",
       "role": "input",
       "documentType": "d2p:garment",
-      "digest": "sha256:147cd3057340f708476c4e87d683088860c385de47744451badc1c64e65edd79"
+      "digest": "sha256:3102779f81a0bcc8fb7b174dd8a96f16343ed20932a5e67b6f13af87495c27e5"
     },
     {
       "path": "inputs/change/garment-size-b-r2.json",
       "role": "input",
       "documentType": "d2p:garment",
-      "digest": "sha256:6c8e999bc2493f2d5e12e579f88f45abd245e17e7451f855c07e05be66847508"
+      "digest": "sha256:557a51c486249d16fddeda68453f9ab6a69fe7de9cf44d8c0c54b4c756c745f0"
     },
     {
       "path": "inputs/change/revisions/garment-size-a-r2.json",
       "role": "input",
       "documentType": "d2p:revision",
-      "digest": "sha256:4122c26689fd8fc2a4fa034a59164d9866052e1a0cc8739f1b16495c588145f8"
+      "digest": "sha256:34a4cbc773e4a495ba742d45523bd97fbadd2c5930faed8fd5879a684a1c0ab5"
     },
     {
       "path": "inputs/change/revisions/garment-size-b-r2.json",
       "role": "input",
       "documentType": "d2p:revision",
-      "digest": "sha256:3bf0230e28e352ea5bd50017e8013e85c2114798c76132f9508f8f51f88d6f71"
+      "digest": "sha256:75917d12a8a866fb3ba56e0eb088d31b0d5773b8c2b85e9d181e0295934be08a"
     },
     {
       "path": "inputs/change/scene-inputs/r2-size-a.json",
       "role": "input",
       "documentType": "d2p:scene-input",
-      "digest": "sha256:e878552e49f1bcad12f882ee27f4f9fd4386df829a3b2a8e5d18d8b759c3f500"
+      "digest": "sha256:e006c15c0709cda53195065269681217130ec421418664a2eacc1a02588e2ba1"
     },
     {
       "path": "inputs/change/scene-inputs/r2-size-b.json",
       "role": "input",
       "documentType": "d2p:scene-input",
-      "digest": "sha256:ff6518cdb2de39b294e83ca4ea5a9f7760299acb0a495bec55c3f27a743e52f2"
+      "digest": "sha256:610f0bff29f0ec9763159d86bf79a0d3b9996a976553162ad5b1d4c518db8864"
     },
     {
       "path": "inputs/garment-size-a-r1.json",
       "role": "input",
       "documentType": "d2p:garment",
-      "digest": "sha256:cd1c6f7d331e57da2a31143795b380882d05f90de4bdb86625e4140daf72cd72"
+      "digest": "sha256:c2f3385527b24453a744892e68cf795f081cc0451874b18d9344ab8f10948c38"
     },
     {
       "path": "inputs/garment-size-b-r1.json",
       "role": "input",
       "documentType": "d2p:garment",
-      "digest": "sha256:c57a173edb49c3b671cb92605e87e7bace63de881747e714b07bc0eef2774548"
+      "digest": "sha256:94b1707ab547d76c0df793cd76b088ba52e67b483252c3034c26d1c488082d5c"
     },
     {
       "path": "inputs/revisions/garment-size-a-r1.json",
       "role": "input",
       "documentType": "d2p:revision",
-      "digest": "sha256:3b0825fbbd886f183dc488912c70ce2e20c7bcf34d1974ca3d6b591bf0bbad93"
+      "digest": "sha256:bf8786a8156ea819e79ab8ca6e2b024c90a4c0223ea1c7366d5edb79fd65c60e"
     },
     {
       "path": "inputs/revisions/garment-size-b-r1.json",
       "role": "input",
       "documentType": "d2p:revision",
-      "digest": "sha256:cdd7f8f42735881ac6775c846af5d4195c258866c9cd319ad08d937186326da3"
+      "digest": "sha256:2c00df5ef99d9cb04720589c3b8e1834ead84fd4f1207490ef16bc6fee03e93f"
     },
     {
       "path": "inputs/scene-inputs/r1-size-a.json",
       "role": "input",
       "documentType": "d2p:scene-input",
-      "digest": "sha256:7ba432f543ca98b9fb3b68b0c035e2c0672b2ba89c29002aba82cb00bb7b5730"
+      "digest": "sha256:37126d487f53ba02427fcbd3da74b43daccec615800998b0ad128f899b025a0f"
     },
     {
       "path": "inputs/scene-inputs/r1-size-b.json",
       "role": "input",
       "documentType": "d2p:scene-input",
-      "digest": "sha256:d030c0860ca59fd908281aad9703c60591908da18768adfa4e279c4ed08b39bc"
+      "digest": "sha256:803fbe0f4971dde570d39ed837b209986fddb2d091d9e9cc308014759758bef9"
     },
     {
       "path": "negative/arrangement-incomplete/case.json",
@@ -133,7 +133,7 @@
       "path": "negative/arrangement-incomplete/garment.json",
       "role": "negative",
       "documentType": "d2p:garment",
-      "digest": "sha256:27f61d7d461145e6ba86ee8f42ac5705817ccc1e8330329ec6656dd8496cc810"
+      "digest": "sha256:7e6d757a96eda50a585b4f6e18e86c76a8703a178132ff928b6f458115c4e03f"
     },
     {
       "path": "negative/binding-swapped-sides/case.json",
@@ -145,7 +145,7 @@
       "path": "negative/binding-swapped-sides/garment.json",
       "role": "negative",
       "documentType": "d2p:garment",
-      "digest": "sha256:5bde45d50ca7fd204446ee738ea90e28c94f9e0fbd01566f6658ac0529498559"
+      "digest": "sha256:422646299a08c319b706c8e3a0b8dd4484f3493e237e9995387961a41c9677d9"
     },
     {
       "path": "negative/binding-wrong-panel/case.json",
@@ -157,7 +157,7 @@
       "path": "negative/binding-wrong-panel/garment.json",
       "role": "negative",
       "documentType": "d2p:garment",
-      "digest": "sha256:08248388d141f1feef8ddcb5dfbfa38b2bc6f8b601bfcd2d68b68f97c285ab85"
+      "digest": "sha256:101f57ceb22257a1f03db0661c10092d9783b11e993d1588aa70f849fe94846d"
     },
     {
       "path": "negative/duplicate-cut-instance/case.json",
@@ -169,7 +169,7 @@
       "path": "negative/duplicate-cut-instance/garment.json",
       "role": "negative",
       "documentType": "d2p:garment",
-      "digest": "sha256:304ee7a2d9039384744bce0390fc0bb251efbc37805eaa0ad39c9b71747c70a3"
+      "digest": "sha256:7b6160e37576912cd124b5f03d23a2b160e4fc2d604d66058127cef0b3522910"
     },
     {
       "path": "negative/evaluation-pin-mismatch/case.json",
@@ -181,7 +181,7 @@
       "path": "negative/evaluation-pin-mismatch/garment.json",
       "role": "negative",
       "documentType": "d2p:garment",
-      "digest": "sha256:c23f4651e943a3c826325cfed3fba1eaf8dcaacb85a36428770ce23bcfd3344d"
+      "digest": "sha256:58151fb038a85e1787239217d77acf2f2d9b1afd276f09f786c3dde91f82dda9"
     },
     {
       "path": "negative/personal-body-reference/artifact.json",
@@ -205,7 +205,7 @@
       "path": "negative/personal-body-reference/scene-snapshot.json",
       "role": "negative",
       "documentType": "d2p:scene-snapshot",
-      "digest": "sha256:fff1c9e31a4ce9dfb719caf0619463e58d6c55352fbb346de75a8fd05c6d5c51"
+      "digest": "sha256:0595f1523a989c433b18d3950177e3aa2b01afa49e0b71b408871e69e53fe1b7"
     },
     {
       "path": "negative/scene-panel-missing/case.json",
@@ -217,7 +217,7 @@
       "path": "negative/scene-panel-missing/scene-expectation.json",
       "role": "negative",
       "documentType": "d2p:scene-expectation",
-      "digest": "sha256:a571e11ed6bf203661fac689b2563d07091ad06a2459be67509968f9f5af60b5"
+      "digest": "sha256:2b9dc6569ca14e902ced520ad5739b0ba23b56ee73ccc43521c83831564ff5d4"
     },
     {
       "path": "negative/scene-unit-mm/case.json",
@@ -229,7 +229,7 @@
       "path": "negative/scene-unit-mm/scene-expectation.json",
       "role": "negative",
       "documentType": "d2p:scene-expectation",
-      "digest": "sha256:a39c18cffd5cb3b4ff152e4ca50911c0bb4cddeba0d75c84b3eb6642f114d530"
+      "digest": "sha256:6c3b1bf78d61d577e56015ee349ad0d55b4bd6d06a631f267804d4112a3de23f"
     },
     {
       "path": "negative/scene-unit-not-converted/case.json",
@@ -241,7 +241,7 @@
       "path": "negative/scene-unit-not-converted/scene-expectation.json",
       "role": "negative",
       "documentType": "d2p:scene-expectation",
-      "digest": "sha256:269bb8debcb5c130ad7a1c2db0459b1520960ce0de8675a80f8bd2370aef38dd"
+      "digest": "sha256:5265541b1a0b6927163ac1f35ca919f01c9a4aa9f611ca02d2845c1c9686da92"
     },
     {
       "path": "negative/sewing-binding-three-interfaces/case.json",
@@ -253,7 +253,7 @@
       "path": "negative/sewing-binding-three-interfaces/garment.json",
       "role": "negative",
       "documentType": "d2p:garment",
-      "digest": "sha256:1c95396297777a7bd9ff9f392df72a50bd102037bfecb5923eebea9d226487d7"
+      "digest": "sha256:21523931b3d898464a7580fa7da53222643a6ed33ef1f0983a769b3ef76d96e3"
     },
     {
       "path": "negative/unknown-cut-instance/case.json",
@@ -265,7 +265,7 @@
       "path": "negative/unknown-cut-instance/garment.json",
       "role": "negative",
       "documentType": "d2p:garment",
-      "digest": "sha256:092285abcc143aada29e37bd011b69b1da9d37ac38930d6e6dcaf9d889d4142b"
+      "digest": "sha256:58e9a2756b21debd2a872866e69256327b8503393095c7d5fc5c6874b6574b72"
     },
     {
       "path": "negative/unknown-piece/case.json",
@@ -277,7 +277,7 @@
       "path": "negative/unknown-piece/garment.json",
       "role": "negative",
       "documentType": "d2p:garment",
-      "digest": "sha256:c57a93978edfe251725abe9651f9f6919cb707ca973eb581586b2c7687029465"
+      "digest": "sha256:d38320eb7815c2fe904394db29e91f865fe9c341962714f7a27333dae28040e7"
     },
     {
       "path": "negative/unknown-seam-connection/case.json",
@@ -289,7 +289,7 @@
       "path": "negative/unknown-seam-connection/garment.json",
       "role": "negative",
       "documentType": "d2p:garment",
-      "digest": "sha256:765e86140b49faa79689615db8a9dc6b94b6ffc56ee5cc98c900615ba8e8ee96"
+      "digest": "sha256:a38e73793924ce2994144863f55590f89faf90a8208405cc39a9951cb92a5f1a"
     }
   ],
   "externalFiles": [
@@ -301,42 +301,42 @@
     {
       "path": "fixtures/golden-tshirt/v1/expected/evaluations/r1-size-a-regular-woven.json",
       "documentType": "d2p:pattern-evaluation",
-      "digest": "sha256:9d4736090938be49ff41da3b23d5ab9ee0f6692b567cc37ec18c7fe3ed25bc04"
+      "digest": "sha256:b55934e20a61bc22e6aea1116b2911e121cc878fa1a986b57e38472258eaa7a3"
     },
     {
       "path": "fixtures/golden-tshirt/v1/expected/evaluations/r1-size-b-regular-woven.json",
       "documentType": "d2p:pattern-evaluation",
-      "digest": "sha256:e3e38c37e65863e6755c95bebf348b48d44e0f999a7945396a11112e23286e27"
+      "digest": "sha256:35c881c2cfe5ed28dfbbf545261fda6936fca7ec6e2c6bbddc25bf3ac9e87f70"
     },
     {
       "path": "fixtures/golden-tshirt/v1/expected/evaluations/r2-size-a-regular-woven.json",
       "documentType": "d2p:pattern-evaluation",
-      "digest": "sha256:ad89255f92e55f53edbbcbd0218e6f65c363f988bae72c6badb66ab86a97b54d"
+      "digest": "sha256:6c270baf876057b3929a3638e9382d82f1e6006b031ba4447358206acdc9523f"
     },
     {
       "path": "fixtures/golden-tshirt/v1/expected/evaluations/r2-size-b-regular-woven.json",
       "documentType": "d2p:pattern-evaluation",
-      "digest": "sha256:6c64a5c87001e28b5d9d35266406d51c087deade325a81700c61feb184b4b471"
+      "digest": "sha256:f6edf273c00bb74189176192b6725e1eb6a95a9b04b45dc27a2df4b544b39be2"
     },
     {
       "path": "fixtures/golden-tshirt/v1/expected/snapshots/r1-size-a-regular-woven.json",
       "documentType": "d2p:geometry-snapshot",
-      "digest": "sha256:aa0ba34d73589dfa7c5ee17fd479cfc1780154ef3184fc25147da68e42dcb4eb"
+      "digest": "sha256:81a4c28bd82635714873df2fe01265940b36b5806f0f765c834ad7df945a734c"
     },
     {
       "path": "fixtures/golden-tshirt/v1/expected/snapshots/r1-size-b-regular-woven.json",
       "documentType": "d2p:geometry-snapshot",
-      "digest": "sha256:ef00d7ec8b91eda3fc05dc9045658c553392c7460ad976f86a04ab8d832c27a7"
+      "digest": "sha256:18944dfd339b87635ba38d9ca6d0d02d4a795965b874555b4b05994d62ff89c3"
     },
     {
       "path": "fixtures/golden-tshirt/v1/expected/snapshots/r2-size-a-regular-woven.json",
       "documentType": "d2p:geometry-snapshot",
-      "digest": "sha256:0b0c57c2da4fcca25496cba45a346de9c4f52c3c0ec72a2aeef37fb5bf3b2d0f"
+      "digest": "sha256:dac7d6c242630c4f04150a28a2bd78ba1e1d3cddf4af61cb9a58d8d076ebdcbe"
     },
     {
       "path": "fixtures/golden-tshirt/v1/expected/snapshots/r2-size-b-regular-woven.json",
       "documentType": "d2p:geometry-snapshot",
-      "digest": "sha256:b90f9a32c310643b3ae0f94c7d3e771bedd763ca6fabbffa3ee4cd17b4169f79"
+      "digest": "sha256:94f7161bf71822c2720e432c0a1d24e0804ae3bbdba64c8cdc6d54d92fd76a35"
     },
     {
       "path": "fixtures/golden-tshirt/v1/inputs/fit-profile-regular-r1.json",
@@ -366,12 +366,12 @@
     {
       "path": "tolerance-profiles/golden-tshirt-2d-1.0.0.json",
       "documentType": "d2p:tolerance-profile",
-      "digest": "sha256:0f0a4b144bf0c71acda4b07a65b72355aa1e4c078a0598c181c9869565a7fd8d"
+      "digest": "sha256:8a6da5f9232d68927dfaa99d5ea23219df6bb4d7a311f77947a497c1ad1564e9"
     },
     {
       "path": "tolerance-profiles/golden-tshirt-3d-1.0.0.json",
       "documentType": "d2p:tolerance-profile",
-      "digest": "sha256:f7cb3ed4eca217162d7f84ecf7eaf942debb7b2c1a74748974f0cb57d605b504"
+      "digest": "sha256:65dbca912a49c34598c6fddfd5d75b5c939b94a25cb5526eb1b377758ba9de6c"
     },
     {
       "path": "vocabularies/measurement-definitions/measurement-definitions-1.0.0.json",
@@ -381,7 +381,7 @@
     {
       "path": "vocabularies/mesh-profiles/golden-tshirt-3d-preview-1.0.0.json",
       "documentType": "d2p:mesh-profile",
-      "digest": "sha256:6441f5cc06f90eaeba3a9a4a1d4b4f8dff5b79344c5f706c438ced7f9e894204"
+      "digest": "sha256:6aec4a8113714056f180d416c624132b454234a9ee8d7a297df31ce0829f59ab"
     },
     {
       "path": "vocabularies/validation/profiles/sample-cut-1.0.0.json",
@@ -503,5 +503,5 @@
     "status": "pending",
     "notes": "Domain review of the 3D arrangement (panel orientation, sides, bindings) by a pattern maker or seamstress is pending (QEV-016)."
   },
-  "fixtureDigest": "sha256:dd3b4347f551c047a31d1526733951ea836fac6a34e22fa61a9e25bb9a77fab4"
+  "fixtureDigest": "sha256:bf1c3be414bece602b23c3402658e99cc03687a312b8eba8fbc7aac6259d259d"
 }

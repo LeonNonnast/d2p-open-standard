@@ -5,7 +5,7 @@
   "createdAt": "2026-01-02T00:00:00Z",
   "evaluationRef": {
     "id": "pev_golden-tshirt-r1-size-a-relaxed-knit",
-    "digest": "sha256:a93d73ca65157695e8f3cb0781e6e4bb92112d83086d69d7d0e3b45636231f15"
+    "digest": "sha256:d597caa9f489203a4eda292c3f5ff2144db9e3abc32d6b70290e163ba22c51cc"
   },
   "evaluator": {
     "engineId": "golden-fixture",
@@ -75,7 +75,7 @@
         "id": "d2p:golden-tshirt-2d",
         "version": "1.0.0"
       },
-      "digest": "sha256:0f0a4b144bf0c71acda4b07a65b72355aa1e4c078a0598c181c9869565a7fd8d"
+      "digest": "sha256:8a6da5f9232d68927dfaa99d5ea23219df6bb4d7a311f77947a497c1ad1564e9"
     },
     {
       "role": "validation-profile",
@@ -125,5 +125,5 @@
   ],
   "containsPersonalData": false,
   "diagnostics": [],
-  "resultDigest": "sha256:2db204aef9837fae1116068adb70c05facb80826bfcfeefd19fb40df5aff0a5c"
+  "resultDigest": "sha256:cfa5d4ed8ce1a5cf5402297a0e5f270e619ff78a67a11906eb19c6d05d2ad2d7"
 }

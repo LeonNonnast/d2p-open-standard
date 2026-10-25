@@ -5,7 +5,7 @@
   "createdAt": "2026-01-07T00:00:00Z",
   "sceneInputRef": {
     "id": "sci_golden-tshirt-3d-r1-size-a",
-    "digest": "sha256:7ba432f543ca98b9fb3b68b0c035e2c0672b2ba89c29002aba82cb00bb7b5730"
+    "digest": "sha256:37126d487f53ba02427fcbd3da74b43daccec615800998b0ad128f899b025a0f"
   },
   "garmentRef": {
     "artifactId": "art_golden-tshirt-3d-garment-size-a",
@@ -13,7 +13,7 @@
   },
   "arrangementId": "flat-lay",
   "mode": "arrangement",
-  "evaluationKey": "sha256:c8e942ab7c6560b76785e0f48567716ad879598600966aaf01c93a9a24394d40",
+  "evaluationKey": "sha256:fd7a521abdb65bbd7e221eeb92f6ae381b58532308b36335d7a25fb431bde130",
   "coordinateSystem": {
     "handedness": "right",
     "up": "+y",
@@ -32,7 +32,7 @@
         "artifactId": "art_golden-tshirt-3d-garment-size-a",
         "revisionId": "rev_golden-tshirt-3d-garment-size-a-r1"
       },
-      "digest": "sha256:cd1c6f7d331e57da2a31143795b380882d05f90de4bdb86625e4140daf72cd72"
+      "digest": "sha256:c2f3385527b24453a744892e68cf795f081cc0451874b18d9344ab8f10948c38"
     },
     {
       "role": "mesh-profile",
@@ -56,7 +56,7 @@
       "patternEvaluationId": "eval-main",
       "evaluationRef": {
         "id": "pev_golden-tshirt-r1-size-a-regular-woven",
-        "digest": "sha256:65cc6b15185217cf5345273362d37851a7884dbfd20d534256e03d985e06b161"
+        "digest": "sha256:387f0d96525a8aa6cf143051b2b4d168811db52e6256f120fd4ea4c1c14cac7e"
       },
       "geometryDigest": "sha256:ac0f22fabde5d2155632e430ba4e019d15b06766fc3231838100c376f49dbd72"
     }
@@ -471,7 +471,7 @@
       "panelInstanceId": "panel-back",
       "meshResultRef": {
         "id": "pmr_golden-tshirt-3d-r1-size-a-back",
-        "digest": "sha256:0a19492baabce57950c20a3d1b7bcad2e935a067379ad95b92ee741cddada537"
+        "digest": "sha256:b42d1e6e9288bca0d9284ef31e90226481e8c4520d10373ba56a06ecec77cf51"
       },
       "meshDigest": "sha256:7d27d7d31ce5245134a4282e316c22cb0f935929e3c4222f33f7c6a9b524ec0a"
     },
@@ -479,7 +479,7 @@
       "panelInstanceId": "panel-front",
       "meshResultRef": {
         "id": "pmr_golden-tshirt-3d-r1-size-a-front",
-        "digest": "sha256:82ba1f13e7695b7f9a64d828ea579a2579b4441973d7074a3547e8467ad739b4"
+        "digest": "sha256:4e6cfb818845649ddf48c7377450eb8dc476bf21cfd3ad6d654f769a0c6af0b8"
       },
       "meshDigest": "sha256:fc54f9bf5c418c818f42dea6d2f1b6477f744aa6f71637e05709a411d2b05f47"
     },
@@ -487,7 +487,7 @@
       "panelInstanceId": "panel-sleeve-left",
       "meshResultRef": {
         "id": "pmr_golden-tshirt-3d-r1-size-a-sleeve-left",
-        "digest": "sha256:38a3e90ab7b0869a432c00bf39b526a28d65e2adc955cf47b88425598d36c1c2"
+        "digest": "sha256:f2027929489496be19f9adbd0474e64b8778aa86ad56fb66d27c31994b85524f"
       },
       "meshDigest": "sha256:63270300528891ef399bbe447f385ed0fc2e156808f4c3ca7ba79a43b18faf36"
     },
@@ -495,7 +495,7 @@
       "panelInstanceId": "panel-sleeve-right",
       "meshResultRef": {
         "id": "pmr_golden-tshirt-3d-r1-size-a-sleeve-right",
-        "digest": "sha256:23cc725ad57481dd6117831ad35b548a1b5f52ad3711043ed734645596e65962"
+        "digest": "sha256:a18e61db8e969a3ecd66713187d04e3b714a5d47036efbbb93c453e26341b2d2"
       },
       "meshDigest": "sha256:63270300528891ef399bbe447f385ed0fc2e156808f4c3ca7ba79a43b18faf36"
     }
@@ -503,13 +503,13 @@
   "qualityStatus": "preview",
   "diagnostics": [],
   "bindingsDigest": "sha256:6fa0cc73d61a2ca6bce55c7e517481f7b0228bc4219ec1a284137ca5ef437c4f",
-  "sceneDigest": "sha256:6eff295f9b7dbba4193aedbfaf78ee6135ca2cf82c9e3d68a6f2ec88dad74336",
+  "sceneDigest": "sha256:181351cc6ac1181b42d99aa200c014be7a8c53399542a9c6260e239e916032fa",
   "representations": [
     {
       "format": "gltf-2.0",
       "mediaType": "model/gltf+json",
       "path": "scene.gltf",
-      "digest": "sha256:70caab2012080406b3ca9a5c520bba74068a3b336bf8967fdf9c8ac0a5aa631e"
+      "digest": "sha256:3a59b5b9cf5ca427475c2c0e3372aac21b06c000b825946a270bb0b6d07a869a"
     }
   ]
 }

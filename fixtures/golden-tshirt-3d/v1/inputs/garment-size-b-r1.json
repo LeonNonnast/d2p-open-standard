@@ -20,7 +20,7 @@
       "configurationKey": "regular-woven",
       "evaluationRef": {
         "id": "pev_golden-tshirt-r1-size-b-regular-woven",
-        "digest": "sha256:44ad85d43fe7065357e63dd7a7ac29da7f6831f167f731a2795d41541b09505e"
+        "digest": "sha256:06cd386f4acac03c692c8e73e6ae8660641409e10089e9f1f445e69d8438ac47"
       },
       "geometryDigest": "sha256:bba3a59358191aa25bcdd50bc26670a2bee23cef691289ca0968be77624b6c0b"
     }

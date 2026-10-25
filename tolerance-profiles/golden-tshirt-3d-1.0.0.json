@@ -3,7 +3,7 @@
   "schemaVersion": "1.0.0",
   "profileId": "d2p:golden-tshirt-3d",
   "version": "1.0.0",
-  "status": "provisional",
+  "status": "frozen",
   "scope": "Golden T-Shirt 3D fixture (fixtures/golden-tshirt-3d/v1): comparison of panel meshes produced from the pinned 2D evaluations with the pinned pattern contours. Scene bindings, control measures and anchors are not compared with tolerances: they are copies and an exact unit conversion, compared within two quantization steps (catalog §3.4 numeric comparison).",
   "tolerances": [
     {
@@ -13,5 +13,5 @@
       "comparison": "absolute-lte"
     }
   ],
-  "notes": "Provisional. The 0.10 mm planar contour deviation is a proposal from the design work on 3D scenes; it is not an adopted norm. Like every tolerance profile it MUST be set to frozen (as a new version if the value changes) by maintainer decision before any implementation is compared against it, and it is never adjusted afterwards to fit an implementation. Metrics without a proposal are omitted."
+  "notes": "Frozen by maintainer decision on 2026-10-25 with the value unchanged from the provisional proposal: 0.10 mm planar contour deviation from the design work on 3D scenes. Immutable: a changed value is a new version, and it is never adjusted to fit an implementation. Metrics without an adopted value are omitted."
 }
